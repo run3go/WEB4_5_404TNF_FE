@@ -1,1 +1,43 @@
 @import 'tailwindcss';
+
+:root {
+  /* Black / White */
+  --color-black: #2b2926;
+  --color-background: #fffdf7;
+
+  /* Grey */
+  --color-grey: #909090;
+  --color-input-border: rgba(43, 41, 38, 0.5);
+
+  /* Primary */
+  --color-primary-300: #fcc389;
+  --color-primary-200: #ffdbab;
+  --color-primary-100: #ffecd2;
+
+  /* Etc */
+  --color-red: #ed4848;
+
+  --color-blue-300: #6ebced;
+  --color-blue-100: #c7dee9;
+
+  --color-pink-500: #fca9a4;
+  --color-pink-300: #ffbfbb;
+  --color-pink-100: #ffeae5;
+}
+
+body {
+  font-family: 'GmarketSansMedium';
+  color: var(--color-black);
+  -ms-overflow-style: none;
+}
+
+.card__hover {
+  @apply cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-102 hover:shadow-[0_10px_15px_rgba(0,0,0,0.3)];
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
