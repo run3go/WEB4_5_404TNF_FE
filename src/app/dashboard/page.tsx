@@ -6,6 +6,7 @@ import TodoCard from '@/components/dashboard/TodoCard';
 import WalkCard from '@/components/dashboard/WalkCard';
 
 import speechBubble from '@/assets/images/speech-bubble.png';
+import Button from '@/components/common/Button';
 import Image from 'next/image';
 
 export default async function Dashboard() {
@@ -33,6 +34,7 @@ export default async function Dashboard() {
     <>
       <div className="w-[1548px] bg-[var(--background)] p-12">
         <div className="mb-13 flex items-center justify-between">
+          <Button>수정하기</Button>
           <h2 className="text-[22px] font-bold">
             마음이는 평균보다 3kg 무거워요! 다이어트가 필요하니 간식을 줄여보는
             건 어떨까요?

@@ -56,7 +56,12 @@ export default function LineGraphCard({
       .append('path')
       .datum(dataset)
       .attr('fill', 'none')
-      .attr('stroke', title === '몸무게' ? '#FCC389' : '#6EBCED')
+      .attr(
+        'stroke',
+        title === '몸무게'
+          ? 'var(--color-primary-300)'
+          : 'var(--color-blue-300)',
+      )
       .attr('stroke-width', 6)
       .attr('d', lineGenerator);
   }, [title, dataset]);
@@ -89,7 +94,7 @@ export default function LineGraphCard({
         <Card className="card__hover h-[210px] w-[558px] overflow-hidden py-4">
           <table className="w-full">
             <thead>
-              <tr className="flex w-full border-b border-[#fcc389] pb-2">
+              <tr className="flex w-full border-b border-[var(--color-primary-300)] pb-2">
                 <th className="basis-2/5 font-medium">날짜</th>
                 <th className="basis-2/5 font-medium">{title}</th>
               </tr>
@@ -98,7 +103,7 @@ export default function LineGraphCard({
               {dataset.map((data, index) => (
                 <tr
                   key={index}
-                  className="flex w-full border-b border-[#FFECD2] py-[6px] text-center last:border-0"
+                  className="flex w-full border-b border-[var(--color-primary-100)] py-[6px] text-center last:border-0"
                 >
                   <td className="basis-2/5">
                     {formatDate(data.date, 'yyyy. M. d')}

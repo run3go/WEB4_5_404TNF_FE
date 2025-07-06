@@ -1,16 +1,33 @@
 @import 'tailwindcss';
 
 :root {
-  --black: #2b2926;
-  --background: #fffdf7;
+  /* Black / White */
+  --color-black: #2b2926;
+  --color-background: #fffdf7;
 
-  --gray: #909090;
-  --input-border: #2b2926 50%;
+  /* Grey */
+  --color-grey: #909090;
+  --color-input-border: rgba(43, 41, 38, 0.5);
+
+  /* Primary */
+  --color-primary-300: #fcc389;
+  --color-primary-200: #ffdbab;
+  --color-primary-100: #ffecd2;
+
+  /* Etc */
+  --color-red: #ed4848;
+
+  --color-blue-300: #6ebced;
+  --color-blue-100: #c7dee9;
+
+  --color-pink-500: #fca9a4;
+  --color-pink-300: #ffbfbb;
+  --color-pink-100: #ffeae5;
 }
 
 body {
   font-family: 'GmarketSansMedium';
-  color: var(--black);
+  color: var(--color-black);
   -ms-overflow-style: none;
 }
 

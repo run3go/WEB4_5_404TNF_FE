@@ -7,15 +7,15 @@ export default function ProfileCard() {
     <Card className="flex h-[210px] w-[558px] justify-between">
       <ul className="flex flex-col gap-[18px] text-xl font-medium">
         <li>
-          <span className="mr-3 text-[var(--gray)]">이름</span>
+          <span className="mr-3 text-[var(--color-grey)]">이름</span>
           <span>이마음</span>
         </li>
         <li>
-          <span className="mr-3 text-[var(--gray)]">견종</span>
+          <span className="mr-3 text-[var(--color-grey)]">견종</span>
           <span>골든 리트리버</span>
         </li>
         <li>
-          <span className="mr-3 text-[var(--gray)]">나이</span>
+          <span className="mr-3 text-[var(--color-grey)]">나이</span>
           <span>5년 6개월</span>
         </li>
         <li>
