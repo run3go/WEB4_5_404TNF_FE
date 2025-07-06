@@ -4,7 +4,7 @@ import Card from '../common/Card';
 
 export default function FeedCard() {
   return (
-    <Card className="flex h-[322px] w-[255px] flex-col font-medium">
+    <Card className="card__hover flex h-[322px] w-[255px] flex-col font-medium">
       <div className="mb-5 flex flex-col gap-3">
         <span>지난주 평균 식사량 (일)</span>
         <span>4 컵</span>

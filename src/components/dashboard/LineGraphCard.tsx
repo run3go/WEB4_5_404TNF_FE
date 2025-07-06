@@ -9,7 +9,9 @@ import {
   scaleTime,
   select,
 } from 'd3';
-import { useEffect } from 'react';
+import { formatDate } from 'date-fns';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import Card from '../common/Card';
 
 export default function LineGraphCard({
@@ -19,6 +21,7 @@ export default function LineGraphCard({
   title: string;
   dataset: { date: string; value: number }[];
 }) {
+  const [flip, setFlip] = useState(true);
   useEffect(() => {
     //마진, 가로 길이, 세로 길이 설정
     const margin = { right: 50, bottom: 30 };
@@ -59,9 +62,54 @@ export default function LineGraphCard({
   }, [title, dataset]);
 
   return (
-    <Card className="h-[210px] w-[558px]">
-      <h2 className="mb-13 font-medium">{title}</h2>
-      <div className={`line-graph-${title}`}></div>
-    </Card>
+    <motion.div
+      className="relative h-[210px] w-[558px]"
+      animate={{ rotateY: flip ? 0 : 180 }}
+      transition={{ duration: 0.7 }}
+      onClick={() => setFlip(!flip)}
+    >
+      <motion.div
+        className="absolute backface-hidden"
+        animate={{ rotateY: flip ? 0 : 180 }}
+        transition={{ duration: 0.7 }}
+      >
+        {/* 앞면 */}
+        <Card className="card__hover h-[210px] w-[558px]">
+          <h2 className="mb-13 font-medium">{title}</h2>
+          <div className={`line-graph-${title}`}></div>
+        </Card>
+      </motion.div>
+      <motion.div
+        className="absolute -scale-x-100 backface-hidden"
+        initial={{ rotateY: 180 }}
+        animate={{ rotateY: flip ? 180 : 0 }}
+        transition={{ duration: 0.7 }}
+      >
+        {/* 뒷면 */}
+        <Card className="card__hover h-[210px] w-[558px] overflow-hidden py-4">
+          <table className="w-full">
+            <thead>
+              <tr className="flex w-full border-b border-[#fcc389] pb-2">
+                <th className="basis-2/5 font-medium">날짜</th>
+                <th className="basis-2/5 font-medium">{title}</th>
+              </tr>
+            </thead>
+            <tbody className="scrollbar-hidden block h-[150px] overflow-y-scroll">
+              {dataset.map((data, index) => (
+                <tr
+                  key={index}
+                  className="flex w-full border-b border-[#FFECD2] py-[6px] text-center last:border-0"
+                >
+                  <td className="basis-2/5">
+                    {formatDate(data.date, 'yyyy. M. d')}
+                  </td>
+                  <td className="basis-2/5">{`${data.value} ${title === '몸무게' ? 'kg' : '시간'}`}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Card>
+      </motion.div>
+    </motion.div>
   );
 }

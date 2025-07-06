@@ -48,7 +48,7 @@ export default async function Dashboard() {
             <LineGraphCard title="수면시간" dataset={sleepDataset} />
           </div>
           <div className="flex flex-col gap-12">
-            <div className="relative text-2xl font-medium">
+            <div className="relative text-xl font-medium">
               <Image src={speechBubble} alt="말풍선" width={558} height={98} />
               <div className="absolute top-1/2 left-1/2 w-105 -translate-x-1/2 -translate-y-1/2">
                 요즘은 시원해서 산책할 때 기분이 아주아주 좋아요!

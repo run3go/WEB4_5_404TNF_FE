@@ -2,7 +2,7 @@ import Card from '../common/Card';
 
 export default function NoteCard() {
   return (
-    <Card className="h-[210px] w-[558px] font-medium">
+    <Card className="card__hover h-[210px] w-[558px] font-medium">
       <h2 className="mb-[18px]">관찰노트</h2>
       <p className="p-[9px] text-xl">
         더워서 걸을 때 좀 힘들어함 그거 빼고는 괜찮아 보였음 <br />

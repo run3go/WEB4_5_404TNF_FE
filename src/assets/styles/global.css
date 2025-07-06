@@ -14,6 +14,10 @@ body {
   -ms-overflow-style: none;
 }
 
+.card__hover {
+  @apply cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-102 hover:shadow-[0_10px_15px_rgba(0,0,0,0.3)];
+}
+
 .scrollbar-hidden {
   -ms-overflow-style: none;
 }
