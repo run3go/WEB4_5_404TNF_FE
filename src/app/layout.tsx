@@ -1,4 +1,5 @@
 import '@/assets/styles/global.css';
+import Sidebar from '@/components/common/Sidebar';
 
 export const metadata = {
   title: 'Next.js',
@@ -12,7 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="flex">
+        <Sidebar />
+        {children}
+      </body>
     </html>
   );
 }
