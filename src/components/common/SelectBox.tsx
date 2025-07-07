@@ -15,6 +15,7 @@ import Icon from './Icon';
 export default function SelectBox({
   options,
   width,
+  expendMenuWidth = 0,
   placeholder,
   defaultValueIndex = 0,
   footstep = false,
@@ -23,6 +24,7 @@ export default function SelectBox({
 }: {
   options: { value: string; label: string }[];
   width: number;
+  expendMenuWidth?: number;
   placeholder?: string;
   defaultValueIndex?: number;
   footstep?: boolean;
@@ -53,13 +55,23 @@ export default function SelectBox({
         ),
         DropdownIndicator: (props) => (
           <components.DropdownIndicator {...props}>
-            <Icon
-              className="absolute top-1/2 right-[18px] -translate-y-1/2"
-              width="16px"
-              height="10px"
-              left="-230px"
-              top="-126px"
-            />
+            {width > 70 ? (
+              <Icon
+                className="absolute top-1/2 right-[18px] -translate-y-1/2"
+                width="16px"
+                height="10px"
+                left="-230px"
+                top="-126px"
+              />
+            ) : (
+              <Icon
+                className="absolute top-1/2 right-[10px] -translate-y-1/2"
+                width="12px"
+                height="7px"
+                left="-266px"
+                top="-209px"
+              />
+            )}
           </components.DropdownIndicator>
         ),
       }}
@@ -81,7 +93,7 @@ export default function SelectBox({
         menu: (base) => ({
           ...base,
           borderRadius: '20px',
-          width: footstep && !hasBorder ? `${width + 20}px` : `${width}px`,
+          width: `${width + expendMenuWidth}px`,
           position: 'absolute',
           right: 0,
         }),
