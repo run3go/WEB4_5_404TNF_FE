@@ -2,9 +2,9 @@ import Card from '../common/Card';
 
 export default function TodoCard() {
   return (
-    <Card className="flex h-[322px] w-[255px] flex-col">
-      <h2 className="mb-5 font-medium">오늘의 할 일</h2>
-      <ul className="scrollbar-hidden flex grow-1 flex-col gap-3 overflow-y-scroll select-none">
+    <Card className="flex aspect-[255/322] w-full max-w-[255px] flex-col">
+      <h2 className="mb-5 text-xs font-medium sm:text-base">오늘의 할 일</h2>
+      <ul className="scrollbar-hidden flex grow-1 flex-col gap-3 overflow-y-scroll text-sm select-none sm:text-base">
         <li>
           <input className="mr-[13px] cursor-pointer" id="1" type="checkbox" />
           <label className="cursor-pointer" htmlFor="1">
