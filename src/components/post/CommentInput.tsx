@@ -11,7 +11,7 @@ export default function CommentInput() {
             placeholder="댓글을 작성해주세요."
           />
         </Card>
-        <Button className="h-[60px] w-[152px] py-5 text-center">
+        <Button className="flex h-[60px] w-[152px] items-center justify-center">
           등록하기
         </Button>
       </div>
