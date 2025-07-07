@@ -34,7 +34,7 @@ export default function Sidebar() {
             <p>케어가이드</p>
           </div>
         </div>
-        <div className="absolute bottom-10">
+        <div className="absolute bottom-10 text-[16px] font-medium">
           <div className="sidebar__content">
             <Icon width="28px" height="28px" left="-224px" top="-18px" />
             <p>다크모드</p>
