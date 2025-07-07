@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import logo from '@/assets/images/logo-main1.png';
+import logo from '@/assets/images/logo.png';
 import Icon from './Icon';
 
 export default function Sidebar() {
