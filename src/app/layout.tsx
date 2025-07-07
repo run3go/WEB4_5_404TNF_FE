@@ -14,11 +14,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="flex">
-        <Sidebar />
-        <div className="pt-[60px] pl-[39px]">
-          <Header />
-          {children}
+      <body>
+        <div className="flex min-h-screen w-full bg-[url('/images/bg.png')] bg-cover">
+          <Sidebar />
+          <div className="mr-[56px] pt-[60px] pl-[39px]">
+            <Header />
+            {children}
+          </div>
         </div>
       </body>
     </html>
