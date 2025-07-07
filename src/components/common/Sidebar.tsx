@@ -7,7 +7,7 @@ export default function Sidebar() {
     <>
       <div className="relative my-12 ml-14 flex h-[calc(100vh-96px)] w-[220px] flex-col items-center bg-[#FFFDF7] p-8 text-[#2B2926]">
         <Image src={logo} alt="댕댕일지 로고" />
-        <div className="mt-10 ml-2 space-y-6 text-[16px] font-medium">
+        <div className="mt-10 ml-2 text-[16px] font-medium">
           <div className="sidebar__content">
             <Icon width="28px" height="28px" left="-22px" top="-21px" />
             <p>대시보드</p>
@@ -29,7 +29,7 @@ export default function Sidebar() {
             <p>케어가이드</p>
           </div>
         </div>
-        <div className="absolute bottom-10 space-y-6">
+        <div className="absolute bottom-10">
           <div className="sidebar__content">
             <Icon width="28px" height="28px" left="-224px" top="-18px" />
             <p>다크모드</p>
