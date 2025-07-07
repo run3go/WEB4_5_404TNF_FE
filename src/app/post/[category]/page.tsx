@@ -32,8 +32,8 @@ export default async function Board() {
         </div>
         <div className="mt-[31px] flex items-center justify-between pl-[120px]">
           <div className="relative flex h-[40px] items-center rounded-[10px] bg-[var(--color-primary-300)]">
-            <SelectBox width={120} options={SEARCH_LIST} />
-            <input className="h-[40px] w-[280px]" />
+            <SelectBox width={125} options={SEARCH_LIST} />
+            <input className="h-[40px] w-[280px] focus:outline-none" />
             <Icon
               width="18px"
               height="18px"
