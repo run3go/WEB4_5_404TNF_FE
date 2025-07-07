@@ -6,7 +6,7 @@ export default function Sidebar() {
   return (
     <>
       <div className="relative my-12 ml-14 flex h-[calc(100vh-96px)] w-[220px] flex-col items-center bg-[#FFFDF7] p-8 text-[#2B2926]">
-        <Image src={logo} alt="댕댕일지 로고" />
+        <Image src={logo} alt="댕댕일지 로고" priority />
         <div className="mt-10 ml-2 text-[16px] font-medium">
           <div className="sidebar__content">
             <Icon width="28px" height="28px" left="-22px" top="-21px" />
