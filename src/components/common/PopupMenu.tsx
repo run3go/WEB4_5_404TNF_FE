@@ -41,7 +41,7 @@ export default function PopupMenu({ options, onClose }: PopupMenuProps) {
   return (
     <div
       ref={ref}
-      className="absolute top-full right-0 mt-2 flex w-[140px] flex-col items-center space-y-2.5 rounded-[20px] border-[3px] border-[var(--color-primary-200)] px-[14px] py-3"
+      className="absolute top-full right-[-3px] mt-2 flex w-[140px] flex-col items-center space-y-2.5 rounded-[20px] border-[3px] border-[var(--color-primary-200)] px-[14px] py-3"
     >
       {options.map((option) => (
         <div
