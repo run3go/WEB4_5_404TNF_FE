@@ -10,6 +10,7 @@
   --color-input-border: rgba(43, 41, 38, 0.5);
 
   /* Primary */
+  --color-primary-500: #ff9526;
   --color-primary-300: #fcc389;
   --color-primary-200: #ffdbab;
   --color-primary-100: #ffecd2;
@@ -27,12 +28,21 @@
 
 body {
   font-family: 'GmarketSansMedium';
+  font-weight: 500;
   color: var(--color-black);
   -ms-overflow-style: none;
 }
 
 .card__hover {
   @apply cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-102 hover:shadow-[0_10px_15px_rgba(0,0,0,0.3)];
+}
+
+.profile-input-style {
+  @apply rounded-[10px] border-1 border-[var(--color-primary-300)] px-4 py-[14px] leading-[1.2];
+}
+
+.profile-checkbox-style {
+  @apply mr-4 inline-block w-[95px] cursor-pointer rounded-[10px] border-1 border-[var(--color-primary-300)] py-[10px] text-center leading-[1.2] hover:bg-[var(--color-primary-300)];
 }
 
 .sidebar__content {
