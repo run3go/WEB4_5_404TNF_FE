@@ -6,7 +6,7 @@ import img from '@/assets/images/dog_img.png';
 export default function PostEditModal({ onClose }: { onClose: () => void }) {
   return (
     <>
-      <div className="flex h-[680px] w-[1100px] flex-col rounded-[20px] border-[3px] border-[#FCC389] bg-[#FFFDF7] p-8 pr-15">
+      <div className="flex h-[680px] w-[1100px] flex-col rounded-[20px] border-[3px] border-[#FCC389] bg-[#FFFDF7] px-8 pt-8 pr-15">
         <div className="flex shrink-0 items-center justify-end gap-[412px]">
           <div className="text-[20px] font-medium">게시글 수정</div>
           <Icon
@@ -119,7 +119,7 @@ export default function PostEditModal({ onClose }: { onClose: () => void }) {
             </div>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center pb-8">
             <Button className="mt-15 flex h-[68px] w-[200px] cursor-pointer items-center justify-center">
               저장하기
             </Button>
