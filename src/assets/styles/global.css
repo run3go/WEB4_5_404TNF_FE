@@ -38,11 +38,15 @@ body {
 }
 
 .profile-input-style {
-  @apply rounded-[10px] border-1 border-[var(--color-primary-300)] px-4 py-[14px] leading-[1.2];
+  @apply rounded-[10px] border-1 border-[var(--color-primary-300)] px-4 py-[11px] leading-[1.2] sm:py-[14px];
 }
 
 .profile-checkbox-style {
-  @apply mr-4 inline-block w-[95px] cursor-pointer rounded-[10px] border-1 border-[var(--color-primary-300)] py-[10px] text-center leading-[1.2] hover:bg-[var(--color-primary-300)];
+  @apply inline-block w-full cursor-pointer rounded-[10px] border-1 border-[var(--color-primary-300)] py-[10px] text-center leading-[1.2] hover:bg-[var(--color-primary-300)] sm:mr-4 sm:w-[95px];
+}
+
+.profile-title-style {
+  @apply mr-3 hidden text-[var(--color-grey)] sm:inline;
 }
 
 .sidebar__content {
