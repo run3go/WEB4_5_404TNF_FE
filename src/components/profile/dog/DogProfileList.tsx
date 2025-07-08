@@ -1,12 +1,13 @@
 'use client';
 
 import Card from '@/components/common/Card';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Navigation } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { twMerge } from 'tailwind-merge';
 import Icon from '../../common/Icon';
 import DogProfileCard from './DogProfileCard';
 
@@ -14,6 +15,7 @@ export default function DogProfileList() {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
+  const [currentPage, setCurrentPage] = useState(0);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   return (
@@ -43,10 +45,13 @@ export default function DogProfileList() {
           </Card>
         </div>
       ) : (
-        <>
+        <div className="relative">
           <button
             ref={prevRef}
-            className="absolute top-1/2 z-50 -translate-y-1/2"
+            className={twMerge(
+              'absolute top-1/2 -left-6 z-50 -translate-y-1/2',
+              currentPage === 0 ? 'hidden' : '',
+            )}
           >
             <Icon
               width="12px"
@@ -58,7 +63,11 @@ export default function DogProfileList() {
           </button>
           <button
             ref={nextRef}
-            className="absolute top-1/2 right-0 z-50 -translate-y-1/2"
+            className={twMerge(
+              'absolute top-1/2 right-6 z-50 -translate-y-1/2',
+              // 반련견 정보 배열의 길이 - 2
+              currentPage === 1 ? 'hidden' : '',
+            )}
           >
             <Icon
               width="12px"
@@ -71,9 +80,10 @@ export default function DogProfileList() {
           <div className="relative w-full max-w-[calc(598px*2+80px)] overflow-x-hidden">
             <Swiper
               className="w-full overflow-x-hidden"
-              modules={[Navigation]}
+              modules={[Navigation, Pagination]}
               slidesPerView="auto"
               spaceBetween={50}
+              onSlideChange={(swiper) => setCurrentPage(swiper.realIndex)}
               onBeforeInit={(swiper) => {
                 if (
                   typeof swiper.params.navigation === 'object' &&
@@ -112,7 +122,7 @@ export default function DogProfileList() {
               </SwiperSlide>
             </Swiper>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
