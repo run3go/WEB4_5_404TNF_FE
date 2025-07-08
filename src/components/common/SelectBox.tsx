@@ -21,6 +21,7 @@ export default function SelectBox({
   footstep = false,
   isCenter = false,
   hasBorder = false,
+  thinBorder = false,
 }: {
   options: { value: string; label: string }[];
   width: string;
@@ -29,6 +30,7 @@ export default function SelectBox({
   footstep?: boolean;
   isCenter?: boolean;
   hasBorder?: boolean;
+  thinBorder?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [fontSize, setFontSize] = useState('16px');
@@ -84,7 +86,11 @@ export default function SelectBox({
         styles={{
           control: (base) => ({
             ...base,
-            border: hasBorder ? '1px solid var(--color-primary-300)' : 'none',
+            border: hasBorder
+            ? thinBorder
+              ? '1px solid rgba(43, 41, 38, 0.5)'
+              : '1px solid var(--color-primary-300)'
+            : 'none',
             width,
             borderRadius: hasBorder ? '12px' : '',
             boxShadow: 'none',
@@ -94,7 +100,11 @@ export default function SelectBox({
             paddingBlock: hasBorder ? '8px' : '',
             paddingInline: hasBorder ? '1em' : '',
             '&:hover': {
-              border: hasBorder ? '1px solid var(--color-primary-300)' : 'none',
+              border: hasBorder
+              ? thinBorder
+                ? '1px solid rgba(43, 41, 38, 0.5)'
+                : '1px solid var(--color-primary-300)'
+              : 'none',
             },
           }),
           singleValue: (base) => ({
@@ -140,7 +150,9 @@ export default function SelectBox({
         classNames={{
           indicatorSeparator: () => 'hidden',
           menu: () =>
-            'select-menu border-1 border-[var(--color-primary-300)] w-full',
+          thinBorder
+            ? 'border border-[rgba(43,41,38,0.5)]'
+            : 'border border-[var(--color-primary-300)] w-full',
           option: () => 'rounded-[8px] font-medium',
         }}
       />
