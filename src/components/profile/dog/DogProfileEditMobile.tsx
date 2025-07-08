@@ -78,7 +78,7 @@ export default function DogProfileEditMobile() {
                 <label className="mb-2 block" htmlFor="breed">
                   견종<span className="text-[var(--color-red)]"> *</span>
                 </label>
-                <SelectBox options={options} width={344} hasBorder />
+                <SelectBox options={options} width="full" hasBorder />
               </div>
               {/* 크기 */}
               <div className="mb-7">
@@ -211,7 +211,7 @@ export default function DogProfileEditMobile() {
               </div>
             </div>
           </div>
-          <div className="mt-8 mb-10 w-full self-start">
+          <div className="mt-8 mb-50 w-full self-start">
             <span className="mr-5">예방접종</span>
             <button className="mb-4 text-[15px] text-[var(--color-primary-500)]">
               + 추가
@@ -226,7 +226,12 @@ export default function DogProfileEditMobile() {
             <ul className="mt-2 flex w-full flex-col gap-2 text-xs">
               <li className="flex w-full items-center gap-2">
                 <div className="basis-3/7">
-                  <SelectBox options={vaccineTypes} width={100} hasBorder />
+                  <SelectBox
+                    options={vaccineTypes}
+                    width="full"
+                    hasBorder
+                    placeholder="백신이름"
+                  />
                 </div>
                 <div className="relative basis-4/7">
                   <input
@@ -258,7 +263,12 @@ export default function DogProfileEditMobile() {
               </li>
               <li className="flex w-full items-center gap-2">
                 <div className="basis-3/7">
-                  <SelectBox options={vaccineTypes} width={100} hasBorder />
+                  <SelectBox
+                    options={vaccineTypes}
+                    width="full"
+                    hasBorder
+                    placeholder="백신이름"
+                  />
                 </div>
                 <div className="relative basis-4/7">
                   <input

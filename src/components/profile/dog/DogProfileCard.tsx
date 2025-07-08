@@ -22,8 +22,7 @@ export default function DogProfileCard() {
           className="h-31 w-31 rounded-[12px] sm:h-55 sm:w-55"
           src={dog}
           alt="강아지 프로필"
-          width={220}
-          height={220}
+          priority
         />
         <div className="flex flex-col justify-around text-sm sm:text-base">
           <div>

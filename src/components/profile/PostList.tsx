@@ -13,7 +13,7 @@ export default function PostList() {
       <div className="flex w-full flex-col justify-between text-sm sm:flex-row sm:text-base">
         <PostTabs />
         <div className="mb-3 self-end text-xs sm:text-base">
-          <SelectBox options={options} width={100} />
+          <SelectBox options={options} width="100px" isCenter />
         </div>
       </div>
       {/* 게시글 카드 추가 */}

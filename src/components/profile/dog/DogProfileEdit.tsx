@@ -62,6 +62,7 @@ export default function DogProfileEdit() {
               alt="강아지 프로필"
               width={120}
               height={120}
+              priority
             />
             <span className="text-[var(--color-grey)]">사진 선택하기</span>
           </div>
@@ -157,7 +158,7 @@ export default function DogProfileEdit() {
                 <label className="mb-2 block" htmlFor="breed">
                   견종<span className="text-[var(--color-red)]"> *</span>
                 </label>
-                <SelectBox options={options} width={344} hasBorder />
+                <SelectBox options={options} width="344px" hasBorder />
               </div>
 
               {/* 생년월일 */}
@@ -217,7 +218,7 @@ export default function DogProfileEdit() {
               </div>
             </div>
           </div>
-          <div className="mt-16 mb-15">
+          <div className="mt-16 mb-30">
             <span className="mr-5">예방접종</span>
             <button className="mb-[2px] text-[15px] text-[var(--color-primary-500)]">
               + 추가
@@ -230,7 +231,12 @@ export default function DogProfileEdit() {
               </div>
               <ul className="mt-2 flex flex-col gap-4">
                 <li className="flex items-center gap-4">
-                  <SelectBox options={vaccineTypes} width={360} hasBorder />
+                  <SelectBox
+                    options={vaccineTypes}
+                    width="360px"
+                    hasBorder
+                    placeholder="백신이름을 선택해주세요"
+                  />
                   <div className="relative">
                     <input
                       id="name"
@@ -258,7 +264,12 @@ export default function DogProfileEdit() {
                   </div>
                 </li>
                 <li className="flex items-center gap-4">
-                  <SelectBox options={vaccineTypes} width={360} hasBorder />
+                  <SelectBox
+                    options={vaccineTypes}
+                    width="360px"
+                    hasBorder
+                    placeholder="백신이름을 선택해주세요"
+                  />
                   <div className="relative">
                     <input
                       id="name"
