@@ -18,14 +18,15 @@ export default function MeatballsMenu({
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(null);
 
-  const handleOptionClick = (label: string, type: string) => {
+  const handleOptionClick = (label: string) => {
     if (label === '신고하기' && onReportClick) {
       onReportClick();
     }
 
-    if (label === '수정' && type === 'post' && onEditClick) {
+    if (label === '수정' && onEditClick) {
       onEditClick();
     }
+
     setIsOpen(false);
   };
   return (

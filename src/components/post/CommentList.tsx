@@ -1,3 +1,5 @@
+'use client';
+import { useState } from 'react';
 import MeatballsMenu from '../common/MeatballsMenu';
 import WriterInfo from '../common/WriterInfo';
 
@@ -33,30 +35,76 @@ export default function CommentList({
 }: {
   onReportClick: () => void;
 }) {
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+  const [editedContent, setEditedContent] = useState<string>('');
+
+  const handleEditClick = (commentId: string, currentContent: string) => {
+    setEditingCommentId(commentId);
+    setEditedContent(currentContent);
+  };
+
+  const handleCancel = () => {
+    setEditingCommentId(null);
+    setEditedContent('');
+  };
   return (
     <>
       <p className="text-[22px] font-bold">{`댓글 (${COMMENTS.length})`}</p>
-      {COMMENTS.map((comment) => (
-        <div
-          key={comment.id}
-          className="min-h-[128px] w-[1308px] border-b border-b-[#2B2926]/50 p-5"
-        >
-          <div className="flex items-center justify-between">
-            <WriterInfo name={comment.name} postedAt={comment.postedAt} />
-            <MeatballsMenu
-              options={[
-                { id: '1', label: '수정', type: 'comment' },
-                { id: '2', label: '삭제', type: 'comment' },
-                { id: '3', label: '신고하기', type: 'comment' },
-              ]}
-              onReportClick={onReportClick}
-            />
+      {COMMENTS.map((comment) => {
+        const isEditing = editingCommentId === comment.id;
+
+        return (
+          <div
+            key={comment.id}
+            className="min-h-[128px] w-[1308px] border-b border-b-[#2B2926]/50 p-5"
+          >
+            <div className="flex items-center justify-between">
+              <WriterInfo name={comment.name} postedAt={comment.postedAt} />
+
+              {isEditing ? (
+                <div className="flex gap-[17px] text-[16px] font-medium">
+                  <div className="cursor-pointer text-[#FF9526]">저장</div>
+                  <div
+                    onClick={handleCancel}
+                    className="cursor-pointer text-[#909090]"
+                  >
+                    취소
+                  </div>
+                </div>
+              ) : (
+                <MeatballsMenu
+                  options={[
+                    { id: '1', label: '수정', type: 'comment' },
+                    { id: '2', label: '삭제', type: 'comment' },
+                    { id: '3', label: '신고하기', type: 'comment' },
+                  ]}
+                  onReportClick={onReportClick}
+                  onEditClick={() =>
+                    handleEditClick(comment.id, comment.content)
+                  }
+                />
+              )}
+            </div>
+
+            <div className="pt-6 pb-1 text-[16px] font-medium">
+              {isEditing ? (
+                <textarea
+                  className="h-full w-full resize-none rounded-[12px] border border-[#2B2926]/50 p-4 text-[16px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
+                  onChange={(e) => setEditedContent(e.target.value)}
+                  onInput={(e) => {
+                    e.currentTarget.style.height = 'auto';
+                    e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+                  }}
+                  value={editedContent}
+                  placeholder="댓글을 작성해주세요."
+                />
+              ) : (
+                comment.content
+              )}
+            </div>
           </div>
-          <div className="pt-6 pb-1 text-[16px] font-medium">
-            {comment.content}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </>
   );
 }

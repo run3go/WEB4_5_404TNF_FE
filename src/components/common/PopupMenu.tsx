@@ -5,7 +5,7 @@ import Icon from './Icon';
 interface PopupMenuProps {
   options: { id: string; label: string; type: 'post' | 'comment' }[];
   onClose: () => void;
-  onSelect: (label: string, type: string) => void;
+  onSelect: (label: string) => void;
 }
 
 export default function PopupMenu({
@@ -52,7 +52,7 @@ export default function PopupMenu({
         <div
           key={option.label}
           className="flex h-[28px] w-[120px] items-center justify-center gap-2 rounded-[8px] px-2 py-1.5 hover:bg-[#FFCD8C]"
-          onClick={() => onSelect(option.label, option.type)}
+          onClick={() => onSelect(option.label)}
         >
           {getIcon(option.label)}
           <p
