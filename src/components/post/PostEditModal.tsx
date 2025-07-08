@@ -6,7 +6,7 @@ import img from '@/assets/images/dog_img.png';
 export default function PostEditModal({ onClose }: { onClose: () => void }) {
   return (
     <>
-      <div className="flex h-[680px] w-[1100px] flex-col rounded-[20px] bg-white p-8 pr-15">
+      <div className="flex h-[680px] w-[1100px] flex-col rounded-[20px] border-[3px] border-[#FCC389] bg-[#FFFDF7] p-8 pr-15">
         <div className="flex shrink-0 items-center justify-end gap-[412px]">
           <div className="text-[20px] font-medium">게시글 수정</div>
           <Icon
