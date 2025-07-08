@@ -35,6 +35,7 @@ export default function ReportModal({ onClose }: { onClose: () => void }) {
             width={433}
             isCenter={true}
             hasBorder={true}
+            thinBorder={true}
           />
         </div>
 
