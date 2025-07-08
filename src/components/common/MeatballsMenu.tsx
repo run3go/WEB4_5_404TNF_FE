@@ -6,12 +6,28 @@ import PopupMenu from './PopupMenu';
 
 interface MeatballsMenuProps {
   options: { id: string; label: string; type: 'post' | 'comment' }[];
+  onReportClick?: () => void;
+  onEditClick?: () => void;
 }
 
-export default function MeatballsMenu({ options }: MeatballsMenuProps) {
+export default function MeatballsMenu({
+  options,
+  onReportClick,
+  onEditClick,
+}: MeatballsMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(null);
 
+  const handleOptionClick = (label: string, type: string) => {
+    if (label === '신고하기' && onReportClick) {
+      onReportClick();
+    }
+
+    if (label === '수정' && type === 'post' && onEditClick) {
+      onEditClick();
+    }
+    setIsOpen(false);
+  };
   return (
     <div className="relative" ref={buttonRef}>
       <div onClick={() => setIsOpen((prev) => !prev)}>
@@ -24,7 +40,11 @@ export default function MeatballsMenu({ options }: MeatballsMenuProps) {
         />
       </div>
       {isOpen && (
-        <PopupMenu options={options} onClose={() => setIsOpen(false)} />
+        <PopupMenu
+          options={options}
+          onSelect={handleOptionClick}
+          onClose={() => setIsOpen(false)}
+        />
       )}
     </div>
   );

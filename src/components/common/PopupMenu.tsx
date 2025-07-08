@@ -5,9 +5,14 @@ import Icon from './Icon';
 interface PopupMenuProps {
   options: { id: string; label: string; type: 'post' | 'comment' }[];
   onClose: () => void;
+  onSelect: (label: string, type: string) => void;
 }
 
-export default function PopupMenu({ options, onClose }: PopupMenuProps) {
+export default function PopupMenu({
+  options,
+  onClose,
+  onSelect,
+}: PopupMenuProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   const getIcon = (label: string) => {
@@ -47,6 +52,7 @@ export default function PopupMenu({ options, onClose }: PopupMenuProps) {
         <div
           key={option.label}
           className="flex h-[28px] w-[120px] items-center justify-center gap-2 rounded-[8px] px-2 py-1.5 hover:bg-[#FFCD8C]"
+          onClick={() => onSelect(option.label, option.type)}
         >
           {getIcon(option.label)}
           <p

@@ -21,7 +21,15 @@ const POST_STATS = {
   views: '34',
 };
 
-export default function PostDetailCard() {
+interface PostDetailCardProps {
+  onReportClick: () => void;
+  onEditClick: () => void;
+}
+
+export default function PostDetailCard({
+  onReportClick,
+  onEditClick,
+}: PostDetailCardProps) {
   return (
     <>
       <Card className="w-[1308px] p-8">
@@ -37,6 +45,8 @@ export default function PostDetailCard() {
               { id: '2', label: '삭제', type: 'post' },
               { id: '3', label: '신고하기', type: 'post' },
             ]}
+            onReportClick={onReportClick}
+            onEditClick={onEditClick}
           />
         </div>
         <div>

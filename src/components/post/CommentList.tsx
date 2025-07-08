@@ -28,7 +28,11 @@ const COMMENTS = [
   },
 ];
 
-export default function CommentList() {
+export default function CommentList({
+  onReportClick,
+}: {
+  onReportClick: () => void;
+}) {
   return (
     <>
       <p className="text-[22px] font-bold">{`댓글 (${COMMENTS.length})`}</p>
@@ -45,6 +49,7 @@ export default function CommentList() {
                 { id: '2', label: '삭제', type: 'comment' },
                 { id: '3', label: '신고하기', type: 'comment' },
               ]}
+              onReportClick={onReportClick}
             />
           </div>
           <div className="pt-6 pb-1 text-[16px] font-medium">
