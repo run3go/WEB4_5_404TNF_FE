@@ -1,32 +1,119 @@
-import Card from '../../common/Card';
+'use client';
+
+import Card from '@/components/common/Card';
+import { useRef } from 'react';
+import { useMediaQuery } from 'react-responsive';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import Icon from '../../common/Icon';
 import DogProfileCard from './DogProfileCard';
 
 export default function DogProfileList() {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 767px)',
+  });
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
   return (
-    <div className="mb-20">
-      <h2 className="mb-7 text-sm text-[var(--color-primary-500)] sm:text-2xl">
+    <div className="mb-20 w-full">
+      <h2 className="text-sm text-[var(--color-primary-500)] sm:text-2xl">
         댕댕이 프로필
       </h2>
-      <div className="flex flex-col items-stretch gap-6 sm:flex-row sm:gap-14">
-        <DogProfileCard />
-        <Card className="card__hover flex h-47 w-full max-w-150 items-center justify-center p-0 sm:h-[332px]">
-          <Icon
-            className="hidden sm:block"
-            width="47px"
-            height="47px"
-            left="-26px"
-            top="-242px"
-          />
-          <Icon
-            className="block sm:hidden"
-            width="20px"
-            height="20px"
-            left="-266px"
-            top="-75px"
-          />
-        </Card>
-      </div>
+      {isMobile ? (
+        <div className="mt-6 flex flex-col gap-6">
+          <DogProfileCard />
+          <DogProfileCard />
+          <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
+            <Icon
+              className="hidden sm:block"
+              width="47px"
+              height="47px"
+              left="-26px"
+              top="-242px"
+            />
+            <Icon
+              className="block sm:hidden"
+              width="20px"
+              height="20px"
+              left="-266px"
+              top="-75px"
+            />
+          </Card>
+        </div>
+      ) : (
+        <>
+          <button
+            ref={prevRef}
+            className="absolute top-1/2 z-50 -translate-y-1/2"
+          >
+            <Icon
+              width="12px"
+              height="20px"
+              left="-107px"
+              top="-164px"
+              className="cursor-pointer"
+            />
+          </button>
+          <button
+            ref={nextRef}
+            className="absolute top-1/2 right-0 z-50 -translate-y-1/2"
+          >
+            <Icon
+              width="12px"
+              height="20px"
+              left="-152px"
+              top="-164px"
+              className="cursor-pointer"
+            />
+          </button>
+          <div className="relative w-full max-w-[calc(598px*2+80px)] overflow-x-hidden">
+            <Swiper
+              className="w-full overflow-x-hidden"
+              modules={[Navigation]}
+              slidesPerView="auto"
+              spaceBetween={50}
+              onBeforeInit={(swiper) => {
+                if (
+                  typeof swiper.params.navigation === 'object' &&
+                  swiper.params.navigation !== null
+                ) {
+                  swiper.params.navigation.prevEl = prevRef.current;
+                  swiper.params.navigation.nextEl = nextRef.current;
+                }
+              }}
+            >
+              <SwiperSlide className="!w-[598px]">
+                <DogProfileCard />
+              </SwiperSlide>
+              <SwiperSlide className="!w-[598px]">
+                <DogProfileCard />
+              </SwiperSlide>
+              <SwiperSlide className="!w-[582px]">
+                <div className="pr-10">
+                  <Card className="card__hover my-7 ml-4 flex h-20 w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
+                    <Icon
+                      className="hidden sm:block"
+                      width="47px"
+                      height="47px"
+                      left="-26px"
+                      top="-242px"
+                    />
+                    <Icon
+                      className="block sm:hidden"
+                      width="20px"
+                      height="20px"
+                      left="-266px"
+                      top="-75px"
+                    />
+                  </Card>
+                </div>
+              </SwiperSlide>
+            </Swiper>
+          </div>
+        </>
+      )}
     </div>
   );
 }

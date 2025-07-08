@@ -13,11 +13,11 @@ export default function DogProfileCard() {
   // }, []);
 
   return (
-    <Card className="card__hover w-full max-w-150 p-0">
+    <Card className="card__hover m-0 max-w-150 p-0 sm:my-7 sm:ml-4">
       <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-[9px] text-center text-sm sm:py-[18px] sm:text-xl">
         이마음
       </h3>
-      <div className="flex gap-8 px-10 py-6">
+      <div className="flex gap-8 px-6 py-4">
         <Image
           className="h-31 w-31 rounded-[12px] sm:h-55 sm:w-55"
           src={dog}
