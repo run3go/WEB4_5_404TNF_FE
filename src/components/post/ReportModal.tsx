@@ -10,7 +10,7 @@ const CATEGORY = [
 
 export default function ReportModal({ onClose }: { onClose: () => void }) {
   return (
-    <div className="h-[625px] w-[720px] rounded-[20px] bg-white p-8">
+    <div className="h-[625px] w-[720px] rounded-[20px] bg-[#FFFDF7] p-8">
       <div className="flex items-center justify-end gap-[275px]">
         <p className="text-[18px] font-bold">신고하기</p>
         <Icon
