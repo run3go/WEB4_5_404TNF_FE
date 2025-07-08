@@ -56,7 +56,7 @@ export default function PopupMenu({
         >
           {getIcon(option.label)}
           <p
-            className={`text-[14px] font-medium ${option.label === '삭제' ? 'text-[#ED4848]' : ''}`}
+            className={`text-[14px] font-medium ${option.label === '수정' ? '' : 'text-[#ED4848]'}`}
           >{`${option.label === '신고하기' ? '' : option.type === 'post' ? '게시글' : '댓글'} ${option.label}`}</p>
         </div>
       ))}
