@@ -66,6 +66,7 @@ export default function SelectBox({
       styles={{
         control: (base) => ({
           ...base,
+          backgroundColor: 'transparent',
           border: hasBorder ? '3px solid var(--color-primary-200)' : 'none',
           width: `${width}px`,
           borderRadius: hasBorder ? '12px' : '',
