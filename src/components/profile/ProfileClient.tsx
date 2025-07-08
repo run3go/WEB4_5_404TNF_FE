@@ -11,12 +11,14 @@ export default function ProfileClient() {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
-  if (isMobile) {
+  const isEditing = false;
+  const isProfile = false;
+  if (isMobile && isEditing) {
     return <DogEditMobile />;
   } else {
     return (
       <main
-        className="scrollbar-hidden relative h-[calc(100vh-156px)] overflow-y-scroll bg-[var(--color-background)] p-6 sm:px-30 sm:py-17"
+        className="scrollbar-hidden relative w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17"
         id="profile-container"
       >
         <h1 className="mb-15 hidden text-center text-[32px] sm:block">
@@ -26,20 +28,25 @@ export default function ProfileClient() {
           <Button
             className={twMerge(
               'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
-              true && 'bg-[var(--color-pink-300)]',
+              isProfile && 'bg-[var(--color-pink-300)]',
             )}
           >
             프로필
           </Button>
-          <Button className="w-[87px] bg-[var(--color-pink-100)] py-3 text-xs">
+          <Button
+            className={twMerge(
+              'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
+              !isProfile && 'bg-[var(--color-pink-300)]',
+            )}
+          >
             활동내역
           </Button>
         </div>
-        <div>
+        <div className={isProfile ? '' : 'hidden sm:block'}>
           <UserProfile />
           <DogProfile />
         </div>
-        <div>
+        <div className={isProfile ? 'hidden sm:block' : ''}>
           <PostList />
         </div>
       </main>

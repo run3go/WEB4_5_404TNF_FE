@@ -1,6 +1,6 @@
-import { twMerge } from 'tailwind-merge';
 import Card from '../common/Card';
 import SelectBox from '../common/SelectBox';
+import PostTabs from './PostTabs';
 
 export default function PostList() {
   const options = [
@@ -9,25 +9,12 @@ export default function PostList() {
     { value: 'view', label: '조회수순' },
   ];
   return (
-    <>
-      <div className="flex justify-between">
-        <div className="mb-6">
-          <button
-            className={twMerge(
-              'cursor-pointer border-r-2 border-[var(--color-primary-500)] px-4 hover:text-[var(--color-primary-300)]',
-              'text-[var(--color-primary-500)]',
-            )}
-          >
-            작성 글
-          </button>
-          <button className="cursor-pointer border-r-2 border-[var(--color-primary-500)] px-4 hover:text-[var(--color-primary-300)]">
-            좋아요한 글
-          </button>
-          <button className="cursor-pointer px-4 hover:text-[var(--color-primary-300)]">
-            댓글 작성한 글
-          </button>
+    <div className="mb-10">
+      <div className="flex w-full flex-col justify-between text-sm sm:flex-row sm:text-base">
+        <PostTabs />
+        <div className="mb-3 self-end text-xs sm:text-base">
+          <SelectBox options={options} width={100} />
         </div>
-        <SelectBox options={options} width={100} />
       </div>
       {/* 게시글 카드 추가 */}
       <div className="flex flex-col gap-10">
@@ -35,6 +22,6 @@ export default function PostList() {
         <Card className="h-60 w-full">게시물</Card>
         <Card className="h-60 w-full">게시물</Card>
       </div>
-    </>
+    </div>
   );
 }
