@@ -89,7 +89,7 @@ export default function CommentList({
             <div className="pt-6 pb-1 text-[16px] font-medium">
               {isEditing ? (
                 <textarea
-                  className="h-full w-full resize-none rounded-[12px] border border-[#2B2926]/50 p-4 text-[16px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
+                  className="scrollbar-hidden h-full w-full resize-none rounded-[12px] border border-[#2B2926]/50 p-4 text-[16px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
                   onChange={(e) => setEditedContent(e.target.value)}
                   onInput={(e) => {
                     e.currentTarget.style.height = 'auto';
