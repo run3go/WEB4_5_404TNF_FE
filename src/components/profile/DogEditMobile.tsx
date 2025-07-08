@@ -45,7 +45,7 @@ export default function DogEditMobile() {
   return (
     <main className="w-screen">
       <MobileTitle title="반려견 등록" />
-      <div className="relative bg-[var(--color-background)] px-6 py-9 text-sm">
+      <div className="relative h-screen bg-[var(--color-background)] px-6 py-9 text-sm">
         <form className="flex flex-col" action="">
           {/* 사진 선택 */}
           <div className="mb-9 flex flex-col items-center gap-4">
@@ -211,7 +211,7 @@ export default function DogEditMobile() {
               </div>
             </div>
           </div>
-          <div className="mt-8 mb-15 w-full self-start">
+          <div className="mt-8 mb-10 w-full self-start">
             <span className="mr-5">예방접종</span>
             <button className="mb-4 text-[15px] text-[var(--color-primary-500)]">
               + 추가
@@ -290,7 +290,8 @@ export default function DogEditMobile() {
               </li>
             </ul>
           </div>
-          <button className="absolute right-0 bottom-0 left-0 bg-[var(--color-primary-300)] py-5">
+          <div className="h-15" />
+          <button className="fixed right-0 bottom-0 left-0 bg-[var(--color-primary-300)] py-5">
             수정하기
           </button>
         </form>

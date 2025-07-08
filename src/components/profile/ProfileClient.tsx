@@ -5,16 +5,20 @@ import Button from '../common/Button';
 import DogEditMobile from './DogEditMobile';
 import DogProfile from './DogProfile';
 import PostList from './PostList';
+import UserEditMobile from './UserEditMobile';
 import UserProfile from './UserProfile';
 
 export default function ProfileClient() {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
-  const isEditing = false;
-  const isProfile = false;
-  if (isMobile && isEditing) {
+  const isEditingDogProfile = false;
+  const isEditingUserProfile = false;
+  const isProfile = true;
+  if (isMobile && isEditingDogProfile) {
     return <DogEditMobile />;
+  } else if (isMobile && isEditingUserProfile) {
+    return <UserEditMobile />;
   } else {
     return (
       <main

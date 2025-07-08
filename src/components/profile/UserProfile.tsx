@@ -3,6 +3,12 @@ import Image from 'next/image';
 import Icon from '../common/Icon';
 
 export default function UserProfile() {
+  // const [portalElement, setPortalElement] = useState<Element | null>(null);
+
+  // useEffect(() => {
+  //   setPortalElement(document.querySelector('#profile-container'));
+  // }, []);
+
   return (
     <div className="mb-18 sm:mb-20">
       <h2 className="mr-7 inline text-sm text-[var(--color-primary-500)] sm:text-2xl">
@@ -60,6 +66,8 @@ export default function UserProfile() {
           </div>
         </div>
       </div>
+      {/* 유저 정보 수정 (스크롤 막기 기능 구현 필요) */}
+      {/* {portalElement && createPortal(<UserProfileEdit />, portalElement)} */}
     </div>
   );
 }

@@ -14,7 +14,7 @@ export default function DogProfileCard() {
 
   return (
     <Card className="card__hover w-full max-w-150 p-0">
-      <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-[9px] text-center text-xl sm:py-[18px]">
+      <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-[9px] text-center text-sm sm:py-[18px] sm:text-xl">
         이마음
       </h3>
       <div className="flex gap-8 px-10 py-6">
