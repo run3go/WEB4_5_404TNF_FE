@@ -11,7 +11,7 @@ export default function Card({
     <>
       <div
         className={twMerge(
-          'rounded-xl bg-[var(--background)] p-6 shadow-[0_3px_8px_rgba(0,0,0,0.24)]',
+          'rounded-xl bg-[var(--color-background)] p-6 shadow-[0_3px_8px_rgba(0,0,0,0.24)]',
           className,
         )}
       >
