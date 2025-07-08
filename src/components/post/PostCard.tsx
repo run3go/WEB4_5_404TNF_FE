@@ -22,14 +22,17 @@ const POST_STATS = {
 export default function PostCard() {
   return (
     <>
-      <Card className="flex h-[240px] w-[1308px] p-5">
-        <div className="relative">
+      <Card className="mx-1 flex h-[192px] w-full flex-col p-4 sm:h-[240px] sm:w-[1308px] sm:p-5">
+        <div className="relative pb-7 sm:pb-[62px]">
           <WriterInfo name={USER_INFO.name} postedAt={USER_INFO.postedAt} />
-          <div className="cursor-pointer">
-            <p className="pt-6 text-[20px] font-bold">{POST.title}</p>
-            <p className="line-clamp-2 pt-3 text-[16px] font-medium">
-              {POST.content}
-            </p>
+          <div className="mt-4 flex h-[80px]">
+            <div className="cursor-pointer">
+              <p className="text-[20px] font-bold sm:pt-6">{POST.title}</p>
+              <p className="line-clamp-2 h-[58px] pt-2 text-[16px] font-medium sm:pt-3">
+                {POST.content}
+              </p>
+            </div>
+            <div className="ml-2 h-[80px] w-[80px] flex-shrink-0 cursor-pointer rounded-[10px] bg-gray-500 sm:-mt-[58px] sm:ml-5 sm:h-[200px] sm:w-[200px] sm:rounded-[30px]"></div>
           </div>
           <div className="absolute bottom-0 left-0">
             <PostStats
@@ -39,7 +42,6 @@ export default function PostCard() {
             />
           </div>
         </div>
-        <div className="ml-5 h-[200px] w-[200px] flex-shrink-0 cursor-pointer rounded-[30px] bg-gray-500"></div>
       </Card>
     </>
   );
