@@ -120,7 +120,7 @@ export default function PostEditModal({ onClose }: { onClose: () => void }) {
           </div>
 
           <div className="flex justify-center">
-            <Button className="mt-20 flex h-[68px] w-[200px] cursor-pointer items-center justify-center">
+            <Button className="mt-15 flex h-[68px] w-[200px] cursor-pointer items-center justify-center">
               저장하기
             </Button>
           </div>
