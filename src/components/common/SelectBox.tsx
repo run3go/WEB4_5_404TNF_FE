@@ -20,6 +20,7 @@ export default function SelectBox({
   footstep = false,
   isCenter = false,
   hasBorder = false,
+  thinBorder = false,
 }: {
   options: { value: string; label: string }[];
   width: number;
@@ -28,6 +29,7 @@ export default function SelectBox({
   footstep?: boolean;
   isCenter?: boolean;
   hasBorder?: boolean;
+  thinBorder?: boolean;
 }) {
   return (
     <Select
@@ -66,7 +68,12 @@ export default function SelectBox({
       styles={{
         control: (base) => ({
           ...base,
-          border: hasBorder ? '3px solid var(--color-primary-200)' : 'none',
+          backgroundColor: 'transparent',
+          border: hasBorder
+            ? thinBorder
+              ? '1px solid rgba(43, 41, 38, 0.5)'
+              : '3px solid var(--color-primary-200)'
+            : 'none',
           width: `${width}px`,
           borderRadius: hasBorder ? '12px' : '',
           boxShadow: 'none',
@@ -75,7 +82,11 @@ export default function SelectBox({
           paddingBlock: hasBorder ? '8px' : '',
           paddingInline: hasBorder ? '20px' : '',
           '&:hover': {
-            border: hasBorder ? '3px solid var(--color-primary-200)' : 'none',
+            border: hasBorder
+              ? thinBorder
+                ? '1px solid rgba(43, 41, 38, 0.5)'
+                : '3px solid var(--color-primary-200)'
+              : 'none',
           },
         }),
         menu: (base) => ({
@@ -88,7 +99,7 @@ export default function SelectBox({
         option: (base, state) => ({
           ...base,
           cursor: 'pointer',
-          fontSize: '14px',
+          fontSize: thinBorder ? '18px' : '14px',
           color: 'var(--color-black)',
           backgroundColor: state.isSelected ? 'none' : '',
           '&:hover': {
@@ -102,7 +113,10 @@ export default function SelectBox({
       }}
       classNames={{
         indicatorSeparator: () => 'hidden',
-        menu: () => 'p-3 border-3 border-[var(--color-primary-200)]',
+        menu: () =>
+          thinBorder
+            ? 'p-3 border border-[rgba(43,41,38,0.5)]'
+            : 'p-3 border-3 border-[var(--color-primary-200)]',
         option: () => 'rounded-[8px] font-medium',
       }}
     />

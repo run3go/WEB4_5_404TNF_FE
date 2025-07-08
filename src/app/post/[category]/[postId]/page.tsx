@@ -1,12 +1,9 @@
-export default async function PostDetail({
-  params,
-}: {
-  params: Promise<{ postId: string }>;
-}) {
-  const { postId } = await params;
+import PostDetailWrapper from '@/components/post/PostDetailWrapper';
+
+export default async function PostDetail() {
   return (
     <>
-      <h1>{postId}</h1>
+      <PostDetailWrapper />
     </>
   );
 }
