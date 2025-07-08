@@ -1,8 +1,8 @@
 import dog from '@/assets/images/default-dog-profile.svg';
+import Button from '@/components/common/Button';
+import Icon from '@/components/common/Icon';
+import SelectBox from '@/components/common/SelectBox';
 import Image from 'next/image';
-import Button from '../common/Button';
-import Icon from '../common/Icon';
-import SelectBox from '../common/SelectBox';
 
 export default function DogProfileEdit() {
   const options = [

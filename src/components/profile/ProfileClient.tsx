@@ -2,11 +2,11 @@
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
-import DogEditMobile from './DogEditMobile';
-import DogProfile from './DogProfile';
+import DogProfileEditMobile from './dog/DogProfileEditMobile';
+import DogProfileList from './dog/DogProfileList';
 import PostList from './PostList';
-import UserEditMobile from './UserEditMobile';
-import UserProfile from './UserProfile';
+import UserProfile from './user/UserProfile';
+import UserProfileEditMobile from './user/UserProfileEditMobile';
 
 export default function ProfileClient() {
   const isMobile = useMediaQuery({
@@ -16,9 +16,9 @@ export default function ProfileClient() {
   const isEditingUserProfile = false;
   const isProfile = true;
   if (isMobile && isEditingDogProfile) {
-    return <DogEditMobile />;
+    return <DogProfileEditMobile />;
   } else if (isMobile && isEditingUserProfile) {
-    return <UserEditMobile />;
+    return <UserProfileEditMobile />;
   } else {
     return (
       <main
@@ -48,7 +48,7 @@ export default function ProfileClient() {
         </div>
         <div className={isProfile ? '' : 'hidden sm:block'}>
           <UserProfile />
-          <DogProfile />
+          <DogProfileList />
         </div>
         <div className={isProfile ? 'hidden sm:block' : ''}>
           <PostList />

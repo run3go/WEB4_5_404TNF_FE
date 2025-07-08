@@ -1,9 +1,9 @@
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Image from 'next/image';
-import Icon from '../common/Icon';
-import MobileTitle from '../common/MobileTitle';
+import Icon from '../../common/Icon';
+import MobileTitle from '../../common/MobileTitle';
 
-export default function UserEditMobile() {
+export default function UserProfileEditMobile() {
   return (
     <main className="w-screen">
       <MobileTitle title="프로필 수정" />

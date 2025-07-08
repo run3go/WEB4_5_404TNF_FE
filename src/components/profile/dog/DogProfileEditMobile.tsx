@@ -1,10 +1,10 @@
 import dog from '@/assets/images/default-dog-profile.svg';
+import Icon from '@/components/common/Icon';
+import MobileTitle from '@/components/common/MobileTitle';
+import SelectBox from '@/components/common/SelectBox';
 import Image from 'next/image';
-import Icon from '../common/Icon';
-import MobileTitle from '../common/MobileTitle';
-import SelectBox from '../common/SelectBox';
 
-export default function DogEditMobile() {
+export default function DogProfileEditMobile() {
   const options = [
     { value: 'BEAGLE', label: '비글' },
     { value: 'BICHON_FRISE', label: '비숑 프리제' },

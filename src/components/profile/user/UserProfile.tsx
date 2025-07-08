@@ -1,6 +1,6 @@
 import defaultProfile from '@/assets/images/default-profile.svg';
+import Icon from '@/components/common/Icon';
 import Image from 'next/image';
-import Icon from '../common/Icon';
 
 export default function UserProfile() {
   // const [portalElement, setPortalElement] = useState<Element | null>(null);

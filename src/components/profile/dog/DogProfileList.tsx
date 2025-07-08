@@ -1,8 +1,8 @@
-import Card from '../common/Card';
-import Icon from '../common/Icon';
+import Card from '../../common/Card';
+import Icon from '../../common/Icon';
 import DogProfileCard from './DogProfileCard';
 
-export default function DogProfile() {
+export default function DogProfileList() {
   return (
     <div className="mb-20">
       <h2 className="mb-7 text-sm text-[var(--color-primary-500)] sm:text-2xl">

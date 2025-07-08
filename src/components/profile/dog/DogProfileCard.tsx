@@ -2,8 +2,8 @@
 
 import dog from '@/assets/images/dog_img.png';
 import Image from 'next/image';
-import Card from '../common/Card';
-import Icon from '../common/Icon';
+import Card from '../../common/Card';
+import Icon from '../../common/Icon';
 
 export default function DogProfileCard() {
   // const [portalElement, setPortalElement] = useState<Element | null>(null);

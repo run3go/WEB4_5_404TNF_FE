@@ -1,7 +1,7 @@
 import defaultProfile from '@/assets/images/default-profile.svg';
+import Button from '@/components/common/Button';
+import Icon from '@/components/common/Icon';
 import Image from 'next/image';
-import Button from '../common/Button';
-import Icon from '../common/Icon';
 
 export default function UserProfileEdit() {
   return (
