@@ -57,7 +57,7 @@ body {
 }
 
 .sidebar__content {
-  @apply flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 hover:border-r-8 hover:border-[#FF9526] hover:bg-[#FFDBAB];
+  @apply flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-6 hover:border-r-8 hover:border-[#FF9526] hover:bg-[#FFDBAB] hover:text-[#FF8200];
 }
 
 .board__btn {
