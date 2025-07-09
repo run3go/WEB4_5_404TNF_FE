@@ -1,4 +1,6 @@
 import '@/assets/styles/global.css';
+import Header from '@/components/common/Header';
+import Sidebar from '@/components/common/Sidebar';
 
 export const metadata = {
   title: 'Next.js',
@@ -12,7 +14,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div className="flex min-h-screen w-screen bg-[url('/images/bg.png')] bg-cover">
+          <Sidebar />
+          <div className="sm:mr-[56px] sm:grow-1 sm:pt-[60px] sm:pb-[60px] sm:pl-[39px]">
+            <Header />
+            {children}
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
