@@ -14,7 +14,7 @@ export default function PostDetailWrapper() {
 
   return (
     <div
-      className={`scrollbar-hidden relative flex h-screen w-full max-w-[1548px] flex-col bg-[var(--color-background)] sm:mt-5 sm:h-[calc(100vh-176px)] sm:rounded-[50px] sm:px-[120px] ${
+      className={`scrollbar-hidden relative flex h-screen w-full max-w-[1548px] flex-col bg-[var(--color-background)] sm:mt-5 sm:h-[800px] sm:rounded-[50px] sm:px-[120px] ${
         isReportModalOpen ? 'overflow-hidden' : 'overflow-y-auto'
       }`}
     >

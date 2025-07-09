@@ -20,7 +20,7 @@ const SEARCH_LIST = [
 export default async function Board() {
   return (
     <>
-      <div className="flex h-screen w-full max-w-[1548px] flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-[calc(100vh-176px)]">
+      <div className="flex h-screen w-full max-w-[1548px] flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-[800px]">
         {/* 상단 버튼 영역 */}
         <div className="flex flex-none justify-center gap-3 pt-6 sm:gap-9 sm:pt-5">
           <Button className="board__btn">

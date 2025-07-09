@@ -10,7 +10,7 @@ import MobilePostCreate from '@/components/post/MobilePostCreate';
 export default function PostCreate() {
   return (
     <>
-      <div className="hidden h-[calc(100vh-100px)] w-[1548px] flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex">
+      <div className="hidden h-[800px] w-[1548px] flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex">
         <p className="text-center text-[24px] font-bold">게시물 작성</p>
         <Card className="scrollbar-hidden mt-8 h-[694px] w-[1320px] overflow-y-auto px-[160px] pt-16">
           <div className="flex gap-7 text-[20px] font-medium">
