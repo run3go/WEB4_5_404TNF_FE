@@ -13,27 +13,30 @@ export default function Diary() {
   ];
 
   return (
-    <div className="h-[calc(100vh-176px)] w-[1548px] bg-[var(--color-background)] p-10">
-      <div className="mb-3 flex justify-between">
-        <div className="flex gap-6 pl-3">
-          <div className="flex h-12 w-[160px] items-center justify-between rounded-xl border-1 border-[var(--color-primary-500)] px-4">
+    <main className="flex w-screen flex-col items-center bg-[var(--color-background)] p-6 sm:block sm:h-200 sm:w-full sm:p-0">
+      <div className="mb-3 flex w-full justify-between">
+        <div className="flex w-full justify-between gap-6 sm:justify-start sm:pl-3">
+          <div className="flex w-[137px] items-center justify-between rounded-xl border-1 border-[var(--color-primary-500)] px-4 sm:w-[160px]">
             2025. 7. 3
             <Icon width="20px" height="20px" left="-188px" top="-123px" />
           </div>
           <SelectBox
             options={options}
-            width="160px"
+            width="178px"
             borderColor="var(--color-primary-500)"
             footstep
             hasBorder
           />
         </div>
-        <Link className="flex items-center gap-2" href={'/post/create'}>
+        <Link
+          className="hidden items-center gap-2 sm:flex"
+          href={'/diary/create'}
+        >
           <Icon width="20px" height="20px" left="-266px" top="-75px" />
-          <span className="font-medium">기록하기</span>
+          <span className="inline-block w-20 font-medium">기록하기</span>
         </Link>
       </div>
-      <ul className="scrollbar-hidden -mr-3 flex h-[700px] flex-wrap gap-[53px] overflow-y-scroll pt-10 pr-3 pb-4 pl-3">
+      <ul className="scrollbar-hidden flex flex-col gap-5 pt-2 pb-4 sm:h-[700px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:overflow-y-scroll sm:px-3 sm:pt-10">
         {Array(9)
           .fill(0)
           .map((item, i) => (
@@ -42,6 +45,9 @@ export default function Diary() {
             </li>
           ))}
       </ul>
-    </div>
+      <div className="fixed right-4 bottom-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:hidden">
+        <Icon width="20px" height="20px" left="-266px" top="-75px" />
+      </div>
+    </main>
   );
 }
