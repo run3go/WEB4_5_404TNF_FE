@@ -21,10 +21,10 @@ export default function ImageList() {
   const nextRef = useRef(null);
   return (
     <>
-      <div className="relative mt-10 px-[54px]">
+      <div className="relative mt-5 px-1 sm:mt-10 sm:px-[54px]">
         <button
           ref={prevRef}
-          className="absolute top-1/2 left-[14px] z-10 -translate-y-1/2 text-2xl"
+          className="absolute top-1/2 left-[14px] z-10 hidden -translate-y-1/2 text-2xl sm:block"
         >
           <Icon
             width="12px"
@@ -36,7 +36,7 @@ export default function ImageList() {
         </button>
         <button
           ref={nextRef}
-          className="absolute top-1/2 right-[14px] z-10 -translate-y-1/2 text-2xl"
+          className="absolute top-1/2 right-[14px] z-10 hidden -translate-y-1/2 text-2xl sm:block"
         >
           <Icon
             width="12px"
@@ -63,7 +63,14 @@ export default function ImageList() {
               swiper.params.navigation.nextEl = nextRef.current;
             }
           }}
-          slidesPerView={3.6}
+          breakpoints={{
+            380: {
+              slidesPerView: 1,
+            },
+            800: {
+              slidesPerView: 3.6,
+            },
+          }}
         >
           {IMAGES.map((img) => (
             <SwiperSlide key={img.id}>
