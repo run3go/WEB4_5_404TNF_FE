@@ -6,12 +6,15 @@ export default function SingleInput({
   id: string;
 }) {
   return (
-    <div>
-      <label className="inline-block w-[102px]" htmlFor={id}>
+    <div className="text-sm sm:text-base">
+      <label
+        className="inline-block w-[78px] text-[var(--color-primary-500)]"
+        htmlFor={id}
+      >
         {title}
       </label>
       <input
-        className="input-style mr-3 w-[195px] px-[18px] py-3 text-base"
+        className="input-style mr-3 w-[195px] px-[18px] py-[10px] text-center leading-[1.1] sm:leading-[1.2]"
         id={id}
         type="text"
         placeholder={`${title}을 입력하세요`}

@@ -12,7 +12,7 @@ export default function Calendar({
   setSelected: Dispatch<SetStateAction<Date | undefined>>;
 }) {
   return (
-    <div className="h-52 w-52 rounded-xl bg-[var(--color-primary-100)] p-[10px] shadow-[0_3px_8px_rgba(0,0,0,0.24)]">
+    <div className="h-55 w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)]">
       <DayPicker
         mode="single"
         selected={selected}
@@ -20,7 +20,8 @@ export default function Calendar({
         locale={ko}
         showOutsideDays
         classNames={{
-          month_caption: 'font-medium mb-2',
+          month_caption:
+            'font-medium mb-2 bg-[var(--color-primary-500)] -mx-2 rounded-t-xl py-2',
           months: 'w-full relative',
           month_grid: 'w-full',
           weekday: 'h-6 font-medium',
