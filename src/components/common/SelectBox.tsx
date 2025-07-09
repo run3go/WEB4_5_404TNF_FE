@@ -41,6 +41,7 @@ export default function SelectBox({
     const style = window.getComputedStyle(containerRef.current);
     setFontSize(style.fontSize);
   }, [setFontSize]);
+  console.log(borderColor);
   return (
     <div ref={containerRef}>
       <Select
@@ -91,7 +92,7 @@ export default function SelectBox({
             border: hasBorder
               ? thinBorder
                 ? '1px solid rgba(43, 41, 38, 0.5)'
-                : `1px solid var(${borderColor})`
+                : `1px solid ${borderColor}`
               : 'none',
             width,
             borderRadius: hasBorder ? '12px' : '',
@@ -105,7 +106,7 @@ export default function SelectBox({
               border: hasBorder
                 ? thinBorder
                   ? '1px solid rgba(43, 41, 38, 0.5)'
-                  : `1px solid var(${borderColor})`
+                  : `1px solid ${borderColor}`
                 : 'none',
             },
           }),
@@ -120,9 +121,10 @@ export default function SelectBox({
           menu: (base) => ({
             ...base,
             borderRadius: '20px',
-            width: footstep
-              ? `${Number(width.replace('px', '')) + 20}px`
-              : width,
+            width:
+              footstep && !hasBorder
+                ? `${Number(width.replace('px', '')) + 20}px`
+                : width,
             position: 'absolute',
             background: 'var(--color-background)',
             right: 0,
@@ -154,7 +156,7 @@ export default function SelectBox({
           menu: () =>
             thinBorder
               ? 'border border-[rgba(43,41,38,0.5)]'
-              : `border border-[var(${borderColor})] w-full`,
+              : `border border-[${borderColor}] w-full`,
           option: () => 'rounded-[8px] font-medium',
         }}
       />
