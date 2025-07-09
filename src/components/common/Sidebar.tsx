@@ -4,7 +4,7 @@ import Icon from './Icon';
 export default function Sidebar() {
   return (
     <>
-      <div className="relative my-12 ml-14 flex h-[calc(100vh-96px)] w-[220px] flex-col items-center bg-[#FFFDF7] p-8 text-[#2B2926]">
+      <div className="relative my-12 ml-14 hidden h-[calc(100vh-96px)] w-[220px] flex-col items-center bg-[#FFFDF7] p-8 text-[#2B2926] sm:flex">
         <Image
           src="/images/logo.png"
           alt="멍멍일지 로고"
