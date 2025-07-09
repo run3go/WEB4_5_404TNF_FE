@@ -61,7 +61,7 @@ body {
 }
 
 .board__btn {
-  @apply flex h-[64px] w-[152px] cursor-pointer items-center justify-center gap-[7px] bg-[var(--color-pink-100)] hover:bg-[var(--color-pink-300)];
+  @apply flex h-[36px] w-[100px] cursor-pointer items-center justify-center gap-1 bg-[var(--color-pink-100)] hover:bg-[var(--color-pink-300)] sm:h-[64px] sm:w-[152px] sm:gap-[7px];
 }
 
 .scrollbar-hidden {

@@ -2,6 +2,7 @@ import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
 import PostCard from '@/components/post/PostCard';
+import SearchButton from '@/components/post/SearchButton';
 
 const SORT = [
   { value: '최신순', label: '최신순' },
@@ -19,21 +20,38 @@ const SEARCH_LIST = [
 export default async function Board() {
   return (
     <>
-      <div className="h-[calc(100vh-176px)] w-[1548px] rounded-[50px] bg-[var(--color-background)]">
-        <div className="flex justify-center gap-9 pt-5">
+      <div className="flex h-screen w-full max-w-[1548px] flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-[800px]">
+        {/* 상단 버튼 영역 */}
+        <div className="flex flex-none justify-center gap-3 pt-6 sm:gap-9 sm:pt-5">
           <Button className="board__btn">
-            <Icon width="20px" height="20px" left="-27px" top="-165px" />
-            <p className="text-[18px]">질문게시판</p>
+            <Icon
+              width="20px"
+              height="20px"
+              left="-27px"
+              top="-165px"
+              className="scale-60 sm:scale-100"
+            />
+            <p className="text-[10px] sm:text-[18px]">질문게시판</p>
           </Button>
           <Button className="board__btn">
-            <Icon width="20px" height="20px" left="-67px" top="-166px" />
-            <p className="text-[18px]">자유게시판</p>
+            <Icon
+              width="20px"
+              height="20px"
+              left="-67px"
+              top="-166px"
+              className="scale-60 sm:scale-100"
+            />
+            <p className="text-[10px] sm:text-[18px]">자유게시판</p>
           </Button>
         </div>
-        <div className="mt-[31px] flex items-center justify-between pl-[120px]">
-          <div className="relative flex h-[40px] items-center rounded-[10px] bg-[var(--color-primary-300)]">
-            <SelectBox width={125} options={SEARCH_LIST} />
-            <input className="h-[40px] w-[280px] focus:outline-none" />
+
+        {/* 검색 및 정렬 영역 */}
+        <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[120px]">
+          <div className="bg-opacity-100 relative hidden h-[40px] items-center rounded-[10px] border-[3px] border-[#FFDBAB] sm:flex">
+            <div className="pl-4">
+              <SelectBox width={'125px'} options={SEARCH_LIST} />
+            </div>
+            <input className="h-[40px] w-[250px] focus:outline-none" />
             <Icon
               width="18px"
               height="18px"
@@ -42,14 +60,18 @@ export default async function Board() {
               className="absolute right-3 cursor-pointer"
             />
           </div>
-          <div className="flex items-center gap-8 pr-[139px]">
-            <SelectBox width={110} options={SORT} />
-            <div className="flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)]">
+          <div className="flex items-center gap-8 pr-[70px]">
+            <SelectBox width={'110px'} options={SORT} />
+
+            <SearchButton />
+            <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto">
               <Icon width="20px" height="20px" left="-266px" top="-75px" />
             </div>
           </div>
         </div>
-        <div className="scrollbar-hidden mt-[25px] h-[calc(100vh-380px)] space-y-10 overflow-y-auto pb-[20px] pl-[120px]">
+
+        {/* 내부 스크롤 영역 */}
+        <div className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pr-2 pb-[20px] sm:space-y-10 sm:pl-[120px]">
           <PostCard />
           <PostCard />
           <PostCard />

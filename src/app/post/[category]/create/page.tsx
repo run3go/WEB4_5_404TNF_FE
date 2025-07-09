@@ -5,11 +5,12 @@ import Icon from '@/components/common/Icon';
 import Image from 'next/image';
 import img from '@/assets/images/dog_img.png';
 import Button from '@/components/common/Button';
+import MobilePostCreate from '@/components/post/MobilePostCreate';
 
 export default function PostCreate() {
   return (
     <>
-      <div className="flex h-[calc(100vh-100px)] w-[1548px] flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8">
+      <div className="hidden h-[800px] w-[1548px] flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex">
         <p className="text-center text-[24px] font-bold">게시물 작성</p>
         <Card className="scrollbar-hidden mt-8 h-[694px] w-[1320px] overflow-y-auto px-[160px] pt-16">
           <div className="flex gap-7 text-[20px] font-medium">
@@ -61,6 +62,9 @@ export default function PostCreate() {
             </Button>
           </div>
         </Card>
+      </div>
+      <div className="block w-screen overflow-x-hidden sm:hidden">
+        <MobilePostCreate />
       </div>
     </>
   );
