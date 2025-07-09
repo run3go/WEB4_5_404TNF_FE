@@ -22,6 +22,7 @@ export default function SelectBox({
   isCenter = false,
   hasBorder = false,
   thinBorder = false,
+  borderColor = 'var(--color-primary-200)',
 }: {
   options: { value: string; label: string }[];
   width: string;
@@ -31,6 +32,7 @@ export default function SelectBox({
   isCenter?: boolean;
   hasBorder?: boolean;
   thinBorder?: boolean;
+  borderColor?: string;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [fontSize, setFontSize] = useState('16px');
@@ -87,10 +89,10 @@ export default function SelectBox({
           control: (base) => ({
             ...base,
             border: hasBorder
-            ? thinBorder
-              ? '1px solid rgba(43, 41, 38, 0.5)'
-              : '1px solid var(--color-primary-300)'
-            : 'none',
+              ? thinBorder
+                ? '1px solid rgba(43, 41, 38, 0.5)'
+                : `1px solid var(${borderColor})`
+              : 'none',
             width,
             borderRadius: hasBorder ? '12px' : '',
             boxShadow: 'none',
@@ -101,10 +103,10 @@ export default function SelectBox({
             paddingInline: hasBorder ? '1em' : '',
             '&:hover': {
               border: hasBorder
-              ? thinBorder
-                ? '1px solid rgba(43, 41, 38, 0.5)'
-                : '1px solid var(--color-primary-300)'
-              : 'none',
+                ? thinBorder
+                  ? '1px solid rgba(43, 41, 38, 0.5)'
+                  : `1px solid var(${borderColor})`
+                : 'none',
             },
           }),
           singleValue: (base) => ({
@@ -150,9 +152,9 @@ export default function SelectBox({
         classNames={{
           indicatorSeparator: () => 'hidden',
           menu: () =>
-          thinBorder
-            ? 'border border-[rgba(43,41,38,0.5)]'
-            : 'border border-[var(--color-primary-300)] w-full',
+            thinBorder
+              ? 'border border-[rgba(43,41,38,0.5)]'
+              : `border border-[var(${borderColor})] w-full`,
           option: () => 'rounded-[8px] font-medium',
         }}
       />
