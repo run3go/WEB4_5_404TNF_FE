@@ -9,7 +9,7 @@ export default function BarGraph() {
     const dataset = [100, 80, 90, 30, 20, 70, 50, 60];
     const maxData = Math.max(...dataset);
     const width = 192;
-    const height = 580;
+    const height = 560;
     const barHeight = 46;
     const barSpacing = 16;
 
@@ -35,7 +35,7 @@ export default function BarGraph() {
   }, []);
 
   return (
-    <div className="mt-8">
+    <div>
       <svg ref={svgRef}></svg>
     </div>
   );

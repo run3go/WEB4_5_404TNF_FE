@@ -8,8 +8,8 @@ export default function DonutGraph() {
   useEffect(() => {
     if (!svgRef.current) return;
 
-    const width = 130;
-    const height = 130;
+    const width = 105;
+    const height = 105;
     const outerRadius = height / 2;
     const innerRadius = outerRadius * 0.75;
     const tau = 2 * Math.PI;
@@ -53,8 +53,8 @@ export default function DonutGraph() {
 
   return (
     <div className="relative self-center">
-      <svg width={130} height={130} ref={svgRef}></svg>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-0 pr-1 tracking-tighter text-[var(--color-red)]">
+      <svg width={105} height={105} ref={svgRef}></svg>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-0 pr-1 text-sm tracking-tighter text-[var(--color-red)]">
         ▾ 25 %
       </div>
     </div>

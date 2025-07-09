@@ -88,7 +88,7 @@ export default function LineGraphCard({
 
   return (
     <motion.div
-      className="relative h-40 w-full max-w-[558px] sm:h-[210px]"
+      className="relative h-40 w-full max-w-[558px] sm:h-[200px]"
       animate={{ rotateY: flip ? 0 : 180 }}
       transition={{ duration: 0.7 }}
       onClick={() => setFlip(!flip)}
@@ -99,7 +99,7 @@ export default function LineGraphCard({
         transition={{ duration: 0.7 }}
       >
         {/* 앞면 */}
-        <Card className="card__hover h-40 w-full sm:h-[210px]">
+        <Card className="card__hover h-40 w-full sm:h-[200px]">
           <h2 className="mb-8 text-xs font-medium text-[var(--color-grey)] sm:mb-13 sm:text-base sm:text-[var(--color-black)]">
             {title}
           </h2>
@@ -121,7 +121,7 @@ export default function LineGraphCard({
         transition={{ duration: 0.7 }}
       >
         {/* 뒷면 */}
-        <Card className="card__hover h-40 w-full max-w-[558px] overflow-hidden py-4 sm:h-[210px]">
+        <Card className="card__hover h-40 w-full max-w-[558px] overflow-hidden py-4 sm:h-[200px]">
           <table className="w-full">
             <thead>
               <tr className="flex w-full border-b border-[var(--color-primary-300)] pb-3 text-sm sm:pb-2 sm:text-base">
@@ -129,7 +129,7 @@ export default function LineGraphCard({
                 <th className="basis-2/5 font-medium">{title}</th>
               </tr>
             </thead>
-            <tbody className="scrollbar-hidden block h-23 overflow-y-scroll text-sm sm:h-[150px] sm:text-base">
+            <tbody className="scrollbar-hidden block h-23 overflow-y-scroll text-sm sm:h-[115px] sm:text-base">
               {dataset.map((data, index) => (
                 <tr
                   key={index}

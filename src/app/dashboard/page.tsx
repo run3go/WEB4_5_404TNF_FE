@@ -38,7 +38,7 @@ export default async function Dashboard() {
   ];
 
   return (
-    <main className="h-full w-screen rounded-[50px] bg-[var(--color-background)] px-[26px] py-6 sm:h-[calc(100vh-176px)] sm:w-full sm:px-12 sm:py-7">
+    <main className="h-full w-screen rounded-[50px] bg-[var(--color-background)] px-[26px] py-6 sm:h-200 sm:w-full sm:px-12 sm:py-7">
       <div className="flex items-center justify-between sm:mb-7">
         <h2 className="hidden text-xl font-bold sm:block">
           마음이는 평균보다 3kg 무거워요! 다이어트가 필요하니 간식을 줄여보는 건
@@ -77,7 +77,7 @@ export default async function Dashboard() {
               요즘은 시원해서 산책할 때 기분이 아주아주 좋아요!
             </div>
           </div>
-          <div className="flex justify-between gap-5 sm:gap-8">
+          <div className="flex items-center justify-between gap-5 sm:gap-8">
             <FeedCard />
             <TodoCard />
           </div>

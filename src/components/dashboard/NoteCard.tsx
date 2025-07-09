@@ -7,18 +7,18 @@ export default function NoteCard() {
   const [flip, setFlip] = useState(true);
   return (
     <motion.div
-      className="relative h-40 w-full max-w-[558px] sm:h-[210px]"
+      className="relative h-40 w-full max-w-[558px] sm:h-[200px]"
       animate={{ rotateY: flip ? 0 : 180 }}
       transition={{ duration: 0.7 }}
       onClick={() => setFlip(!flip)}
     >
       <motion.div
-        className="absolute w-full backface-hidden"
+        className="absolute h-full w-full backface-hidden"
         animate={{ rotateY: flip ? 0 : 180 }}
         transition={{ duration: 0.7 }}
       >
         {/* 앞면 */}
-        <Card className="card__hover aspect-[560/210] w-full max-w-[560px] font-medium">
+        <Card className="card__hover h-full w-full max-w-[560px] font-medium">
           <h2 className="mb-[18px] text-xs text-[var(--color-grey)] sm:text-base sm:text-[var(--color-black)]">
             관찰노트
           </h2>
@@ -30,13 +30,13 @@ export default function NoteCard() {
         </Card>
       </motion.div>
       <motion.div
-        className="absolute w-full -scale-x-100 backface-hidden"
+        className="absolute h-full w-full -scale-x-100 backface-hidden"
         initial={{ rotateY: 180 }}
         animate={{ rotateY: flip ? 180 : 0 }}
         transition={{ duration: 0.7 }}
       >
         {/* 뒷면 */}
-        <Card className="card__hover h-40 w-full max-w-[558px] overflow-hidden py-4 sm:h-[210px]">
+        <Card className="card__hover h-40 w-full max-w-[558px] overflow-hidden py-4 sm:h-[200px]">
           <h2 className="mb-[18px] text-xs text-[var(--color-grey)] sm:text-base sm:text-[var(--color-black)]">
             2025. 7. 1
           </h2>
