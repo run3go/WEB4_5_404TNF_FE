@@ -10,6 +10,7 @@
   --color-input-border: rgba(43, 41, 38, 0.5);
 
   /* Primary */
+  --color-primary-500: #ff9526;
   --color-primary-300: #fcc389;
   --color-primary-200: #ffdbab;
   --color-primary-100: #ffecd2;
@@ -28,6 +29,7 @@
 body {
   font-weight: 500;
   font-family: 'GmarketSansMedium';
+  font-weight: 500;
   color: var(--color-black);
   -ms-overflow-style: none;
 }
@@ -38,6 +40,26 @@ body {
 
 .input-style {
   @apply rounded-[12px] border border-[var(--color-input-border)];
+}
+
+.profile-input-style {
+  @apply rounded-[10px] border-1 border-[var(--color-primary-300)] px-4 py-[11px] leading-[1.2] focus:outline-[var(--color-primary-500)] sm:py-[14px];
+}
+
+.profile-checkbox-style {
+  @apply inline-block w-full cursor-pointer rounded-[10px] border-1 border-[var(--color-primary-300)] py-[10px] text-center leading-[1.2] hover:bg-[var(--color-primary-300)] sm:mr-4 sm:w-[95px];
+}
+
+.profile-title-style {
+  @apply mr-3 hidden text-[var(--color-grey)] sm:inline;
+}
+
+.sidebar__content {
+  @apply flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 hover:border-r-8 hover:border-[#FF9526] hover:bg-[#FFDBAB];
+}
+
+.board__btn {
+  @apply flex h-[64px] w-[152px] cursor-pointer items-center justify-center gap-[7px] bg-[var(--color-pink-100)] hover:bg-[var(--color-pink-300)];
 }
 
 .scrollbar-hidden {
