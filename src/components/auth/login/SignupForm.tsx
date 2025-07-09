@@ -2,7 +2,7 @@
 
 import Icon from '@/components/common/Icon';
 
-export default function SignupPage() {
+export default function SignupForm() {
   return (
     <form className="flex flex-col justify-center gap-7 p-6">
       <div className="flex flex-col">
