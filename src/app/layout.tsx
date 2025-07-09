@@ -17,7 +17,7 @@ export default function RootLayout({
       <body>
         <div className="flex min-h-screen w-screen bg-[url('/images/bg.png')] bg-cover">
           <Sidebar />
-          <div className="sm:mr-[56px] sm:grow-1 sm:pt-[60px] sm:pb-[60px] sm:pl-[39px]">
+          <div className="sm:mr-[56px] sm:grow-1 sm:pl-[39px]">
             <Header />
             {children}
           </div>

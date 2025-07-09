@@ -1,5 +1,5 @@
-import Card from '../common/Card';
 import SelectBox from '../common/SelectBox';
+import PostCard from '../post/PostCard';
 import PostTabs from './PostTabs';
 
 export default function PostList() {
@@ -18,9 +18,9 @@ export default function PostList() {
       </div>
       {/* 게시글 카드 추가 */}
       <div className="flex flex-col gap-10">
-        <Card className="h-60 w-full">게시물</Card>
-        <Card className="h-60 w-full">게시물</Card>
-        <Card className="h-60 w-full">게시물</Card>
+        <PostCard />
+        <PostCard />
+        <PostCard />
       </div>
     </div>
   );

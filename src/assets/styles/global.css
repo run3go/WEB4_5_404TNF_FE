@@ -29,6 +29,7 @@
 }
 
 body {
+  font-weight: 500;
   font-family: 'GmarketSansMedium';
   font-weight: 500;
   color: var(--color-black);
@@ -37,6 +38,10 @@ body {
 
 .card__hover {
   @apply cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-102 hover:shadow-[0_10px_15px_rgba(0,0,0,0.3)];
+}
+
+.input-style {
+  @apply rounded-[12px] border border-[var(--color-input-border)];
 }
 
 .profile-input-style {
@@ -64,4 +69,23 @@ body {
 }
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
+}
+
+.calendar-circle {
+  position: relative;
+  z-index: 1;
+}
+
+.calendar-circle::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 23px;
+  height: 23px;
+  background: var(--color-primary-500);
+  border-radius: 100%;
+  z-index: -1;
 }

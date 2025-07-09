@@ -4,7 +4,7 @@ import Icon from './Icon';
 export default function MobileTitle({ title }: { title: string }) {
   return (
     <>
-      <Card className="fixed z-100 flex h-18 w-screen items-center justify-center rounded-none bg-[var(--color-background)] px-4">
+      <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-center rounded-none bg-[var(--color-background)] px-4 sm:hidden">
         <Icon
           className="absolute left-6"
           width="12px"
@@ -15,7 +15,7 @@ export default function MobileTitle({ title }: { title: string }) {
         <h1 className="leading-[1.2]">{title}</h1>
       </Card>
       {/* 헤더 아래 공간 */}
-      <div className="h-18 w-screen" />
+      <div className="h-18 w-screen sm:hidden" />
     </>
   );
 }
