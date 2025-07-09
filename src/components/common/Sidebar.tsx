@@ -4,7 +4,7 @@ import Icon from './Icon';
 export default function Sidebar() {
   return (
     <>
-      <div className="relative my-12 ml-14 hidden h-[calc(100vh-96px)] w-[220px] flex-col items-center bg-[#FFFDF7] p-8 text-[#2B2926] sm:flex">
+      <div className="relative my-12 ml-14 hidden h-[calc(100vh-96px)] w-[220px] flex-col items-center bg-[#FFFDF7] p-8 text-[#2B2926] sm:flex sm:rounded-[50px]">
         <Image
           src="/images/logo.png"
           alt="멍멍일지 로고"
@@ -61,7 +61,7 @@ export default function Sidebar() {
             <div className="absolute opacity-0 group-hover:opacity-100">
               <Icon width="25px" height="26px" left="-197px" top="-309px" />
             </div>
-            <p className="pl-10 group-hover:font-bold">케어가이드</p>
+            <p className="pl-10 group-hover:font-bold">멍초보가이드</p>
           </div>
         </div>
         <div className="absolute bottom-10 text-[16px] font-medium">
