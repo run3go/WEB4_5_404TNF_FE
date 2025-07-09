@@ -1,4 +1,4 @@
-import LoginForm from '@/components/auth/login/LoginForm';
+import SignupForm from '@/components/auth/signup/SignupForm';
 
 export default async function Signup() {
   return (
@@ -8,7 +8,7 @@ export default async function Signup() {
           <p className="font-bold text-[#FF9526]">멍멍일지</p>
           <p>와 함께하는 즐거운 반려생활</p>
         </div>
-        <LoginForm />
+        <SignupForm />
       </div>
     </>
   );

@@ -1,109 +1,62 @@
-'use client';
-
 import Icon from '@/components/common/Icon';
 
-export default function SignupPage() {
+export default function LoginForm() {
   return (
-    <form className="flex flex-col justify-center gap-7 p-6">
-      <div className="flex flex-col">
-        <label
-          htmlFor="name"
-          className="text-[14px] font-medium text-[#909090]"
-        >
-          이름
-        </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          placeholder="이름을 입력해주세요"
-          className="auth__input"
-        />
-      </div>
-      <div className="flex flex-col">
-        <div className="flex justify-between">
-          <label
-            htmlFor="name"
-            className="text-[14px] font-medium text-[#909090]"
-          >
-            닉네임
-          </label>
-          <button
-            className="text-[14px] font-medium text-[#FF9526]"
-            type="button"
-          >
-            중복확인
-          </button>
-        </div>
-        <input
-          id="nickname"
-          name="nickname"
-          type="text"
-          placeholder="닉네임을 입력해주세요"
-          className="auth__input"
-        />
-      </div>
-      <div className="flex flex-col">
-        <div className="flex justify-between">
-          <label
-            htmlFor="name"
-            className="text-[14px] font-medium text-[#909090]"
-          >
-            이메일
-          </label>
-          <button
-            className="text-[14px] font-medium text-[#FF9526]"
-            type="button"
-          >
-            이메일 인증
-          </button>
-        </div>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          placeholder="example@example.com"
-          className="auth__input"
-        />
+    <>
+      <form className="mt-12 flex flex-col justify-center gap-5 p-6">
         <input
           name="email"
           type="email"
-          placeholder="인증코드를 입력해주세요"
-          className="auth__input"
+          placeholder="이메일을 입력해주세요"
+          className="auth__input focus:!border-[#FCC389]"
         />
-      </div>
 
-      <div className="flex flex-col">
-        <label
-          htmlFor="name"
-          className="text-[14px] font-medium text-[#909090]"
-        >
-          비밀번호
-        </label>
         <input
-          id="password"
           name="password"
           type="password"
-          placeholder="영문/숫자/특수문자 혼합 8~20자"
-          className="auth__input"
+          placeholder="비밀번호를 입력해주세요"
+          className="auth__input focus:!border-[#FCC389]"
         />
-        <input
-          id="confirmPassword"
-          name="confirmPassword"
-          type="password"
-          placeholder="비밀번호를 한 번 더 입력해주세요"
-          className="auth__input"
-        />
-      </div>
 
-      <button className="h-[40px] rounded-[12px] bg-[#2B2926]/20 py-[10px]">
-        <div className="flex items-center justify-center gap-2">
-          <Icon width="20px" height="18px" left="-253px" top="-311px" />
-          <p className="text-[14px] font-medium text-[#909090]">
-            멍멍일지 회원가입
-          </p>
+        <button className="mt-4 h-[40px] rounded-[12px] bg-[#FFDBAB] py-[10px]">
+          <div className="flex items-center justify-center gap-2">
+            <Icon width="20px" height="18px" left="-297px" top="-312px" />
+            <p className="text-[14px] font-medium text-[#2B2926]">
+              멍멍일지 로그인
+            </p>
+          </div>
+        </button>
+
+        <div className="-mt-1 flex justify-end gap-1.5 text-[14px] font-medium">
+          <p>계졍이 없으신가요? </p>
+          <p className="border-b text-[#FF9526]">회원가입</p>
         </div>
-      </button>
-    </form>
+
+        <div className="mt-16 flex items-center">
+          <div className="h-px flex-1 bg-[#2B2926]" />
+          <span className="text-[14px]] px-4 font-medium text-[#2B2926]">
+            또는
+          </span>
+          <div className="h-px flex-1 bg-[#2B2926]" />
+        </div>
+
+        <div className="flex items-center justify-center">
+          <Icon
+            width="60px"
+            height="60px"
+            left="-16px"
+            top="-361px"
+            className="scale-54"
+          />
+          <Icon
+            width="54px"
+            height="55px"
+            left="-94px"
+            top="-361px"
+            className="scale-60"
+          />
+        </div>
+      </form>
+    </>
   );
 }
