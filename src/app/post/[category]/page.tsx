@@ -60,7 +60,7 @@ export default async function Board() {
               className="absolute right-3 cursor-pointer"
             />
           </div>
-          <div className="flex items-center gap-8 pr-[22px]">
+          <div className="flex items-center gap-8 pr-[70px]">
             <SelectBox width={'110px'} options={SORT} />
 
             <SearchButton />
