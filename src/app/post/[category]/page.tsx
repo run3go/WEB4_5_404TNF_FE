@@ -47,9 +47,11 @@ export default async function Board() {
 
         {/* 검색 및 정렬 영역 */}
         <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[120px]">
-          <div className="relative hidden h-[40px] items-center rounded-[10px] bg-[var(--color-primary-300)] sm:flex">
-            <SelectBox width={125} options={SEARCH_LIST} />
-            <input className="h-[40px] w-[280px] focus:outline-none" />
+          <div className="bg-opacity-100 relative hidden h-[40px] items-center rounded-[10px] border-[3px] border-[#FFDBAB] sm:flex">
+            <div className="pl-4">
+              <SelectBox width={'125px'} options={SEARCH_LIST} />
+            </div>
+            <input className="h-[40px] w-[250px] focus:outline-none" />
             <Icon
               width="18px"
               height="18px"
@@ -59,7 +61,7 @@ export default async function Board() {
             />
           </div>
           <div className="flex items-center gap-8 pr-[22px]">
-            <SelectBox width={110} options={SORT} />
+            <SelectBox width={'110px'} options={SORT} />
 
             <SearchButton />
             <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto">
