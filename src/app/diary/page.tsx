@@ -6,22 +6,24 @@ import Link from 'next/link';
 
 export default function Diary() {
   const options = [
+    { value: 'all', label: '모든 강아지' },
     { value: '이마음', label: '이마음' },
     { value: '이구름', label: '이구름' },
     { value: '이솜', label: '이솜' },
   ];
 
   return (
-    <div className={`w-[1548px] p-10`}>
+    <div className="h-[calc(100vh-176px)] w-[1548px] bg-[var(--color-background)] p-10">
       <div className="mb-3 flex justify-between">
         <div className="flex gap-6 pl-3">
-          <div className="flex h-12 w-35 items-center justify-center rounded-xl border-3 border-[var(--color-primary-200)]">
+          <div className="flex h-12 w-[160px] items-center justify-between rounded-xl border-1 border-[var(--color-primary-500)] px-4">
             2025. 7. 3
+            <Icon width="20px" height="20px" left="-188px" top="-123px" />
           </div>
           <SelectBox
             options={options}
-            width={180}
-            placeholder="모든 강아지"
+            width="160px"
+            borderColor="var(--color-primary-500)"
             footstep
             hasBorder
           />
