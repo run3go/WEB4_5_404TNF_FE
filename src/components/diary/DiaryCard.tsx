@@ -16,7 +16,7 @@ export default function DiaryCard({
   return (
     <Card
       className={twMerge(
-        'flex flex-col border border-[var(--color-primary-500)] text-lg',
+        'flex flex-col border border-[var(--color-primary-500)] text-sm sm:text-base',
         className,
       )}
     >

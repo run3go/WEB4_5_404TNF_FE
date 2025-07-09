@@ -1,18 +1,13 @@
 'use client';
 
 import diary from '@/assets/images/diary.svg';
-import dog from '@/assets/images/dog_img.png';
 import Image from 'next/image';
 import { useState } from 'react';
-import Card from '../common/Card';
 import MobileTitle from '../common/MobileTitle';
 import SelectBox from '../common/SelectBox';
 import Calendar from './Calendar';
-import FeedInput from './create/FeedInput';
-import Note from './create/Note';
-import SingleInput from './create/SingleInput';
-import WalkingInput from './create/WalkingInput';
 import DiaryCard from './DiaryCard';
+import DiaryProfile from './DiaryProfile';
 
 export default function DiaryDetailClient({ logId }: { logId: string }) {
   const [selected, setSelected] = useState<Date | undefined>();
@@ -25,9 +20,9 @@ export default function DiaryDetailClient({ logId }: { logId: string }) {
   ];
 
   return (
-    <main className="flex w-screen flex-col bg-[var(--color-background)] px-4 pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:p-0">
+    <main className="flex w-screen flex-col bg-[var(--color-background)] pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-9 sm:pb-0">
       <MobileTitle title="멍멍일지" />
-      <div className="relative flex w-full flex-col gap-6 sm:h-200 sm:px-19">
+      <div className="relative flex w-full flex-col gap-6 px-4 sm:h-200 sm:px-19">
         <div className="flex w-full justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
           <div className="flex grow-2 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
             2025. 7. 3
@@ -36,7 +31,7 @@ export default function DiaryDetailClient({ logId }: { logId: string }) {
             이마음
           </div>
         </div>
-        <div className="absolute top-1 right-[65px] hidden self-end text-base sm:block">
+        <div className="absolute -top-2 right-[65px] hidden self-end text-base sm:block">
           <SelectBox options={options} width="105px" footstep />
         </div>
         <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-15">
@@ -45,52 +40,58 @@ export default function DiaryDetailClient({ logId }: { logId: string }) {
               <Image src={diary} alt="오늘의 멍멍일지를 적어보아요!" />
               <Calendar selected={selected} setSelected={setSelected} />
             </div>
-            <Card className="m-0 w-full p-0 sm:p-0">
-              <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-2 text-center text-lg">
-                이마음
-              </h3>
-              <div className="flex gap-8 px-6 py-4">
-                <Image
-                  className="h-30 w-30 rounded-[12px]"
-                  src={dog}
-                  alt="강아지 프로필"
-                  priority
-                />
-                <div className="flex flex-col justify-around text-sm sm:text-base">
-                  <span>골든 리트리버 (대형견)</span>
-                  <span>5년 6개월</span>
-                  <span>
-                    가족이 된지
-                    <strong className="font-medium text-[var(--color-primary-500)]">
-                      1943
-                    </strong>
-                    일
-                  </span>
-                </div>
+            <DiaryProfile />
+            <DiaryCard className="w-full sm:h-[205px]" title="오늘의 건강기록">
+              <div className="mb-2 text-sm sm:mb-6 sm:text-base">
+                <span className="inline-block w-[110px] text-[var(--color-primary-500)]">
+                  몸무게
+                </span>
+                <span>36.4 kg</span>
               </div>
-            </Card>
-            <DiaryCard className="w-full" title="오늘의 건강기록" hasAddBtn>
-              <SingleInput title="몸무게" id="weight" />
-              <SingleInput title="수면시간" id="sleep" />
+              <div className="text-sm sm:text-base">
+                <span className="inline-block w-[110px] text-[var(--color-primary-500)]">
+                  수면시간
+                </span>
+                <span>17시간</span>
+              </div>
             </DiaryCard>
           </div>
           <div className="flex grow flex-col gap-6 sm:gap-12">
             <div className="flex w-full flex-col justify-between gap-6 sm:flex-row sm:gap-14">
-              <FeedInput />
-              <WalkingInput />
+              <DiaryCard className="min-h-50 grow sm:h-71" title="식사량">
+                <ul className="-mt-3 px-2">
+                  <li className="flex border-b border-[var(--color-primary-300)] py-[9px]">
+                    <span className="basis-27">8시 00분</span>
+                    <span>1.5컵</span>
+                  </li>
+                  <li className="flex border-b border-[var(--color-primary-300)] py-[9px]">
+                    <span className="basis-27">19시 30분</span>
+                    <span>1.5컵</span>
+                  </li>
+                </ul>
+              </DiaryCard>
+              <DiaryCard className="min-h-50 grow sm:h-71" title="산책">
+                <ul className="-mt-3 px-2">
+                  <li className="border-b border-[var(--color-primary-300)] py-[9px]">
+                    <span>8시 00분 ~ 8시 20분</span>
+                  </li>
+                  <li className="border-b border-[var(--color-primary-300)] py-[9px]">
+                    <span>17시 00분 ~ 18시 30분</span>
+                  </li>
+                  <li className="border-b border-[var(--color-primary-300)] py-[9px]">
+                    <span>23시 00분 ~ 23시 30분</span>
+                  </li>
+                </ul>
+              </DiaryCard>
             </div>
-            <Note />
+            <DiaryCard className="mb-7 h-full max-w-[912px]" title="관찰노트">
+              <p>
+                날씨가 더워서 산책할 때 엄청 힘들어 함, 계속 귀를 긁음 ( 귀 세정
+                당분간 매일 하기 ), 간식 좀 많이 먹어서 그런가 저녁밥 남김
+              </p>
+            </DiaryCard>
           </div>
         </div>
-      </div>
-      <div className="mt-10 flex flex-col sm:hidden">
-        <span className="cursor-pointer self-end pr-4 text-xs text-[var(--color-grey)] sm:hidden">
-          댕댕일지 삭제하기
-        </span>
-        <div className="h-15" />
-        <button className="fixed right-0 bottom-0 left-0 bg-[var(--color-primary-300)] py-5">
-          저장하기
-        </button>
       </div>
     </main>
   );

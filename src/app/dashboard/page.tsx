@@ -45,7 +45,7 @@ export default async function Dashboard() {
           어떨까요?
         </h2>
       </div>
-      <div className="absolute top-1 right-[65px] hidden self-end text-base sm:block">
+      <div className="absolute top-7 right-[65px] hidden self-end text-base sm:block">
         <SelectBox options={options} width="105px" footstep />
       </div>
       <div className="flex flex-wrap gap-5 pb-7 sm:gap-8 sm:pb-0">
