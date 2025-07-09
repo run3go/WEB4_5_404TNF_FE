@@ -78,12 +78,12 @@ body {
   content: '';
   display: block;
   position: absolute;
-  top: 54%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 23px;
   height: 23px;
-  background: var(--color-background);
+  background: var(--color-primary-500);
   border-radius: 100%;
   z-index: -1;
 }

@@ -3,14 +3,20 @@ import Icon from '@/components/common/Icon';
 
 export default function WalkingInput() {
   return (
-    <Card className="basis-1/3">
-      <div className="mb-6 flex justify-between">
-        <h2>산책</h2>
-        <button className="cursor-pointer">
-          <Icon width="12px" height="12px" left="-194px" top="-80px" />
-        </button>
+    <Card className="h-71 grow border border-[var(--color-primary-500)]">
+      <div className="flex items-center justify-between border-b border-[var(--color-primary-500)] pb-3">
+        <h2 className="text-base leading-[1.2] font-extrabold text-[var(--color-primary-500)]">
+          산책
+        </h2>
+        <Icon
+          className="cursor-pointer"
+          width="12px"
+          height="12px"
+          left="-262px"
+          top="-259px"
+        />
       </div>
-      <div className="flex justify-between text-sm">
+      <div className="mt-5 flex justify-between text-sm">
         <div>
           <input
             className="input-style mr-2 w-13 py-1 text-center leading-[1.2]"
