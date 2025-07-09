@@ -12,9 +12,9 @@ export default function ProfileClient() {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
-  const isEditingDogProfile = true;
+  const isEditingDogProfile = false;
   const isEditingUserProfile = false;
-  const isProfile = false;
+  const isProfile = true;
   if (isMobile && isEditingDogProfile) {
     return <DogProfileEditMobile />;
   } else if (isMobile && isEditingUserProfile) {

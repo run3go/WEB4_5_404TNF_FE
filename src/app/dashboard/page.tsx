@@ -44,7 +44,12 @@ export default async function Dashboard() {
             마음이는 평균보다 3kg 무거워요! 다이어트가 필요하니 간식을 줄여보는
             건 어떨까요?
           </h2>
-          <SelectBox options={options} width={110} footstep />
+          <SelectBox
+            options={options}
+            width={110}
+            expendMenuWidth={20}
+            footstep
+          />
         </div>
         <div className="flex gap-12">
           <div className="flex flex-col gap-12">
