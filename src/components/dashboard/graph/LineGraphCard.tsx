@@ -1,4 +1,5 @@
 'use client';
+import Card from '@/components/common/Card';
 import {
   curveBasis,
   extent,
@@ -12,7 +13,6 @@ import {
 import { formatDate } from 'date-fns';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import Card from '../common/Card';
 
 export default function LineGraphCard({
   title,
@@ -29,7 +29,6 @@ export default function LineGraphCard({
   //마진, 가로 길이, 세로 길이 설정
   const margin = { top: 20, bottom: 30 };
   const width = dimensions.width;
-  console.log(width);
   const height = dimensions.height - margin.top - margin.bottom;
 
   useEffect(() => {
@@ -79,6 +78,11 @@ export default function LineGraphCard({
           : 'var(--color-blue-300)',
       )
       .attr('stroke-width', 6)
+      .attr('stroke-dashoffset', width)
+      .attr('stroke-dasharray', width)
+      .transition()
+      .duration(1000)
+      .attr('stroke-dashoffset', 0)
       .attr('d', lineGenerator);
   }, [title, dataset, height, width, margin.bottom]);
 

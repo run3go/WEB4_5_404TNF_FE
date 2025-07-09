@@ -6,7 +6,7 @@ import Icon from '../common/Icon';
 export default function ProfileCard() {
   return (
     <Card className="flex w-full max-w-[560px] flex-row-reverse justify-end sm:flex-row sm:justify-between">
-      <ul className="flex flex-col gap-3 text-sm font-medium sm:gap-[18px] sm:text-xl">
+      <ul className="flex flex-col gap-3 text-sm font-medium sm:gap-[18px] sm:text-lg">
         <li className="flex items-center">
           <span className="mr-3 text-[var(--color-grey)]">이름</span>
           <span>이마음</span>
