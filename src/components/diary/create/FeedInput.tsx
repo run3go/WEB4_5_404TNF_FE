@@ -1,6 +1,5 @@
-import Card from '@/components/common/Card';
-import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
+import DiaryCard from '../DiaryCard';
 
 export default function FeedInput() {
   const options = [
@@ -9,20 +8,8 @@ export default function FeedInput() {
     { label: '스푼', value: '스푼' },
   ];
   return (
-    <Card className="h-71 grow border border-[var(--color-primary-500)]">
-      <div className="flex items-center justify-between border-b border-[var(--color-primary-500)] pb-3">
-        <h2 className="leading-[1.2] font-extrabold text-[var(--color-primary-500)] sm:text-base">
-          식사량
-        </h2>
-        <Icon
-          className="cursor-pointer"
-          width="12px"
-          height="12px"
-          left="-262px"
-          top="-259px"
-        />
-      </div>
-      <div className="mt-5 flex items-center justify-between text-xs sm:text-sm">
+    <DiaryCard className="min-h-50 grow sm:h-71" title="식사량" hasAddBtn>
+      <div className="flex h-[38px] items-center justify-between text-xs sm:text-sm">
         <div>
           <input
             className="input-style mr-2 w-11 py-1 text-center leading-[1.2] sm:w-13"
@@ -49,6 +36,6 @@ export default function FeedInput() {
           <SelectBox width="65px" options={options} isCenter />
         </div>
       </div>
-    </Card>
+    </DiaryCard>
   );
 }
