@@ -4,15 +4,24 @@ import Icon from './Icon';
 export default function Sidebar() {
   return (
     <>
-      <div className="relative my-12 ml-14 hidden h-[calc(100vh-96px)] w-[220px] flex-col items-center bg-[#FFFDF7] p-8 text-[#2B2926] sm:flex sm:rounded-[50px]">
+      <div className="fixed z-200 flex h-full w-60 flex-col items-center bg-[var(--color-primary-100)] p-8 text-[#2B2926] sm:relative sm:my-12 sm:ml-14 sm:h-[calc(100vh-96px)] sm:w-[220px] sm:rounded-[50px] sm:bg-[#FFFDF7]">
         <Image
+          className="hidden sm:block"
           src="/images/logo.png"
           alt="멍멍일지 로고"
           width={156}
           height={122}
           priority
         />
-        <div className="mt-12 text-[16px] font-medium">
+        <Image
+          className="block sm:hidden"
+          src="/images/logo.png"
+          alt="멍멍일지 로고"
+          width={100}
+          height={78}
+          priority
+        />
+        <div className="mt-12 text-sm font-medium sm:text-[16px]">
           <div className="sidebar__content group relative">
             <div className="absolute group-hover:opacity-0">
               <Icon width="24px" height="24px" left="-26px" top="-23px" />
@@ -64,7 +73,7 @@ export default function Sidebar() {
             <p className="pl-10 group-hover:font-bold">멍초보가이드</p>
           </div>
         </div>
-        <div className="absolute bottom-10 text-[16px] font-medium">
+        <div className="absolute bottom-10 text-sm font-medium sm:text-[16px]">
           <div className="flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-6">
             <Icon width="24px" height="26px" left="-297px" top="-252px" />
             <p>설정</p>
