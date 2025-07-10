@@ -16,8 +16,8 @@ export default function RoadmapPoint() {
           className="sm:scale-80"
           width="50px"
           height="50px"
-          left="-27px"
-          top="-353px"
+          left="-168px"
+          top="-364px"
         />
       </div>
     );

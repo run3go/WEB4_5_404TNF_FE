@@ -61,7 +61,7 @@ body {
 }
 
 .sidebar__content {
-  @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:border-r-8 hover:border-[#FF9526] hover:bg-[#FFDBAB] hover:text-[#FF8200] sm:w-[220px] sm:py-3 sm:pl-6;
+  @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:bg-[#FFDBAB] sm:w-[220px] sm:py-3 sm:pl-6;
 }
 
 .sidebar__content-active {
@@ -73,11 +73,7 @@ body {
 }
 
 .guide-card {
-  @apply flex min-w-[196px] basis-[calc(50%-10px)] cursor-pointer flex-col items-start gap-[2px] border border-transparent px-2 py-2 text-xs sm:px-4 sm:py-2 sm:text-base;
-}
-
-.guide-card:hover {
-  @apply sm:border-[var(--color-primary-500)] sm:bg-[rgba(255,147,39,0.07)];
+  @apply flex min-w-[196px] basis-[calc(50%-10px)] cursor-pointer flex-col items-start gap-[2px] border border-[var(--color-primary-500)] bg-[#FFF5E9] px-2 py-2 text-xs sm:px-4 sm:py-2 sm:text-base;
 }
 
 .scrollbar-hidden {

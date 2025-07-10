@@ -32,17 +32,17 @@ export default function Sidebar() {
             className={`sidebar__content group relative ${pathname === '/dashboard' && 'sidebar__content-active'}`}
           >
             <div
-              className={`absolute group-hover:opacity-0 ${pathname === '/dashboard' && 'opacity-0'}`}
+              className={`absolute ${pathname === '/dashboard' && 'opacity-0'}`}
             >
               <Icon width="24px" height="24px" left="-26px" top="-23px" />
             </div>
 
             <div
-              className={`absolute opacity-0 group-hover:opacity-100 ${pathname === '/dashboard' && 'opacity-100'} `}
+              className={`absolute opacity-0 ${pathname === '/dashboard' && 'opacity-100'} `}
             >
               <Icon width="24px" height="24px" left="-28px" top="-310px" />
             </div>
-            <p className="pl-10 group-hover:font-bold">대시보드</p>
+            <p className="pl-10">대시보드</p>
           </Link>
           {/* 일정 */}
 
@@ -51,69 +51,67 @@ export default function Sidebar() {
             className={`sidebar__content group relative ${pathname === '/schedule' && 'sidebar__content-active'}`}
           >
             <div
-              className={`absolute group-hover:opacity-0 ${pathname === '/schedule' && 'opacity-0'}`}
+              className={`absolute ${pathname === '/schedule' && 'opacity-0'}`}
             >
               <Icon width="24px" height="24px" left="-66px" top="-21px" />
             </div>
 
             <div
-              className={`absolute opacity-0 group-hover:opacity-100 ${pathname === '/schedule' && 'opacity-100'} `}
+              className={`absolute opacity-0 ${pathname === '/schedule' && 'opacity-100'} `}
             >
               <Icon width="24px" height="24px" left="-68px" top="-308px" />
             </div>
-            <p className="pl-10 group-hover:font-bold">일정</p>
+            <p className="pl-10">일정</p>
           </Link>
           {/* 댕댕일지 */}
           <Link
             href={'/diary'}
             className={`sidebar__content group relative ${pathname === '/diary' && 'sidebar__content-active'}`}
           >
-            <div
-              className={`absolute group-hover:opacity-0 ${pathname === '/diary' && 'opacity-0'}`}
-            >
+            <div className={`absolute ${pathname === '/diary' && 'opacity-0'}`}>
               <Icon width="20px" height="24px" left="-108px" top="-19px" />
             </div>
 
             <div
-              className={`absolute opacity-0 group-hover:opacity-100 ${pathname === '/diary' && 'opacity-100'} `}
+              className={`absolute opacity-0 ${pathname === '/diary' && 'opacity-100'} `}
             >
               <Icon width="20px" height="24px" left="-110px" top="-306px" />
             </div>
-            <p className="pl-10 group-hover:font-bold">댕댕일지</p>
+            <p className="pl-10">댕댕일지</p>
           </Link>
+          {/* 게시판 */}
           <Link
-            href={'/post'}
-            className={`sidebar__content group relative ${pathname === '/post' && 'sidebar__content-active'}`}
+            href={'/post/question'}
+            className={`sidebar__content group relative ${pathname.includes('/post') && 'sidebar__content-active'}`}
           >
             <div
-              className={`absolute group-hover:opacity-0 ${pathname === '/post' && 'opacity-0'}`}
+              className={`absolute ${pathname.includes('/post') && 'opacity-0'}`}
             >
               <Icon width="28px" height="16px" left="-144px" top="-25px" />
             </div>
 
             <div
-              className={`absolute opacity-0 group-hover:opacity-100 ${pathname === '/post' && 'opacity-100'} `}
+              className={`absolute opacity-0 ${pathname.includes('/post') && 'opacity-100'} `}
             >
               <Icon width="28px" height="16px" left="-146px" top="-312px" />
             </div>
-            <p className="pl-10 group-hover:font-bold">게시판</p>
+            <p className="pl-10">게시판</p>
           </Link>
+          {/* 가이드 */}
           <Link
             href={'/guide'}
             className={`sidebar__content group relative ${pathname === '/guide' && 'sidebar__content-active'}`}
           >
-            <div
-              className={`absolute group-hover:opacity-0 ${pathname === '/guide' && 'opacity-0'}`}
-            >
+            <div className={`absolute ${pathname === '/guide' && 'opacity-0'}`}>
               <Icon width="25px" height="26px" left="-186px" top="-20px" />
             </div>
 
             <div
-              className={`absolute opacity-0 group-hover:opacity-100 ${pathname === '/guide' && 'opacity-100'} `}
+              className={`absolute opacity-0 ${pathname === '/guide' && 'opacity-100'} `}
             >
               <Icon width="25px" height="26px" left="-197px" top="-309px" />
             </div>
-            <p className="pl-10 group-hover:font-bold">멍초보가이드</p>
+            <p className="pl-10">멍초보가이드</p>
           </Link>
         </div>
         <div className="absolute bottom-10 text-sm font-medium sm:text-[16px]">

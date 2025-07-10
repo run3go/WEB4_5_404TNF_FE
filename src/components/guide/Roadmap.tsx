@@ -22,63 +22,63 @@ export default function Roadmap() {
         />
 
         <ol className="text-center text-sm sm:text-base">
-          <li className="absolute bottom-[95%] left-[27%] sm:bottom-[91%] sm:left-[20%]">
+          <li className="absolute bottom-[95%] left-[27%] sm:bottom-[89%] sm:left-[20%]">
             <span className="relative mb-5 inline-block">1개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[95%] left-[45%] sm:bottom-[91%] sm:left-[34.5%]">
+          <li className="absolute bottom-[95%] left-[45%] sm:bottom-[89%] sm:left-[34.5%]">
             <div className="relative">
               <span className="relative mb-5 inline-block">2개월</span>
               <RoadmapPoint />
             </div>
           </li>
-          <li className="absolute bottom-[95%] left-[63%] sm:bottom-[91%] sm:left-[49%]">
+          <li className="absolute bottom-[95%] left-[63%] sm:bottom-[89%] sm:left-[49%]">
             <span className="relative mb-5 inline-block">3개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[64%] left-[69%] sm:bottom-[91%] sm:left-[63.5%]">
+          <li className="absolute bottom-[64%] left-[69%] sm:bottom-[89%] sm:left-[63.5%]">
             <span className="relative mb-5 inline-block">4개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[64%] left-[53%] sm:bottom-[91%] sm:left-[78%]">
+          <li className="absolute bottom-[64%] left-[53%] sm:bottom-[89%] sm:left-[78%]">
             <span className="relative mb-5 inline-block">5개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[64%] left-[37%] sm:bottom-[47%] sm:left-[71.5%]">
+          <li className="absolute bottom-[64%] left-[37%] sm:bottom-[46.6%] sm:left-[71.5%]">
             <span className="relative mb-5 inline-block">6개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[64%] left-[21%] sm:bottom-[47%] sm:left-[57%]">
+          <li className="absolute bottom-[64%] left-[21%] sm:bottom-[46.6%] sm:left-[57%]">
             <span className="relative mb-5 inline-block">7개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[33%] left-[21%] sm:bottom-[47%] sm:left-[42.5%]">
+          <li className="absolute bottom-[33%] left-[21%] sm:bottom-[46.6%] sm:left-[42.5%]">
             <span className="relative mb-5 inline-block">8개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[33%] left-[37%] sm:bottom-[47%] sm:left-[27.5%]">
+          <li className="absolute bottom-[33%] left-[37%] sm:bottom-[46.6%] sm:left-[27.5%]">
             <span className="relative mb-5 inline-block">9개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[33%] left-[53%] sm:bottom-[3.2%] sm:left-[19.1%]">
+          <li className="absolute bottom-[33%] left-[53%] sm:bottom-[4.2%] sm:left-[19.1%]">
             <span className="relative mb-5 inline-block">10개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[33%] left-[69%] sm:bottom-[3.2%] sm:left-[33.6%]">
+          <li className="absolute bottom-[33%] left-[69%] sm:bottom-[4.2%] sm:left-[33.6%]">
             <span className="relative mb-5 inline-block font-extrabold">
               11개월
             </span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[2.5%] left-[63%] sm:bottom-[3.2%] sm:left-[48.1%]">
+          <li className="absolute bottom-[2.5%] left-[63%] sm:bottom-[4.2%] sm:left-[48.1%]">
             <span className="relative mb-5 inline-block">12개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[2.5%] left-[45%] sm:bottom-[3.2%] sm:left-[62.6%]">
+          <li className="absolute bottom-[2.5%] left-[45%] sm:bottom-[4.2%] sm:left-[62.6%]">
             <span className="relative mb-5 inline-block">13개월</span>
             <RoadmapPoint />
           </li>
-          <li className="absolute bottom-[2.5%] left-[27%] sm:bottom-[3.2%] sm:left-[77.1%]">
+          <li className="absolute bottom-[2.5%] left-[27%] sm:bottom-[4.2%] sm:left-[77.1%]">
             <span className="relative mb-5 inline-block">14개월</span>
             <RoadmapPoint />
           </li>
