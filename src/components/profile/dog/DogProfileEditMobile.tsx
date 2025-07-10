@@ -35,16 +35,13 @@ export default function DogProfileEditMobile() {
     { value: 'MIX', label: '믹스견' },
   ];
 
-  const vaccineTypes = [
-    { value: 'DHPPL', label: 'DHPPL (종합백신)' },
-    { value: 'CORONAVIRUS', label: '코로나' },
-    { value: 'KENNEL_COUGH', label: '켄넬코프' },
-    { value: 'RABIES', label: '광견병' },
-    { value: 'INFLUENZA', label: '인플루엔자' },
-  ];
   return (
     <main className="w-screen">
-      <MobileTitle title="반려견 등록" />
+      <MobileTitle
+        title="반려견 등록"
+        onClick={() => {}}
+        closePage={() => {}}
+      />
       <div className="relative h-screen bg-[var(--color-background)] px-6 py-9 text-sm">
         <form className="flex flex-col" action="">
           {/* 사진 선택 */}
@@ -211,99 +208,6 @@ export default function DogProfileEditMobile() {
               </div>
             </div>
           </div>
-          <div className="mt-8 mb-50 w-full self-start">
-            <span className="mr-5">예방접종</span>
-            <button className="mb-4 text-[15px] text-[var(--color-primary-500)]">
-              + 추가
-            </button>
-            <div>
-              <div className="flex w-full border-b border-[var(--color-primary-300)] py-[10px] text-xs">
-                <span className="basis-3/7">백신이름</span>
-                <span className="basis-4/7">접종일</span>
-                <span className="basis-2/7">차수</span>
-              </div>
-            </div>
-            <ul className="mt-2 flex w-full flex-col gap-2 text-xs">
-              <li className="flex w-full items-center gap-2">
-                <div className="basis-3/7">
-                  <SelectBox
-                    options={vaccineTypes}
-                    width="full"
-                    hasBorder
-                    placeholder="백신이름"
-                  />
-                </div>
-                <div className="relative basis-4/7">
-                  <input
-                    id="name"
-                    className="profile-input-style w-full"
-                    type="text"
-                    placeholder="yyyy / mm / dd"
-                  />
-                  <Icon
-                    className="absolute top-1/2 right-4 -translate-y-1/2 scale-70"
-                    width="20px"
-                    height="20px"
-                    left="-188px"
-                    top="-123px"
-                  />
-                </div>
-                <div className="flex basis-3/14 items-center">
-                  <input
-                    className="profile-input-style mr-2 w-[29px] text-center"
-                    type="text"
-                  />
-                  차
-                </div>
-                <div className="basis-1/14">
-                  <div className="flex h-4 w-4 items-center justify-center rounded-full bg-[var(--color-primary-300)]">
-                    <div className="h-[1px] w-[6px] bg-[var(--color-black)]" />
-                  </div>
-                </div>
-              </li>
-              <li className="flex w-full items-center gap-2">
-                <div className="basis-3/7">
-                  <SelectBox
-                    options={vaccineTypes}
-                    width="full"
-                    hasBorder
-                    placeholder="백신이름"
-                  />
-                </div>
-                <div className="relative basis-4/7">
-                  <input
-                    id="name"
-                    className="profile-input-style w-full"
-                    type="text"
-                    placeholder="yyyy / mm / dd"
-                  />
-                  <Icon
-                    className="absolute top-1/2 right-4 -translate-y-1/2 scale-70"
-                    width="20px"
-                    height="20px"
-                    left="-188px"
-                    top="-123px"
-                  />
-                </div>
-                <div className="flex basis-3/14 items-center">
-                  <input
-                    className="profile-input-style mr-2 w-[29px] text-center"
-                    type="text"
-                  />
-                  차
-                </div>
-                <div className="basis-1/14">
-                  <div className="flex h-4 w-4 items-center justify-center rounded-full bg-[var(--color-primary-300)]">
-                    <div className="h-[1px] w-[6px] bg-[var(--color-black)]" />
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div className="h-15" />
-          <button className="fixed right-0 bottom-0 left-0 bg-[var(--color-primary-300)] py-5">
-            수정하기
-          </button>
         </form>
       </div>
     </main>
