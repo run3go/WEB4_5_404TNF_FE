@@ -30,7 +30,7 @@ export default function SignupForm() {
       nickname: string;
     }) => await register(name, nickname, email, password),
     onSuccess: (response) => {
-      if (response.user) {
+      if (response.userId) {
         alert('회원가입에 성공했습니다.');
         router.push('/login');
       }
