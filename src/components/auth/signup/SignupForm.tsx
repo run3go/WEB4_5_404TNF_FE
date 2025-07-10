@@ -115,7 +115,7 @@ export default function SignupForm() {
           value={formData.email}
           onChange={handleChange}
         />
-        {!isEmailVerification && (
+        {isEmailVerification && (
           <div className="flex w-full items-center gap-4">
             <input
               name="verifycationCode"
