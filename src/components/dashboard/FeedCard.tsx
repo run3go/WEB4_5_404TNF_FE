@@ -1,19 +1,18 @@
-import circleChart from '@/assets/images/circle-chart.svg';
-import Image from 'next/image';
 import Card from '../common/Card';
+import DonutGraph from './graph/DonutGraph';
 
 export default function FeedCard() {
   return (
-    <Card className="card__hover flex h-[322px] w-[255px] flex-col font-medium">
-      <div className="mb-5 flex flex-col gap-3">
-        <span>지난주 평균 식사량 (일)</span>
+    <Card className="flex w-full max-w-[255px] flex-col text-sm font-medium sm:text-base">
+      <div className="mb-5 flex flex-col gap-2">
+        <span className="text-xs sm:text-base">지난주 평균 식사량 (일)</span>
         <span>4 컵</span>
       </div>
-      <div className="flex flex-col gap-3">
-        <span>오늘의 식사기록</span>
+      <div className="mb-4 flex flex-col gap-2">
+        <span className="text-xs sm:text-base">오늘의 식사기록</span>
         <span>3 컵</span>
       </div>
-      <Image className="mt-1 self-center" src={circleChart} alt="원형차트" />
+      <DonutGraph />
     </Card>
   );
 }

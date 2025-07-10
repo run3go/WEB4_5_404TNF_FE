@@ -17,6 +17,8 @@
 
   /* Etc */
   --color-red: #ed4848;
+  --color-red-300: #f28484;
+  --color-red-100: #ebcfcf;
 
   --color-blue-300: #6ebced;
   --color-blue-100: #c7dee9;
@@ -27,6 +29,7 @@
 }
 
 body {
+  font-weight: 500;
   font-family: 'GmarketSansMedium';
   font-weight: 500;
   color: var(--color-black);
@@ -35,6 +38,10 @@ body {
 
 .card__hover {
   @apply cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-102 hover:shadow-[0_10px_15px_rgba(0,0,0,0.3)];
+}
+
+.input-style {
+  @apply rounded-[12px] border border-[var(--color-input-border)];
 }
 
 .profile-input-style {
@@ -49,12 +56,24 @@ body {
   @apply mr-3 hidden text-[var(--color-grey)] sm:inline;
 }
 
+.auth__input {
+  @apply mt-3 h-[40px] rounded-[10px] border border-[#2B2926]/50 py-[13px] pl-4 text-[14px] font-medium placeholder:text-[#909090] focus:outline-none;
+}
+
 .sidebar__content {
-  @apply flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 hover:border-r-8 hover:border-[#FF9526] hover:bg-[#FFDBAB];
+  @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:bg-[#FFDBAB] sm:w-[220px] sm:py-3 sm:pl-6;
+}
+
+.sidebar__content-active {
+  @apply border-r-8 bg-[#FFDBAB] text-[#FF8200];
 }
 
 .board__btn {
-  @apply flex h-[64px] w-[152px] cursor-pointer items-center justify-center gap-[7px] bg-[var(--color-pink-100)] hover:bg-[var(--color-pink-300)];
+  @apply flex h-[36px] w-[100px] cursor-pointer items-center justify-center gap-1 bg-[var(--color-pink-100)] hover:bg-[var(--color-pink-300)] sm:h-[64px] sm:w-[152px] sm:gap-[7px];
+}
+
+.guide-card {
+  @apply flex min-w-[196px] basis-[calc(50%-10px)] cursor-pointer flex-col items-start gap-[2px] border border-[var(--color-primary-500)] bg-[#FFF5E9] px-2 py-2 text-xs sm:px-4 sm:py-2 sm:text-base;
 }
 
 .scrollbar-hidden {
@@ -62,4 +81,23 @@ body {
 }
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
+}
+
+.calendar-circle {
+  position: relative;
+  z-index: 1;
+}
+
+.calendar-circle::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 23px;
+  height: 23px;
+  background: var(--color-primary-500);
+  border-radius: 100%;
+  z-index: -1;
 }

@@ -13,7 +13,7 @@ export default function MobileTitle({
 }) {
   return (
     <>
-      <Card className="fixed z-100 flex h-18 w-screen items-center justify-between rounded-none bg-[var(--color-background)] px-4">
+      <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-between rounded-none bg-[var(--color-background)] px-4 sm:hidden">
         <Icon
           onClick={closePage}
           width="12px"

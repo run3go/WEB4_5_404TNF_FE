@@ -1,6 +1,7 @@
 import '@/assets/styles/global.css';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/common/Sidebar';
+import TanstackProvider from '@/providers/TanstackProvider';
 
 export const metadata = {
   title: 'Next.js',
@@ -16,11 +17,13 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="flex min-h-screen w-screen bg-[url('/images/bg.png')] bg-cover">
-          <Sidebar />
-          <div className="sm:mr-[56px] sm:grow-1 sm:pt-[60px] sm:pb-[60px] sm:pl-[39px]">
-            <Header />
-            {children}
-          </div>
+          <TanstackProvider>
+            <Sidebar />
+            <div className="sm:mr-[56px] sm:grow-1 sm:pl-[39px]">
+              <Header />
+              {children}
+            </div>
+          </TanstackProvider>
         </div>
       </body>
     </html>
