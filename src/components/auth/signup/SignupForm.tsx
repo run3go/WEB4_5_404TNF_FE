@@ -1,10 +1,71 @@
 'use client';
 
+import { register } from '@/api/api';
 import Icon from '@/components/common/Icon';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function SignupForm() {
+  const router = useRouter();
+  const [isEmailVerification, setIsEmailVerification] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    nickname: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const mutation = useMutation({
+    mutationFn: async ({
+      email,
+      password,
+      name,
+      nickname,
+    }: {
+      email: string;
+      password: string;
+      name: string;
+      nickname: string;
+    }) => await register(name, nickname, email, password),
+    onSuccess: (response) => {
+      if (response.userId) {
+        alert('회원가입에 성공했습니다.');
+        router.push('/login');
+      }
+    },
+    onError(err) {
+      if (err) {
+        alert('회원가입에 실패했습니다.');
+      }
+    },
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSignup = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log(formData);
+    mutation.mutate({
+      name: formData.name,
+      nickname: formData.nickname,
+      email: formData.email,
+      password: formData.password,
+    });
+  };
+
   return (
-    <form className="flex flex-col justify-center gap-7 p-6">
+    <form
+      className="flex flex-col justify-center gap-7 p-6"
+      onSubmit={handleSignup}
+    >
       <div className="flex flex-col">
         <label
           htmlFor="name"
@@ -18,12 +79,14 @@ export default function SignupForm() {
           type="text"
           placeholder="이름을 입력해주세요"
           className="auth__input"
+          value={formData.name}
+          onChange={handleChange}
         />
       </div>
       <div className="flex flex-col">
         <div className="flex justify-between">
           <label
-            htmlFor="name"
+            htmlFor="nickname"
             className="text-[14px] font-medium text-[#909090]"
           >
             닉네임
@@ -41,12 +104,14 @@ export default function SignupForm() {
           type="text"
           placeholder="닉네임을 입력해주세요"
           className="auth__input"
+          value={formData.nickname}
+          onChange={handleChange}
         />
       </div>
       <div className="flex flex-col">
         <div className="flex justify-between">
           <label
-            htmlFor="name"
+            htmlFor="email"
             className="text-[14px] font-medium text-[#909090]"
           >
             이메일
@@ -54,6 +119,7 @@ export default function SignupForm() {
           <button
             className="text-[14px] font-medium text-[#FF9526]"
             type="button"
+            onClick={() => setIsEmailVerification(true)}
           >
             이메일 인증
           </button>
@@ -64,18 +130,22 @@ export default function SignupForm() {
           type="email"
           placeholder="example@example.com"
           className="auth__input"
+          value={formData.email}
+          onChange={handleChange}
         />
-        <input
-          name="email"
-          type="email"
-          placeholder="인증코드를 입력해주세요"
-          className="auth__input"
-        />
+        {isEmailVerification && (
+          <input
+            name="email"
+            type="email"
+            placeholder="인증코드를 입력해주세요"
+            className="auth__input"
+          />
+        )}
       </div>
 
       <div className="flex flex-col">
         <label
-          htmlFor="name"
+          htmlFor="password"
           className="text-[14px] font-medium text-[#909090]"
         >
           비밀번호
@@ -86,6 +156,8 @@ export default function SignupForm() {
           type="password"
           placeholder="영문/숫자/특수문자 혼합 8~20자"
           className="auth__input"
+          value={formData.password}
+          onChange={handleChange}
         />
         <input
           id="confirmPassword"
@@ -93,10 +165,12 @@ export default function SignupForm() {
           type="password"
           placeholder="비밀번호를 한 번 더 입력해주세요"
           className="auth__input"
+          value={formData.confirmPassword}
+          onChange={handleChange}
         />
       </div>
 
-      <button className="h-[40px] rounded-[12px] bg-[#2B2926]/20 py-[10px]">
+      <button className="h-[40px] cursor-pointer rounded-[12px] bg-[#2B2926]/20 py-[10px]">
         <div className="flex items-center justify-center gap-2">
           <Icon width="20px" height="18px" left="-253px" top="-311px" />
           <p className="text-[14px] font-medium text-[#909090]">
