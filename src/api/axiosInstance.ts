@@ -27,14 +27,16 @@ axiosInstance.interceptors.response.use(
     if (error.response && error.response.status === 401 && !retry) {
       retry = true;
       try {
+        //아직 refresh할 주소 없음, 수정 필요
         const res = await axiosInstance.post('/auth/refresh');
+
         if (!res.data.accessToken) throw new Error('Access token is missing');
         retry = false;
         localStorage.setItem('accessToken', res.data.accessToken);
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         localStorage.removeItem('accessToken');
-        await axiosInstance.post('/auth/logout');
+        await axiosInstance.post('/api/auth/v1/login');
         return Promise.reject(refreshError);
       }
     }
