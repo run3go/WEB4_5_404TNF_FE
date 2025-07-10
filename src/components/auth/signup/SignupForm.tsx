@@ -1,6 +1,6 @@
 'use client';
 
-import { register } from '@/api/api';
+import { emailVerify, register } from '@/api/api';
 import Icon from '@/components/common/Icon';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -15,9 +15,10 @@ export default function SignupForm() {
     email: '',
     password: '',
     confirmPassword: '',
+    verifycationCode: '',
   });
 
-  const mutation = useMutation({
+  const sendEmailVerificationMutation = useMutation({
     mutationFn: async ({
       email,
       password,
@@ -29,9 +30,28 @@ export default function SignupForm() {
       name: string;
       nickname: string;
     }) => await register(name, nickname, email, password),
+    onSuccess: () => {
+      alert('회원가입 인증 메일이 발송되었습니다. 이메일을 확인해주세요.');
+      setIsEmailVerification(true);
+    },
+    onError(err) {
+      if (err) {
+        alert('회원가입에 실패했습니다.');
+      }
+    },
+  });
+
+  const singupMutation = useMutation({
+    mutationFn: async ({
+      email,
+      verifycationCode,
+    }: {
+      email: string;
+      verifycationCode: string;
+    }) => await emailVerify(email, verifycationCode),
     onSuccess: (response) => {
-      if (response.userId) {
-        alert('회원가입에 성공했습니다.');
+      if (response) {
+        alert('회원가입 성공.');
         router.push('/login');
       }
     },
@@ -51,14 +71,11 @@ export default function SignupForm() {
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log(formData);
-    mutation.mutate({
-      name: formData.name,
-      nickname: formData.nickname,
+    singupMutation.mutate({
       email: formData.email,
-      password: formData.password,
+      verifycationCode: formData.verifycationCode,
     });
+    console.log(formData);
   };
 
   return (
@@ -119,7 +136,14 @@ export default function SignupForm() {
           <button
             className="text-[14px] font-medium text-[#FF9526]"
             type="button"
-            onClick={() => setIsEmailVerification(true)}
+            onClick={() => {
+              sendEmailVerificationMutation.mutate({
+                name: formData.name,
+                nickname: formData.nickname,
+                email: formData.email,
+                password: formData.password,
+              });
+            }}
           >
             이메일 인증
           </button>
@@ -135,10 +159,12 @@ export default function SignupForm() {
         />
         {isEmailVerification && (
           <input
-            name="email"
-            type="email"
+            name="verifycationCode"
+            type="text"
             placeholder="인증코드를 입력해주세요"
             className="auth__input"
+            value={formData.verifycationCode}
+            onChange={handleChange}
           />
         )}
       </div>
