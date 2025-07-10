@@ -38,13 +38,15 @@ export default async function Dashboard() {
   ];
 
   return (
-    <main className="h-full w-screen rounded-[50px] bg-[var(--color-background)] px-[26px] py-6 sm:h-200 sm:w-full sm:px-12 sm:py-7">
+    <main className="relative h-full w-screen rounded-[50px] bg-[var(--color-background)] px-[26px] py-6 sm:h-200 sm:w-full sm:px-12 sm:py-7">
       <div className="flex items-center justify-between sm:mb-7">
         <h2 className="hidden text-xl font-bold sm:block">
           마음이는 평균보다 3kg 무거워요! 다이어트가 필요하니 간식을 줄여보는 건
           어떨까요?
         </h2>
-        <SelectBox options={options} width="110px" footstep />
+      </div>
+      <div className="absolute top-7 right-[65px] hidden self-end text-base sm:block">
+        <SelectBox options={options} width="105px" footstep />
       </div>
       <div className="flex flex-wrap gap-5 pb-7 sm:gap-8 sm:pb-0">
         <div className="relative w-full text-sm font-medium sm:hidden sm:text-xl">

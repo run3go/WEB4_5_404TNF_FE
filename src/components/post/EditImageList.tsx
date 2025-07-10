@@ -49,11 +49,12 @@ export default function ImageList() {
 
         <Swiper
           modules={[Navigation]}
-          spaceBetween={24}
+          spaceBetween={4}
           navigation={{
             prevEl: prevRef.current,
             nextEl: nextRef.current,
           }}
+          slidesPerView="auto"
           onBeforeInit={(swiper) => {
             if (
               typeof swiper.params.navigation === 'object' &&
@@ -63,25 +64,22 @@ export default function ImageList() {
               swiper.params.navigation.nextEl = nextRef.current;
             }
           }}
-          breakpoints={{
-            380: {
-              slidesPerView: 1,
-            },
-            800: {
-              slidesPerView: 3.6,
-            },
-          }}
         >
           {IMAGES.map((img) => (
-            <SwiperSlide key={img.id}>
-              <Image
-                className="rounded-[30px]"
-                src={img.image}
-                alt="강아지"
-                width={300}
-                height={300}
-                priority
-              />
+            <SwiperSlide key={img.id} className="!w-[88px]">
+              <div className="relative flex h-[88px] w-[88px] items-end">
+                <Image
+                  className="rounded-[10px]"
+                  src={img.image}
+                  alt="강아지"
+                  width={80}
+                  height={80}
+                  priority
+                />
+                <div className="absolute top-0 right-0 flex h-[20px] w-[20px] cursor-pointer items-center justify-center rounded-full bg-[#FCC389]">
+                  <Icon width="12px" height="12px" left="-72px" top="-126px" />
+                </div>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>

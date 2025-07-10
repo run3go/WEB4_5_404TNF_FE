@@ -1,3 +1,5 @@
+import { twMerge } from 'tailwind-merge';
+
 export default function SingleInput({
   title,
   id,
@@ -6,7 +8,12 @@ export default function SingleInput({
   id: string;
 }) {
   return (
-    <div className="text-sm sm:text-base">
+    <div
+      className={twMerge(
+        'text-sm sm:text-base',
+        id === 'weight' && 'mb-3 sm:mb-5',
+      )}
+    >
       <label
         className="inline-block w-[78px] text-[var(--color-primary-500)]"
         htmlFor={id}
