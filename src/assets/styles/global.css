@@ -60,6 +60,10 @@ body {
   @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:border-r-8 hover:border-[#FF9526] hover:bg-[#FFDBAB] hover:text-[#FF8200] sm:w-[220px] sm:py-3 sm:pl-6;
 }
 
+.sidebar__content-active {
+  @apply border-r-8 bg-[#FFDBAB] text-[#FF8200];
+}
+
 .board__btn {
   @apply flex h-[64px] w-[152px] cursor-pointer items-center justify-center gap-[7px] bg-[var(--color-pink-100)] hover:bg-[var(--color-pink-300)];
 }
