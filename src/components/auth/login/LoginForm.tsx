@@ -39,7 +39,7 @@ export default function LoginForm() {
   return (
     <>
       <form
-        className="mt-12 flex flex-col justify-center gap-5 p-6"
+        className="mt-12 flex flex-col justify-center gap-5 p-6 sm:mt-14 sm:px-[20vw]"
         onSubmit={handleLogin}
       >
         <input
@@ -60,19 +60,19 @@ export default function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="mt-4 h-[40px] rounded-[12px] bg-[#FFDBAB] py-[10px]">
+        <button className="mt-4 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] sm:mt-6 sm:h-[56px]">
           <div className="flex items-center justify-center gap-2">
             <Icon width="20px" height="18px" left="-297px" top="-312px" />
-            <p className="text-[14px] font-medium text-[#2B2926]">
+            <p className="text-[14px] font-medium text-[#2B2926] sm:text-[18px]">
               멍멍일지 로그인
             </p>
           </div>
         </button>
 
-        <div className="-mt-1 flex justify-end gap-1.5 text-[14px] font-medium">
+        <div className="-mt-1 flex justify-end gap-1.5 text-[14px] font-medium sm:text-[16px]">
           <p>계졍이 없으신가요? </p>
           <p
-            className="border-b text-[#FF9526]"
+            className="cursor-pointer border-b text-[#FF9526]"
             onClick={() => route.push('signup')}
           >
             회원가입
@@ -81,26 +81,26 @@ export default function LoginForm() {
 
         <div className="mt-16 flex items-center">
           <div className="h-px flex-1 bg-[#2B2926]" />
-          <span className="text-[14px]] px-4 font-medium text-[#2B2926]">
+          <span className="px-4 text-[14px] font-medium text-[#2B2926] sm:px-10 sm:text-[18px]">
             또는
           </span>
           <div className="h-px flex-1 bg-[#2B2926]" />
         </div>
 
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center sm:mt-7 sm:gap-14">
           <Icon
             width="60px"
             height="60px"
             left="-16px"
             top="-361px"
-            className="scale-54"
+            className="scale-54 cursor-pointer sm:scale-100"
           />
           <Icon
             width="54px"
             height="55px"
             left="-94px"
             top="-361px"
-            className="scale-60"
+            className="scale-60 cursor-pointer sm:scale-100"
           />
         </div>
       </form>
