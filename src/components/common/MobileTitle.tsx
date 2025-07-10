@@ -15,7 +15,6 @@ export default function MobileTitle({ title }: { title: string }) {
         <h1 className="leading-[1.2]">{title}</h1>
       </Card>
       {/* 헤더 아래 공간 */}
-      <div className="h-18 w-screen sm:hidden" />
     </>
   );
 }

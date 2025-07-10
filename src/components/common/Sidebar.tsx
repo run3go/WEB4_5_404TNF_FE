@@ -8,7 +8,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   return (
     <>
-      <div className="fixed z-200 flex h-full w-60 flex-col items-center bg-[var(--color-primary-100)] p-8 text-[#2B2926] sm:relative sm:my-12 sm:ml-14 sm:h-[calc(100vh-96px)] sm:w-[220px] sm:rounded-[50px] sm:bg-[#FFFDF7]">
+      <div className="fixed z-200 hidden h-full w-60 flex-col items-center bg-[var(--color-primary-100)] p-8 text-[#2B2926] sm:relative sm:my-12 sm:ml-14 sm:flex sm:h-[calc(100vh-96px)] sm:w-[220px] sm:rounded-[50px] sm:bg-[#FFFDF7]">
         <Image
           className="hidden sm:block"
           src="/images/logo.png"
