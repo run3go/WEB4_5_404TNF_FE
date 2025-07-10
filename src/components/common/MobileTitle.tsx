@@ -1,21 +1,34 @@
+'use client';
 import Card from './Card';
 import Icon from './Icon';
 
-export default function MobileTitle({ title }: { title: string }) {
+export default function MobileTitle({
+  title,
+  onClick,
+  closePage,
+}: {
+  title: string;
+  onClick: () => void;
+  closePage: () => void;
+}) {
   return (
     <>
-      <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-center rounded-none bg-[var(--color-background)] px-4 sm:hidden">
+      <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-between rounded-none bg-[var(--color-background)] px-4 sm:hidden">
         <Icon
-          className="absolute left-6"
+          onClick={closePage}
           width="12px"
           height="20px"
           left="-107px"
           top="-164px"
         />
         <h1 className="leading-[1.2]">{title}</h1>
+        <span
+          onClick={onClick}
+          className="leading-[1.2] text-[var(--color-primary-500)]"
+        >
+          저장
+        </span>
       </Card>
-      {/* 헤더 아래 공간 */}
-      <div className="h-18 w-screen sm:hidden" />
     </>
   );
 }
