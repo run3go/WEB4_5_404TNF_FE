@@ -1,5 +1,4 @@
 'use client';
-import GuideList from '@/components/guide/GuideList';
 import Roadmap from '@/components/guide/Roadmap';
 
 export default function Guide() {
@@ -24,7 +23,7 @@ export default function Guide() {
         ※ 카드를 클릭 시, 멍냥보감의 케어가이드 블로그로 이동합니다
       </span>
       <Roadmap />
-      <GuideList />
+      {/* <GuideList /> */}
     </main>
   );
 }
