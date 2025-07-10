@@ -63,6 +63,7 @@ export default function DogProfileCard() {
       </div>
       {/* 반려견 정보 등록/수정 (스크롤 막기 기능 구현 필요) */}
       {/* {portalElement && createPortal(<DogProfileEdit />, portalElement)} */}
+      {/* {portalElement && createPortal(<VaccineModal />, portalElement)} */}
     </Card>
   );
 }
