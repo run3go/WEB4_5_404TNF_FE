@@ -41,7 +41,7 @@ body {
 }
 
 .input-style {
-  @apply rounded-[12px] border border-[var(--color-input-border)];
+  @apply rounded-[12px] border border-[var(--color-input-border)] leading-[1.2];
 }
 
 .profile-input-style {
@@ -100,4 +100,18 @@ body {
   background: var(--color-primary-500);
   border-radius: 100%;
   z-index: -1;
+}
+
+.has-schedule::after {
+  content: '';
+  position: absolute;
+  display: block;
+  bottom: -7px;
+  left: 50%;
+  translate: -50%;
+  width: 16px;
+  height: 14px;
+  background-image: url('/images/sprite.svg');
+  background-position: -337px -126px;
+  background-repeat: no-repeat;
 }
