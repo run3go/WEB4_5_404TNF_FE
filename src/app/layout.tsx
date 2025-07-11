@@ -18,12 +18,14 @@ export default function RootLayout({
       <body>
         <div className="flex min-h-screen w-screen bg-[url('/images/bg.png')] bg-cover">
           <TanstackProvider>
-            <Sidebar />
+            <div className="h-screen">
+              <Sidebar />
+            </div>
 
             {/* 56 , 39 */}
-            <div className="mt-[5.2vh] h-[calc(89.4vh)] bg-amber-200 sm:mr-[3vw] sm:grow-1 sm:pl-[2vw]">
+            <div className="h-full bg-amber-200 sm:mt-[5.2vh] sm:mr-[3vw] sm:mb-0 sm:h-[calc(89.4vh)] sm:grow-1 sm:pl-[2vw]">
               <Header />
-              <div className="scrollbar-hidden h-[calc(86.8vh-36px)] w-full overflow-y-auto bg-amber-500">
+              <div className="scrollbar-hidden h-[calc(100vh-72px)] w-full overflow-y-auto bg-amber-500 sm:h-[calc(86.8vh-36px)]">
                 {children}
               </div>
             </div>
