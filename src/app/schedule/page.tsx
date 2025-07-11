@@ -3,6 +3,7 @@ import alternative from '@/assets/images/alternative-image.svg';
 import Card from '@/components/common/Card';
 import Icon from '@/components/common/Icon';
 import CalendarNav from '@/components/diary/CalendarNav';
+import CustomCalendar from '@/components/schedule/CustomCalendar';
 import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -15,9 +16,10 @@ export default function Schedule() {
   return (
     <main
       ref={mainRef}
-      className="h-[calc(100%-72px)] w-screen bg-[var(--color-background)] px-6 py-8"
+      className="h-[calc(100%-72px)] w-screen bg-[var(--color-background)] px-6 py-8 sm:h-200 sm:w-full sm:px-12 sm:pt-9 sm:pb-12"
     >
-      <div className="aspect-square w-full rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)]">
+      <CustomCalendar />
+      <div className="aspect-square w-full rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] sm:hidden">
         <DayPicker
           mode="single"
           selected={selected}
@@ -37,7 +39,7 @@ export default function Schedule() {
             ],
           }}
           modifiersClassNames={{
-            hasSchedule: 'has-schedule relative',
+            hasSchedule: 'sm:hidden has-schedule relative',
           }}
           classNames={{
             month_caption:
@@ -56,7 +58,7 @@ export default function Schedule() {
           }}
         />
       </div>
-      <Card className="mt-8 max-h-70 min-h-31 w-full text-sm">
+      <Card className="mt-8 max-h-70 min-h-31 w-full text-sm sm:hidden">
         <div className="mb-3 flex justify-between text-[var(--color-grey)]">
           <span>일정 목록</span>
           <span>2025. 7. 5</span>
