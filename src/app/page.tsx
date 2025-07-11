@@ -1,7 +1,7 @@
 export default async function Main() {
   return (
     <>
-      <h1>Main</h1>
+      <div className="ml-24 h-[1000px] w-22 bg-amber-900"></div>
     </>
   );
 }
