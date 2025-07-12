@@ -34,14 +34,16 @@ export default function AdminTableContainer() {
         </h1>
       </div>
 
-      {/* List 검색 */}
-      <div className="mt-10 mb-6 flex">
-        <SearchBar />
-      </div>
+      <div className="mt-10 flex justify-center">
+        <div>
+          {/* List 검색 */}
+          <div className="mb-6 w-76">
+            <SearchBar />
+          </div>
 
-      {/* 목록(List) */}
-      <div className="flex justify-center">
-        <AdminTable type={active} />
+          {/* 목록(List) */}
+          <AdminTable type={active} />
+        </div>
       </div>
 
       {/* 페이지네이션 */}

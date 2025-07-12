@@ -84,7 +84,7 @@ export default function AdminTable({ type }: { type: string }) {
           ) : (
             <tr className="h-10 border-b border-[var(--color-black)]">
               <th className="w-15">No</th>
-              <th onClick={() => handleSort('reporter')} className="w-38">
+              <th onClick={() => handleSort('reporter')} className="w-55">
                 <div className="admin-th-div">
                   신고자
                   <SortArrow
@@ -102,13 +102,13 @@ export default function AdminTable({ type }: { type: string }) {
                   />
                 </div>
               </th>
-              <th onClick={() => handleSort('subject')} className="w-38">
+              <th onClick={() => handleSort('subject')} className="w-55">
                 <div className="admin-th-div">
                   대상자
                   <SortArrow active={sortKey === 'subject'} order={sortOrder} />
                 </div>
               </th>
-              <th onClick={() => handleSort('reportedAt')} className="w-47.5">
+              <th onClick={() => handleSort('reportedAt')} className="w-46">
                 <div className="admin-th-div">
                   접수일
                   <SortArrow
@@ -141,7 +141,7 @@ export default function AdminTable({ type }: { type: string }) {
               >
                 <td className="text-center">{index + 1}</td>
                 <td>user1@naver.com</td>
-                <td>유저1</td>
+                <td>유저닉네임최대열글자</td>
                 <td className="text-center">11</td>
                 <td className="text-center">10</td>
                 <td>2025.04.29</td>

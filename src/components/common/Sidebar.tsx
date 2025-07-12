@@ -136,7 +136,7 @@ export default function Sidebar() {
             {/* 관리자 */}
             <Link
               href={'/admin'}
-              className={`sidebar__content group relative ${pathname === '/admin' && 'sidebar__content-active'}`}
+              className={`sidebar__content group relative ${pathname.startsWith('/admin') && 'sidebar__content-active'}`}
             >
               <div
                 className={`absolute ${pathname === '/admin' && 'opacity-0'}`}
@@ -145,7 +145,7 @@ export default function Sidebar() {
               </div>
 
               <div
-                className={`absolute opacity-0 ${pathname === '/admin' && 'opacity-100'} `}
+                className={`absolute opacity-0 ${pathname.startsWith('/admin') && 'opacity-100'} `}
               >
                 <Icon width="24px" height="26px" left="-382px" top="-20px" />
               </div>
