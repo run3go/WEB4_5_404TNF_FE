@@ -2,12 +2,11 @@ import { AxiosError } from 'axios';
 import { axiosInstance } from './axiosInstance';
 
 interface ErrorResponse {
-  code: string;
-  message: string;
+  status: number;
+  statusText: string;
+  data: any;
 }
 
-//현재는 회원가입 폼 제출 -> 이메일 인증 -> userId 응답
-// 이메일 인증을 뺄 거면 code를 받아오게 수정해야 함, 성공시 code: 'OK'
 export const register = async (
   name: string,
   nickname: string,
@@ -15,14 +14,13 @@ export const register = async (
   password: string,
 ) => {
   try {
-    const { data: userId }: { data: { userId: string } } =
-      await axiosInstance.post('/api/auth/v1/register', {
-        name,
-        nickname,
-        email,
-        password,
-      });
-    return userId;
+    const { data } = await axiosInstance.post('/api/auth/v1/register', {
+      name,
+      nickname,
+      email,
+      password,
+    });
+    return data;
   } catch (err) {
     if ((err as AxiosError).isAxiosError) {
       const axiosErr = err as AxiosError<ErrorResponse>;

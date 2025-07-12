@@ -5,7 +5,7 @@ import Icon from './Icon';
 export default function Header() {
   return (
     <>
-      <div className="my-6 hidden items-center justify-end gap-7 pr-[100px] sm:flex">
+      <div className="mb-[2.6vh] hidden items-center justify-end gap-7 pr-[5.23vw] sm:flex">
         <Icon
           width="28px"
           height="28px"
