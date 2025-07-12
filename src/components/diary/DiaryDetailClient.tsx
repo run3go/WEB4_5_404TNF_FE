@@ -20,7 +20,7 @@ export default function DiaryDetailClient({ logId }: { logId: string }) {
   ];
 
   return (
-    <main className="flex-colpt-6 flex pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-9 sm:pb-0">
+    <main className="flex-colpt-6 flex pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-9 sm:pb-0">
       <MobileTitle title="멍멍일지" closePage={() => {}} />
       <div className="relative flex h-full w-full flex-col gap-6 px-4 sm:px-19">
         <div className="flex w-full justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
