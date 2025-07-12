@@ -26,7 +26,7 @@ export default function CustomCalendar() {
   );
   return (
     <div className="hidden w-full flex-col items-center sm:flex">
-      <div className="mb-12 flex items-center gap-14">
+      <div className="mb-8 flex items-center gap-14">
         <Icon
           className="cursor-pointer"
           width="14px"
@@ -34,7 +34,7 @@ export default function CustomCalendar() {
           left="-108px"
           top="-122px"
         />
-        <span className="text-[32px] leading-[1.2]">7월</span>
+        <span className="text-[24px] leading-[1.2]">7월</span>
         <Icon
           className="cursor-pointer"
           width="14px"
@@ -47,7 +47,7 @@ export default function CustomCalendar() {
         {['일', '월', '화', '수', '목', '금', '토'].map((week) => (
           <div
             key={week}
-            className="basis-1/7 border-b-3 border-[var(--color-primary-300)] pb-6 text-center text-xl"
+            className="basis-1/7 border-b-3 border-[var(--color-primary-300)] pb-4 text-center text-lg"
           >
             {week}
           </div>

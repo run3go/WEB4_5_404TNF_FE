@@ -1,3 +1,4 @@
+'use client';
 import { getDaysInMonth } from 'date-fns';
 
 export default function DateItem({
@@ -14,6 +15,11 @@ export default function DateItem({
     isDone: boolean;
   }[];
 }) {
+  // const [portalElement, setPortalElement] = useState<Element | null>(null);
+
+  // useEffect(() => {
+  //   setPortalElement(document.querySelector('#schedule-container'));
+  // }, []);
   const endOfMonth = getDaysInMonth(targetMonth);
   return (
     <div
@@ -30,14 +36,18 @@ export default function DateItem({
           </div>
           <ul className="">
             {schedules &&
-              schedules
-                .slice(0, 2)
-                .map((schedule) => (
-                  <li key={schedule.scheduleId}>{schedule.name}</li>
-                ))}
+              schedules.slice(0, 2).map((schedule) => (
+                <li
+                  key={schedule.scheduleId}
+                  className="w-30 overflow-hidden text-ellipsis whitespace-nowrap"
+                >
+                  {schedule.name}
+                </li>
+              ))}
           </ul>
         </>
       )}
+      {/* {portalElement && createPortal(<TodoList type="modal" />, portalElement)} */}
     </div>
   );
 }
