@@ -6,7 +6,11 @@ import MobileTitle from '../../common/MobileTitle';
 export default function UserProfileEditMobile() {
   return (
     <main className="w-screen">
-      <MobileTitle title="프로필 수정" />
+      <MobileTitle
+        title="프로필 수정"
+        onClick={() => {}}
+        closePage={() => {}}
+      />
       <div className="relative h-screen bg-[var(--color-background)] px-6 py-9 text-sm">
         <form className="flex flex-col">
           <div className="mb-9 flex flex-col items-center gap-4">
@@ -31,16 +35,11 @@ export default function UserProfileEditMobile() {
               <Icon width="20px" height="20px" left="-184px" top="-256px" />
             </div>
           </div>
-          <div className="mb-5 basis-1/2">
-            <label className="mb-2 block" htmlFor="name">
-              이름<span className="text-[var(--color-red)]"> *</span>
+          <div className="mb-5 flex basis-1/2 flex-col gap-5">
+            <label className="block" htmlFor="name">
+              이름
             </label>
-            <input
-              id="name"
-              className="profile-input-style w-full"
-              type="text"
-              placeholder="이름을 적어주세요 (1~10자 이내)"
-            />
+            <span>홍길동</span>
           </div>
           <div className="mb-8 basis-1/2">
             <label className="mb-2 block" htmlFor="name">
@@ -98,11 +97,6 @@ export default function UserProfileEditMobile() {
           </div>
           <button className="mt-20 mb-6 self-end text-[var(--color-grey)]">
             회원 탈퇴
-          </button>
-
-          <div className="h-15" />
-          <button className="fixed right-0 bottom-0 left-0 bg-[var(--color-primary-300)] py-5">
-            수정하기
           </button>
         </form>
       </div>
