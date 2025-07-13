@@ -29,7 +29,7 @@ export default function SearchModal({ onClose }: { onClose: () => void }) {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="relative flex h-[48px] items-center rounded-[50px]">
-            <SelectBox width={125} options={SEARCH_LIST} />
+            <SelectBox width="125px" options={SEARCH_LIST} />
             <input
               className="h-[16px] w-full pr-6 focus:outline-none"
               placeholder="검색어를 입력해주세요"
