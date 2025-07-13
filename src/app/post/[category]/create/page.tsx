@@ -63,7 +63,7 @@ export default function PostCreate() {
           </div>
         </Card>
       </div>
-      <div className="block w-screen overflow-x-hidden sm:hidden">
+      <div className="scrollbar-hidden block h-full w-screen overflow-x-hidden sm:hidden">
         <MobilePostCreate />
       </div>
     </>
