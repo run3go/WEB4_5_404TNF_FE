@@ -14,7 +14,7 @@ export default function PostDetailWrapper() {
 
   return (
     <div
-      className={`scrollbar-hidden relative flex h-screen w-full max-w-[1548px] flex-col bg-[var(--color-background)] sm:mt-5 sm:h-[800px] sm:rounded-[50px] sm:px-[120px] ${
+      className={`scrollbar-hidden relative flex w-screen flex-col bg-[var(--color-background)] sm:mt-5 sm:h-full sm:w-full sm:rounded-[50px] sm:px-[6.28vw] ${
         isReportModalOpen ? 'overflow-hidden' : 'overflow-y-auto'
       }`}
     >
@@ -45,7 +45,7 @@ export default function PostDetailWrapper() {
         </>
       )}
 
-      <div className="flex w-full flex-col gap-2 sm:w-[1308px] sm:gap-8 sm:pt-8">
+      <div className="flex w-full flex-col gap-2 sm:w-full sm:gap-8 sm:pt-8">
         <PostDetailCard
           onReportClick={() => setIsReportModalOpen(true)}
           onEditClick={() => setIsEditModalOpen(true)}

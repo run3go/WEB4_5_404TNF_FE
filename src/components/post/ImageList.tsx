@@ -54,6 +54,26 @@ export default function ImageList() {
             prevEl: prevRef.current,
             nextEl: nextRef.current,
           }}
+          breakpoints={{
+            0: {
+              slidesPerView: 1,
+            },
+            400: {
+              slidesPerView: 1.2,
+            },
+            640: {
+              slidesPerView: 2.2,
+            },
+            768: {
+              slidesPerView: 2.6,
+            },
+            1024: {
+              slidesPerView: 3.2,
+            },
+            1280: {
+              slidesPerView: 3.6,
+            },
+          }}
           onBeforeInit={(swiper) => {
             if (
               typeof swiper.params.navigation === 'object' &&
@@ -63,19 +83,11 @@ export default function ImageList() {
               swiper.params.navigation.nextEl = nextRef.current;
             }
           }}
-          breakpoints={{
-            380: {
-              slidesPerView: 1,
-            },
-            800: {
-              slidesPerView: 3.6,
-            },
-          }}
         >
           {IMAGES.map((img) => (
-            <SwiperSlide key={img.id}>
+            <SwiperSlide key={img.id} className="w-[60%] max-w-[300px]">
               <Image
-                className="rounded-[30px]"
+                className="h-auto w-full rounded-[30px]"
                 src={img.image}
                 alt="강아지"
                 width={300}

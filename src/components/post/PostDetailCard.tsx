@@ -32,7 +32,7 @@ export default function PostDetailCard({
 }: PostDetailCardProps) {
   return (
     <>
-      <Card className="m-6 w-[calc(100vw-48px)] p-4 sm:m-0 sm:w-[1308px] sm:p-8">
+      <Card className="m-6 w-[calc(100vw-48px)] p-4 sm:m-0 sm:w-full sm:p-8">
         <div className="flex items-center justify-between">
           <WriterInfo
             name={USER_INFO.name}
@@ -57,7 +57,9 @@ export default function PostDetailCard({
             {POST.content}
           </p>
         </div>
-        <ImageList />
+        <div className="w-full sm:max-w-[1220px]">
+          <ImageList />
+        </div>
         <div className="pt-7 sm:pt-14">
           <PostStats
             comment={POST_STATS.comment}
