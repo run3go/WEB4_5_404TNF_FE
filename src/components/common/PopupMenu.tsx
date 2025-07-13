@@ -46,17 +46,23 @@ export default function PopupMenu({
   return (
     <div
       ref={ref}
-      className="absolute top-full right-[-3px] z-50 mt-2 flex max-w-[140px] flex-col items-center space-y-2.5 rounded-[20px] border-[3px] border-[var(--color-primary-200)] bg-[#FFFDF7] px-[14px] py-3"
+      className={`absolute top-full right-[-3px] z-50 mt-2 flex max-w-[140px] flex-col items-center space-y-2.5 rounded-[20px] border-[3px] border-[var(--color-primary-200)] bg-[#FFFDF7] px-[12px] py-[14px]`}
     >
       {options.map((option) => (
         <div
           key={option.label}
-          className={`flex h-[28px] ${option.type === 'post' ? 'w-[120px]' : 'w-[100px]'} items-center justify-center gap-2 rounded-[8px] px-2 py-1.5 hover:bg-[#FFCD8C]`}
+          className={`flex h-[28px] ${
+            option.label === '신고하기'
+              ? 'w-[98px]'
+              : option.type === 'post'
+                ? 'w-[112px]'
+                : 'w-[98px]'
+          } items-center justify-center gap-2 rounded-[8px] hover:bg-[#FFCD8C]`}
           onClick={() => onSelect(option.label)}
         >
           {getIcon(option.label)}
           <p
-            className={`text-[14px] font-medium ${option.label === '수정' ? '' : 'text-[#ED4848]'}`}
+            className={`text-[14px] font-medium ${option.label === '수정' ? '' : 'text-[#ED4848]'} pt-[3px]`}
           >{`${option.label === '신고하기' ? '' : option.type === 'post' ? '게시글' : '댓글'} ${option.label}`}</p>
         </div>
       ))}
