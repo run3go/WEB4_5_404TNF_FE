@@ -22,13 +22,15 @@ const POST_STATS = {
 export default function PostCard() {
   return (
     <>
-      <Card className="mx-1 flex h-[192px] w-full flex-col p-4 sm:h-[240px] sm:w-full sm:p-5">
+      <Card className="mx-1 flex h-[192px] w-full flex-col p-4 sm:h-[228px] sm:w-full sm:p-5">
         <div className="relative pb-7 sm:pb-[62px]">
           <WriterInfo name={USER_INFO.name} postedAt={USER_INFO.postedAt} />
-          <div className="mt-4 flex h-[80px] justify-between">
+          <div className="mt-3 flex h-[80px] justify-between sm:mt-0">
             <div className="cursor-pointer">
-              <p className="text-[20px] font-bold sm:pt-6">{POST.title}</p>
-              <p className="line-clamp-2 h-[58px] pt-2 text-[16px] font-medium sm:pt-3">
+              <p className="text-[14px] font-bold sm:pt-4 sm:text-[20px]">
+                {POST.title}
+              </p>
+              <p className="line-clamp-2 h-[58px] pt-2 text-[12px] font-medium sm:pt-3 sm:text-[16px]">
                 {POST.content}
               </p>
             </div>
