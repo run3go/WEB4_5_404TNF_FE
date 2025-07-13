@@ -4,26 +4,34 @@ import { useState } from 'react';
 import VaccineInput from './VaccineInput';
 import VaccineItem from './VaccineItem';
 
-export default function VaccineModal() {
+export default function VaccineModal({
+  closeModal,
+}: {
+  closeModal: () => void;
+}) {
   const [isEditing, setIsEditing] = useState(false);
   return (
     <>
-      <div className="absolute inset-0 z-10 bg-[var(--color-black)] opacity-50 sm:rounded-[50px]" />
-      <div className="absolute top-1/2 left-1/2 z-50 h-115 w-4/5 -translate-x-1/2 -translate-y-1/2 rounded-[20px] bg-[var(--color-background)] px-5 py-9 sm:h-[470px] sm:w-[720px]">
+      <div
+        className="fixed inset-0 z-200 bg-[var(--color-black)] opacity-50"
+        onClick={closeModal}
+      />
+      <div className="absolute top-1/2 left-1/2 z-201 h-115 w-9/10 -translate-x-1/2 -translate-y-1/2 rounded-[20px] bg-[var(--color-background)] px-5 py-9 sm:h-[470px] sm:w-[720px]">
         <div className="flex items-center justify-between sm:mb-5">
           <h3 className="ml-3 text-lg leading-[1.2] font-extrabold sm:ml-5 sm:text-2xl">
             예방접종 정보
           </h3>
           <Icon
-            className="mr-5 scale-80 cursor-pointer sm:scale-90"
+            onClick={closeModal}
+            className="mr-1 scale-80 cursor-pointer sm:mr-5 sm:scale-90"
             width="16px"
             height="16px"
             left="-302px"
             top="-202px"
           />
         </div>
-        <div className="mt-6 flex w-full flex-col text-sm sm:mt-8 sm:mb-50 sm:text-[15px]">
-          <div className="mr-5 mb-5 self-end">
+        <div className="mt-6 flex w-full flex-col text-xs sm:mt-8 sm:mb-50 sm:text-[15px]">
+          <div className="mr-1 mb-5 self-end sm:mr-5">
             {isEditing ? (
               <>
                 <span className="mr-3 cursor-pointer text-[var(--color-primary-500)]">
@@ -48,10 +56,10 @@ export default function VaccineModal() {
           </div>
           <div>
             <div className="flex w-full border-b border-[var(--color-primary-300)] py-[10px] pl-3">
-              <span className="basis-3/11 sm:basis-2/11">백신이름</span>
-              <span className="basis-2/11 sm:basis-3/11">유형</span>
+              <span className="basis-5/22 sm:basis-2/11">백신이름</span>
+              <span className="basis-5/22 sm:basis-3/11">유형</span>
               <span className="basis-4/11">접종일</span>
-              <span className="basis-2/11">차수</span>
+              <span className="basis-2/11 text-center sm:text-start">차수</span>
             </div>
           </div>
           <ul className="mt-2 flex w-full flex-col gap-2">

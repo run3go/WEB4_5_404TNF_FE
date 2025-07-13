@@ -2,22 +2,44 @@
 
 import dog from '@/assets/images/dog_img.png';
 import Image from 'next/image';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useMediaQuery } from 'react-responsive';
 import Card from '../../common/Card';
 import Icon from '../../common/Icon';
+import DogProfileEdit from './DogProfileEdit';
+import VaccineModal from './VaccineModal';
 
-export default function DogProfileCard() {
-  // const [portalElement, setPortalElement] = useState<Element | null>(null);
+export default function DogProfileCard({
+  togglePage,
+}: {
+  togglePage?: () => void;
+}) {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 767px)',
+  });
 
-  // useEffect(() => {
-  //   setPortalElement(document.querySelector('#profile-container'));
-  // }, []);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isVaccineModalOpen, setIsVaccineModalOpen] = useState(false);
+
+  const closeProfileModal = () => {
+    setIsProfileModalOpen(false);
+  };
+  const closeVaccineModal = () => {
+    setIsVaccineModalOpen(false);
+  };
 
   return (
-    <Card className="card__hover m-0 max-w-150 p-0 sm:my-7 sm:ml-4">
+    <Card className="card__hover m-0 max-w-150 p-0 sm:my-7 sm:ml-4 sm:p-0">
       <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-[9px] text-center text-sm sm:py-[18px] sm:text-xl">
         이마음
       </h3>
-      <div className="flex gap-8 px-6 py-4">
+      <div
+        className="flex gap-8 px-6 py-4"
+        onClick={() =>
+          isMobile && togglePage ? togglePage() : setIsProfileModalOpen(true)
+        }
+      >
         <Image
           className="h-31 w-31 rounded-[12px] sm:h-55 sm:w-55"
           src={dog}
@@ -56,14 +78,28 @@ export default function DogProfileCard() {
             </strong>
             일
           </span>
-          <button className="hidden cursor-pointer self-start underline sm:block">
+          <button
+            className="cursor-pointer self-start underline"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsVaccineModalOpen(true);
+            }}
+          >
             예방접종 정보 보기
           </button>
         </div>
       </div>
       {/* 반려견 정보 등록/수정 (스크롤 막기 기능 구현 필요) */}
-      {/* {portalElement && createPortal(<DogProfileEdit />, portalElement)} */}
-      {/* {portalElement && createPortal(<VaccineModal />, portalElement)} */}
+      {isProfileModalOpen &&
+        createPortal(
+          <DogProfileEdit closeModal={closeProfileModal} />,
+          document.body,
+        )}
+      {isVaccineModalOpen &&
+        createPortal(
+          <VaccineModal closeModal={closeVaccineModal} />,
+          document.body,
+        )}
     </Card>
   );
 }

@@ -3,13 +3,21 @@ import Image from 'next/image';
 import Icon from '../../common/Icon';
 import MobileTitle from '../../common/MobileTitle';
 
-export default function UserProfileEditMobile() {
+export default function UserProfileEditMobile({
+  togglePage,
+}: {
+  togglePage: () => void;
+}) {
   return (
-    <main className="w-screen">
+    <div className="w-screen">
       <MobileTitle
         title="프로필 수정"
-        onClick={() => {}}
-        closePage={() => {}}
+        onClick={() => {
+          togglePage();
+        }}
+        closePage={() => {
+          togglePage();
+        }}
       />
       <div className="relative h-screen bg-[var(--color-background)] px-6 py-9 text-sm">
         <form className="flex flex-col">
@@ -100,6 +108,6 @@ export default function UserProfileEditMobile() {
           </button>
         </form>
       </div>
-    </main>
+    </div>
   );
 }

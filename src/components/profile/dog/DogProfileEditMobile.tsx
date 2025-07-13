@@ -4,7 +4,11 @@ import MobileTitle from '@/components/common/MobileTitle';
 import SelectBox from '@/components/common/SelectBox';
 import Image from 'next/image';
 
-export default function DogProfileEditMobile() {
+export default function DogProfileEditMobile({
+  togglePage,
+}: {
+  togglePage: () => void;
+}) {
   const options = [
     { value: 'BEAGLE', label: '비글' },
     { value: 'BICHON_FRISE', label: '비숑 프리제' },
@@ -39,8 +43,12 @@ export default function DogProfileEditMobile() {
     <main className="w-screen">
       <MobileTitle
         title="반려견 등록"
-        onClick={() => {}}
-        closePage={() => {}}
+        onClick={() => {
+          togglePage();
+        }}
+        closePage={() => {
+          togglePage();
+        }}
       />
       <div className="relative h-screen bg-[var(--color-background)] px-6 py-9 text-sm">
         <form className="flex flex-col" action="">
