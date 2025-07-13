@@ -9,7 +9,7 @@ interface PostStats {
 export default function PostStats({ comment, like, views }: PostStats) {
   return (
     <>
-      <div className="flex justify-center gap-2 font-medium sm:gap-4">
+      <div className="flex gap-2 font-medium sm:gap-4">
         <div className="flex items-center gap-1 sm:gap-2">
           <Icon
             width="16px"
