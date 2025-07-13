@@ -32,7 +32,7 @@ export default function ReportModal({ onClose }: { onClose: () => void }) {
           <p>카테고리</p>
           <SelectBox
             options={CATEGORY}
-            width={433}
+            width="433px"
             isCenter={true}
             hasBorder={true}
             thinBorder={true}

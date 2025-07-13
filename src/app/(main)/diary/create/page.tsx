@@ -24,10 +24,10 @@ export default function DiaryCreate() {
   ];
 
   return (
-    <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:pt-9 sm:pb-0">
+    <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-9 sm:pb-0">
       <MobileTitle title="멍멍일지" closePage={() => {}} onClick={() => {}} />
       <div className="relative flex w-full flex-col gap-6 px-4 sm:px-19">
-        <div className="flex w-full justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
+        <div className="flex justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
           <div className="flex grow-2 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
             2025. 7. 3
           </div>
@@ -38,8 +38,8 @@ export default function DiaryCreate() {
         <div className="absolute -top-2 right-[65px] hidden self-end text-base sm:block">
           <SelectBox options={options} width="105px" footstep />
         </div>
-        <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-15">
-          <div className="flex w-full flex-col items-center gap-6 sm:w-105 sm:gap-7">
+        <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-10">
+          <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
             <div className="hidden w-full justify-between sm:flex">
               <Image src={diary} alt="오늘의 멍멍일지를 적어보아요!" />
               <Calendar selected={selected} setSelected={setSelected} />

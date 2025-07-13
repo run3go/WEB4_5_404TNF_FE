@@ -79,7 +79,7 @@ export default function DogProfileCard({
             일
           </span>
           <button
-            className="cursor-pointer self-start underline"
+            className="cursor-pointer self-start underline hover:text-[var(--color-primary-500)]"
             onClick={(e) => {
               e.stopPropagation();
               setIsVaccineModalOpen(true);
