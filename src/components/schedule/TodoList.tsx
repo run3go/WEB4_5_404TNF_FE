@@ -1,8 +1,20 @@
+'use client';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import Card from '../common/Card';
 import Icon from '../common/Icon';
+import AddSchedule from './AddSchedule';
 import TodoItem from './TodoItem';
 
-export default function TodoList({ type }: { type: 'card' | 'modal' }) {
+export default function TodoList({
+  type,
+  closeModal,
+}: {
+  type: 'card' | 'modal';
+  closeModal?: () => void;
+}) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   if (type === 'card') {
     return (
       <Card className="mt-8 max-h-70 min-h-31 w-full text-sm sm:hidden">
@@ -32,16 +44,23 @@ export default function TodoList({ type }: { type: 'card' | 'modal' }) {
   } else if (type === 'modal') {
     return (
       <>
-        <div className="absolute inset-0 z-101 bg-[var(--color-black)] opacity-50" />
-        <div className="absolute top-1/2 left-1/2 z-102 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
+        <div
+          className="absolute inset-0 z-500 bg-[var(--color-black)] opacity-50"
+          onClick={closeModal}
+        />
+        <div className="absolute top-1/2 left-1/2 z-501 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
           <div className="mb-6 flex w-full items-center justify-between pr-2">
             <h2 className="text-base font-extrabold">2025. 7. 7 일정</h2>
-            <div className="flex items-center gap-12">
-              <span className="cursor-pointer text-sm text-[var(--color-primary-500)]">
+            <div className="flex items-center gap-10">
+              <span
+                className="cursor-pointer text-sm text-[var(--color-primary-500)]"
+                onClick={() => setIsModalOpen(true)}
+              >
                 + 추가하기
               </span>
               <Icon
                 className="cursor-pointer"
+                onClick={closeModal}
                 width="16px"
                 height="16px"
                 left="-302px"
@@ -69,6 +88,8 @@ export default function TodoList({ type }: { type: 'card' | 'modal' }) {
             <TodoItem name="귀 세정" />
           </ul>
         </div>
+        {isModalOpen &&
+          createPortal(<AddSchedule closeModal={closeModal} />, document.body)}
       </>
     );
   }

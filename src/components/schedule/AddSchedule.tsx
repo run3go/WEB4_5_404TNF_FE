@@ -1,8 +1,13 @@
+import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
 import SelectBox from '../common/SelectBox';
 
-export default function AddSchedule() {
+export default function AddSchedule({
+  closeModal,
+}: {
+  closeModal?: () => void;
+}) {
   const options = [
     { value: '이마음', label: '이마음' },
     { value: '이구름', label: '이구름' },
@@ -18,12 +23,24 @@ export default function AddSchedule() {
   ];
   return (
     <>
-      <div className="absolute inset-0 z-101 bg-[var(--color-black)] opacity-50" />
-      <div className="absolute top-1/2 left-1/2 z-102 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
-        <form className="relative flex h-full flex-col gap-4 text-sm leading-[1.2] sm:gap-7 sm:text-lg">
+      <div
+        className={twMerge(
+          'absolute inset-0 z-500 bg-[var(--color-black)] opacity-50 sm:hidden',
+        )}
+        onClick={closeModal}
+      />
+      <div className="absolute top-1/2 left-1/2 z-501 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
+        <form className="relative flex h-full flex-col gap-4 text-sm leading-[1.2] sm:gap-7 sm:text-base">
           <div className="mb-1 flex w-full items-center justify-between">
             <h2 className="text-base font-extrabold">일정추가</h2>
-            <Icon width="12px" height="12px" left="-72px" top="-126px" />
+            <Icon
+              className="mr-2 cursor-pointer"
+              onClick={closeModal}
+              width="16px"
+              height="16px"
+              left="-302px"
+              top="-202px"
+            />
           </div>
           <div className="flex items-center justify-between">
             <label className="block w-13 sm:w-20" htmlFor="todo">
