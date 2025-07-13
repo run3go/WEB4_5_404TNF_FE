@@ -32,17 +32,23 @@ export default async function Board() {
               top="-165px"
               className="scale-60 sm:scale-100"
             />
-            <p className="text-[10px] sm:text-[18px]">질문게시판</p>
+            <p className="pt-1 text-[10px] sm:pt-2 sm:text-[18px]">
+              질문게시판
+            </p>
           </Button>
           <Button className="board__btn">
-            <Icon
-              width="20px"
-              height="20px"
-              left="-67px"
-              top="-166px"
-              className="scale-60 sm:scale-100"
-            />
-            <p className="text-[10px] sm:text-[18px]">자유게시판</p>
+            <div className="pt-1">
+              <Icon
+                width="20px"
+                height="20px"
+                left="-67px"
+                top="-166px"
+                className="scale-60 sm:scale-100"
+              />
+            </div>
+            <p className="pt-1 text-[10px] sm:pt-2 sm:text-[18px]">
+              자유게시판
+            </p>
           </Button>
         </div>
 
