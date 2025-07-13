@@ -27,7 +27,7 @@ export default function Header() {
           top="-80px"
         />
         <Image
-          src={'/images/mobile-logo.png'}
+          src={'/images/mobile-logo.svg'}
           alt="모바일 로고"
           width={117}
           height={20}
