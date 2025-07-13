@@ -21,7 +21,7 @@ export default function PostDetailWrapper() {
     >
       {isReportModalOpen && (
         <div
-          className="fixed top-[116px] right-[49px] bottom-[60px] left-[315px] z-50 flex items-center justify-center rounded-[50px] bg-[#2B2926]/50"
+          className="fixed inset-0 z-250 flex items-center justify-center bg-[#2B2926]/50"
           onClick={() => setIsReportModalOpen(false)}
         >
           <div onClick={(e) => e.stopPropagation()}>
@@ -33,7 +33,7 @@ export default function PostDetailWrapper() {
       {isEditModalOpen && (
         <>
           <div
-            className="fixed top-[116px] right-[49px] bottom-[60px] left-[315px] z-50 hidden items-center justify-center rounded-[50px] bg-[#2B2926]/50 sm:flex"
+            className="fixed inset-0 z-250 hidden items-center justify-center bg-[#2B2926]/50 sm:flex"
             onClick={() => setIsEditModalOpen(false)}
           >
             <div onClick={(e) => e.stopPropagation()}>
