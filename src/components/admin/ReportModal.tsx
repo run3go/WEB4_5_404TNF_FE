@@ -33,7 +33,7 @@ export default function ReportModal({ onClose }: { onClose: () => void }) {
               placeholder="사유를 입력해주세요."
             />
           </div>
-          <div className="mt-10 flex justify-center">
+          <div onClick={onClose} className="mt-10 flex justify-center">
             <Button className="h-[41px] w-[94px] pb-4 text-base">확인</Button>
           </div>
         </div>
