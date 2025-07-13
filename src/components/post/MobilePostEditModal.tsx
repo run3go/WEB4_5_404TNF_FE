@@ -1,6 +1,9 @@
+'use client';
+
 import Button from '../common/Button';
 import Icon from '../common/Icon';
 import EditImageList from './EditImageList';
+import MobileTitle from '@/components/common/MobileTitle';
 
 export default function MobilePostEditModal({
   onClose,
@@ -8,41 +11,34 @@ export default function MobilePostEditModal({
   onClose: () => void;
 }) {
   return (
-    <>
-      <div className="h-screen w-screen min-w-[375px] bg-[var(--color-background)]">
-        <div className="relative h-[72px] bg-[#FFFDF7] p-6 shadow-[0_3px_8px_rgba(0,0,0,0.24)]">
-          <div onClick={onClose}>
-            <Icon width="14px" height="22px" left="-108px" top="-122px" />
-          </div>
-          <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            게시글 수정
-          </p>
+    <div className="flex h-screen flex-col bg-[var(--color-background)]">
+      <MobileTitle title="게시글 수정" closePage={onClose} onClick={() => {}} />
+
+      <div className="flex w-full flex-col gap-6">
+        <div className="flex w-screen justify-center gap-[15px] pt-5 pb-3">
+          <Button className="board__btn">
+            <Icon
+              width="20px"
+              height="20px"
+              left="-27px"
+              top="-165px"
+              className="scale-60"
+            />
+            <p className="text-[10px] sm:text-[18px]">질문게시판</p>
+          </Button>
+          <Button className="board__btn">
+            <Icon
+              width="20px"
+              height="20px"
+              left="-67px"
+              top="-166px"
+              className="scale-60"
+            />
+            <p className="text-[10px]">자유게시판</p>
+          </Button>
         </div>
 
-        <div className="h-[calc(100%-72px)] overflow-y-auto">
-          <div className="flex flex-none justify-center gap-[15px] pt-5 pb-3">
-            <Button className="board__btn">
-              <Icon
-                width="20px"
-                height="20px"
-                left="-27px"
-                top="-165px"
-                className="scale-60"
-              />
-              <p className="text-[10px] sm:text-[18px]">질문게시판</p>
-            </Button>
-            <Button className="board__btn">
-              <Icon
-                width="20px"
-                height="20px"
-                left="-67px"
-                top="-166px"
-                className="scale-60"
-              />
-              <p className="text-[10px]">자유게시판</p>
-            </Button>
-          </div>
-
+        <div className="flex flex-col gap-4">
           <input
             className="h-[44px] w-full border-b border-b-[#2B2926]/50 p-4 pr-6 text-[12px] font-medium focus:outline-none"
             placeholder="제목 입력"
@@ -55,20 +51,18 @@ export default function MobilePostEditModal({
               e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
             }}
           />
-          <div className="flex items-end gap-2 px-4">
-            <div className="flex h-[80px] w-[80px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[10px] bg-[#E1E1E1]">
-              <Icon width="22px" height="22px" left="-301px" top="-121px" />
-              <p className="text-[16px] font-medium">5 / 5</p>
-            </div>
-            <div className="min-w-[254px]">
-              <EditImageList />
-            </div>
+        </div>
+
+        <div className="flex items-end gap-2 px-4">
+          <div className="flex h-[80px] w-[80px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[10px] bg-[#E1E1E1]">
+            <Icon width="22px" height="22px" left="-301px" top="-121px" />
+            <p className="text-[16px] font-medium">5 / 5</p>
           </div>
-          <button className="mt-[152px] h-[60px] w-full bg-[#FCC389] text-[14px] font-medium text-[#2B2926]">
-            저장하기
-          </button>
+          <div className="min-w-[254px]">
+            <EditImageList />
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -54,6 +54,7 @@ export default function ImageList() {
             prevEl: prevRef.current,
             nextEl: nextRef.current,
           }}
+          slidesPerView="auto"
           onBeforeInit={(swiper) => {
             if (
               typeof swiper.params.navigation === 'object' &&
@@ -63,25 +64,19 @@ export default function ImageList() {
               swiper.params.navigation.nextEl = nextRef.current;
             }
           }}
-          breakpoints={{
-            380: {
-              slidesPerView: 1,
-            },
-            800: {
-              slidesPerView: 3.6,
-            },
-          }}
         >
           {IMAGES.map((img) => (
-            <SwiperSlide key={img.id}>
-              <Image
-                className="rounded-[30px]"
-                src={img.image}
-                alt="강아지"
-                width={300}
-                height={300}
-                priority
-              />
+            <SwiperSlide key={img.id} className="!w-[300px]">
+              <div className="relative flex h-[300px] w-[300px] items-end">
+                <Image
+                  className="rounded-[10px]"
+                  src={img.image}
+                  alt="강아지"
+                  width={300}
+                  height={300}
+                  priority
+                />
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
