@@ -19,7 +19,7 @@ export default function DiaryProfile() {
           <span>골든 리트리버 (대형견)</span>
           <span>5년 6개월</span>
           <span>
-            가족이 된지
+            가족이 된지{' '}
             <strong className="font-medium text-[var(--color-primary-500)]">
               1943
             </strong>

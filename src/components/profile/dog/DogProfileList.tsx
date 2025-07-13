@@ -40,8 +40,8 @@ export default function DogProfileList({
         <div className="mt-6 flex flex-col gap-6">
           <DogProfileCard togglePage={togglePage} />
           <DogProfileCard togglePage={togglePage} />
-          <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
-            <div className="h-full w-full" onClick={togglePage}>
+          <div onClick={togglePage}>
+            <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
               <Icon
                 className="hidden sm:block"
                 width="47px"
@@ -56,8 +56,8 @@ export default function DogProfileList({
                 left="-266px"
                 top="-75px"
               />
-            </div>
-          </Card>
+            </Card>
+          </div>
         </div>
       ) : (
         <div className="relative">

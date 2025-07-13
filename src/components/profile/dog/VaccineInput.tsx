@@ -14,12 +14,12 @@ export default function VaccineInput({ name }: { name: string }) {
   ];
   if (isMobile) {
     return (
-      <li className="flex w-full items-center pl-3 text-xs">
+      <li className="flex w-full items-center py-[11px] pl-3 text-xs">
         <span className="basis-5/22">{name}</span>
         <div className="basis-5/22">
           <SelectBox options={types} width="full" placeholder="유형" isCenter />
         </div>
-        <div className="relative basis-4/11">
+        <div className="relative basis-9/22">
           <input
             id="name"
             className="w-full"
@@ -27,14 +27,14 @@ export default function VaccineInput({ name }: { name: string }) {
             placeholder="yyyy / mm / dd"
           />
           <Icon
-            className="absolute top-1/2 right-0 -translate-y-1/2 scale-60"
+            className="absolute top-1/2 right-1 -translate-y-1/2 scale-60"
             width="20px"
             height="20px"
             left="-188px"
             top="-123px"
           />
         </div>
-        <div className="flex basis-2/11 items-center">
+        <div className="flex basis-1/11 items-center">
           <input
             className="w-full text-center"
             type="text"
