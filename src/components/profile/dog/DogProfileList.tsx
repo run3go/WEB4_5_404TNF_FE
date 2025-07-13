@@ -2,6 +2,7 @@
 
 import Card from '@/components/common/Card';
 import { useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useMediaQuery } from 'react-responsive';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -10,14 +11,26 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { twMerge } from 'tailwind-merge';
 import Icon from '../../common/Icon';
 import DogProfileCard from './DogProfileCard';
+import DogProfileEdit from './DogProfileEdit';
 
-export default function DogProfileList() {
+export default function DogProfileList({
+  togglePage,
+}: {
+  togglePage: () => void;
+}) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
+
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+
+  const closeProfileModal = () => {
+    setIsProfileModalOpen(false);
+  };
+
   return (
     <div className="mb-20 w-full">
       <h2 className="text-sm text-[var(--color-primary-500)] sm:text-2xl">
@@ -25,23 +38,25 @@ export default function DogProfileList() {
       </h2>
       {isMobile ? (
         <div className="mt-6 flex flex-col gap-6">
-          <DogProfileCard />
-          <DogProfileCard />
+          <DogProfileCard togglePage={togglePage} />
+          <DogProfileCard togglePage={togglePage} />
           <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
-            <Icon
-              className="hidden sm:block"
-              width="47px"
-              height="47px"
-              left="-26px"
-              top="-242px"
-            />
-            <Icon
-              className="block sm:hidden"
-              width="20px"
-              height="20px"
-              left="-266px"
-              top="-75px"
-            />
+            <div className="h-full w-full" onClick={togglePage}>
+              <Icon
+                className="hidden sm:block"
+                width="47px"
+                height="47px"
+                left="-26px"
+                top="-242px"
+              />
+              <Icon
+                className="block sm:hidden"
+                width="20px"
+                height="20px"
+                left="-266px"
+                top="-75px"
+              />
+            </div>
           </Card>
         </div>
       ) : (
@@ -101,7 +116,10 @@ export default function DogProfileList() {
                 <DogProfileCard />
               </SwiperSlide>
               <SwiperSlide className="!w-[582px]">
-                <div className="pr-10">
+                <div
+                  className="pr-10"
+                  onClick={() => setIsProfileModalOpen(true)}
+                >
                   <Card className="card__hover my-7 ml-4 flex h-20 w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
                     <Icon
                       className="hidden sm:block"
@@ -122,6 +140,11 @@ export default function DogProfileList() {
               </SwiperSlide>
             </Swiper>
           </div>
+          {isProfileModalOpen &&
+            createPortal(
+              <DogProfileEdit closeModal={closeProfileModal} />,
+              document.body,
+            )}
         </div>
       )}
     </div>
