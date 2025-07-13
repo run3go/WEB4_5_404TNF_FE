@@ -7,6 +7,7 @@ import CommentList from './CommentList';
 import ReportModal from './ReportModal';
 import PostEditModal from './PostEditModal';
 import MobilePostEditModal from './MobilePostEditModal';
+import MobileTitle from '../common/MobileTitle';
 
 export default function PostDetailWrapper() {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -46,6 +47,7 @@ export default function PostDetailWrapper() {
       )}
 
       <div className="flex w-full flex-col gap-2 sm:w-full sm:gap-8 sm:pt-8">
+        <MobileTitle title="게시글 작성" closePage={() => {}} />
         <PostDetailCard
           onReportClick={() => setIsReportModalOpen(true)}
           onEditClick={() => setIsEditModalOpen(true)}
