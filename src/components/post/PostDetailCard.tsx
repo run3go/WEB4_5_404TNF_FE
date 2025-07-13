@@ -57,7 +57,7 @@ export default function PostDetailCard({
             {POST.content}
           </p>
         </div>
-        <div className="w-full sm:max-w-[1220px]">
+        <div className="w-full sm:max-w-[calc(100vw-622px)]">
           <ImageList />
         </div>
         <div className="pt-7 sm:pt-14">
