@@ -4,7 +4,11 @@ import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
 import Image from 'next/image';
 
-export default function DogProfileEdit() {
+export default function DogProfileEdit({
+  closeModal,
+}: {
+  closeModal: () => void;
+}) {
   const options = [
     { value: 'BEAGLE', label: '비글' },
     { value: 'BICHON_FRISE', label: '비숑 프리제' },
@@ -35,18 +39,15 @@ export default function DogProfileEdit() {
     { value: 'MIX', label: '믹스견' },
   ];
 
-  const vaccineTypes = [
-    { value: 'DHPPL', label: 'DHPPL (종합백신)' },
-    { value: 'CORONAVIRUS', label: '코로나' },
-    { value: 'KENNEL_COUGH', label: '켄넬코프' },
-    { value: 'RABIES', label: '광견병' },
-    { value: 'INFLUENZA', label: '인플루엔자' },
-  ];
   return (
     <>
-      <div className="absolute inset-0 z-10 rounded-[50px] bg-[var(--color-black)] opacity-50" />
-      <div className="scrollbar-hidden absolute top-1/2 left-1/2 z-50 h-9/10 w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 overflow-y-scroll rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] px-28 py-14">
+      <div
+        className="fixed inset-0 z-200 bg-[var(--color-black)] opacity-50"
+        onClick={closeModal}
+      />
+      <div className="scrollbar-hidden absolute top-1/2 left-1/2 z-201 h-9/10 w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 overflow-y-scroll rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] px-28 py-14">
         <Icon
+          onClick={closeModal}
           className="absolute top-10 right-[70px] cursor-pointer"
           width="16px"
           height="16px"
@@ -66,7 +67,7 @@ export default function DogProfileEdit() {
             />
             <span className="text-[var(--color-grey)]">사진 선택하기</span>
           </div>
-          <div className="flex justify-between gap-20 border-b border-[var(--color-grey)] pb-14">
+          <div className="flex justify-between gap-20 pb-14">
             <div className="w-full">
               {/* 이름 */}
               <div className="mb-7">
@@ -216,87 +217,6 @@ export default function DogProfileEdit() {
                   placeholder="등록번호를 적어주세요"
                 />
               </div>
-            </div>
-          </div>
-          <div className="mt-16 mb-30">
-            <span className="mr-5">예방접종</span>
-            <button className="mb-[2px] text-[15px] text-[var(--color-primary-500)]">
-              + 추가
-            </button>
-            <div>
-              <div className="flex gap-4 border-b border-[var(--color-primary-300)] py-[10px]">
-                <span className="grow-95">백신이름</span>
-                <span className="grow-55">접종일</span>
-                <span className="grow-42">차수</span>
-              </div>
-              <ul className="mt-2 flex flex-col gap-4">
-                <li className="flex items-center gap-4">
-                  <SelectBox
-                    options={vaccineTypes}
-                    width="360px"
-                    hasBorder
-                    placeholder="백신이름을 선택해주세요"
-                  />
-                  <div className="relative">
-                    <input
-                      id="name"
-                      className="profile-input-style w-51"
-                      type="text"
-                      placeholder="yyyy / mm / dd"
-                    />
-                    <Icon
-                      className="absolute top-1/2 right-4 -translate-y-1/2"
-                      width="20px"
-                      height="20px"
-                      left="-188px"
-                      top="-123px"
-                    />
-                  </div>
-                  <div className="flex items-center">
-                    <input
-                      className="profile-input-style mr-2 w-17 text-center"
-                      type="text"
-                    />
-                    차
-                  </div>
-                  <div className="ml-[22px] flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[var(--color-primary-300)]">
-                    <div className="h-[2px] w-3 bg-[var(--color-black)]" />
-                  </div>
-                </li>
-                <li className="flex items-center gap-4">
-                  <SelectBox
-                    options={vaccineTypes}
-                    width="360px"
-                    hasBorder
-                    placeholder="백신이름을 선택해주세요"
-                  />
-                  <div className="relative">
-                    <input
-                      id="name"
-                      className="profile-input-style w-51"
-                      type="text"
-                      placeholder="yyyy / mm / dd"
-                    />
-                    <Icon
-                      className="absolute top-1/2 right-4 -translate-y-1/2"
-                      width="20px"
-                      height="20px"
-                      left="-188px"
-                      top="-123px"
-                    />
-                  </div>
-                  <div className="flex items-center">
-                    <input
-                      className="profile-input-style mr-2 w-17 text-center"
-                      type="text"
-                    />
-                    차
-                  </div>
-                  <div className="ml-[22px] flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[var(--color-primary-300)]">
-                    <div className="h-[2px] w-3 bg-[var(--color-black)]" />
-                  </div>
-                </li>
-              </ul>
             </div>
           </div>
           <Button className="w-50">수정하기</Button>
