@@ -40,14 +40,14 @@ export default function PostDetailWrapper() {
               <PostEditModal onClose={() => setIsEditModalOpen(false)} />
             </div>
           </div>
-          <div className="fixed z-50 sm:hidden">
+          <div className="fixed z-[120] sm:hidden">
             <MobilePostEditModal onClose={() => setIsEditModalOpen(false)} />
           </div>
         </>
       )}
 
       <div className="flex w-full flex-col gap-2 sm:w-full sm:gap-8 sm:pt-8">
-        <MobileTitle title="게시글 작성" closePage={() => {}} />
+        <MobileTitle title="게시글" closePage={() => {}} />
         <PostDetailCard
           onReportClick={() => setIsReportModalOpen(true)}
           onEditClick={() => setIsEditModalOpen(true)}
