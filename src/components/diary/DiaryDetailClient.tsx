@@ -20,7 +20,7 @@ export default function DiaryDetailClient({ logId }: { logId: string }) {
   ];
 
   return (
-    <main className="flex-colpt-6 flex pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-9 sm:pb-0">
+    <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-9 sm:pb-0">
       <MobileTitle title="멍멍일지" closePage={() => {}} />
       <div className="relative flex h-full w-full flex-col gap-6 px-4 sm:px-19">
         <div className="flex w-full justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
@@ -34,8 +34,8 @@ export default function DiaryDetailClient({ logId }: { logId: string }) {
         <div className="absolute -top-2 right-[65px] hidden self-end text-base sm:block">
           <SelectBox options={options} width="105px" footstep />
         </div>
-        <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-15">
-          <div className="flex w-full flex-col items-center gap-6 sm:w-105 sm:gap-7">
+        <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-10">
+          <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
             <div className="hidden w-full justify-between sm:flex">
               <Image src={diary} alt="오늘의 멍멍일지를 적어보아요!" />
               <Calendar selected={selected} setSelected={setSelected} />
@@ -84,7 +84,7 @@ export default function DiaryDetailClient({ logId }: { logId: string }) {
                 </ul>
               </DiaryCard>
             </div>
-            <DiaryCard className="mb-7 h-full max-w-[912px]" title="관찰노트">
+            <DiaryCard className="mb-7 h-full w-full sm:mb-0" title="관찰노트">
               <p>
                 날씨가 더워서 산책할 때 엄청 힘들어 함, 계속 귀를 긁음 ( 귀 세정
                 당분간 매일 하기 ), 간식 좀 많이 먹어서 그런가 저녁밥 남김
