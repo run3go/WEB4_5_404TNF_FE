@@ -33,7 +33,12 @@ export default function LandingMockup() {
           viewport={{ once: false, amount: 0.1 }}
           transition={{ duration: 0.4, delay: 0.3, ease: [0, 0.71, 0.2, 1.01] }}
         >
-          <Image className="h-auto w-[700px]" src={pc} alt="pc목업" priority />
+          <Image
+            className="h-auto w-[700px] max-w-full"
+            src={pc}
+            alt="pc목업"
+            priority
+          />
         </motion.div>
 
         <motion.div
@@ -43,7 +48,7 @@ export default function LandingMockup() {
           transition={{ duration: 0.4, delay: 0.5, ease: [0, 0.71, 0.2, 1.01] }}
         >
           <Image
-            className="h-auto w-[180px]"
+            className="h-auto w-[180px] max-w-full"
             src={phone}
             alt="휴대폰목업"
             priority
