@@ -57,7 +57,7 @@ export default function CommentList({
           return (
             <div
               key={comment.id}
-              className="mx-6 border-b border-b-[#FCC389] p-2 pb-3 sm:mx-0 sm:min-h-[128px] sm:w-[1308px] sm:border-b-[#2B2926]/50 sm:p-5"
+              className="mx-6 border-b border-b-[#FCC389] p-2 pb-3 sm:mx-0 sm:min-h-[128px] sm:w-full sm:border-b-[#2B2926]/50 sm:p-5"
             >
               <div className="flex items-center justify-between">
                 <WriterInfo name={comment.name} postedAt={comment.postedAt} />

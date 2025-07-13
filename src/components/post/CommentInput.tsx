@@ -5,7 +5,7 @@ export default function CommentInput() {
   return (
     <>
       <div className="hidden flex-col items-end gap-5 sm:flex">
-        <Card className="min-h-[120px] w-[1308px] p-5">
+        <Card className="min-h-[120px] w-full p-5">
           <textarea
             className="h-full w-full resize-none text-[18px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
             onInput={(e) => {

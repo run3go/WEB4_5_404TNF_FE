@@ -21,7 +21,7 @@ const SEARCH_LIST = [
 export default async function Board() {
   return (
     <>
-      <div className="flex h-screen w-full max-w-[1548px] flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-[800px]">
+      <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-full">
         {/* 상단 버튼 영역 */}
         <div className="flex flex-none justify-center gap-3 pt-6 sm:gap-9 sm:pt-5">
           <Button className="board__btn">
@@ -60,7 +60,7 @@ export default async function Board() {
         </div>
 
         {/* 내부 스크롤 영역 */}
-        <div className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pr-2 pb-[20px] sm:space-y-10 sm:pl-[120px]">
+        <div className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pr-2 pb-[20px] sm:space-y-10 sm:pl-[6.27vw]">
           <PostCard />
           <PostCard />
           <PostCard />

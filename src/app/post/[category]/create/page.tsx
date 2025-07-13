@@ -10,10 +10,10 @@ import MobilePostCreate from '@/components/post/MobilePostCreate';
 export default function PostCreate() {
   return (
     <>
-      <div className="hidden h-[800px] w-[1548px] flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex">
+      <div className="hidden h-full w-full flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex">
         <p className="text-center text-[24px] font-bold">게시물 작성</p>
-        <Card className="scrollbar-hidden mt-8 h-[694px] w-[1320px] overflow-y-auto px-[160px] pt-16">
-          <div className="flex gap-7 text-[20px] font-medium">
+        <Card className="scrollbar-hidden mt-8 h-full w-[69vw] overflow-y-auto pt-16">
+          <div className="flex gap-7 px-[8.37vw] text-[20px] font-medium">
             <label className="shrink-0 text-[20px] font-medium" htmlFor="title">
               제목
             </label>
@@ -23,13 +23,13 @@ export default function PostCreate() {
               placeholder="제목을 입력해주세요"
             />
           </div>
-          <div className="flex gap-7 pt-7 text-[20px] font-medium">
+          <div className="flex gap-7 px-[8.37vw] pt-7 text-[20px] font-medium">
             <label className="shrink-0" htmlFor="content">
               내용
             </label>
             <textarea
               id="content"
-              className="min-h-[240px] w-full resize-none placeholder:text-[#909090] focus:outline-none"
+              className="min-h-[236px] w-full resize-none placeholder:text-[#909090] focus:outline-none"
               onInput={(e) => {
                 e.currentTarget.style.height = 'auto';
                 e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
@@ -37,7 +37,7 @@ export default function PostCreate() {
               placeholder="내용을 입력해주세요"
             />
           </div>
-          <div className="mt-6 ml-12 flex gap-6">
+          <div className="mt-6 ml-12 flex gap-6 px-[8.37vw]">
             <div className="flex h-[120px] w-[120px] cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-[#E1E1E1]">
               <Icon width="22px" height="22px" left="-301px" top="-121px" />
               <p className="text-[16px] font-medium">1 / 5</p>
@@ -63,7 +63,7 @@ export default function PostCreate() {
           </div>
         </Card>
       </div>
-      <div className="block w-screen overflow-x-hidden sm:hidden">
+      <div className="scrollbar-hidden block h-full w-screen overflow-x-hidden sm:hidden">
         <MobilePostCreate />
       </div>
     </>
