@@ -4,7 +4,8 @@ import { axiosInstance } from './axiosInstance';
 interface ErrorResponse {
   status: number;
   statusText: string;
-  data: any;
+  // data 타입 수정 필요
+  data: string;
 }
 
 export const register = async (
