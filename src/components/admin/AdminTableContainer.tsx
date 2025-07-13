@@ -4,9 +4,16 @@ import { useState } from 'react';
 import AdminTable from './AdminTable';
 import Pagenation from './Pagination';
 import SearchBar from '../common/SearchBar';
+import SelectBox from '../common/SelectBox';
 
 export default function AdminTableContainer() {
   const [active, setActive] = useState('user');
+
+  const isDone = [
+    { value: 'all', label: '전체' },
+    { value: 'complete', label: '처리 완료' },
+    { value: 'incomplete', label: '미완료' },
+  ];
 
   return (
     <>
@@ -36,9 +43,18 @@ export default function AdminTableContainer() {
 
       <div className="mt-10 flex justify-center">
         <div>
-          {/* List 검색 */}
-          <div className="mb-6 w-76">
-            <SearchBar />
+          <div className="mb-6 flex items-center justify-between">
+            {/* List 검색 */}
+            <div className="w-76">
+              <SearchBar />
+            </div>
+
+            {active === 'report' && (
+              // 신고 처리여부 필터링
+              <div className="flex justify-end">
+                <SelectBox options={isDone} width="105px" isCenter />
+              </div>
+            )}
           </div>
 
           {/* 목록(List) */}
