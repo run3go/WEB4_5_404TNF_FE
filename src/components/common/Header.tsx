@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import Card from './Card';
 import Icon from './Icon';
 
@@ -13,7 +14,9 @@ export default function Header() {
           top="-18px"
           className="cursor-pointer"
         />
-        <div className="h-9 w-9 cursor-pointer rounded-full bg-black"></div>
+        <Link href={'/profile/1'}>
+          <div className="h-9 w-9 cursor-pointer rounded-full bg-black"></div>
+        </Link>
       </div>
       <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-center rounded-none bg-[var(--color-background)] px-4 sm:hidden">
         <Icon
