@@ -6,6 +6,7 @@ import Icon from './Icon';
 {
   /* 156,122 */
 }
+
 export default function Sidebar() {
   const pathname = usePathname();
   return (
@@ -21,23 +22,27 @@ export default function Sidebar() {
           />
         </div> */}
 
-        <Image
-          className="hidden sm:block"
-          src="/images/logo.png"
-          alt="멍멍일지 로고"
-          width={156}
-          height={122}
-          priority
-        />
+        <Link href="/">
+          <Image
+            className="hidden sm:block"
+            src="/images/logo.svg"
+            alt="멍멍일지 로고"
+            width={156}
+            height={122}
+            priority
+          />
+        </Link>
 
-        <Image
-          className="block sm:hidden"
-          src="/images/logo.png"
-          alt="멍멍일지 로고"
-          width={100}
-          height={78}
-          priority
-        />
+        <Link href="/">
+          <Image
+            className="block sm:hidden"
+            src="/images/logo.svg"
+            alt="멍멍일지 로고"
+            width={100}
+            height={78}
+            priority
+          />
+        </Link>
 
         <div className="flex flex-col justify-between sm:h-[calc(89.4vh-122.5px)]">
           <div className="mt-12 text-sm font-medium sm:text-[16px]">
@@ -78,23 +83,32 @@ export default function Sidebar() {
               </div>
               <p className="pl-10">일정</p>
             </Link>
-            {/* 댕댕일지 */}
+            {/* 멍멍일지 */}
             <Link
-              href={'/diary'}
-              className={`sidebar__content group relative ${pathname === '/diary' && 'sidebar__content-active'}`}
+              href="/diary"
+              className={`sidebar__content group ${pathname === '/diary' ? 'sidebar__content-active' : ''}`}
             >
-              <div
-                className={`absolute ${pathname === '/diary' && 'opacity-0'}`}
-              >
-                <Icon width="20px" height="24px" left="-108px" top="-19px" />
+              <div className="flex items-center gap-3">
+                <div className="relative h-[24px] w-[24px]">
+                  <div className={pathname === '/diary' ? 'hidden' : 'block'}>
+                    <Icon
+                      width="20px"
+                      height="24px"
+                      left="-108px"
+                      top="-19px"
+                    />
+                  </div>
+                  <div className={pathname === '/diary' ? 'block' : 'hidden'}>
+                    <Icon
+                      width="20px"
+                      height="24px"
+                      left="-110px"
+                      top="-306px"
+                    />
+                  </div>
+                </div>
+                <span>멍멍일지</span>
               </div>
-
-              <div
-                className={`absolute opacity-0 ${pathname === '/diary' && 'opacity-100'} `}
-              >
-                <Icon width="20px" height="24px" left="-110px" top="-306px" />
-              </div>
-              <p className="pl-10">댕댕일지</p>
             </Link>
             {/* 게시판 */}
             <Link
@@ -157,7 +171,7 @@ export default function Sidebar() {
               <Icon width="24px" height="26px" left="-297px" top="-252px" />
               <p>설정</p>
             </div>
-            <div className="flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-6">
+            <div className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-6">
               <Icon width="28px" height="28px" left="-264px" top="-18px" />
               <p>로그아웃</p>
             </div>

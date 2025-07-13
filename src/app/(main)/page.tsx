@@ -5,7 +5,7 @@ import LandingMockup from '@/components/home/LandingMockup';
 export default async function Main() {
   return (
     <>
-      <div className="h-[1000px] w-full bg-amber-900">
+      <div className="scrollbar-hidden h-[1000px] w-full overflow-x-hidden">
         <LandingIntro />
         <LandingFeature />
         <LandingMockup />

@@ -54,7 +54,7 @@ const FeatureImage = ({
 
   return (
     <motion.div
-      className="h-auto w-[180px] sm:w-[380px]"
+      className="h-auto w-[170px] sm:w-[380px]"
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={controls}
