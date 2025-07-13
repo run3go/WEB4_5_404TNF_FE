@@ -1,5 +1,6 @@
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
+import SearchBar from '@/components/common/SearchBar';
 import SelectBox from '@/components/common/SelectBox';
 import PostCard from '@/components/post/PostCard';
 import SearchButton from '@/components/post/SearchButton';
@@ -46,20 +47,8 @@ export default async function Board() {
         </div>
 
         {/* 검색 및 정렬 영역 */}
-        <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[6.27vw]">
-          <div className="bg-opacity-100 relative hidden h-[40px] items-center rounded-[10px] border-[3px] border-[#FFDBAB] sm:flex">
-            <div className="pl-4">
-              <SelectBox width={'125px'} options={SEARCH_LIST} />
-            </div>
-            <input className="h-[40px] w-[13.08vw] focus:outline-none" />
-            <Icon
-              width="18px"
-              height="18px"
-              left="-263px"
-              top="-124px"
-              className="absolute right-3 cursor-pointer"
-            />
-          </div>
+        <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[120px]">
+          <SearchBar options={SEARCH_LIST} />
           <div className="flex items-center gap-8 pr-[70px]">
             <SelectBox width={'110px'} options={SORT} />
 

@@ -1,20 +1,34 @@
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Icon from '@/components/common/Icon';
 import Image from 'next/image';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useMediaQuery } from 'react-responsive';
+import UserProfileEdit from './UserProfileEdit';
 
-export default function UserProfile() {
-  // const [portalElement, setPortalElement] = useState<Element | null>(null);
+export default function UserProfile({
+  togglePage,
+}: {
+  togglePage: () => void;
+}) {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 767px)',
+  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // useEffect(() => {
-  //   setPortalElement(document.querySelector('#profile-container'));
-  // }, []);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="mb-18 sm:mb-20">
       <h2 className="mr-7 inline text-sm text-[var(--color-primary-500)] sm:text-2xl">
         마이 프로필
       </h2>
-      <button className="inline-flex h-[26px] w-[66px] cursor-pointer items-center justify-center gap-2 rounded-[30px] border-1 border-[var(--color-grey)] text-[10px] sm:h-10 sm:w-25 sm:text-base">
+      <button
+        onClick={() => (isMobile ? togglePage() : setIsModalOpen(true))}
+        className="inline-flex h-[26px] w-[66px] cursor-pointer items-center justify-center gap-2 rounded-[30px] border-1 border-[var(--color-grey)] text-[10px] sm:h-10 sm:w-25 sm:text-base"
+      >
         <Icon
           className="hidden sm:block"
           width="14px"
@@ -67,7 +81,12 @@ export default function UserProfile() {
         </div>
       </div>
       {/* 유저 정보 수정 (스크롤 막기 기능 구현 필요) */}
-      {/* {portalElement && createPortal(<UserProfileEdit />, portalElement)} */}
+
+      {isModalOpen &&
+        createPortal(
+          <UserProfileEdit closeModal={closeModal} />,
+          document.body,
+        )}
     </div>
   );
 }
