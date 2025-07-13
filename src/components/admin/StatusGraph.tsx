@@ -7,7 +7,7 @@ export default function StatusGraph({ option }: { option: 'user' | 'post' }) {
 
   return (
     <>
-      <div className="flex flex-col gap-6 text-2xl">
+      <div className="flex cursor-default flex-col gap-6 text-2xl">
         {option === 'user' ? (
           <>
             <h1>신규 가입 / 탈퇴 추이</h1>

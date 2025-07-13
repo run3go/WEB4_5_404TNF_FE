@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import Icon from '../common/Icon';
 import SortArrow from './SortArrow';
+import ReportDetail from './ReportDetail';
 
 export default function AdminTable({ type }: { type: string }) {
   const [sortKey, setSortKey] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const status = '활성';
+
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleSort = (key: string) => {
     if (sortKey === key) {
@@ -22,7 +25,7 @@ export default function AdminTable({ type }: { type: string }) {
         <thead>
           {type === 'user' ? (
             <tr className="h-10 border-b border-[var(--color-black)]">
-              <th className="w-15">No</th>
+              <th className="w-15 cursor-default">No</th>
               <th onClick={() => handleSort('email')} className="w-80">
                 <div className="admin-th-div">
                   이메일
@@ -83,7 +86,7 @@ export default function AdminTable({ type }: { type: string }) {
             </tr>
           ) : (
             <tr className="h-10 border-b border-[var(--color-black)]">
-              <th className="w-15">No</th>
+              <th className="w-15 cursor-default">No</th>
               <th onClick={() => handleSort('reporter')} className="w-55">
                 <div className="admin-th-div">
                   신고자
@@ -137,7 +140,7 @@ export default function AdminTable({ type }: { type: string }) {
             type === 'user' ? (
               <tr
                 key={`user-${index}`}
-                className="h-10 border-b border-[var(--color-black)]"
+                className="h-10 cursor-default border-b border-[var(--color-black)]"
               >
                 <td className="text-center">{index + 1}</td>
                 <td>user1@naver.com</td>
@@ -154,27 +157,40 @@ export default function AdminTable({ type }: { type: string }) {
                 <td>2025.05.06</td>
               </tr>
             ) : (
-              <tr
-                key={`report-${index}`}
-                className="h-10 border-b border-[var(--color-black)]"
-              >
-                <td className="text-center">{index + 1}</td>
-                <td>유저1</td>
-                <td>게시물</td>
-                <td>유저6</td>
-                <td>2025.04.29</td>
-                <td>욕설</td>
-                <td>
-                  <div className="flex justify-center">
-                    <Icon
-                      width="22px"
-                      height="22px"
-                      left="-101px"
-                      top="-255px"
-                    />
-                  </div>
-                </td>
-              </tr>
+              <>
+                <tr
+                  key={`report-${index}`}
+                  onClick={() =>
+                    setOpenIndex(openIndex === index ? null : index)
+                  }
+                  className="h-10 cursor-pointer border-b border-[var(--color-black)]"
+                >
+                  <td className="text-center">{index + 1}</td>
+                  <td>유저1</td>
+                  <td>게시물</td>
+                  <td>유저6</td>
+                  <td>2025.04.29</td>
+                  <td>욕설</td>
+                  <td>
+                    <div className="flex justify-center">
+                      <Icon
+                        width="22px"
+                        height="22px"
+                        left="-101px"
+                        top="-255px"
+                      />
+                    </div>
+                  </td>
+                </tr>
+
+                {openIndex === index && (
+                  <tr>
+                    <td colSpan={7} className="py-2.5">
+                      <ReportDetail />
+                    </td>
+                  </tr>
+                )}
+              </>
             ),
           )}
         </tbody>
