@@ -54,7 +54,7 @@ const FeatureImage = ({
 
   return (
     <motion.div
-      className="h-auto w-[220px] sm:w-[380px]"
+      className="h-auto w-[180px] sm:w-[380px]"
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={controls}
@@ -91,7 +91,7 @@ const AnimatedText = () => {
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={controls}
-      className="pb-24 text-center text-lg"
+      className="pb-12 text-center text-sm sm:pb-24 sm:text-lg"
     >
       하루하루의 기록이 모이면
       <br />내 강아지를 위한 맞춤 조언이 시작됩니다
@@ -105,10 +105,10 @@ const AnimatedText = () => {
 
 export default function LandingFeature() {
   return (
-    <section className="h-auto w-full bg-[var(--color-background)] py-28">
+    <section className="h-auto w-full bg-[var(--color-background)] py-14 sm:py-28">
       <AnimatedText />
 
-      <div className="mx-auto flex max-w-[1240px] flex-wrap justify-center gap-x-11 gap-y-16">
+      <div className="mx-auto flex max-w-[1240px] flex-wrap justify-center gap-x-5 gap-y-5 sm:gap-x-11 sm:gap-y-16">
         {imageData.map((img, i) => (
           <FeatureImage
             key={img.alt}
