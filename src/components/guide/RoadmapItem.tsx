@@ -1,8 +1,9 @@
 import { useGuideStore } from '@/stores/guideStore';
 import { createPortal } from 'react-dom';
+import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
 import Icon from '../common/Icon';
-import GuideList from './GuideList';
+import GuideWrapper from './GuideWrapper';
 
 export default function RoadmapItem({
   month,
@@ -11,6 +12,8 @@ export default function RoadmapItem({
   month: number;
   className: string;
 }) {
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+
   const setMonth = useGuideStore((state) => state.setMonth);
   const selectedMonth = useGuideStore((state) => state.month);
 
@@ -34,7 +37,7 @@ export default function RoadmapItem({
           className={twMerge(
             'absolute top-[50%] left-1/2 -translate-x-1/2 scale-60 cursor-pointer sm:top-[60%] sm:scale-100',
           )}
-          onMouseLeave={() => setMonth(0)}
+          onMouseLeave={() => !isMobile && setMonth(0)}
         >
           <Icon
             className="sm:scale-80"
@@ -43,7 +46,7 @@ export default function RoadmapItem({
             left="-168px"
             top="-364px"
           />
-          {container && createPortal(<GuideList />, container)}
+          {container && createPortal(<GuideWrapper />, container)}
         </div>
       ) : (
         <div
@@ -51,7 +54,8 @@ export default function RoadmapItem({
             'absolute top-[80%] h-[15px] w-[15px] cursor-pointer rounded-full bg-[#d9d9d9] hover:bg-[var(--color-grey)] sm:h-[25px] sm:w-[25px]',
             `left-1/2 -translate-x-1/2`,
           )}
-          onMouseEnter={() => setMonth(month)}
+          onMouseEnter={() => !isMobile && setMonth(month)}
+          onClick={() => isMobile && setMonth(month)}
         />
       )}
     </li>
