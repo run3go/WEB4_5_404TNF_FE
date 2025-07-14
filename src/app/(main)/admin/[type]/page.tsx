@@ -17,7 +17,7 @@ export default async function Admin() {
       </div>
 
       {/* 그래프 기간 선택(월간 / 연간) */}
-      <div className="flex justify-end text-xl">
+      <div className="my-5 flex justify-end text-[18px]">
         <SelectBox options={period} width="85px" isCenter />
       </div>
 
