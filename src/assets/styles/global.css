@@ -31,36 +31,6 @@
   --color-green: #34a853;
 }
 
-/* @font-face {
-  font-family: 'GmarketSans';
-  src: url('/fonts/GmarketSansLight.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'GmarketSans';
-  src: url('/fonts/GmarketSansMedium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'GmarketSans';
-  src: url('/fonts/GmarketSansBold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-} */
-@font-face {
-  font-family: 'Paperlogy';
-  src: url('/fonts/PaperlogyLight.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Paperlogy';
-  src: url('/fonts/PaperlogyRegular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
 @font-face {
   font-family: 'Paperlogy';
   src: url('/fonts/PaperlogyMedium.ttf') format('truetype');
@@ -80,34 +50,9 @@
   font-style: normal;
 }
 
-/* @font-face {
-  font-family: 'GmarketSans';
-  src: url('/fonts/GmarketSansLight.otf') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'GmarketSans';
-  src: url('/fonts/GmarketSansMedium.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'GmarketSans';
-  src: url('/fonts/GmarketSansBold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-} */
-
-/* body {
-  font-family: 'GmarketSans', sans-serif;
-  font-weight: 500;
-  color: var(--color-black);
-  -ms-overflow-style: none;
-} */
 body {
   font-family: 'Paperlogy', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--color-black);
   -ms-overflow-style: none;
 }
