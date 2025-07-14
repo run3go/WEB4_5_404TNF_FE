@@ -10,7 +10,7 @@ import { useSidebarStore } from '@/stores/sidebarStore';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const { toggle } = useSidebarStore();
+  const { open } = useSidebarStore();
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -42,7 +42,7 @@ export default function Header() {
       <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-center rounded-none bg-[var(--color-background)] px-4 sm:hidden">
         <Icon
           className="absolute left-6 cursor-pointer"
-          onClick={toggle}
+          onClick={open}
           width="18px"
           height="10px"
           left="-340px"
