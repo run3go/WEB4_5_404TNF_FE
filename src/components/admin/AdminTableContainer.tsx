@@ -18,7 +18,7 @@ export default function AdminTableContainer() {
   return (
     <>
       {/* List 메뉴 */}
-      <div className="mt-15 flex justify-center gap-20 text-2xl">
+      <div className="mt-15 flex justify-center gap-10 text-[24px]">
         <h1
           onClick={() => setActive('user')}
           className={`cursor-pointer ${
