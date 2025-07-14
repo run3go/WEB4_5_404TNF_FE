@@ -3,25 +3,31 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Icon from './Icon';
+import { useSidebarStore } from '@/stores/sidebarStore';
+import { useEffect } from 'react';
 {
   /* 156,122 */
 }
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { isOpen, close } = useSidebarStore();
+
+  useEffect(() => {
+    close();
+  }, [pathname, close]);
+
   return (
     <>
-      <div className="fixed z-200 hidden h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] p-8 text-[#2B2926] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:rounded-[50px] sm:bg-[#FFFDF7]">
-        {/* <div className="relative h-[13.2vh] w-[8.17vw]">
-          <Image
-            className="hidden object-contain sm:block"
-            src="/images/logo.png"
-            alt="멍멍일지 로고"
-            fill
-            priority
-          />
-        </div> */}
-
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-[170] bg-[#2B2926]/50 sm:hidden"
+          onClick={close}
+        />
+      )}
+      <div
+        className={`fixed z-200 ${!isOpen ? 'hidden' : ''} h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[#2B2926] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:rounded-[50px] sm:bg-[#FFFDF7] sm:p-8`}
+      >
         <Link href="/">
           <Image
             className="hidden sm:block"
@@ -35,7 +41,7 @@ export default function Sidebar() {
 
         <Link href="/">
           <Image
-            className="block sm:hidden"
+            className="mx-auto block pt-8 sm:hidden"
             src="/images/logo.svg"
             alt="멍멍일지 로고"
             width={100}
@@ -44,8 +50,8 @@ export default function Sidebar() {
           />
         </Link>
 
-        <div className="flex flex-col justify-between sm:h-[calc(89.4vh-122.5px)]">
-          <div className="mt-12 text-sm font-medium sm:text-[16px]">
+        <div className="flex h-[calc(89.4vh-50px)] flex-col justify-between sm:h-[calc(89.4vh-122.5px)]">
+          <div className="mt-[34px] text-sm font-medium sm:mt-12 sm:text-[16px]">
             {/* 대시보드 */}
             <Link
               href={'/dashboard'}
@@ -95,7 +101,7 @@ export default function Sidebar() {
                       width="20px"
                       height="24px"
                       left="-108px"
-                      top="-19px"
+                      top="-21px"
                     />
                   </div>
                   <div className={pathname === '/diary' ? 'block' : 'hidden'}>
@@ -103,7 +109,7 @@ export default function Sidebar() {
                       width="20px"
                       height="24px"
                       left="-110px"
-                      top="-306px"
+                      top="-308px"
                     />
                   </div>
                 </div>
@@ -167,11 +173,11 @@ export default function Sidebar() {
             </Link>
           </div>
           <div className="text-sm font-medium sm:text-[16px]">
-            <div className="flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-6">
+            <div className="flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6">
               <Icon width="24px" height="26px" left="-297px" top="-252px" />
               <p>설정</p>
             </div>
-            <div className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-6">
+            <div className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6">
               <Icon width="28px" height="28px" left="-264px" top="-18px" />
               <p>로그아웃</p>
             </div>
