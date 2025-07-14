@@ -2,6 +2,13 @@
 
 import { emailVerify, register } from '@/api/api';
 import Icon from '@/components/common/Icon';
+import {
+  validateEmail,
+  validateName,
+  validateNickname,
+  validatePassword,
+  validateVerificationCode,
+} from '@/lib/utils/validation';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -16,6 +23,24 @@ export default function SignupForm() {
     password: '',
     confirmPassword: '',
     verifycationCode: '',
+  });
+
+  const [errors, setErrors] = useState({
+    name: '',
+    nickname: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    verifycationCode: '',
+  });
+
+  const [touched, setTouched] = useState({
+    name: false,
+    nickname: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+    verifycationCode: false,
   });
 
   const sendEmailVerificationMutation = useMutation({
@@ -62,15 +87,70 @@ export default function SignupForm() {
     },
   });
 
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case 'email':
+        return validateEmail(value);
+      case 'nickname':
+        return validateNickname(value);
+      case 'password':
+        return validatePassword(value);
+      case 'confirmPassword':
+        return value !== formData.password
+          ? '비밀번호가 일치하지 않습니다.'
+          : '';
+      case 'name':
+        return validateName(value);
+      case 'verifycationCode':
+        return value ? '' : '인증 코드를 입력해주세요.';
+      default:
+        return '';
+    }
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (touched[name as keyof typeof touched]) {
+      const error = validateField(name, value);
+      setErrors((prev) => ({ ...prev, [name]: error }));
+    }
   };
 
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setTouched((prev) => ({ ...prev, [name]: true }));
+
+    const error = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: error }));
+  };
+
+  const validateAll = (): boolean => {
+    const newErrors: typeof errors = {
+      name: validateName(formData.name),
+      nickname: validateNickname(formData.nickname),
+      email: validateEmail(formData.email),
+      password: validatePassword(formData.password),
+      confirmPassword:
+        formData.confirmPassword !== formData.password
+          ? '비밀번호가 일치하지 않습니다.'
+          : '',
+      verifycationCode: validateVerificationCode(formData.verifycationCode),
+    };
+
+    setErrors(newErrors);
+
+    return !Object.values(newErrors).some((error) => error !== '');
+  };
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateAll()) {
+      alert('입력 내용을 확인해주세요.');
+      return;
+    }
     singupMutation.mutate({
       email: formData.email,
       verifycationCode: formData.verifycationCode,
@@ -80,7 +160,7 @@ export default function SignupForm() {
 
   return (
     <form
-      className="flex flex-col justify-between p-6 pt-[51px] sm:h-[712px] sm:px-[21.5vw] sm:pt-13"
+      className="flex flex-col justify-between p-6 pt-[51px] sm:h-[712px] sm:px-[21.5vw] sm:pt-11"
       onSubmit={handleSignup}
     >
       <div className="flex flex-col gap-7 sm:gap-7">
@@ -112,25 +192,41 @@ export default function SignupForm() {
             name="email"
             type="email"
             placeholder="example@example.com"
-            className="auth__input focus:!border-[#FCC389]"
+            className={`auth__input focus:!border-[#FCC389] ${
+              touched.email && errors.email ? '!border-[var(--color-red)]' : ''
+            }`}
             value={formData.email}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
+          {touched.email && errors.email && (
+            <p className="auth__error">{errors.email}</p>
+          )}
           {!isEmailVerification && (
-            <div className="flex w-full items-center gap-4">
-              <input
-                name="verifycationCode"
-                type="text"
-                placeholder="인증코드를 입력해주세요"
-                className="auth__input w-full focus:!border-[#FCC389]"
-                value={formData.verifycationCode}
-                onChange={handleChange}
-              />
-              <p className="mt-[13px] shrink-0 text-[#ED4848]">3: 00</p>
-              <button className="mt-[13px] flex h-[40px] w-[86px] shrink-0 cursor-pointer items-center justify-center rounded-[12px] bg-[#FFDBAB] px-7 py-4 text-[14px] sm:h-[52px]">
-                확인
-              </button>
-            </div>
+            <>
+              <div className="flex w-full items-center gap-4">
+                <input
+                  name="verifycationCode"
+                  type="text"
+                  placeholder="인증코드를 입력해주세요"
+                  className={`auth__input w-full focus:!border-[#FCC389] ${
+                    touched.verifycationCode && errors.verifycationCode
+                      ? '!border-[var(--color-red)]'
+                      : ''
+                  }`}
+                  value={formData.verifycationCode}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <p className="mt-[13px] shrink-0 text-[#ED4848]">3: 00</p>
+                <button className="mt-[13px] flex h-[40px] w-[86px] shrink-0 cursor-pointer items-center justify-center rounded-[12px] bg-[#FFDBAB] px-7 py-4 text-[14px] sm:h-[52px]">
+                  확인
+                </button>
+              </div>
+              {touched.verifycationCode && errors.verifycationCode && (
+                <p className="auth__error">{errors.verifycationCode}</p>
+              )}
+            </>
           )}
         </div>
         <div className="flex flex-col">
@@ -145,10 +241,16 @@ export default function SignupForm() {
             name="name"
             type="text"
             placeholder="이름을 입력해주세요"
-            className="auth__input focus:!border-[#FCC389]"
+            className={`auth__input focus:!border-[#FCC389] ${
+              touched.name && errors.name ? '!border-[var(--color-red)]' : ''
+            }`}
             value={formData.name}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
+          {touched.name && errors.name && (
+            <p className="auth__error">{errors.name}</p>
+          )}
         </div>
         <div className="flex flex-col">
           <div className="flex max-w-[720px] justify-between">
@@ -170,10 +272,18 @@ export default function SignupForm() {
             name="nickname"
             type="text"
             placeholder="닉네임을 입력해주세요"
-            className="auth__input focus:!border-[#FCC389]"
+            className={`auth__input focus:!border-[#FCC389] ${
+              touched.nickname && errors.nickname
+                ? '!border-[var(--color-red)]'
+                : ''
+            }`}
             value={formData.nickname}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
+          {touched.nickname && errors.nickname && (
+            <p className="auth__error">{errors.nickname}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
@@ -188,24 +298,40 @@ export default function SignupForm() {
             name="password"
             type="password"
             placeholder="영문/숫자/특수문자 혼합 8~20자"
-            className="auth__input focus:!border-[#FCC389]"
+            className={`auth__input focus:!border-[#FCC389] ${
+              touched.password && errors.password
+                ? '!border-[var(--color-red)]'
+                : ''
+            }`}
             value={formData.password}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
+          {touched.password && errors.password && (
+            <p className="auth__error">{errors.password}</p>
+          )}
           <input
             id="confirmPassword"
             name="confirmPassword"
             type="password"
             placeholder="비밀번호를 한 번 더 입력해주세요"
-            className="auth__input focus:!border-[#FCC389]"
+            className={`auth__input focus:!border-[#FCC389] ${
+              touched.confirmPassword && errors.confirmPassword
+                ? '!border-[var(--color-red)]'
+                : ''
+            }`}
             value={formData.confirmPassword}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
+          {touched.confirmPassword && errors.confirmPassword && (
+            <p className="auth__error">{errors.confirmPassword}</p>
+          )}
         </div>
       </div>
 
       <button
-        className="mt-10 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] disabled:bg-[#2B2926]/20 sm:mt-0 sm:h-[56px]"
+        className="mt-10 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] disabled:bg-[#2B2926]/20 sm:mt-5 sm:h-[56px]"
         disabled
       >
         <div className="flex items-center justify-center gap-2">
