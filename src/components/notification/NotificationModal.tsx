@@ -26,7 +26,7 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
       className="absolute top-full right-0 z-50 mt-2 flex h-[360px] w-[360px] flex-col rounded-lg border border-[var(--color-primary-200)] bg-[var(--color-background)] p-4 shadow-lg"
     >
       <div className="flex items-center justify-between p-2">
-        <p className="text-lg font-bold">Notification</p>
+        <p className="cursor-default text-lg font-bold">Notification</p>
         <p className="cursor-pointer text-xs text-[var(--color-grey)]">
           전체삭제
         </p>
