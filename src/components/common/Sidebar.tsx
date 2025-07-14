@@ -101,7 +101,7 @@ export default function Sidebar() {
                       width="20px"
                       height="24px"
                       left="-108px"
-                      top="-19px"
+                      top="-21px"
                     />
                   </div>
                   <div className={pathname === '/diary' ? 'block' : 'hidden'}>
@@ -109,7 +109,7 @@ export default function Sidebar() {
                       width="20px"
                       height="24px"
                       left="-110px"
-                      top="-306px"
+                      top="-308px"
                     />
                   </div>
                 </div>
