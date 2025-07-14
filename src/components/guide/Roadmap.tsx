@@ -54,27 +54,27 @@ export default function Roadmap() {
             month={7}
           />
           <RoadmapItem
-            className="bottom-[33%] left-[21%] sm:bottom-[46.6%] sm:left-[45%]"
+            className="bottom-[33%] left-[27%] sm:bottom-[46.6%] sm:left-[45%]"
             month={8}
           />
           <RoadmapItem
-            className="bottom-[33%] left-[37%] sm:bottom-[46.6%] sm:left-[33%]"
+            className="bottom-[33%] left-[45%] sm:bottom-[46.6%] sm:left-[33%]"
             month={9}
           />
           <RoadmapItem
-            className="bottom-[33%] left-[53%] sm:bottom-[4.2%] sm:left-[33%]"
+            className="bottom-[33%] left-[63%] sm:bottom-[4.2%] sm:left-[33%]"
             month={10}
           />
           <RoadmapItem
-            className="bottom-[33%] left-[69%] sm:bottom-[4.2%] sm:left-[45%]"
+            className="bottom-[2.5%] left-[63%] sm:bottom-[4.2%] sm:left-[45%]"
             month={11}
           />
           <RoadmapItem
-            className="bottom-[2.5%] left-[63%] sm:bottom-[4.2%] sm:left-[57%]"
+            className="bottom-[2.5%] left-[45%] sm:bottom-[4.2%] sm:left-[57%]"
             month={12}
           />
           <RoadmapItem
-            className="bottom-[2.5%] left-[45%] sm:bottom-[4.2%] sm:left-[69%]"
+            className="bottom-[2.5%] left-[27%] sm:bottom-[4.2%] sm:left-[69%]"
             month={13}
           />
         </ol>
