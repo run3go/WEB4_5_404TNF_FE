@@ -7,7 +7,7 @@ export default function StatusGraph({ option }: { option: 'user' | 'post' }) {
 
   return (
     <>
-      <div className="flex cursor-default flex-col gap-6 text-2xl">
+      <div className="flex cursor-default flex-col gap-4 text-[18px]">
         {option === 'user' ? (
           <>
             <h1>신규 가입 / 탈퇴 추이</h1>
@@ -15,7 +15,7 @@ export default function StatusGraph({ option }: { option: 'user' | 'post' }) {
               <Card className="w-175 sm:px-10 sm:py-4">
                 <GroupedBarChart />
               </Card>
-              <div className="mt-4 flex justify-center gap-24 text-xl">
+              <div className="mt-4 flex justify-center gap-24 text-[18px]">
                 {month.map((m) => (
                   <p key={m}>{m}</p>
                 ))}
@@ -29,7 +29,7 @@ export default function StatusGraph({ option }: { option: 'user' | 'post' }) {
               <Card className="w-175 sm:px-16 sm:py-4">
                 <BarChart />
               </Card>
-              <div className="mt-4 flex justify-center gap-25 text-xl">
+              <div className="mt-4 flex justify-center gap-25 text-[18px]">
                 {month.map((m) => (
                   <p key={m}>{m}</p>
                 ))}
