@@ -50,6 +50,37 @@
   font-style: normal;
 } */
 @font-face {
+  font-family: 'Paperlogy';
+  src: url('/fonts/PaperlogyLight.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('/fonts/PaperlogyRegular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('/fonts/PaperlogyMedium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('/fonts/PaperlogySemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('/fonts/PaperlogyBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* @font-face {
   font-family: 'GmarketSans';
   src: url('/fonts/GmarketSansLight.otf') format('opentype');
   font-weight: 300;
@@ -66,10 +97,17 @@
   src: url('/fonts/GmarketSansBold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
-}
-body {
+} */
+
+/* body {
   font-family: 'GmarketSans', sans-serif;
   font-weight: 500;
+  color: var(--color-black);
+  -ms-overflow-style: none;
+} */
+body {
+  font-family: 'Paperlogy', sans-serif;
+  font-weight: 400;
   color: var(--color-black);
   -ms-overflow-style: none;
 }
