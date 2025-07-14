@@ -1,4 +1,5 @@
 import { useGuideStore } from '@/stores/guideStore';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
@@ -13,12 +14,18 @@ export default function RoadmapItem({
   className: string;
 }) {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const [portalElement, setPortalElement] = useState<Element | null>(null);
 
   const setMonth = useGuideStore((state) => state.setMonth);
   const selectedMonth = useGuideStore((state) => state.month);
 
   const isActive = selectedMonth === month;
-  const container = document.querySelector('#guide-container');
+
+  useEffect(() => {
+    const container = document.querySelector('#guide-container');
+
+    setPortalElement(container);
+  }, []);
 
   return (
     <li
@@ -46,7 +53,7 @@ export default function RoadmapItem({
             left="-168px"
             top="-364px"
           />
-          {container && createPortal(<GuideWrapper />, container)}
+          {portalElement && createPortal(<GuideWrapper />, portalElement)}
         </div>
       ) : (
         <div
