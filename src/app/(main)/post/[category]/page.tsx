@@ -56,7 +56,7 @@ export default async function Board() {
         <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[120px]">
           <SearchBar options={SEARCH_LIST} />
           <div className="flex items-center gap-8 pr-[70px]">
-            <SelectBox width={'110px'} options={SORT} />
+            <SelectBox width={'90px'} options={SORT} isCenter />
 
             <SearchButton />
             <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto">

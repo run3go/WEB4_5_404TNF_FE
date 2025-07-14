@@ -123,9 +123,9 @@ export default function SelectBox({
             ...base,
             borderRadius: '20px',
             width:
-              footstep && !hasBorder
-                ? `${Number(width.replace('px', '')) + 20}px`
-                : width,
+              footstep && hasBorder
+                ? width
+                : `${Number(width.replace('px', '')) + 20}px`,
             position: 'absolute',
             background: 'var(--color-background)',
             right: 0,

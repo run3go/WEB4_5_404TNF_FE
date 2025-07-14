@@ -13,7 +13,7 @@ export default function SearchBar({
     <>
       <div className="bg-opacity-100 relative hidden h-[40px] items-center rounded-[10px] border-[3px] border-[#FFDBAB] sm:flex">
         <div className="pl-4">
-          {options && <SelectBox width={'125px'} options={options} />}
+          {options && <SelectBox width={'120px'} options={options} isCenter />}
         </div>
         <input
           className="h-[40px] w-[250px] focus:outline-none"
