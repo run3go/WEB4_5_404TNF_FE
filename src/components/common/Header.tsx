@@ -9,6 +9,7 @@ import NotificationModal from '../notification/NotificationModal';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
   const modalRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -38,19 +39,23 @@ export default function Header() {
       </div>
       <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-center rounded-none bg-[var(--color-background)] px-4 sm:hidden">
         <Icon
-          className="absolute left-6"
+          className="absolute left-6 cursor-pointer"
           width="18px"
           height="10px"
           left="-340px"
           top="-80px"
         />
-        <Image
-          src={'/images/mobile-logo.svg'}
-          alt="모바일 로고"
-          width={117}
-          height={20}
-          priority
-        />
+
+        <Link href="/">
+          <Image
+            className="cursor-pointer"
+            src={'/images/mobile-logo.svg'}
+            alt="모바일 로고"
+            width={117}
+            height={20}
+            priority
+          />
+        </Link>
       </Card>
       {/* 헤더 아래 공간 */}
       <div className="h-18 w-screen sm:hidden" />
