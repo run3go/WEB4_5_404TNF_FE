@@ -1,14 +1,21 @@
 import { formatDate } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { twMerge } from 'tailwind-merge';
 import CalendarNav from '../diary/CalendarNav';
 import Icon from './Icon';
 
-export default function DateInput({ className }: { className: string }) {
+export default function DateInput({
+  className,
+  selected,
+  setSelected,
+}: {
+  className: string;
+  selected: Date | undefined;
+  setSelected: Dispatch<SetStateAction<Date | undefined>>;
+}) {
   const [isDateInputOpen, setIsDateInputOpen] = useState(false);
-  const [selected, setSelected] = useState<Date | undefined>();
   const inputRef = useRef<HTMLDivElement>(null);
 
   const today = new Date();
