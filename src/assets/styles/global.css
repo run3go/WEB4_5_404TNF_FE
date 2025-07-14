@@ -31,7 +31,7 @@
   --color-green: #34a853;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'GmarketSans';
   src: url('/fonts/GmarketSansLight.woff2') format('woff2');
   font-weight: 300;
@@ -46,6 +46,24 @@
 @font-face {
   font-family: 'GmarketSans';
   src: url('/fonts/GmarketSansBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+} */
+@font-face {
+  font-family: 'GmarketSans';
+  src: url('/fonts/GmarketSansLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GmarketSans';
+  src: url('/fonts/GmarketSansMedium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GmarketSans';
+  src: url('/fonts/GmarketSansBold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
 }
