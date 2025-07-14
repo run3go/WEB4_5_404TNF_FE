@@ -3,17 +3,30 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Icon from './Icon';
+import { useSidebarStore } from '@/stores/sidebarStore';
+import { useEffect } from 'react';
 {
   /* 156,122 */
 }
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { isOpen, close } = useSidebarStore();
+
+  useEffect(() => {
+    close();
+  }, [pathname, close]);
 
   return (
     <>
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-[170] bg-[#2B2926]/50 sm:hidden"
+          onClick={close}
+        />
+      )}
       <div
-        className={`fixed z-200 h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[#2B2926] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:rounded-[50px] sm:bg-[#FFFDF7] sm:p-8`}
+        className={`fixed z-200 ${!isOpen ? 'hidden' : ''} h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[#2B2926] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:rounded-[50px] sm:bg-[#FFFDF7] sm:p-8`}
       >
         <Link href="/">
           <Image
@@ -88,7 +101,7 @@ export default function Sidebar() {
                       width="20px"
                       height="24px"
                       left="-108px"
-                      top="-19px"
+                      top="-21px"
                     />
                   </div>
                   <div className={pathname === '/diary' ? 'block' : 'hidden'}>
@@ -96,7 +109,7 @@ export default function Sidebar() {
                       width="20px"
                       height="24px"
                       left="-110px"
-                      top="-306px"
+                      top="-308px"
                     />
                   </div>
                 </div>
