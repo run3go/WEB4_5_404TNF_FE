@@ -8,6 +8,12 @@ export default function TodoItem({ name }: { name: string }) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const deleteTodo = () => {
+    // 일정 삭제 api
+    // toast
+  };
+
   return (
     <>
       <li className="flex w-full items-center justify-between border-b border-[var(--color-primary-300)] p-3">
@@ -22,6 +28,7 @@ export default function TodoItem({ name }: { name: string }) {
             top="-168px"
           />
           <Icon
+            onClick={deleteTodo}
             className="cursor-pointer"
             width="14px"
             height="14px"
@@ -30,7 +37,9 @@ export default function TodoItem({ name }: { name: string }) {
           />
         </div>
       </li>
-      {isModalOpen && <AddSchedule closeModal={closeModal} />}
+      {isModalOpen && (
+        <AddSchedule closeModal={closeModal} isEdit={true} isStart={false} />
+      )}
     </>
   );
 }

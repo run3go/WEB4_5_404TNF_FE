@@ -9,9 +9,16 @@ import TodoItem from './TodoItem';
 export default function TodoList({
   type,
   closeModal,
+  schedules,
 }: {
   type: 'card' | 'modal';
   closeModal?: () => void;
+  schedules?: {
+    scheduleId: number;
+    date: string;
+    name: string;
+    isDone: boolean;
+  }[];
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -82,14 +89,24 @@ export default function TodoList({
             </span>
           </div> */}
           <ul>
-            <TodoItem name="아침에 약 먹이기" />
+            {schedules?.map((s) => (
+              <TodoItem key={s.scheduleId} name={s.name} />
+            ))}
+            {/* <TodoItem name="아침에 약 먹이기" />
             <TodoItem name="기쁨이 만나서 공원가기" />
             <TodoItem name="사료 주문하기" />
-            <TodoItem name="귀 세정" />
+            <TodoItem name="귀 세정" /> */}
           </ul>
         </div>
         {isModalOpen &&
-          createPortal(<AddSchedule closeModal={closeModal} />, document.body)}
+          createPortal(
+            <AddSchedule
+              closeModal={closeModal}
+              isStart={false}
+              isEdit={false}
+            />,
+            document.body,
+          )}
       </>
     );
   }
