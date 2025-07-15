@@ -58,6 +58,3 @@ export const validateName = (name: string): string => {
 
   return '';
 };
-export const validateVerificationCode = (code: string): string => {
-  return code.trim() ? '' : '인증 코드를 입력해주세요.';
-};
