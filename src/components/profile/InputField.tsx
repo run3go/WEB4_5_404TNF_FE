@@ -28,6 +28,7 @@ export default function InputField({
         className={`profile-input-style ${className}`}
         type={type}
         placeholder={placeholder}
+        autoComplete="off"
         {...register(id)}
       />
     </div>

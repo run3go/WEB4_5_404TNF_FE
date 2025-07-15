@@ -1,4 +1,4 @@
-import { registPetProfile } from '@/api/pet';
+import { getPetProfiles, registPetProfile } from '@/api/pet';
 import {
   petBreedData,
   petNeutering,
@@ -9,6 +9,7 @@ import dog from '@/assets/images/default-dog-profile.svg';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
+import { useProfileStore } from '@/stores/profileStore';
 import { formatDate } from 'date-fns';
 import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
@@ -21,6 +22,7 @@ export default function DogProfileEdit({
 }: {
   closeModal: () => void;
 }) {
+  const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
   const { handleSubmit, register, watch, control } = useForm<PetPayload>({
     defaultValues: {
       birthday: formatDate(new Date(), 'yyyy-MM-dd'),
@@ -38,7 +40,12 @@ export default function DogProfileEdit({
       // 이미지 입력 값 생긴 후 수정
       image: null,
     };
+
     await registPetProfile(payload);
+    // 로그인 기능 구현 이후 자신의 userId 입력
+    const profiles = await getPetProfiles('10001');
+    setPetProfiles(profiles);
+    closeModal();
   };
 
   return (

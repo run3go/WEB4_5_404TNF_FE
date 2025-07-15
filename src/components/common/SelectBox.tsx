@@ -52,6 +52,7 @@ export default function SelectBox({
       <Select
         value={options.find((option) => option.value === value)}
         onChange={(newValue) =>
+          // 모든 selectBox (value, setValue) 연결 후 setValue 조건 제거
           newValue && setValue && setValue(newValue.value)
         }
         isSearchable={false}

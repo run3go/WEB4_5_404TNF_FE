@@ -1,6 +1,6 @@
 'use client';
 import { useProfileStore } from '@/stores/profileStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
@@ -22,17 +22,28 @@ export default function ProfileClient({
   });
   const [isProfile, setIsProfile] = useState(true);
 
-  const profileStore = useProfileStore();
+  const isEditingPetProfile = useProfileStore(
+    (state) => state.isEditingPetProfile,
+  );
+  const isEditingUserProfile = useProfileStore(
+    (state) => state.isEditingUserProfile,
+  );
+  const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
 
-  if (isMobile && profileStore.isEditingPetProfile) {
+  useEffect(() => {
+    setPetProfiles(petProfiles);
+  }, [petProfiles, setPetProfiles]);
+
+  if (isMobile && isEditingPetProfile) {
     return <DogProfileEditMobile />;
-  } else if (isMobile && profileStore.isEditingUserProfile) {
+  } else if (isMobile && isEditingUserProfile) {
     return <UserProfileEditMobile />;
   } else {
     return (
       <main className="scrollbar-hidden relative h-screen w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
-        <h1 className="mb-15 hidden text-center text-[32px] sm:block">
-          닉네임님의 페이지
+        <h1 className="mb-15 hidden text-center text-3xl sm:block">
+          <strong>닉네임</strong>
+          님의 페이지
         </h1>
         <div className="mb-8 flex justify-center gap-4 sm:hidden">
           <Button
@@ -56,7 +67,7 @@ export default function ProfileClient({
         </div>
         <div className={isProfile ? '' : 'hidden sm:block'}>
           <UserProfile userProfile={userProfile} />
-          <DogProfileList petProfiles={petProfiles} />
+          <DogProfileList />
         </div>
         <div className={isProfile ? 'hidden sm:block' : ''}>
           <PostList />

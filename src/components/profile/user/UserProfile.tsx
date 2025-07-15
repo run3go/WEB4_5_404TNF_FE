@@ -25,7 +25,7 @@ export default function UserProfile({
 
   return (
     <div className="mb-18 sm:mb-20">
-      <h2 className="mr-7 inline text-sm text-[var(--color-primary-500)] sm:text-2xl">
+      <h2 className="mr-7 inline text-sm text-[var(--color-primary-500)] sm:text-xl">
         마이 프로필
       </h2>
       <button
@@ -56,7 +56,7 @@ export default function UserProfile({
           width={160}
           height={160}
         />
-        <div className="flex flex-col justify-around text-xs sm:text-xl">
+        <div className="flex flex-col justify-around text-xs sm:text-base">
           <div>
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               이메일

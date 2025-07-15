@@ -1,7 +1,7 @@
 'use client';
 import Card from '@/components/common/Card';
 import { useProfileStore } from '@/stores/profileStore';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMediaQuery } from 'react-responsive';
 import 'swiper/css';
@@ -14,17 +14,14 @@ import DogProfileCard from './DogProfileCard';
 import DogProfileEdit from './DogProfileEdit';
 import RegistCard from './RegistCard';
 
-export default function DogProfileList({
-  petProfiles,
-}: {
-  petProfiles: PetProfile[];
-}) {
+export default function DogProfileList() {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
 
+  const petProfiles = useProfileStore((state) => state.petProfiles);
   const togglePage = useProfileStore((state) => state.toggleEditingPetProfile);
-  const [profiles, setProfiles] = useState<PetProfile[]>([]);
+
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const prevRef = useRef(null);
@@ -34,20 +31,15 @@ export default function DogProfileList({
     setIsProfileModalOpen((state) => !state);
   };
 
-  useEffect(() => {
-    if (petProfiles) {
-      setProfiles(petProfiles);
-    }
-  }, [petProfiles]);
   return (
     <div className="mb-20 w-full">
-      <h2 className="text-sm text-[var(--color-primary-500)] sm:text-2xl">
+      <h2 className="text-sm text-[var(--color-primary-500)] sm:text-xl">
         댕댕이 프로필
       </h2>
       {isMobile ? (
         <div className="mt-6 flex flex-col gap-6">
-          {profiles &&
-            profiles.map((profile, index) => (
+          {petProfiles &&
+            petProfiles.map((profile, index) => (
               <DogProfileCard
                 key={index}
                 togglePage={togglePage}
@@ -75,7 +67,7 @@ export default function DogProfileList({
           </div>
         </div>
       ) : (
-        <div className="relative">
+        <div className="relative w-[85%]">
           <button
             ref={prevRef}
             className={twMerge(
@@ -123,13 +115,15 @@ export default function DogProfileList({
                 }
               }}
             >
-              {profiles &&
-                profiles.map((profile, index) => (
+              {petProfiles &&
+                petProfiles.map((profile, index) => (
                   <SwiperSlide key={index} className="!w-[598px]">
                     <DogProfileCard profile={profile} />
                   </SwiperSlide>
                 ))}
-              <RegistCard openModal={toggleProfileModal} />
+              <SwiperSlide className="!w-[598px]">
+                <RegistCard openModal={toggleProfileModal} />
+              </SwiperSlide>
             </Swiper>
           </div>
           {isProfileModalOpen &&
