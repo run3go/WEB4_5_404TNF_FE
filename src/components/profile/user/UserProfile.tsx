@@ -8,8 +8,10 @@ import UserProfileEdit from './UserProfileEdit';
 
 export default function UserProfile({
   togglePage,
+  userProfile,
 }: {
   togglePage: () => void;
+  userProfile: UserProfile;
 }) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
@@ -58,25 +60,25 @@ export default function UserProfile({
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               이메일
             </span>
-            user@naver.com
+            {userProfile.email}
           </div>
           <div>
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               이름
             </span>
-            홍길동
+            {userProfile.name}
           </div>
           <div>
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               닉네임
             </span>
-            닉네임
+            {userProfile.nickname}
           </div>
           <div>
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               가입유형
             </span>
-            NAVER
+            {userProfile.provider}
           </div>
         </div>
       </div>

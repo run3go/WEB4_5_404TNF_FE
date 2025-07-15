@@ -11,8 +11,10 @@ import UserProfileEditMobile from './user/UserProfileEditMobile';
 
 export default function ProfileClient({
   petProfiles,
+  userProfile,
 }: {
   petProfiles: PetProfile[];
+  userProfile: UserProfile;
 }) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
@@ -59,7 +61,10 @@ export default function ProfileClient({
           </Button>
         </div>
         <div className={isProfile ? '' : 'hidden sm:block'}>
-          <UserProfile togglePage={toggleEditUserProfile} />
+          <UserProfile
+            togglePage={toggleEditUserProfile}
+            userProfile={userProfile}
+          />
           <DogProfileList
             togglePage={toggleEditDogProfile}
             petProfiles={petProfiles}

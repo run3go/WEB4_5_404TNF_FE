@@ -1,4 +1,5 @@
 import { getPetProfiles } from '@/api/pet';
+import { getUserProfile } from '@/api/user';
 import ProfileClient from '@/components/profile/ProfileClient';
 
 export default async function Profile({
@@ -8,5 +9,7 @@ export default async function Profile({
 }) {
   const { userId } = await params;
   const petProfiles = await getPetProfiles(userId);
-  return <ProfileClient petProfiles={petProfiles} />;
+  const userProfile = await getUserProfile(userId);
+  console.log(userProfile);
+  return <ProfileClient petProfiles={petProfiles} userProfile={userProfile} />;
 }
