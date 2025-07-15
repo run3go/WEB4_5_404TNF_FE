@@ -15,7 +15,7 @@ export default function PasswordToggleButton({
     <button
       type="button"
       onClick={onClick}
-      className="absolute top-[32px] right-3 -translate-y-1/2 transform text-gray-400 hover:text-gray-300 sm:top-[38px]"
+      className="absolute top-[28px] right-3 -translate-y-1/2 transform text-gray-400 hover:text-gray-300 sm:top-[34px]"
     >
       {isVisible ? (
         <Icon
