@@ -75,12 +75,26 @@ export default function DateItem({
               closeModal={closeModal}
               isStart={true}
               isEdit={false}
+              fullDate={
+                new Date(
+                  targetMonth.getFullYear(),
+                  targetMonth.getMonth(),
+                  date,
+                )
+              }
             />
           ) : (
             <TodoList
               type="modal"
               closeModal={closeModal}
               schedules={schedules}
+              fullDate={
+                new Date(
+                  targetMonth.getFullYear(),
+                  targetMonth.getMonth(),
+                  date,
+                )
+              }
             />
           ),
           document.body,

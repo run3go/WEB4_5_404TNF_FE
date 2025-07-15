@@ -2,20 +2,27 @@ import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
 import SelectBox from '../common/SelectBox';
+import DateInput from '../common/DateInput';
+import { useState } from 'react';
 
 export default function AddSchedule({
   closeModal,
   isStart,
   isEdit,
+  fullDate,
+  // sId,
 }: {
   closeModal?: () => void;
   isStart: boolean;
   isEdit: boolean;
+  fullDate?: Date | undefined;
+  sId?: number;
 }) {
   if (isEdit) {
     // 수정이면 기존 데이터 불러오기
   }
 
+  // api - 강아지 리스트 불러오기
   const options = [
     { value: '이마음', label: '이마음' },
     { value: '이구름', label: '이구름' },
@@ -23,12 +30,19 @@ export default function AddSchedule({
   ];
 
   const cycles = [
+    { value: 'NONE', label: '없음' }, // api에 없음 추가
     { value: 'WEEK', label: '매주' },
     { value: 'ONE_MONTH', label: '매달' },
     { value: 'THREE_MONTH', label: '매분기' },
     { value: 'SIX_MONTH', label: '반년' },
     { value: 'YEAR', label: '매년' },
   ];
+
+  // const [name, setName] = useState('');
+  const [date, setDate] = useState<Date | undefined>(fullDate);
+  // const [petId, setPetId] = useState(0);
+  // const [cycle, setCycle] = useState('NONE');
+  const [cycleEnd, setCycleEnd] = useState<Date | undefined>(fullDate);
 
   return (
     <>
@@ -65,14 +79,19 @@ export default function AddSchedule({
           </div>
           <div className="flex">
             <span className="inline-block w-[57px] sm:w-20">날짜</span>
-            <span>2025. 7. 6</span>
+            <DateInput
+              selected={date}
+              setSelected={setDate}
+              className="w-33 p-0"
+            />
+            {/* <span>2025. 7. 6</span>
             <Icon
               className="ml-[14px] scale-80"
               width="20px"
               height="20px"
               left="-188px"
               top="-123px"
-            />
+            /> */}
           </div>
           <div className="flex items-center">
             <span className="inline-block w-[57px] sm:w-20">강아지</span>
@@ -82,16 +101,22 @@ export default function AddSchedule({
             <span className="inline-block w-[57px] sm:w-20">반복</span>
             <SelectBox options={cycles} width="80px" isCenter />
           </div>
+          {}
           <div className="flex items-center">
             <span className="mr-4">반복 종료일</span>
-            <span>2025. 7. 6</span>
+            <DateInput
+              selected={cycleEnd}
+              setSelected={setCycleEnd}
+              className="w-33 p-0"
+            />
+            {/* <span>2025. 7. 6</span>
             <Icon
               className="ml-[14px] scale-80"
               width="20px"
               height="20px"
               left="-188px"
               top="-123px"
-            />
+            /> */}
           </div>
 
           {isEdit && (
