@@ -33,7 +33,12 @@ export default function FeedInput() {
             placeholder="급여량"
             maxLength={3}
           />
-          <SelectBox width="65px" options={options} isCenter />
+          <SelectBox
+            width="65px"
+            options={options}
+            borderColor="var(--color-primary-500)"
+            isCenter
+          />
         </div>
       </div>
     </DiaryCard>

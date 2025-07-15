@@ -12,6 +12,7 @@ import DiaryCard from '@/components/diary/DiaryCard';
 import DiaryProfile from '@/components/diary/DiaryProfile';
 import Image from 'next/image';
 import { useState } from 'react';
+import Button from '@/components/common/Button';
 
 export default function DiaryCreate() {
   const [selected, setSelected] = useState<Date | undefined>();
@@ -36,7 +37,12 @@ export default function DiaryCreate() {
           </div>
         </div>
         <div className="absolute -top-2 right-[65px] hidden self-end text-base sm:block">
-          <SelectBox options={options} width="105px" footstep />
+          <SelectBox
+            options={options}
+            width="105px"
+            borderColor="var(--color-primary-500)"
+            footstep
+          />
         </div>
         <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-10">
           <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
@@ -45,11 +51,7 @@ export default function DiaryCreate() {
               <Calendar selected={selected} setSelected={setSelected} />
             </div>
             <DiaryProfile />
-            <DiaryCard
-              className="w-full sm:h-[205px]"
-              title="오늘의 건강기록"
-              hasAddBtn
-            >
+            <DiaryCard className="w-full sm:h-[205px]" title="오늘의 건강기록">
               <SingleInput title="몸무게" id="weight" />
               <SingleInput title="수면시간" id="sleep" />
             </DiaryCard>
@@ -62,13 +64,18 @@ export default function DiaryCreate() {
             <Note />
           </div>
         </div>
+
+        <Button className="mt-[60px] mb-16 hidden self-center sm:block sm:w-[172px]">
+          저장하기
+        </Button>
       </div>
-      <div className="mt-10 flex flex-col sm:hidden">
-        <span className="cursor-pointer self-end pr-4 text-xs text-[var(--color-grey)] sm:hidden">
+      {/* 수정모드일 때 */}
+      {/* <div className="mt-10 flex flex-col sm:block">
+        <span className="cursor-pointer self-end pr-4 text-xs text-[var(--color-grey)] sm:block">
           댕댕일지 삭제하기
         </span>
         <div className="h-15" />
-      </div>
+      </div> */}
     </main>
   );
 }
