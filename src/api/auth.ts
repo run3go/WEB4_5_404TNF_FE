@@ -9,9 +9,10 @@ export const checkEmailDuplicate = async (email: string) => {
     },
   );
 
-  if (!res.ok) throw new Error('Email duplicate check failed');
-
-  return res;
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message || '이메일 중복 확인 실패');
+  }
 };
 
 export const sendEmailVerification = async (email: string) => {
@@ -23,7 +24,11 @@ export const sendEmailVerification = async (email: string) => {
       body: JSON.stringify({ email }),
     },
   );
-  if (!res.ok) throw new Error('Send email verification failed');
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message || '이메일 인증코드 보내기 실패');
+  }
 };
 
 export const verifyEmailCode = async (
@@ -38,7 +43,11 @@ export const verifyEmailCode = async (
       body: JSON.stringify({ email, verificationCode }),
     },
   );
-  if (!res.ok) throw new Error('Email verification failed');
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message || '이메일 인증코드 확인 실패');
+  }
 };
 
 export const checkNicknameDuplicate = async (nickname: string) => {
@@ -51,13 +60,12 @@ export const checkNicknameDuplicate = async (nickname: string) => {
   );
 
   if (!res.ok) {
-    throw new Error('Nickname duplicate check failed');
+    const data = await res.json();
+    throw new Error(data.message || '닉네임 중복 확인 실패');
   }
-
-  return res;
 };
 
-export const register = async (data: {
+export const register = async (formData: {
   name: string;
   nickname: string;
   email: string;
@@ -68,8 +76,12 @@ export const register = async (data: {
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(formData),
     },
   );
-  if (!res.ok) throw new Error('Registration failed');
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message || '회원가입 실패');
+  }
 };
