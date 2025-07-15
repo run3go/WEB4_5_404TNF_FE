@@ -1,11 +1,11 @@
 import { AxiosError } from 'axios';
 import { axiosInstance } from './axiosInstance';
 
-interface ErrorResponse {
+interface AuthError {
+  code: string;
+  message: string;
   status: number;
-  statusText: string;
-  // data 타입 수정 필요
-  data: string;
+  timestamp: string;
 }
 
 export const register = async (
@@ -15,7 +15,7 @@ export const register = async (
   password: string,
 ) => {
   try {
-    const { data } = await axiosInstance.post('/api/auth/v1/register', {
+    const { data } = await axiosInstance.post('/api/auth/v2/register', {
       name,
       nickname,
       email,
@@ -24,7 +24,7 @@ export const register = async (
     return data;
   } catch (err) {
     if ((err as AxiosError).isAxiosError) {
-      const axiosErr = err as AxiosError<ErrorResponse>;
+      const axiosErr = err as AxiosError<AuthError>;
       if (axiosErr.response) {
         throw axiosErr.response.data;
       }
@@ -33,21 +33,77 @@ export const register = async (
   }
 };
 
+export const sendEmailVerify = async (email: string) => {
+  try {
+    const { data } = await axiosInstance.post(
+      '/api/auth/v1/email-verifications',
+      {
+        email,
+      },
+    );
+    return { data };
+  } catch (err) {
+    if ((err as AxiosError).isAxiosError) {
+      const axiosErr = err as AxiosError<AuthError>;
+      if (axiosErr.response) {
+        throw axiosErr.response.data;
+      }
+    }
+    throw err;
+  }
+};
+
+export const checkEmailDuplicated = async (email: string) => {
+  try {
+    const { data } = await axiosInstance.get('/api/auth/v1/check-email', {
+      params: { email },
+    });
+    return data;
+  } catch (err) {
+    if ((err as AxiosError).isAxiosError) {
+      const axiosErr = err as AxiosError<AuthError>;
+      if (axiosErr.response) {
+        const { data } = axiosErr.response;
+
+        throw data;
+      }
+    }
+    throw err;
+  }
+};
+
+export const checkNicknameDuplicated = async (nickname: string) => {
+  try {
+    const { data } = await axiosInstance.get('/api/auth/v1/check-nickname', {
+      params: { nickname },
+    });
+    return data;
+  } catch (err) {
+    if ((err as AxiosError).isAxiosError) {
+      const axiosErr = err as AxiosError<AuthError>;
+      if (axiosErr.response) {
+        const { data } = axiosErr.response;
+
+        throw data;
+      }
+    }
+    throw err;
+  }
+};
+
 export const emailVerify = async (email: string, verificationCode: string) => {
   try {
-    const {
-      data: { userId },
-    }: { data: { userId: string } } = await axiosInstance.post(
-      '/api/auth/v1/register/verify-email',
+    const { data } = await axiosInstance.post(
+      '/api/auth/v1/email-verifications/verify',
       {
         email,
         verificationCode,
       },
     );
-    return { userId };
+    return { data };
   } catch (err) {
     if ((err as AxiosError).isAxiosError) {
-      const axiosErr = err as AxiosError<ErrorResponse>;
+      const axiosErr = err as AxiosError<AuthError>;
       if (axiosErr.response) {
         throw axiosErr.response.data;
       }
@@ -70,7 +126,7 @@ export const login = async (email: string, password: string) => {
     return { accessToken };
   } catch (err) {
     if ((err as AxiosError).isAxiosError) {
-      const axiosErr = err as AxiosError<ErrorResponse>;
+      const axiosErr = err as AxiosError<AuthError>;
       if (axiosErr.response) {
         throw axiosErr.response.data;
       }
@@ -80,5 +136,15 @@ export const login = async (email: string, password: string) => {
 };
 
 export const logout = async () => {
-  return await axiosInstance.post('/api/auth/v1/login');
+  try {
+    return await axiosInstance.post('/api/v1/auth/logout');
+  } catch (err) {
+    if ((err as AxiosError).isAxiosError) {
+      const axiosErr = err as AxiosError<AuthError>;
+      if (axiosErr.response) {
+        throw axiosErr.response.data;
+      }
+    }
+    throw err;
+  }
 };
