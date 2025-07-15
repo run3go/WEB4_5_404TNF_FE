@@ -1,5 +1,6 @@
 'use client';
 
+import { login } from '@/api/auth';
 import Icon from '@/components/common/Icon';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -8,10 +9,33 @@ export default function LoginForm() {
   const route = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ email, password });
+    try {
+      await login(email, password);
+
+      route.push('/');
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : '로그인 중 오류가 발생했습니다.',
+      );
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: string,
+  ) => {
+    if (type === 'email') {
+      setEmail(e.target.value.trim());
+    }
+    if (type === 'password') {
+      setPassword(e.target.value.trim());
+    }
+
+    setError('');
   };
 
   return (
@@ -26,17 +50,20 @@ export default function LoginForm() {
           placeholder="이메일을 입력해주세요"
           className="auth__input focus:!border-[#FCC389]"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => handleChange(e, 'email')}
         />
 
-        <input
-          name="password"
-          type="password"
-          placeholder="비밀번호를 입력해주세요"
-          className="auth__input focus:!border-[#FCC389]"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div>
+          <input
+            name="password"
+            type="password"
+            placeholder="비밀번호를 입력해주세요"
+            className="auth__input focus:!border-[#FCC389]"
+            value={password}
+            onChange={(e) => handleChange(e, 'password')}
+          />
+          {error && <p className="auth__error">{error}</p>}
+        </div>
 
         <button className="mt-4 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] sm:mt-6 sm:h-[56px]">
           <div className="flex items-center justify-center gap-2">
