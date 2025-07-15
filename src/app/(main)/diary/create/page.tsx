@@ -11,11 +11,18 @@ import MobileTitle from '@/components/common/MobileTitle';
 import DiaryCard from '@/components/diary/DiaryCard';
 import DiaryProfile from '@/components/diary/DiaryProfile';
 import Image from 'next/image';
-import { useState } from 'react';
 import Button from '@/components/common/Button';
+import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { parseISO } from 'date-fns';
 
 export default function DiaryCreate() {
-  const [selected, setSelected] = useState<Date | undefined>();
+  const searchParams = useSearchParams();
+  const dateParam = searchParams.get('date');
+
+  // 날짜 파라미터를 Date 객체로 변환
+  const parsedDate = dateParam ? parseISO(dateParam) : undefined;
+  const [selected, setSelected] = useState<Date | undefined>(parsedDate);
   console.log(selected);
 
   const options = [

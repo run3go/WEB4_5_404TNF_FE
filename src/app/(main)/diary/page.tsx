@@ -5,6 +5,8 @@ import LogCard from '@/components/diary/LogCard';
 import DateInput from '@/components/common/DateInput';
 import Link from 'next/link';
 import { useState } from 'react';
+import { format } from 'date-fns';
+import { twMerge } from 'tailwind-merge';
 
 export default function Diary() {
   const options = [
@@ -26,6 +28,7 @@ export default function Diary() {
           <DateInput
             selected={selectedDate}
             setSelected={setSelectedDate}
+            showAllDate
             className="w-[137px] rounded-xl border-1 border-[var(--color-primary-500)] sm:w-[220px]"
           />
           <SelectBox
@@ -37,10 +40,22 @@ export default function Diary() {
           />
         </div>
         <Link
-          className="hidden items-center gap-2 sm:flex"
-          href={'/diary/create'}
+          className={twMerge(
+            'hidden items-center gap-2 sm:flex',
+            !selectedDate && 'pointer-events-none text-[var(--color-grey)]',
+          )}
+          href={
+            selectedDate
+              ? `/diary/create?date=${format(selectedDate, 'yyyy-MM-dd')}`
+              : ''
+          }
         >
-          <Icon width="14px" height="14px" left="-231px" top="-79px" />
+          <Icon
+            width="14px"
+            height="14px"
+            left={selectedDate ? '-231px' : '-383px'}
+            top="-79px"
+          />
           <span className="inline-block w-20 font-medium">기록하기</span>
         </Link>
       </div>
