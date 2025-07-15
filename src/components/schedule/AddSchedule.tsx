@@ -19,18 +19,18 @@ export default function AddSchedule({
   sId?: number;
 }) {
   if (isEdit) {
-    // 수정이면 기존 데이터 불러오기
+    // 수정이면 기존 데이터 불러오기(sId)
   }
 
   // api - 강아지 리스트 불러오기
   const options = [
-    { value: '이마음', label: '이마음' },
-    { value: '이구름', label: '이구름' },
-    { value: '이솜', label: '이솜' },
+    { value: '0', label: '이마음' },
+    { value: '1', label: '이구름' },
+    { value: '2', label: '이솜' },
   ];
 
   const cycles = [
-    { value: 'NONE', label: '없음' }, // api에 없음 추가
+    { value: 'NONE', label: '없음' },
     { value: 'WEEK', label: '매주' },
     { value: 'ONE_MONTH', label: '매달' },
     { value: 'THREE_MONTH', label: '매분기' },
@@ -40,9 +40,13 @@ export default function AddSchedule({
 
   // const [name, setName] = useState('');
   const [date, setDate] = useState<Date | undefined>(fullDate);
-  // const [petId, setPetId] = useState(0);
-  // const [cycle, setCycle] = useState('NONE');
+
+  const [petId, setPetId] = useState('0');
+  const [cycle, setCycle] = useState('NONE');
   const [cycleEnd, setCycleEnd] = useState<Date | undefined>(fullDate);
+
+  console.log('petId: ', petId);
+  console.log('cycle: ', cycle);
 
   return (
     <>
@@ -95,11 +99,23 @@ export default function AddSchedule({
           </div>
           <div className="flex items-center">
             <span className="inline-block w-[57px] sm:w-20">강아지</span>
-            <SelectBox options={options} width="90px" footstep />
+            <SelectBox
+              options={options}
+              width="90px"
+              footstep
+              value={petId}
+              setValue={setPetId}
+            />
           </div>
           <div className="flex items-center">
             <span className="inline-block w-[57px] sm:w-20">반복</span>
-            <SelectBox options={cycles} width="80px" isCenter />
+            <SelectBox
+              options={cycles}
+              width="80px"
+              isCenter
+              value={cycle}
+              setValue={setCycle}
+            />
           </div>
           {}
           <div className="flex items-center">
@@ -134,7 +150,7 @@ export default function AddSchedule({
           )}
 
           <Button className="absolute bottom-0 h-10 w-25 self-center text-sm">
-            저장하기
+            {isEdit ? '수정하기' : '저장하기'}
           </Button>
         </form>
       </div>
