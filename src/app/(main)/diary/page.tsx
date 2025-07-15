@@ -4,27 +4,41 @@ import SelectBox from '@/components/common/SelectBox';
 import LogCard from '@/components/diary/LogCard';
 import DateInput from '@/components/common/DateInput';
 import Link from 'next/link';
-import { useState } from 'react';
-import { format } from 'date-fns';
-import { twMerge } from 'tailwind-merge';
+import { useEffect, useState } from 'react';
+import { getPetsByUserId, Pet } from '@/api/diary';
+
+type Option = { value: string; label: string };
 
 export default function Diary() {
-  const options = [
-    { value: 'all', label: '모든 강아지' },
-    { value: '이마음', label: '이마음' },
-    { value: '이구름', label: '이구름' },
-    { value: '이솜', label: '이솜' },
-  ];
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [pets, setPets] = useState<Pet[]>([]);
+  const [selectedPetId, setSelectedPetId] = useState<string>('all');
+
+  const petOptions: Option[] = [
+    { value: 'all', label: '모든 강아지' },
+    ...pets.map((pet) => ({
+      value: pet.petId.toString(),
+      label: pet.name,
+    })),
+  ];
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        // test userId
+        const res = await getPetsByUserId(10004);
+        setPets(res);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchPets();
+  }, []);
 
   return (
     <main className="flex h-full flex-col items-center p-6 sm:block sm:p-0 sm:px-12 sm:py-7">
       <div className="mb-3 flex w-full justify-between">
         <div className="flex w-full justify-between gap-6 sm:justify-start sm:pl-3">
-          {/* <div className="flex w-[137px] items-center justify-between rounded-xl border-1 border-[var(--color-primary-500)] px-4 sm:w-[160px]">
-            2025. 7. 3
-            <Icon width="20px" height="20px" left="-188px" top="-123px" />
-          </div> */}
           <DateInput
             selected={selectedDate}
             setSelected={setSelectedDate}
@@ -32,7 +46,9 @@ export default function Diary() {
             className="w-[137px] rounded-xl border-1 border-[var(--color-primary-500)] sm:w-[220px]"
           />
           <SelectBox
-            options={options}
+            value={selectedPetId}
+            setValue={setSelectedPetId}
+            options={petOptions}
             width="178px"
             borderColor="var(--color-primary-500)"
             footstep
@@ -40,22 +56,10 @@ export default function Diary() {
           />
         </div>
         <Link
-          className={twMerge(
-            'hidden items-center gap-2 sm:flex',
-            !selectedDate && 'pointer-events-none text-[var(--color-grey)]',
-          )}
-          href={
-            selectedDate
-              ? `/diary/create?date=${format(selectedDate, 'yyyy-MM-dd')}`
-              : ''
-          }
+          className="hidden items-center gap-2 sm:flex"
+          href={'/diary/write'}
         >
-          <Icon
-            width="14px"
-            height="14px"
-            left={selectedDate ? '-231px' : '-383px'}
-            top="-79px"
-          />
+          <Icon width="14px" height="14px" left="-231px" top="-79px" />
           <span className="inline-block w-20 font-medium">기록하기</span>
         </Link>
       </div>

@@ -1,12 +1,17 @@
 import SelectBox from '@/components/common/SelectBox';
 import DiaryCard from '../DiaryCard';
 
-export default function FeedInput() {
-  const options = [
-    { label: 'g', value: 'g' },
-    { label: '컵', value: '컵' },
-    { label: '스푼', value: '스푼' },
-  ];
+type Props = {
+  feedUnitOptions: { label: string; value: string }[];
+  selectedUnit: string;
+  setSelectedUnit: (value: string) => void;
+};
+
+export default function FeedInput({
+  feedUnitOptions,
+  selectedUnit,
+  setSelectedUnit,
+}: Props) {
   return (
     <DiaryCard className="min-h-50 grow sm:h-71" title="식사량" hasAddBtn>
       <div className="flex h-[38px] items-center justify-between text-xs sm:text-sm">
@@ -34,8 +39,10 @@ export default function FeedInput() {
             maxLength={3}
           />
           <SelectBox
+            value={selectedUnit}
+            setValue={setSelectedUnit}
+            options={feedUnitOptions}
             width="65px"
-            options={options}
             borderColor="var(--color-primary-500)"
             isCenter
           />
