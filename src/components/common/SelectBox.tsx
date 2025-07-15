@@ -41,7 +41,6 @@ export default function SelectBox({
     const style = window.getComputedStyle(containerRef.current);
     setFontSize(style.fontSize);
   }, [setFontSize]);
-  console.log(borderColor);
   return (
     <div ref={containerRef}>
       <Select

@@ -1,6 +1,5 @@
 'use client';
-import { logout } from '@/api/api';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
@@ -10,7 +9,11 @@ import PostList from './PostList';
 import UserProfile from './user/UserProfile';
 import UserProfileEditMobile from './user/UserProfileEditMobile';
 
-export default function ProfileClient() {
+export default function ProfileClient({
+  petProfiles,
+}: {
+  petProfiles: PetProfile[];
+}) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
@@ -24,15 +27,6 @@ export default function ProfileClient() {
   const toggleEditDogProfile = () => {
     setIsEditingDogProfile((state) => !state);
   };
-
-  const getProfile = async () => {
-    const data = await logout();
-    console.log(data);
-  };
-
-  useEffect(() => {
-    getProfile();
-  }, []);
 
   if (isMobile && isEditingDogProfile) {
     return <DogProfileEditMobile togglePage={toggleEditDogProfile} />;
@@ -66,7 +60,10 @@ export default function ProfileClient() {
         </div>
         <div className={isProfile ? '' : 'hidden sm:block'}>
           <UserProfile togglePage={toggleEditUserProfile} />
-          <DogProfileList togglePage={toggleEditDogProfile} />
+          <DogProfileList
+            togglePage={toggleEditDogProfile}
+            petProfiles={petProfiles}
+          />
         </div>
         <div className={isProfile ? 'hidden sm:block' : ''}>
           <PostList />

@@ -1,3 +1,4 @@
+import { petBreedData } from '@/assets/data/pet';
 import dog from '@/assets/images/default-dog-profile.svg';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
@@ -9,36 +10,6 @@ export default function DogProfileEdit({
 }: {
   closeModal: () => void;
 }) {
-  const options = [
-    { value: 'BEAGLE', label: '비글' },
-    { value: 'BICHON_FRISE', label: '비숑 프리제' },
-    { value: 'BORDER_COLLIE', label: '보더 콜리' },
-    { value: 'BOXER', label: '복서' },
-    { value: 'BULLDOG', label: '불독' },
-    { value: 'CHIHUAHUA', label: '치와와' },
-    { value: 'COCKER_SPANIEL', label: '코커 스패니얼' },
-    { value: 'DACHSHUND', label: '닥스훈트' },
-    { value: 'DOBERMAN', label: '도베르만' },
-    { value: 'FRENCH_BULLDOG', label: '프렌치 불독' },
-    { value: 'GERMAN_SHEPHERD', label: '저먼 셰퍼드' },
-    { value: 'GOLDEN_RETRIEVER', label: '골든 리트리버' },
-    { value: 'GREAT_DANE', label: '그레이트 데인' },
-    { value: 'HUSKY', label: '허스키' },
-    { value: 'JACK_RUSSELL', label: '잭 러셀 테리어' },
-    { value: 'LABRADOR', label: '래브라도 리트리버' },
-    { value: 'MALTESE', label: '말티즈' },
-    { value: 'PAPILLON', label: '파피용' },
-    { value: 'POMERANIAN', label: '포메라니안' },
-    { value: 'POODLE', label: '푸들' },
-    { value: 'PUG', label: '퍼그' },
-    { value: 'SAMOYED', label: '사모예드' },
-    { value: 'SHIBA_INU', label: '시바 이누' },
-    { value: 'SHIH_TZU', label: '시츄' },
-    { value: 'WELSH_CORGI', label: '웰시 코기' },
-    { value: 'YORKSHIRE_TERRIER', label: '요크셔 테리어' },
-    { value: 'MIX', label: '믹스견' },
-  ];
-
   return (
     <>
       <div
@@ -159,7 +130,7 @@ export default function DogProfileEdit({
                 <label className="mb-2 block" htmlFor="breed">
                   견종<span className="text-[var(--color-red)]"> *</span>
                 </label>
-                <SelectBox options={options} width="344px" hasBorder />
+                <SelectBox options={petBreedData} width="344px" hasBorder />
               </div>
 
               {/* 생년월일 */}

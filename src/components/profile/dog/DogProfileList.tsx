@@ -1,7 +1,6 @@
 'use client';
-
 import Card from '@/components/common/Card';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMediaQuery } from 'react-responsive';
 import 'swiper/css';
@@ -15,8 +14,10 @@ import DogProfileEdit from './DogProfileEdit';
 
 export default function DogProfileList({
   togglePage,
+  petProfiles,
 }: {
   togglePage: () => void;
+  petProfiles: PetProfile[];
 }) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
@@ -27,10 +28,17 @@ export default function DogProfileList({
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
+  const [profiles, setProfiles] = useState<PetProfile[]>([]);
+
   const closeProfileModal = () => {
     setIsProfileModalOpen(false);
   };
 
+  useEffect(() => {
+    if (petProfiles) {
+      setProfiles(petProfiles);
+    }
+  }, [petProfiles]);
   return (
     <div className="mb-20 w-full">
       <h2 className="text-sm text-[var(--color-primary-500)] sm:text-2xl">
@@ -38,8 +46,15 @@ export default function DogProfileList({
       </h2>
       {isMobile ? (
         <div className="mt-6 flex flex-col gap-6">
-          <DogProfileCard togglePage={togglePage} />
-          <DogProfileCard togglePage={togglePage} />
+          {profiles &&
+            profiles.map((profile, index) => (
+              <DogProfileCard
+                key={index}
+                togglePage={togglePage}
+                profile={profile}
+              />
+            ))}
+
           <div onClick={togglePage}>
             <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
               <Icon
@@ -109,13 +124,13 @@ export default function DogProfileList({
                 }
               }}
             >
+              {profiles &&
+                profiles.map((profile, index) => (
+                  <SwiperSlide key={index} className="!w-[598px]">
+                    <DogProfileCard profile={profile} />
+                  </SwiperSlide>
+                ))}
               <SwiperSlide className="!w-[598px]">
-                <DogProfileCard />
-              </SwiperSlide>
-              <SwiperSlide className="!w-[598px]">
-                <DogProfileCard />
-              </SwiperSlide>
-              <SwiperSlide className="!w-[582px]">
                 <div
                   className="pr-10"
                   onClick={() => setIsProfileModalOpen(true)}

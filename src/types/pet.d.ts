@@ -18,6 +18,24 @@ type PetPayload = {
   };
 };
 
+type PetProfile = {
+  registNumber: string;
+  age: string;
+  metday: string;
+  name: string;
+  breed: DogBreed;
+  size: PetSize;
+  sex: boolean;
+  isNeutered: boolean;
+  image: {
+    petImgId: number;
+    savePath: string;
+    type: 'THUMBNAIL' | 'PROFILE' | 'GALLERY';
+    originName: string;
+    renamedName: string;
+  };
+};
+
 type PetBreed =
   | 'BEAGLE'
   | 'BICHON_FRISE'
