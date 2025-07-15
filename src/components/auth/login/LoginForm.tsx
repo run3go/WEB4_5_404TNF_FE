@@ -1,6 +1,6 @@
 'use client';
 
-import { login } from '@/api/api';
+import { login } from '@/api/auth';
 import Icon from '@/components/common/Icon';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
