@@ -64,6 +64,13 @@ export default function SignupForm() {
     confirmPassword: false,
   });
 
+  const isDisabledSubmit = !(
+    emailState.checkedEmail === formData.email &&
+    nicknameState.checkedNickname === formData.nickname &&
+    !Object.values(errors).some((error) => error !== '') &&
+    Object.values(formData).every((val) => val.trim() !== '')
+  );
+
   const handleSendEmailVerify = async (email: string) => {
     try {
       if (email.length === 0) {
@@ -180,6 +187,14 @@ export default function SignupForm() {
     if (touched[name as keyof typeof touched]) {
       const error = validateField(name, value);
       setErrors((prev) => ({ ...prev, [name]: error }));
+
+      if (name === 'password' && touched.confirmPassword) {
+        const confirmError =
+          formData.confirmPassword !== value
+            ? '비밀번호가 일치하지 않습니다.'
+            : '';
+        setErrors((prev) => ({ ...prev, confirmPassword: confirmError }));
+      }
     }
   };
 
@@ -271,7 +286,7 @@ export default function SignupForm() {
                 />
                 <button
                   type="button"
-                  className="mt-2 flex h-[40px] w-[86px] shrink-0 cursor-pointer items-center justify-center rounded-[12px] bg-[#FFDBAB] px-7 py-4 text-[14px] disabled:bg-[#2B2926]/20 sm:h-[52px]"
+                  className="mt-2 flex h-[40px] w-[86px] shrink-0 cursor-pointer items-center justify-center rounded-[12px] bg-[#FFDBAB] px-7 py-4 text-[14px] text-[#2B2926] disabled:bg-[#2B2926]/20 disabled:text-[#909090] sm:h-[52px]"
                   onClick={() => {
                     handleVerifyCode(formData.email, formData.verificationCode);
                   }}
@@ -344,7 +359,7 @@ export default function SignupForm() {
           )}
           {nicknameState.checkedNickname === formData.nickname &&
             nicknameState.checkedNickname !== '' && (
-              <p className="auth__success">사용가능한 닉네임입니다.</p>
+              <p className="auth__success">사용 가능한 닉네임입니다.</p>
             )}
         </div>
 
@@ -415,19 +430,16 @@ export default function SignupForm() {
       </div>
 
       <button
-        className="mt-10 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] disabled:bg-[#2B2926]/20 sm:mt-5 sm:h-[56px]"
-        disabled={
-          !(
-            emailState.checkedEmail === formData.email &&
-            nicknameState.checkedNickname === formData.nickname &&
-            !Object.values(errors).some((error) => error !== '') &&
-            Object.values(formData).every((val) => val.trim() !== '')
-          )
-        }
+        className="group mt-10 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] disabled:bg-[#2B2926]/20 sm:mt-5 sm:h-[56px]"
+        disabled={isDisabledSubmit}
       >
         <div className="flex items-center justify-center gap-2">
-          <Icon width="20px" height="18px" left="-253px" top="-311px" />
-          <p className="text-[14px] font-medium text-[#909090] sm:text-[18px]">
+          {isDisabledSubmit ? (
+            <Icon width="20px" height="18px" left="-253px" top="-311px" />
+          ) : (
+            <Icon width="20px" height="18px" left="-297px" top="-312px" />
+          )}
+          <p className="text-[14px] font-medium text-[#2B2926] group-disabled:text-[#909090] sm:text-[18px]">
             멍멍일지 회원가입
           </p>
         </div>
