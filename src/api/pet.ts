@@ -6,6 +6,7 @@ export const getPetProfiles = async (userId: string) => {
       `${process.env.BASE_URL}/api/profile/v1/pet/${userId}`,
     );
     const data = await response.json();
+    // const { data } = await axiosInstance.get(`/api/profile/v1/pet/${userId}`);
     return data;
   } catch (err) {
     console.log(err);
