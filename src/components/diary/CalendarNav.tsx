@@ -20,7 +20,7 @@ export default function CalendarNav(
       </button>
       <button onClick={props.onNextClick}>
         <Icon
-          className="absolute top-[11px] right-[30%] cursor-pointer sm:right-[25%]"
+          className="absolute top-[11px] right-[30%] cursor-pointer"
           width="6px"
           height="10px"
           left="-234px"
