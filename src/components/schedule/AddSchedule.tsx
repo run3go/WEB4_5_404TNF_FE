@@ -5,9 +5,17 @@ import SelectBox from '../common/SelectBox';
 
 export default function AddSchedule({
   closeModal,
+  isStart,
+  isEdit,
 }: {
   closeModal?: () => void;
+  isStart: boolean;
+  isEdit: boolean;
 }) {
+  if (isEdit) {
+    // 수정이면 기존 데이터 불러오기
+  }
+
   const options = [
     { value: '이마음', label: '이마음' },
     { value: '이구름', label: '이구름' },
@@ -21,18 +29,21 @@ export default function AddSchedule({
     { value: 'SIX_MONTH', label: '반년' },
     { value: 'YEAR', label: '매년' },
   ];
+
   return (
     <>
       <div
         className={twMerge(
-          'absolute inset-0 z-500 bg-[var(--color-black)] opacity-50 sm:hidden',
+          `absolute inset-0 z-500 bg-[var(--color-black)] opacity-50 ${isStart ? '' : 'sm:hidden'}`,
         )}
         onClick={closeModal}
       />
       <div className="absolute top-1/2 left-1/2 z-501 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
         <form className="relative flex h-full flex-col gap-4 text-sm leading-[1.2] sm:gap-7 sm:text-base">
           <div className="mb-1 flex w-full items-center justify-between">
-            <h2 className="text-base font-extrabold">일정추가</h2>
+            <h2 className="text-base font-extrabold">
+              {isEdit ? '일정 수정' : '일정 추가'}
+            </h2>
             <Icon
               className="mr-2 cursor-pointer"
               onClick={closeModal}
@@ -82,6 +93,21 @@ export default function AddSchedule({
               top="-123px"
             />
           </div>
+
+          {isEdit && (
+            <div className="flex gap-4">
+              <label className="flex items-center justify-center gap-2">
+                <input type="radio" name="cycleLink" value="false" />이 일정에만
+                적용
+              </label>
+
+              <label className="flex items-center justify-center gap-2">
+                <input type="radio" name="cycleLink" value="true" />
+                반복되는 모든 일정에 적용
+              </label>
+            </div>
+          )}
+
           <Button className="absolute bottom-0 h-10 w-25 self-center text-sm">
             저장하기
           </Button>
