@@ -17,12 +17,16 @@ import { useState } from 'react';
 import Icon from '@/components/common/Icon';
 import PasswordToggleButton from '../ShowPasswordButton';
 import { useRouter } from 'next/navigation';
+import CountdownTimer from './CountdownTimer';
 
 export default function SignupForm() {
   const router = useRouter();
+
   const [isEmailVerification, setIsEmailVerification] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowComfirmPassword, setIsShowComfirmPassword] = useState(false);
+  const [isTimerExpired, setIsTimerExpired] = useState(false);
+  const [timerKey, setTimerKey] = useState(0);
   const [emailState, setEmailState] = useState({
     checkedEmail: '',
     duplicateError: '',
@@ -83,6 +87,8 @@ export default function SignupForm() {
         duplicateError: '',
         checkedEmail: '',
       }));
+      setTimerKey((prev) => prev + 1);
+      setIsTimerExpired(false);
       setIsEmailVerification(true);
     } catch (err) {
       console.error(err);
@@ -258,14 +264,18 @@ export default function SignupForm() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                <p className="mt-[13px] shrink-0 text-[#ED4848]">3: 00</p>
+                <CountdownTimer
+                  seconds={180}
+                  keyReset={timerKey}
+                  onStatusChange={(expired) => setIsTimerExpired(expired)}
+                />
                 <button
                   type="button"
-                  className="mt-[13px] flex h-[40px] w-[86px] shrink-0 cursor-pointer items-center justify-center rounded-[12px] bg-[#FFDBAB] px-7 py-4 text-[14px] disabled:bg-[#2B2926]/20 sm:h-[52px]"
+                  className="mt-2 flex h-[40px] w-[86px] shrink-0 cursor-pointer items-center justify-center rounded-[12px] bg-[#FFDBAB] px-7 py-4 text-[14px] disabled:bg-[#2B2926]/20 sm:h-[52px]"
                   onClick={() => {
                     handleVerifyCode(formData.email, formData.verificationCode);
                   }}
-                  disabled={!formData.verificationCode.trim()}
+                  disabled={!formData.verificationCode.trim() || isTimerExpired}
                 >
                   확인
                 </button>
