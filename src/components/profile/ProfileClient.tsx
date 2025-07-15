@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { logout } from '@/api/api';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
@@ -24,6 +25,15 @@ export default function ProfileClient() {
     setIsEditingDogProfile((state) => !state);
   };
 
+  const getProfile = async () => {
+    const data = await logout();
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   if (isMobile && isEditingDogProfile) {
     return <DogProfileEditMobile togglePage={toggleEditDogProfile} />;
   } else if (isMobile && isEditingUserProfile) {
@@ -31,7 +41,6 @@ export default function ProfileClient() {
   } else {
     return (
       <main className="scrollbar-hidden relative h-screen w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
-
         <h1 className="mb-15 hidden text-center text-[32px] sm:block">
           닉네임님의 페이지
         </h1>
