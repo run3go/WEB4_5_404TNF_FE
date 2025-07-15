@@ -1,69 +1,67 @@
 'use client';
-import SelectBox from '@/components/common/SelectBox';
-import Calendar from '@/components/diary/Calendar';
+import { useSearchParams } from 'next/navigation';
+import { useDiaryForm } from '@/hooks/useDiaryForm';
 import FeedInput from '@/components/diary/create/FeedInput';
-import Note from '@/components/diary/create/Note';
-import SingleInput from '@/components/diary/create/SingleInput';
 import WalkingInput from '@/components/diary/create/WalkingInput';
 import diary from '@/assets/images/diary.svg';
-import MobileTitle from '@/components/common/MobileTitle';
-import DiaryCard from '@/components/diary/DiaryCard';
+import Note from '@/components/diary/create/Note';
+import SingleInput from '@/components/diary/create/SingleInput';
+import Calendar from '@/components/diary/Calendar';
+import SelectBox from '@/components/common/SelectBox';
 import DiaryProfile from '@/components/diary/DiaryProfile';
+import MobileTitle from '@/components/common/MobileTitle';
 import Image from 'next/image';
+import DiaryCard from '@/components/diary/DiaryCard';
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { parseISO } from 'date-fns';
-import { getPetsByUserId, Pet } from '@/api/diary';
-
-type Option = { value: string; label: string };
+const feedUnitOptions = [
+  { label: '그램', value: 'GRAM' },
+  { label: '스푼', value: 'SPOON' },
+  { label: '스쿱', value: 'SCOOP' },
+  { label: '컵', value: 'CUP' },
+];
 
 export default function DiaryWrite() {
   const searchParams = useSearchParams();
   const dateParam = searchParams.get('date');
   const petIdParam = searchParams.get('petId');
 
-  const parsedDate = dateParam ? parseISO(dateParam) : new Date();
-  const [selected, setSelected] = useState<Date | undefined>(parsedDate);
+  const {
+    selected,
+    setSelected,
+    selectedPetId,
+    setSelectedPetId,
+    weight,
+    setWeight,
+    sleepTime,
+    setSleepTime,
+    note,
+    setNote,
+    feedAmount,
+    setFeedAmount,
+    feedTimeHour,
+    setFeedTimeHour,
+    feedTimeMinute,
+    setFeedTimeMinute,
+    selectedUnit,
+    setSelectedUnit,
+    walkStartHour,
+    setWalkStartHour,
+    walkStartMinute,
+    setWalkStartMinute,
+    walkEndHour,
+    setWalkEndHour,
+    walkEndMinute,
+    setWalkEndMinute,
+    pets,
+    selectedPetName,
 
-  const [pets, setPets] = useState<Pet[]>([]);
-  const [selectedPetId, setSelectedPetId] = useState<string>('');
-  const [selectedUnit, setSelectedUnit] = useState('GRAM');
+    handleSubmit,
+  } = useDiaryForm(petIdParam, dateParam);
 
-  const petOptions: Option[] = [
-    ...pets.map((pet) => ({
-      value: pet.petId.toString(),
-      label: pet.name,
-    })),
-  ];
-
-  const feedUnitOptions = [
-    { label: 'g', value: 'GRAM' },
-    { label: '스푼', value: 'SPOON' },
-    { label: '스쿱', value: 'SCOOP' },
-    { label: '컵', value: 'CUP' },
-  ];
-
-  useEffect(() => {
-    const fetchPets = async () => {
-      try {
-        // test useId
-        const res = await getPetsByUserId(10004);
-        setPets(res);
-
-        const defaultId = petIdParam || res[0]?.petId?.toString();
-        setSelectedPetId(defaultId || '');
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchPets();
-  }, [petIdParam]);
-
-  const selectedPetName =
-    petOptions.find((opt) => opt.value === selectedPetId)?.label || '';
-
+  const petOptions = pets.map((pet) => ({
+    value: pet.petId.toString(),
+    label: pet.name,
+  }));
   return (
     <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-4 sm:pb-0">
       <MobileTitle title="멍멍일지" closePage={() => {}} onClick={() => {}} />
@@ -89,7 +87,10 @@ export default function DiaryWrite() {
               hasBorder
             />
           </div>
-          <button className="w-[115px] cursor-pointer rounded-xl bg-[var(--color-primary-500)] text-base">
+          <button
+            className="w-[115px] cursor-pointer rounded-xl bg-[var(--color-primary-500)] text-base"
+            onClick={handleSubmit}
+          >
             저장하기
           </button>
         </div>
@@ -102,8 +103,18 @@ export default function DiaryWrite() {
             </div>
             <DiaryProfile />
             <DiaryCard className="w-full sm:h-[205px]" title="오늘의 건강기록">
-              <SingleInput title="몸무게" id="weight" />
-              <SingleInput title="수면시간" id="sleep" />
+              <SingleInput
+                title="몸무게"
+                id="weight"
+                value={weight}
+                onChange={setWeight}
+              />
+              <SingleInput
+                title="수면시간"
+                id="sleep"
+                value={sleepTime}
+                onChange={setSleepTime}
+              />
             </DiaryCard>
           </div>
           <div className="flex grow flex-col gap-6 sm:gap-12">
@@ -112,10 +123,25 @@ export default function DiaryWrite() {
                 feedUnitOptions={feedUnitOptions}
                 selectedUnit={selectedUnit}
                 setSelectedUnit={setSelectedUnit}
+                feedAmount={feedAmount}
+                setFeedAmount={setFeedAmount}
+                feedTimeHour={feedTimeHour}
+                setFeedTimeHour={setFeedTimeHour}
+                feedTimeMinute={feedTimeMinute}
+                setFeedTimeMinute={setFeedTimeMinute}
               />
-              <WalkingInput />
+              <WalkingInput
+                walkStartHour={walkStartHour}
+                setWalkStartHour={setWalkStartHour}
+                walkStartMinute={walkStartMinute}
+                setWalkStartMinute={setWalkStartMinute}
+                walkEndHour={walkEndHour}
+                setWalkEndHour={setWalkEndHour}
+                walkEndMinute={walkEndMinute}
+                setWalkEndMinute={setWalkEndMinute}
+              />
             </div>
-            <Note />
+            <Note value={note} onChange={setNote} />
           </div>
         </div>
       </div>

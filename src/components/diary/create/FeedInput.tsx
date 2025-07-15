@@ -5,12 +5,24 @@ type Props = {
   feedUnitOptions: { label: string; value: string }[];
   selectedUnit: string;
   setSelectedUnit: (value: string) => void;
+  feedAmount: string;
+  setFeedAmount: (value: string) => void;
+  feedTimeHour: string;
+  setFeedTimeHour: (value: string) => void;
+  feedTimeMinute: string;
+  setFeedTimeMinute: (value: string) => void;
 };
 
 export default function FeedInput({
   feedUnitOptions,
   selectedUnit,
   setSelectedUnit,
+  feedAmount,
+  setFeedAmount,
+  feedTimeHour,
+  setFeedTimeHour,
+  feedTimeMinute,
+  setFeedTimeMinute,
 }: Props) {
   return (
     <DiaryCard className="min-h-50 grow sm:h-71" title="식사량" hasAddBtn>
@@ -21,6 +33,8 @@ export default function FeedInput({
             type="text"
             placeholder="시간"
             maxLength={2}
+            value={feedTimeHour}
+            onChange={(e) => setFeedTimeHour(e.target.value)}
           />
           <span className="mr-3">시</span>
           <input
@@ -28,6 +42,8 @@ export default function FeedInput({
             type="text"
             placeholder="분"
             maxLength={2}
+            value={feedTimeMinute}
+            onChange={(e) => setFeedTimeMinute(e.target.value)}
           />
           <span>분</span>
         </div>
@@ -37,6 +53,8 @@ export default function FeedInput({
             type="text"
             placeholder="급여량"
             maxLength={3}
+            value={feedAmount}
+            onChange={(e) => setFeedAmount(e.target.value)}
           />
           <SelectBox
             value={selectedUnit}

@@ -3,9 +3,13 @@ import { twMerge } from 'tailwind-merge';
 export default function SingleInput({
   title,
   id,
+  value,
+  onChange,
 }: {
   title: string;
   id: string;
+  value: string;
+  onChange: (value: string) => void;
 }) {
   return (
     <div
@@ -25,6 +29,8 @@ export default function SingleInput({
         id={id}
         type="text"
         placeholder={`${title}을 입력하세요`}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       />
       <span>{title === '수면시간' ? '시간' : 'kg'}</span>
     </div>
