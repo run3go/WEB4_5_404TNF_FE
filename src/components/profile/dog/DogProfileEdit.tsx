@@ -1,15 +1,46 @@
-import { petBreedData } from '@/assets/data/pet';
+import { registPetProfile } from '@/api/pet';
+import {
+  petBreedData,
+  petNeutering,
+  petSex,
+  petSizeData,
+} from '@/assets/data/pet';
 import dog from '@/assets/images/default-dog-profile.svg';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
+import { formatDate } from 'date-fns';
 import Image from 'next/image';
+import { Controller, useForm } from 'react-hook-form';
+import DateField from '../DateField';
+import InputField from '../InputField';
+import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEdit({
   closeModal,
 }: {
   closeModal: () => void;
 }) {
+  const { handleSubmit, register, watch, control } = useForm<PetPayload>({
+    defaultValues: {
+      birthday: formatDate(new Date(), 'yyyy-MM-dd'),
+      metday: formatDate(new Date(), 'yyyy-MM-dd'),
+    },
+  });
+
+  const onSubmit = async (data: PetPayload) => {
+    const payload = {
+      ...data,
+      sex: data.sex === 'true' ? true : false,
+      isNeutered: data.isNeutered === 'true' ? true : false,
+      // 로그인 기능 구현 이후 자신의 userId 입력
+      userId: '10001',
+      // 이미지 입력 값 생긴 후 수정
+      image: null,
+    };
+    await registPetProfile(payload);
+  };
+
   return (
     <>
       <div
@@ -25,7 +56,10 @@ export default function DogProfileEdit({
           left="-302px"
           top="-202px"
         />
-        <form className="flex flex-col items-center" action="">
+        <form
+          className="flex flex-col items-center"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           {/* 사진 선택 */}
           <div className="mb-10 flex flex-col items-center gap-4">
             <Image
@@ -40,154 +74,87 @@ export default function DogProfileEdit({
           </div>
           <div className="flex justify-between gap-20 pb-14">
             <div className="w-full">
-              {/* 이름 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="name">
-                  이름<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <input
-                  id="name"
-                  className="profile-input-style w-full"
-                  type="text"
-                  placeholder="이름을 적어주세요 (1~10자 이내)"
-                />
-              </div>
-              {/* 크기 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="breed">
-                  크기<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div>
-                  <label htmlFor="SMALL">
-                    <span className="profile-checkbox-style">소형견</span>
-                    <input hidden type="checkbox" name="size" id="SMALL" />
-                  </label>
-                  <label htmlFor="MEDIUM">
-                    <span className="profile-checkbox-style">중형견</span>
-                    <input hidden type="checkbox" name="size" id="MEDIUM" />
-                  </label>
-                  <label htmlFor="LARGE">
-                    <span className="profile-checkbox-style">대형견</span>
-                    <input hidden type="checkbox" name="size" id="LARGE" />
-                  </label>
-                </div>
-              </div>
-              {/* 성별 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="breed">
-                  성별<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div>
-                  <label htmlFor="male">
-                    <span className="profile-checkbox-style">남아</span>
-                    <input hidden type="checkbox" name="sex" id="male" />
-                  </label>
-                  <label htmlFor="female">
-                    <span className="profile-checkbox-style">여아</span>
-                    <input hidden type="checkbox" name="sex" id="female" />
-                  </label>
-                </div>
-              </div>
-              {/* 몸무게 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="weight">
-                  몸무게<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <input
-                  id="weight"
-                  className="profile-input-style mr-2 w-[175px]"
-                  type="text"
-                  placeholder="몸무게를 적어주세요"
-                />
-                kg
-              </div>
+              <InputField
+                className="w-full"
+                id="name"
+                label="이름"
+                placeholder="이름을 적어주세요 (1~10자 이내)"
+                required
+                register={register}
+              />
+              <RadioGroupField
+                id="size"
+                label="크기"
+                options={petSizeData}
+                register={register}
+                watch={watch}
+                required
+              />
+              <RadioGroupField
+                id="sex"
+                label="성별"
+                options={petSex}
+                register={register}
+                watch={watch}
+                required
+              />
+              <InputField
+                className="mr-2 w-[175px]"
+                id="weight"
+                label="몸무게"
+                placeholder="몸무게를 적어주세요"
+                required
+                register={register}
+              />
               {/* 처음 만난 날 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="name">
-                  처음 만난 날
-                  <span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div className="relative">
-                  <input
-                    id="name"
-                    className="profile-input-style w-full"
-                    type="text"
-                    placeholder="yyyy / mm / dd"
-                  />
-                  <Icon
-                    className="absolute top-1/2 right-4 -translate-y-1/2"
-                    width="20px"
-                    height="20px"
-                    left="-188px"
-                    top="-123px"
-                  />
-                </div>
-              </div>
+              <DateField
+                control={control}
+                id="metday"
+                label="처음 만난 날"
+                required
+              />
             </div>
             <div className="w-full">
-              {/* 견종 셀렉트박스 스타일 수정 예정 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="breed">
-                  견종<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <SelectBox options={petBreedData} width="344px" hasBorder />
-              </div>
-
-              {/* 생년월일 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="birth">
-                  생년월일<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div className="relative">
-                  <input
-                    id="name"
-                    className="profile-input-style w-full"
-                    type="text"
-                    placeholder="yyyy / mm / dd"
-                  />
-                  <Icon
-                    className="absolute top-1/2 right-4 -translate-y-1/2"
-                    width="20px"
-                    height="20px"
-                    left="-188px"
-                    top="-123px"
-                  />
-                </div>
-              </div>
-
-              {/* 중성화 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="breed">
-                  중성화<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div>
-                  <label htmlFor="done">
-                    <span className="profile-checkbox-style">했어요</span>
-                    <input hidden type="checkbox" name="neutering" id="done" />
-                  </label>
-                  <label htmlFor="undone">
-                    <span className="profile-checkbox-style">안했어요</span>
-                    <input
-                      hidden
-                      type="checkbox"
-                      name="neutering"
-                      id="undone"
+              <Controller
+                name="breed"
+                control={control}
+                render={({ field }) => (
+                  <div className="mb-7">
+                    <label className="mb-2 block" htmlFor="breed">
+                      견종<span className="text-[var(--color-red)]"> *</span>
+                    </label>
+                    <SelectBox
+                      options={petBreedData}
+                      width="344px"
+                      hasBorder
+                      setValue={(value) => field.onChange(value)}
+                      value={field.value}
                     />
-                  </label>
-                </div>
-              </div>
-              {/* 등록번호 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="weight">
-                  등록번호<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <input
-                  id="weight"
-                  className="profile-input-style mr-2 w-full"
-                  type="text"
-                  placeholder="등록번호를 적어주세요"
-                />
-              </div>
+                  </div>
+                )}
+              />
+              <DateField
+                control={control}
+                id="birthday"
+                label="생년월일"
+                required
+              />
+              <RadioGroupField
+                id="isNeutered"
+                label="중성화"
+                options={petNeutering}
+                register={register}
+                watch={watch}
+                required
+              />
+              <InputField
+                className="mr-2 w-full"
+                id="registNumber"
+                label="등록번호"
+                placeholder="등록번호를 적어주세요"
+                required
+                register={register}
+              />
             </div>
           </div>
           <Button className="w-50">수정하기</Button>

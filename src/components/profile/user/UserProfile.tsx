@@ -1,5 +1,6 @@
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Icon from '@/components/common/Icon';
+import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -7,15 +8,15 @@ import { useMediaQuery } from 'react-responsive';
 import UserProfileEdit from './UserProfileEdit';
 
 export default function UserProfile({
-  togglePage,
   userProfile,
 }: {
-  togglePage: () => void;
   userProfile: UserProfile;
 }) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
+
+  const togglePage = useProfileStore((state) => state.toggleEditingUserProfile);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => {

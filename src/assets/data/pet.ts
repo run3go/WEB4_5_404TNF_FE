@@ -28,8 +28,18 @@ export const petBreedData = [
   { value: 'MIX', label: '믹스견' },
 ];
 
+export const petSex = [
+  { value: 'true', label: '남아' },
+  { value: 'false', label: '여아' },
+];
+
 export const petSizeData = [
   { value: 'SMALL', label: '소형견' },
   { value: 'MEDIUM', label: '중형견' },
   { value: 'LARGE', label: '대형견' },
+];
+
+export const petNeutering = [
+  { value: 'true', label: '했어요' },
+  { value: 'false', label: '안했어요' },
 ];

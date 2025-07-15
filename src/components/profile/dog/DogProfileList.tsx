@@ -1,5 +1,6 @@
 'use client';
 import Card from '@/components/common/Card';
+import { useProfileStore } from '@/stores/profileStore';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMediaQuery } from 'react-responsive';
@@ -11,27 +12,26 @@ import { twMerge } from 'tailwind-merge';
 import Icon from '../../common/Icon';
 import DogProfileCard from './DogProfileCard';
 import DogProfileEdit from './DogProfileEdit';
+import RegistCard from './RegistCard';
 
 export default function DogProfileList({
-  togglePage,
   petProfiles,
 }: {
-  togglePage: () => void;
   petProfiles: PetProfile[];
 }) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
 
+  const togglePage = useProfileStore((state) => state.toggleEditingPetProfile);
+  const [profiles, setProfiles] = useState<PetProfile[]>([]);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
-  const [profiles, setProfiles] = useState<PetProfile[]>([]);
-
-  const closeProfileModal = () => {
-    setIsProfileModalOpen(false);
+  const toggleProfileModal = () => {
+    setIsProfileModalOpen((state) => !state);
   };
 
   useEffect(() => {
@@ -95,8 +95,7 @@ export default function DogProfileList({
             ref={nextRef}
             className={twMerge(
               'absolute top-1/2 right-6 z-50 -translate-y-1/2',
-              // 반련견 정보 배열의 길이 - 2
-              currentPage === 1 ? 'hidden' : '',
+              currentPage === petProfiles.length - 1 ? 'hidden' : '',
             )}
           >
             <Icon
@@ -130,34 +129,12 @@ export default function DogProfileList({
                     <DogProfileCard profile={profile} />
                   </SwiperSlide>
                 ))}
-              <SwiperSlide className="!w-[598px]">
-                <div
-                  className="pr-10"
-                  onClick={() => setIsProfileModalOpen(true)}
-                >
-                  <Card className="card__hover my-7 ml-4 flex h-20 w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
-                    <Icon
-                      className="hidden sm:block"
-                      width="47px"
-                      height="47px"
-                      left="-26px"
-                      top="-242px"
-                    />
-                    <Icon
-                      className="block sm:hidden"
-                      width="20px"
-                      height="20px"
-                      left="-266px"
-                      top="-75px"
-                    />
-                  </Card>
-                </div>
-              </SwiperSlide>
+              <RegistCard openModal={toggleProfileModal} />
             </Swiper>
           </div>
           {isProfileModalOpen &&
             createPortal(
-              <DogProfileEdit closeModal={closeProfileModal} />,
+              <DogProfileEdit closeModal={toggleProfileModal} />,
               document.body,
             )}
         </div>

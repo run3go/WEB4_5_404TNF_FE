@@ -1,4 +1,5 @@
 'use client';
+import { useProfileStore } from '@/stores/profileStore';
 import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
@@ -20,20 +21,13 @@ export default function ProfileClient({
     query: '(max-width: 767px)',
   });
   const [isProfile, setIsProfile] = useState(true);
-  const [isEditingDogProfile, setIsEditingDogProfile] = useState(false);
-  const [isEditingUserProfile, setIsEditingUserProfile] = useState(false);
 
-  const toggleEditUserProfile = () => {
-    setIsEditingUserProfile((state) => !state);
-  };
-  const toggleEditDogProfile = () => {
-    setIsEditingDogProfile((state) => !state);
-  };
+  const profileStore = useProfileStore();
 
-  if (isMobile && isEditingDogProfile) {
-    return <DogProfileEditMobile togglePage={toggleEditDogProfile} />;
-  } else if (isMobile && isEditingUserProfile) {
-    return <UserProfileEditMobile togglePage={toggleEditUserProfile} />;
+  if (isMobile && profileStore.isEditingPetProfile) {
+    return <DogProfileEditMobile />;
+  } else if (isMobile && profileStore.isEditingUserProfile) {
+    return <UserProfileEditMobile />;
   } else {
     return (
       <main className="scrollbar-hidden relative h-screen w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
@@ -61,14 +55,8 @@ export default function ProfileClient({
           </Button>
         </div>
         <div className={isProfile ? '' : 'hidden sm:block'}>
-          <UserProfile
-            togglePage={toggleEditUserProfile}
-            userProfile={userProfile}
-          />
-          <DogProfileList
-            togglePage={toggleEditDogProfile}
-            petProfiles={petProfiles}
-          />
+          <UserProfile userProfile={userProfile} />
+          <DogProfileList petProfiles={petProfiles} />
         </div>
         <div className={isProfile ? 'hidden sm:block' : ''}>
           <PostList />

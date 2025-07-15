@@ -10,6 +10,5 @@ export default async function Profile({
   const { userId } = await params;
   const petProfiles = await getPetProfiles(userId);
   const userProfile = await getUserProfile(userId);
-  console.log(userProfile);
   return <ProfileClient petProfiles={petProfiles} userProfile={userProfile} />;
 }

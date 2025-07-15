@@ -13,7 +13,11 @@ import Icon from './Icon';
     isCenter: 중앙 정렬
     hasBorder: 보더 유무
 */
+type Option = { value: string; label: string };
+
 export default function SelectBox({
+  value,
+  setValue,
   options,
   width,
   placeholder,
@@ -24,7 +28,9 @@ export default function SelectBox({
   thinBorder = false,
   borderColor = 'var(--color-primary-200)',
 }: {
-  options: { value: string; label: string }[];
+  value: string;
+  setValue: (value: string) => void;
+  options: Option[];
   width: string;
   placeholder?: string;
   defaultValueIndex?: number;
@@ -44,10 +50,12 @@ export default function SelectBox({
   return (
     <div ref={containerRef}>
       <Select
+        value={options.find((option) => option.value === value)}
+        onChange={(newValue) => newValue && setValue(newValue.value)}
         isSearchable={false}
         options={options}
         placeholder={placeholder}
-        defaultValue={placeholder ? 'none' : options[defaultValueIndex]}
+        defaultValue={options[defaultValueIndex]}
         components={{
           Option: ({ children, ...rest }) => (
             <components.Option {...rest}>

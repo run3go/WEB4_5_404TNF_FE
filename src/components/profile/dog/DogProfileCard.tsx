@@ -69,22 +69,22 @@ export default function DogProfileCard({
           </div>
           <div className="flex items-center">
             <span className="profile-title-style">성별</span>
-            <span>{profile.sex ? '여아' : '남아'}</span>
+            <span>{profile.sex ? '남아' : '여아'}</span>
             {profile.sex ? (
-              <Icon
-                className="mr-2 ml-1 inline-block"
-                width="12px"
-                height="19px"
-                left="-110px"
-                top="-79px"
-              />
-            ) : (
               <Icon
                 className="mr-2 ml-1 inline-block"
                 width="16px"
                 height="16px"
                 left="-71px"
                 top="-80px"
+              />
+            ) : (
+              <Icon
+                className="mr-2 ml-1 inline-block"
+                width="12px"
+                height="19px"
+                left="-110px"
+                top="-79px"
               />
             )}
             <span>(중성화 {profile.isNeutered ? 'O' : 'X'})</span>

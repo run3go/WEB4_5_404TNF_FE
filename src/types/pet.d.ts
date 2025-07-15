@@ -3,19 +3,13 @@ type PetPayload = {
   birthday: string;
   metday: string;
   name: string;
-  breed: DogBreed;
+  breed: PetBreed;
   size: PetSize;
   weight: number;
-  sex: boolean;
-  isNeutered: boolean;
+  sex: boolean | string;
+  isNeutered: boolean | string;
   userId: string;
-  image: {
-    petImgId: number;
-    savePath: string;
-    type: 'THUMBNAIL' | 'PROFILE' | 'GALLERY';
-    originName: string;
-    renamedName: string;
-  };
+  image: null;
 };
 
 type PetProfile = {
@@ -23,7 +17,7 @@ type PetProfile = {
   age: string;
   metday: string;
   name: string;
-  breed: DogBreed;
+  breed: PetBreed;
   size: PetSize;
   sex: boolean;
   isNeutered: boolean;
