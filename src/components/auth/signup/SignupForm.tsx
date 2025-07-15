@@ -54,6 +54,7 @@ export default function SignupForm() {
     email: '',
     password: '',
     confirmPassword: '',
+    verificationCode: '',
   });
 
   const [touched, setTouched] = useState({
@@ -62,6 +63,7 @@ export default function SignupForm() {
     email: false,
     password: false,
     confirmPassword: false,
+    verificationCode: false,
   });
 
   const isDisabledSubmit = !(
@@ -71,39 +73,50 @@ export default function SignupForm() {
     Object.values(formData).every((val) => val.trim() !== '')
   );
 
-  const handleSendEmailVerify = async (email: string) => {
+  const isCheckEmailDuplicate = async (email: string) => {
     try {
-      if (email.length === 0) {
-        setErrors((prev) => ({
-          ...prev,
-          email: '이메일을 입력해주세요.',
-        }));
-        return;
-      }
-      if (errors.email) {
-        return;
-      }
       await checkEmailDuplicate(email);
+      setEmailState((prev) => ({ ...prev, duplicateError: '' }));
+      return true;
+    } catch (err) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : '이메일 중복 확인 중 오류가 발생했습니다.';
+      setEmailState((prev) => ({ ...prev, duplicateError: message }));
+      return false;
+    }
+  };
+
+  const handleSendEmailVerificationCode = async (email: string) => {
+    try {
       await sendEmailVerification(email);
-      setFormData((prev) => ({
-        ...prev,
-        verificationCode: '',
-      }));
-      setEmailState((prev) => ({
-        ...prev,
-        duplicateError: '',
-        checkedEmail: '',
-      }));
+      setFormData((prev) => ({ ...prev, verificationCode: '' }));
       setTimerKey((prev) => prev + 1);
       setIsTimerExpired(false);
       setIsEmailVerification(true);
     } catch (err) {
-      console.error(err);
-      setEmailState((prev) => ({
-        ...prev,
-        duplicateError: '이미 사용 중인 이메일입니다.',
-      }));
+      const message =
+        err instanceof Error
+          ? err.message
+          : '인증코드 전송 중 오류가 발생했습니다.';
+      setErrors((prev) => ({ ...prev, verificationCode: message }));
     }
+  };
+
+  const handleSendEmailVerify = async (email: string) => {
+    if (email.length === 0) {
+      setErrors((prev) => ({ ...prev, email: '이메일을 입력해주세요.' }));
+      return;
+    }
+    if (errors.email) {
+      return;
+    }
+
+    const isNotDuplicate = await isCheckEmailDuplicate(email);
+    if (!isNotDuplicate) return;
+
+    await handleSendEmailVerificationCode(email);
   };
 
   const handleVerifyCode = async (email: string, verificationCode: string) => {
@@ -115,7 +128,22 @@ export default function SignupForm() {
         checkedEmail: email,
       }));
     } catch (err) {
-      console.error(err);
+      const message =
+        err instanceof Error
+          ? err.message
+          : '이메일 인증코드 확인 중 오류가 발생했습니다.';
+
+      if (message === '이메일 인증에 실패하였습니다.') {
+        setErrors((prev) => ({
+          ...prev,
+          verificationCode: '이메일 인증코드가 일치하지 않습니다.',
+        }));
+      } else {
+        setErrors((prev) => ({
+          ...prev,
+          verificationCode: message,
+        }));
+      }
     }
   };
 
@@ -128,25 +156,16 @@ export default function SignupForm() {
         duplicateError: '',
         checkedNickname: formData.nickname,
       }));
-    } catch {
+    } catch (err) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : '닉네임 중복 확인 중 오류가 발생했습니다.';
+
       setNicknameState((prev) => ({
         ...prev,
-        duplicateError: '이미 사용 중인 닉네임입니다.',
+        duplicateError: message,
       }));
-    }
-  };
-
-  const handleRegister = async () => {
-    try {
-      await register({
-        name: formData.name,
-        nickname: formData.nickname,
-        email: formData.email,
-        password: formData.password,
-      });
-      router.push('/login');
-    } catch {
-      alert('회원가입에 실패했습니다.');
     }
   };
 
@@ -165,7 +184,7 @@ export default function SignupForm() {
       case 'name':
         return validateName(value);
       case 'verificationCode':
-        return value ? '' : '인증 코드를 입력해주세요.';
+        return value ? '' : '인증코드를 입력해주세요.';
       default:
         return '';
     }
@@ -175,11 +194,20 @@ export default function SignupForm() {
     const { name, value } = e.target;
 
     if (name === 'email') {
-      setEmailState((prev) => ({ ...prev, isEmailVerified: false }));
+      setEmailState((prev) => ({
+        ...prev,
+        isEmailVerified: false,
+        duplicateError: '',
+        verificationError: '',
+      }));
     }
 
     if (name === 'nickname') {
-      setNicknameState((prev) => ({ ...prev, isNicknameChecked: false }));
+      setNicknameState((prev) => ({
+        ...prev,
+        isNicknameChecked: false,
+        duplicateError: '',
+      }));
     }
 
     setFormData((prev) => ({ ...prev, [name]: value.trim() }));
@@ -188,12 +216,23 @@ export default function SignupForm() {
       const error = validateField(name, value);
       setErrors((prev) => ({ ...prev, [name]: error }));
 
-      if (name === 'password' && touched.confirmPassword) {
+      if (name === 'verificationCode' && touched.verificationCode) {
         const confirmError =
           formData.confirmPassword !== value
             ? '비밀번호가 일치하지 않습니다.'
             : '';
         setErrors((prev) => ({ ...prev, confirmPassword: confirmError }));
+      }
+
+      if (name === 'verificationCode' && touched.verificationCode) {
+        const verificationCodeError =
+          typeof formData.verificationCode === 'number'
+            ? ''
+            : '인증코드는 숫자만 가능합니다.';
+        setErrors((prev) => ({
+          ...prev,
+          verificationCode: verificationCodeError,
+        }));
       }
     }
   };
@@ -215,6 +254,10 @@ export default function SignupForm() {
         formData.confirmPassword !== formData.password
           ? '비밀번호가 일치하지 않습니다.'
           : '',
+      verificationCode:
+        typeof formData.verificationCode === 'number'
+          ? ''
+          : '올바른 인증코드가 아닙니다',
     };
     setErrors(newErrors);
     return !Object.values(newErrors).some((error) => error !== '');
@@ -226,7 +269,17 @@ export default function SignupForm() {
       alert('입력 내용을 확인해주세요.');
       return;
     }
-    await handleRegister();
+    try {
+      await register({
+        name: formData.name,
+        nickname: formData.nickname,
+        email: formData.email,
+        password: formData.password,
+      });
+      router.push('/login');
+    } catch {
+      alert('회원가입에 실패했습니다.');
+    }
   };
 
   return (
