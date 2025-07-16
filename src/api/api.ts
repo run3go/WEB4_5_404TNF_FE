@@ -80,5 +80,5 @@ export const login = async (email: string, password: string) => {
 };
 
 export const logout = async () => {
-  return await axiosInstance.post('/api/auth/v1/login');
+  return await axiosInstance.post('/api/auth/v1/logout');
 };

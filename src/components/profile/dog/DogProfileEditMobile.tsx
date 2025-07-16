@@ -1,53 +1,22 @@
+import { petBreedData } from '@/assets/data/pet';
 import dog from '@/assets/images/default-dog-profile.svg';
 import Icon from '@/components/common/Icon';
 import MobileTitle from '@/components/common/MobileTitle';
 import SelectBox from '@/components/common/SelectBox';
+import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';
 
-export default function DogProfileEditMobile({
-  togglePage,
-}: {
-  togglePage: () => void;
-}) {
-  const options = [
-    { value: 'BEAGLE', label: '비글' },
-    { value: 'BICHON_FRISE', label: '비숑 프리제' },
-    { value: 'BORDER_COLLIE', label: '보더 콜리' },
-    { value: 'BOXER', label: '복서' },
-    { value: 'BULLDOG', label: '불독' },
-    { value: 'CHIHUAHUA', label: '치와와' },
-    { value: 'COCKER_SPANIEL', label: '코커 스패니얼' },
-    { value: 'DACHSHUND', label: '닥스훈트' },
-    { value: 'DOBERMAN', label: '도베르만' },
-    { value: 'FRENCH_BULLDOG', label: '프렌치 불독' },
-    { value: 'GERMAN_SHEPHERD', label: '저먼 셰퍼드' },
-    { value: 'GOLDEN_RETRIEVER', label: '골든 리트리버' },
-    { value: 'GREAT_DANE', label: '그레이트 데인' },
-    { value: 'HUSKY', label: '허스키' },
-    { value: 'JACK_RUSSELL', label: '잭 러셀 테리어' },
-    { value: 'LABRADOR', label: '래브라도 리트리버' },
-    { value: 'MALTESE', label: '말티즈' },
-    { value: 'PAPILLON', label: '파피용' },
-    { value: 'POMERANIAN', label: '포메라니안' },
-    { value: 'POODLE', label: '푸들' },
-    { value: 'PUG', label: '퍼그' },
-    { value: 'SAMOYED', label: '사모예드' },
-    { value: 'SHIBA_INU', label: '시바 이누' },
-    { value: 'SHIH_TZU', label: '시츄' },
-    { value: 'WELSH_CORGI', label: '웰시 코기' },
-    { value: 'YORKSHIRE_TERRIER', label: '요크셔 테리어' },
-    { value: 'MIX', label: '믹스견' },
-  ];
-
+export default function DogProfileEditMobile() {
+  const profileStore = useProfileStore();
   return (
     <main className="w-screen">
       <MobileTitle
         title="반려견 등록"
         onClick={() => {
-          togglePage();
+          profileStore.toggleEditingPetProfile();
         }}
         closePage={() => {
-          togglePage();
+          profileStore.toggleEditingPetProfile();
         }}
       />
       <div className="relative h-screen bg-[var(--color-background)] px-6 py-9 text-sm">
@@ -83,7 +52,7 @@ export default function DogProfileEditMobile({
                 <label className="mb-2 block" htmlFor="breed">
                   견종<span className="text-[var(--color-red)]"> *</span>
                 </label>
-                <SelectBox options={options} width="full" hasBorder />
+                <SelectBox options={petBreedData} width="full" hasBorder />
               </div>
               {/* 크기 */}
               <div className="mb-7">
@@ -92,15 +61,15 @@ export default function DogProfileEditMobile({
                 </label>
                 <div className="flex w-full justify-between gap-3">
                   <label className="grow" htmlFor="SMALL">
-                    <span className="profile-checkbox-style">소형견</span>
+                    <span className="profile-radio-style">소형견</span>
                     <input hidden type="checkbox" name="size" id="SMALL" />
                   </label>
                   <label className="grow" htmlFor="MEDIUM">
-                    <span className="profile-checkbox-style">중형견</span>
+                    <span className="profile-radio-style">중형견</span>
                     <input hidden type="checkbox" name="size" id="MEDIUM" />
                   </label>
                   <label className="grow" htmlFor="LARGE">
-                    <span className="profile-checkbox-style">대형견</span>
+                    <span className="profile-radio-style">대형견</span>
                     <input hidden type="checkbox" name="size" id="LARGE" />
                   </label>
                 </div>
@@ -133,11 +102,11 @@ export default function DogProfileEditMobile({
                 </label>
                 <div className="flex gap-3">
                   <label className="basis-[calc(50%-6px)]" htmlFor="male">
-                    <span className="profile-checkbox-style">남아</span>
+                    <span className="profile-radio-style">남아</span>
                     <input hidden type="checkbox" name="sex" id="male" />
                   </label>
                   <label className="basis-[calc(50%-6px)]" htmlFor="female">
-                    <span className="profile-checkbox-style">여아</span>
+                    <span className="profile-radio-style">여아</span>
                     <input hidden type="checkbox" name="sex" id="female" />
                   </label>
                 </div>
@@ -149,11 +118,11 @@ export default function DogProfileEditMobile({
                 </label>
                 <div className="flex gap-3">
                   <label className="basis-[calc(50%-6px)]" htmlFor="done">
-                    <span className="profile-checkbox-style">했어요</span>
+                    <span className="profile-radio-style">했어요</span>
                     <input hidden type="checkbox" name="neutering" id="done" />
                   </label>
                   <label className="basis-[calc(50%-6px)]" htmlFor="undone">
-                    <span className="profile-checkbox-style">안했어요</span>
+                    <span className="profile-radio-style">안했어요</span>
                     <input
                       hidden
                       type="checkbox"
