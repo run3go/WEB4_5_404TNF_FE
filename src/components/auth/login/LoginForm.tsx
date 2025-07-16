@@ -1,7 +1,8 @@
 'use client';
 
-import { login } from '@/api/auth';
+import { getUserProfile, login } from '@/api/auth';
 import Icon from '@/components/common/Icon';
+import { useAuthStore } from '@/stores/authStoe';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -11,10 +12,25 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const setLogin = useAuthStore((state) => state.setLogin);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      const { data: user } = await login(email, password);
+      const data = await getUserProfile(user.userId);
+      console.log(data);
+
+      const userInfo: User = {
+        userId: data.userId,
+        email: data.email,
+        name: data.name,
+        nickname: data.nickname,
+        provider: data.provider,
+        userImg: data.userImg,
+      };
+      setLogin(userInfo);
+      sessionStorage.setItem('userId', user.userId);
 
       route.push('/');
     } catch (err) {
