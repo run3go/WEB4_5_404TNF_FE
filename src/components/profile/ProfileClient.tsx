@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { useProfileStore } from '@/stores/profileStore';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
@@ -9,31 +10,40 @@ import PostList from './PostList';
 import UserProfile from './user/UserProfile';
 import UserProfileEditMobile from './user/UserProfileEditMobile';
 
-export default function ProfileClient() {
+export default function ProfileClient({
+  petProfiles,
+  userProfile,
+}: {
+  petProfiles: PetProfile[];
+  userProfile: UserProfile;
+}) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
   const [isProfile, setIsProfile] = useState(true);
-  const [isEditingDogProfile, setIsEditingDogProfile] = useState(false);
-  const [isEditingUserProfile, setIsEditingUserProfile] = useState(false);
 
-  const toggleEditUserProfile = () => {
-    setIsEditingUserProfile((state) => !state);
-  };
-  const toggleEditDogProfile = () => {
-    setIsEditingDogProfile((state) => !state);
-  };
+  const isEditingPetProfile = useProfileStore(
+    (state) => state.isEditingPetProfile,
+  );
+  const isEditingUserProfile = useProfileStore(
+    (state) => state.isEditingUserProfile,
+  );
+  const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
 
-  if (isMobile && isEditingDogProfile) {
-    return <DogProfileEditMobile togglePage={toggleEditDogProfile} />;
+  useEffect(() => {
+    setPetProfiles(petProfiles);
+  }, [petProfiles, setPetProfiles]);
+
+  if (isMobile && isEditingPetProfile) {
+    return <DogProfileEditMobile />;
   } else if (isMobile && isEditingUserProfile) {
-    return <UserProfileEditMobile togglePage={toggleEditUserProfile} />;
+    return <UserProfileEditMobile />;
   } else {
     return (
       <main className="scrollbar-hidden relative h-screen w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
-
-        <h1 className="mb-15 hidden text-center text-[32px] sm:block">
-          닉네임님의 페이지
+        <h1 className="mb-15 hidden text-center text-3xl sm:block">
+          <strong>닉네임</strong>
+          님의 페이지
         </h1>
         <div className="mb-8 flex justify-center gap-4 sm:hidden">
           <Button
@@ -56,8 +66,8 @@ export default function ProfileClient() {
           </Button>
         </div>
         <div className={isProfile ? '' : 'hidden sm:block'}>
-          <UserProfile togglePage={toggleEditUserProfile} />
-          <DogProfileList togglePage={toggleEditDogProfile} />
+          <UserProfile userProfile={userProfile} />
+          <DogProfileList />
         </div>
         <div className={isProfile ? 'hidden sm:block' : ''}>
           <PostList />
