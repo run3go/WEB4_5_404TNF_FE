@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import { useDiaryForm } from '@/hooks/useDiaryForm';
+
 import FeedInput from '@/components/diary/create/FeedInput';
 import WalkingInput from '@/components/diary/create/WalkingInput';
 import diary from '@/assets/images/diary.svg';
@@ -12,9 +12,10 @@ import DiaryProfile from '@/components/diary/DiaryProfile';
 import MobileTitle from '@/components/common/MobileTitle';
 import Image from 'next/image';
 import DiaryCard from '@/components/diary/DiaryCard';
+import { useDiaryForm } from '@/hooks/useDiaryForm';
 
 const feedUnitOptions = [
-  { label: '그램', value: 'GRAM' },
+  { label: 'g', value: 'GRAM' },
   { label: '스푼', value: 'SPOON' },
   { label: '스쿱', value: 'SCOOP' },
   { label: '컵', value: 'CUP' },
@@ -54,8 +55,9 @@ export default function DiaryWrite() {
     setWalkEndMinute,
     pets,
     selectedPetName,
-
     handleSubmit,
+    pace,
+    setPace,
   } = useDiaryForm(petIdParam, dateParam);
 
   const petOptions = pets.map((pet) => ({
@@ -118,7 +120,7 @@ export default function DiaryWrite() {
             </DiaryCard>
           </div>
           <div className="flex grow flex-col gap-6 sm:gap-12">
-            <div className="flex w-full flex-col justify-between gap-6 sm:flex-row sm:gap-14">
+            <div className="flex w-full flex-col justify-between gap-6 sm:flex-row sm:gap-5">
               <FeedInput
                 feedUnitOptions={feedUnitOptions}
                 selectedUnit={selectedUnit}
@@ -139,6 +141,8 @@ export default function DiaryWrite() {
                 setWalkEndHour={setWalkEndHour}
                 walkEndMinute={walkEndMinute}
                 setWalkEndMinute={setWalkEndMinute}
+                pace={pace}
+                setPace={setPace}
               />
             </div>
             <Note value={note} onChange={setNote} />

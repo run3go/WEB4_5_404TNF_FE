@@ -1,4 +1,6 @@
+import SelectBox from '@/components/common/SelectBox';
 import DiaryCard from '../DiaryCard';
+import Icon from '@/components/common/Icon';
 type Props = {
   walkStartHour: string;
   setWalkStartHour: (value: string) => void;
@@ -8,6 +10,8 @@ type Props = {
   setWalkEndHour: (value: string) => void;
   walkEndMinute: string;
   setWalkEndMinute: (value: string) => void;
+  pace: string;
+  setPace: (value: string) => void;
 };
 
 export default function WalkingInput({
@@ -19,22 +23,29 @@ export default function WalkingInput({
   setWalkEndHour,
   walkEndMinute,
   setWalkEndMinute,
+  pace,
+  setPace,
 }: Props) {
+  const paceOptions = [
+    { value: '1', label: '가볍게' },
+    { value: '2', label: '적당히' },
+    { value: '3', label: '힘차게' },
+  ];
   return (
-    <DiaryCard className="min-h-50 grow sm:h-71" title="산책" hasAddBtn>
+    <DiaryCard className="min-h-50 sm:h-71 sm:w-[456px]" title="산책" hasAddBtn>
       <div className="flex h-[38px] items-center justify-between text-xs sm:text-sm">
         <div>
           <input
-            className="input-style mr-2 w-11 py-1 text-center leading-[1.2] sm:w-13"
+            className="input-style mr-1 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)]"
             type="text"
             placeholder="시간"
             maxLength={2}
             value={walkStartHour}
             onChange={(e) => setWalkStartHour(e.target.value)}
           />
-          <span className="mr-3">시</span>
+          <span className="mr-2">시</span>
           <input
-            className="input-style mr-2 w-11 py-1 text-center leading-[1.2] sm:w-13"
+            className="input-style mr-1 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)]"
             type="text"
             placeholder="분"
             maxLength={2}
@@ -46,16 +57,16 @@ export default function WalkingInput({
         <span>~</span>
         <div>
           <input
-            className="input-style mr-2 w-11 py-1 text-center leading-[1.2] sm:w-13"
+            className="input-style mr-1 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)]"
             type="text"
             placeholder="시간"
             maxLength={2}
             value={walkEndHour}
             onChange={(e) => setWalkEndHour(e.target.value)}
           />
-          <span className="mr-3">시</span>
+          <span className="mr-2">시</span>
           <input
-            className="input-style mr-2 w-11 py-1 text-center leading-[1.2] sm:w-13"
+            className="input-style mr-1 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)]"
             type="text"
             placeholder="분"
             maxLength={2}
@@ -64,6 +75,21 @@ export default function WalkingInput({
           />
           <span>분</span>
         </div>
+        <SelectBox
+          value={pace}
+          setValue={setPace}
+          options={paceOptions}
+          width="75px"
+          borderColor="var(--color-primary-500)"
+          isCenter
+        />
+        <Icon
+          className="cursor-pointer"
+          width="20px"
+          height="20px"
+          left="-340px"
+          top="-256px"
+        />
       </div>
     </DiaryCard>
   );

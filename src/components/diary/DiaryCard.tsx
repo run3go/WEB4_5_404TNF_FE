@@ -22,7 +22,7 @@ export default function DiaryCard({
     >
       <div
         className={twMerge(
-          'mb-3 flex items-center justify-start border-b border-[var(--color-primary-500)] pb-3 sm:mb-3',
+          'mb-1 flex items-center justify-start border-b border-[var(--color-primary-500)] pb-3 sm:mb-3',
           hasAddBtn && 'justify-between',
         )}
       >
