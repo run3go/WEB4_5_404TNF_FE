@@ -28,8 +28,8 @@ export default function SelectBox({
   thinBorder = false,
   borderColor = 'var(--color-primary-200)',
 }: {
-  value: string;
-  setValue: (value: string) => void;
+  value?: string;
+  setValue?: (value: string) => void;
   options: Option[];
   width: string;
   placeholder?: string;
@@ -51,7 +51,10 @@ export default function SelectBox({
     <div ref={containerRef}>
       <Select
         value={options.find((option) => option.value === value)}
-        onChange={(newValue) => newValue && setValue(newValue.value)}
+        onChange={(newValue) =>
+          // 모든 selectBox (value, setValue) 연결 후 setValue 조건 제거
+          newValue && setValue && setValue(newValue.value)
+        }
         isSearchable={false}
         options={options}
         placeholder={placeholder}

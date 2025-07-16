@@ -1,5 +1,6 @@
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Icon from '@/components/common/Icon';
+import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -7,13 +8,15 @@ import { useMediaQuery } from 'react-responsive';
 import UserProfileEdit from './UserProfileEdit';
 
 export default function UserProfile({
-  togglePage,
+  userProfile,
 }: {
-  togglePage: () => void;
+  userProfile: UserProfile;
 }) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
+
+  const togglePage = useProfileStore((state) => state.toggleEditingUserProfile);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => {
@@ -22,7 +25,7 @@ export default function UserProfile({
 
   return (
     <div className="mb-18 sm:mb-20">
-      <h2 className="mr-7 inline text-sm text-[var(--color-primary-500)] sm:text-2xl">
+      <h2 className="mr-7 inline text-sm text-[var(--color-primary-500)] sm:text-xl">
         마이 프로필
       </h2>
       <button
@@ -53,30 +56,30 @@ export default function UserProfile({
           width={160}
           height={160}
         />
-        <div className="flex flex-col justify-around text-xs sm:text-xl">
+        <div className="flex flex-col justify-around text-xs sm:text-base">
           <div>
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               이메일
             </span>
-            user@naver.com
+            {userProfile.email}
           </div>
           <div>
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               이름
             </span>
-            홍길동
+            {userProfile.name}
           </div>
           <div>
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               닉네임
             </span>
-            닉네임
+            {userProfile.nickname}
           </div>
           <div>
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               가입유형
             </span>
-            NAVER
+            {userProfile.provider}
           </div>
         </div>
       </div>

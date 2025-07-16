@@ -3,9 +3,11 @@ import { twMerge } from 'tailwind-merge';
 export default function Card({
   children,
   className,
+  onClick,
 }: {
   children: React.ReactNode;
   className: string;
+  onClick?: () => void;
 }) {
   return (
     <>
@@ -14,6 +16,7 @@ export default function Card({
           'rounded-xl bg-[var(--color-background)] p-4 shadow-[0_3px_8px_rgba(0,0,0,0.24)] sm:p-6',
           className,
         )}
+        onClick={onClick}
       >
         {children}
       </div>
