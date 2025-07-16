@@ -10,7 +10,7 @@ export default function DateField({
 }: {
   id: 'birthday' | 'metday';
   label: string;
-  control: Control<PetPayload, unknown, PetPayload>;
+  control: Control<PetFormValues, unknown, PetFormValues>;
   required?: boolean;
 }) {
   return (
@@ -25,6 +25,7 @@ export default function DateField({
           </label>
           <DateInput
             className="w-full rounded-[12px] border-1 border-[var(--color-primary-300)]"
+            disableFuture
             selected={new Date(field.value)}
             setSelected={(value) =>
               field.onChange(formatDate(value, 'yyyy-MM-dd'))

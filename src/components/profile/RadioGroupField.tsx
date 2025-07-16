@@ -1,4 +1,5 @@
 import { UseFormRegister, UseFormWatch } from 'react-hook-form';
+import { useMediaQuery } from 'react-responsive';
 
 export default function RadioGroupField({
   id,
@@ -7,24 +8,33 @@ export default function RadioGroupField({
   register,
   watch,
   options,
+  className = '',
 }: {
   id: 'size' | 'sex' | 'isNeutered';
   label: string;
   options: { value: string; label: string }[];
-  register: UseFormRegister<PetPayload>;
-  watch: UseFormWatch<PetPayload>;
+  register: UseFormRegister<PetFormValues>;
+  watch: UseFormWatch<PetFormValues>;
   required?: boolean;
+  className?: string;
 }) {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 767px)',
+  });
   return (
     <div className="mb-7">
       <label className="mb-2 block">
         {label}
         {required && <span className="text-[var(--color-red)]"> *</span>}
       </label>
-      <div>
+      <div className={isMobile ? 'flex w-full justify-between gap-3' : ''}>
         {[
           options.map((option) => (
-            <label key={option.value} htmlFor={option.label}>
+            <label
+              key={option.value}
+              className={className}
+              htmlFor={option.label}
+            >
               <span
                 className={`profile-radio-style ${watch(id) === option.value && 'bg-[var(--color-primary-300)]'}`}
               >

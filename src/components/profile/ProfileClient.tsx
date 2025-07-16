@@ -67,7 +67,7 @@ export default function ProfileClient({
         </div>
         <div className={isProfile ? '' : 'hidden sm:block'}>
           <UserProfile userProfile={userProfile} />
-          <DogProfileList />
+          <DogProfileList profileData={petProfiles} />
         </div>
         <div className={isProfile ? 'hidden sm:block' : ''}>
           <PostList />

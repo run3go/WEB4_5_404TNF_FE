@@ -1,4 +1,4 @@
-import { formatDate } from 'date-fns';
+import { formatDate, getMonth, getYear } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useEffect, useRef, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
@@ -8,12 +8,14 @@ import Icon from './Icon';
 
 export default function DateInput({
   className,
+  disableFuture = false,
   selected,
   setSelected,
   showAllDate = false,
   placeholder = '전체 날짜',
 }: {
   className: string;
+  disableFuture?: boolean;
   selected: Date | undefined;
   setSelected: (value: Date) => void;
 }) {
@@ -21,6 +23,8 @@ export default function DateInput({
   const inputRef = useRef<HTMLDivElement>(null);
 
   const today = new Date();
+  const thisYear = getYear(today);
+  const thisMonth = getMonth(today);
 
   const displayDateText = selected
     ? formatDate(selected, 'yyyy. MM. dd')
@@ -63,13 +67,16 @@ export default function DateInput({
       </div>
       {isDateInputOpen && (
         <div
-          className="absolute top-[100%] left-0 z-200 h-55 w-full min-w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)]"
+          className="absolute top-[100%] right-0 z-200 mt-1 h-55 w-full max-w-55 min-w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)]"
           ref={inputRef}
         >
           <DayPicker
             mode="single"
+            captionLayout="dropdown-years"
             selected={selected}
+            startMonth={new Date(thisYear - 30, thisMonth)}
             onSelect={handleSelectDate}
+            disabled={disableFuture && { after: new Date() }}
             locale={ko}
             showOutsideDays
             classNames={{
@@ -80,9 +87,11 @@ export default function DateInput({
               weekday: 'h-6 font-medium',
               root: 'h-full text-xs text-center',
               day: 'w-1/7 h-6',
-              day_button: 'w-full h-full cursor-pointer ',
+              day_button:
+                'w-full h-full cursor-pointer hover:text-[var(--color-primary-500)]',
               outside: 'text-[var(--color-grey)]',
               selected: 'calendar-circle',
+              disabled: 'text-[var(--color-grey)] pointer-events-none',
             }}
             components={{
               Nav: CalendarNav,
