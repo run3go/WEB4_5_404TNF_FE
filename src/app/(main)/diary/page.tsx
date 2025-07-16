@@ -5,7 +5,8 @@ import LogCard from '@/components/diary/LogCard';
 import DateInput from '@/components/common/DateInput';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getPetsByUserId, Pet } from '@/api/diary';
+import { getPetsByUserId } from '@/api/diary';
+import { Pet } from '@/types/diary';
 
 type Option = { value: string; label: string };
 

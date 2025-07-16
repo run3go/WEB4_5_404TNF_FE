@@ -18,6 +18,8 @@ export default function DateInput({
   disableFuture?: boolean;
   selected: Date | undefined;
   setSelected: (value: Date) => void;
+  showAllDate?: boolean;
+  placeholder?: string;
 }) {
   const [isDateInputOpen, setIsDateInputOpen] = useState(false);
   const inputRef = useRef<HTMLDivElement>(null);
@@ -25,12 +27,6 @@ export default function DateInput({
   const today = new Date();
   const thisYear = getYear(today);
   const thisMonth = getMonth(today);
-
-  const displayDateText = selected
-    ? formatDate(selected, 'yyyy. MM. dd')
-    : showAllDate
-      ? placeholder
-      : formatDate(today, 'yyyy. MM. dd');
 
   const handleSelectDate = (date: Date | undefined) => {
     setIsDateInputOpen(false);
@@ -56,7 +52,11 @@ export default function DateInput({
         )}
         onClick={() => setIsDateInputOpen(true)}
       >
-        {displayDateText}
+        {selected
+          ? formatDate(selected, 'yyyy. MM. dd')
+          : showAllDate
+            ? placeholder
+            : formatDate(today, 'yyyy. MM. dd')}
         <Icon
           className="scale-90"
           width="20px"
