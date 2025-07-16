@@ -5,6 +5,7 @@ import Card from '../common/Card';
 import Icon from '../common/Icon';
 import AddSchedule from './AddSchedule';
 import TodoItem from './TodoItem';
+import { format } from 'date-fns';
 
 export default function TodoList({
   type,
@@ -14,19 +15,12 @@ export default function TodoList({
 }: {
   type: 'card' | 'modal';
   closeModal?: () => void;
-  schedules?: {
-    scheduleId: number;
-    date: string;
-    name: string;
-    isDone: boolean;
-  }[];
+  schedules?: Schedule[];
   fullDate?: Date;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const formattedDate = fullDate
-    ? `${fullDate.getFullYear()}.${fullDate.getMonth() + 1}.${fullDate.getDate()}`
-    : '-';
+  const formattedDate = fullDate ? format(fullDate, 'yyyy.MM.dd') : '';
 
   if (type === 'card') {
     return (
@@ -63,7 +57,9 @@ export default function TodoList({
         />
         <div className="absolute top-1/2 left-1/2 z-501 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
           <div className="mb-6 flex w-full items-center justify-between pr-2">
-            <h2 className="text-base font-extrabold">{formattedDate} 일정</h2>
+            <h2 className="cursor-default text-base font-extrabold">
+              {formattedDate} 일정
+            </h2>
             <div className="flex items-center gap-10">
               <span
                 className="cursor-pointer text-sm text-[var(--color-primary-500)]"
@@ -96,12 +92,8 @@ export default function TodoList({
           </div> */}
           <ul>
             {schedules?.map((s) => (
-              <TodoItem key={s.scheduleId} name={s.name} id={s.scheduleId} />
+              <TodoItem key={s.scheduleId} schedule={s} />
             ))}
-            {/* <TodoItem name="아침에 약 먹이기" />
-            <TodoItem name="기쁨이 만나서 공원가기" />
-            <TodoItem name="사료 주문하기" />
-            <TodoItem name="귀 세정" /> */}
           </ul>
         </div>
         {isModalOpen &&

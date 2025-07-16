@@ -10,13 +10,13 @@ export default function AddSchedule({
   isStart,
   isEdit,
   fullDate,
-  // sId,
+  // schedule,
 }: {
   closeModal?: () => void;
   isStart?: boolean;
   isEdit?: boolean;
   fullDate?: Date | undefined;
-  sId?: number;
+  schedule?: Schedule;
 }) {
   if (isEdit) {
     // 수정이면 기존 데이터 불러오기(sId)

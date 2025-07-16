@@ -8,17 +8,12 @@ import AddSchedule from './AddSchedule';
 export default function DateItem({
   date,
   targetMonth,
-  schedules,
+  schedules = [],
   isToday,
 }: {
   date: number;
   targetMonth: Date;
-  schedules: {
-    scheduleId: number;
-    date: string;
-    name: string;
-    isDone: boolean;
-  }[];
+  schedules?: Schedule[];
   isToday: boolean;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,12 +40,12 @@ export default function DateItem({
               <div className="relative flex h-6 w-6 items-center justify-center">
                 {isToday && (
                   <div
-                    className={`absolute inset-0 -top-1.5 ${String(date).length === 1 ? '-left-1' : '-left-0.5'} size-8 rounded-full bg-[var(--color-primary-500)]`}
+                    className={`absolute inset-0 -top-[5px] ${String(date).length === 1 ? '-left-1' : '-left-[2.5px]'} size-8 rounded-full bg-[var(--color-primary-500)]`}
                   />
                 )}
                 <span className="z-100">{date}</span>
               </div>
-              {schedules.length > 2 && (
+              {schedules && schedules.length > 2 && (
                 <span className="text-sm text-[var(--color-grey)]">+ more</span>
               )}
             </div>
@@ -59,7 +54,7 @@ export default function DateItem({
                 schedules.slice(0, 2).map((schedule) => (
                   <li
                     key={schedule.scheduleId}
-                    className="w-full overflow-hidden text-ellipsis whitespace-nowrap"
+                    className="w-full max-w-[145px] truncate overflow-hidden text-ellipsis whitespace-nowrap"
                   >
                     {schedule.name}
                   </li>

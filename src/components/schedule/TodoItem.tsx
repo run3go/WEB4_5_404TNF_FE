@@ -3,8 +3,6 @@ import { useState } from 'react';
 import Icon from '../common/Icon';
 import AddSchedule from './AddSchedule';
 import PopupMenu from '../common/PopupMenu';
-// import Image from 'next/image';
-// import pet from '../../assets/images/dog_img.png';
 
 export default function TodoItem({
   name,
@@ -41,13 +39,6 @@ export default function TodoItem({
       <li className="flex w-full cursor-default items-center justify-between border-b border-[var(--color-primary-300)] p-3">
         <div className="flex items-center justify-center">
           <div className="mr-2 max-w-[80px] truncate rounded-[8px] bg-[var(--color-primary-300)] px-2 py-1 text-sm">
-            {/* <Image
-              src={pet}
-              // className="h-4 w-4 rounded-full"
-              width={16}
-              height={16}
-              alt="강아지 프로필"
-            /> */}
             {schedule?.petName}
           </div>
 
@@ -93,7 +84,7 @@ export default function TodoItem({
           closeModal={closeModal}
           isStart={false}
           isEdit={true}
-          sId={id}
+          schedule={schedule}
         />
       )}
     </>
