@@ -58,8 +58,8 @@ export default function LoginForm() {
   return (
     <>
       <form
-        className="mt-12 flex flex-col justify-center gap-5 p-6 sm:mt-14 sm:px-[20vw]"
         onSubmit={handleLogin}
+        className="mt-12 flex flex-col justify-center gap-5 p-6 sm:mt-14 sm:px-[20vw]"
       >
         <input
           name="email"
