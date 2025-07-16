@@ -11,14 +11,13 @@ export const validateEmail = (email: string): string => {
 
   return '';
 };
-
 // 영문, 숫자, 특수문자 포함 8~20자
 export const validatePassword = (password: string): string => {
   const trimmedPassword = password.trim();
 
   if (!trimmedPassword) return '비밀번호를 입력해주세요.';
   const regex =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()_+{}\[\]|\\:;"'<>,.?\/`\-])[A-Za-z\d~!@#$%^&*()_+{}\[\]|\\:;"'<>,.?\/`\-]{8,20}$/;
 
   if (!regex.test(trimmedPassword)) {
     return '비밀번호는 영문, 숫자, 특수문자 포함 8~20자여야 합니다.';
