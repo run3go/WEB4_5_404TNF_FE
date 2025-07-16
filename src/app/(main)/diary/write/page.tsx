@@ -12,7 +12,7 @@ import DiaryProfile from '@/components/diary/DiaryProfile';
 import MobileTitle from '@/components/common/MobileTitle';
 import Image from 'next/image';
 import DiaryCard from '@/components/diary/DiaryCard';
-import { useDiaryForm } from '@/hooks/useDiaryForm';
+import { useDiaryForm } from '@/lib/hooks/useDiaryForm';
 
 const feedUnitOptions = [
   { label: 'g', value: 'GRAM' },
@@ -45,19 +45,12 @@ export default function DiaryWrite() {
     setFeedTimeMinute,
     selectedUnit,
     setSelectedUnit,
-    walkStartHour,
-    setWalkStartHour,
-    walkStartMinute,
-    setWalkStartMinute,
-    walkEndHour,
-    setWalkEndHour,
-    walkEndMinute,
-    setWalkEndMinute,
     pets,
     selectedPetName,
     handleSubmit,
-    pace,
-    setPace,
+
+    walkingList,
+    setWalkingList,
   } = useDiaryForm(petIdParam, dateParam);
 
   const petOptions = pets.map((pet) => ({
@@ -67,7 +60,7 @@ export default function DiaryWrite() {
   return (
     <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-4 sm:pb-0">
       <MobileTitle title="멍멍일지" closePage={() => {}} onClick={() => {}} />
-      <div className="relative flex w-full flex-col gap-6 px-4 sm:px-19">
+      <div className="relative flex w-full flex-col gap-3 px-4 sm:gap-6 sm:px-19">
         <div className="flex justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
           <div className="flex grow-2 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
             {selected?.toLocaleDateString('ko-KR')}
@@ -90,7 +83,7 @@ export default function DiaryWrite() {
             />
           </div>
           <button
-            className="w-[115px] cursor-pointer rounded-xl bg-[var(--color-primary-500)] text-base"
+            className="hidden w-[115px] cursor-pointer rounded-xl bg-[var(--color-primary-500)] text-base sm:block"
             onClick={handleSubmit}
           >
             저장하기
@@ -119,7 +112,7 @@ export default function DiaryWrite() {
               />
             </DiaryCard>
           </div>
-          <div className="flex grow flex-col gap-6 sm:gap-12">
+          <div className="flex grow flex-col gap-6 pb-8 sm:gap-12 sm:pb-0">
             <div className="flex w-full flex-col justify-between gap-6 sm:flex-row sm:gap-5">
               <FeedInput
                 feedUnitOptions={feedUnitOptions}
@@ -133,16 +126,8 @@ export default function DiaryWrite() {
                 setFeedTimeMinute={setFeedTimeMinute}
               />
               <WalkingInput
-                walkStartHour={walkStartHour}
-                setWalkStartHour={setWalkStartHour}
-                walkStartMinute={walkStartMinute}
-                setWalkStartMinute={setWalkStartMinute}
-                walkEndHour={walkEndHour}
-                setWalkEndHour={setWalkEndHour}
-                walkEndMinute={walkEndMinute}
-                setWalkEndMinute={setWalkEndMinute}
-                pace={pace}
-                setPace={setPace}
+                walkingList={walkingList}
+                setWalkingList={setWalkingList}
               />
             </div>
             <Note value={note} onChange={setNote} />

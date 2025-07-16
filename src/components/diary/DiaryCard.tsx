@@ -5,11 +5,13 @@ import Icon from '../common/Icon';
 export default function DiaryCard({
   title,
   hasAddBtn = false,
+  onAddBtnClick,
   children,
   className,
 }: {
   title: string;
   hasAddBtn?: boolean;
+  onAddBtnClick?: () => void;
   children: React.ReactNode;
   className?: string;
 }) {
@@ -36,6 +38,7 @@ export default function DiaryCard({
             height="12px"
             left="-262px"
             top="-259px"
+            onClick={onAddBtnClick}
           />
         )}
       </div>
