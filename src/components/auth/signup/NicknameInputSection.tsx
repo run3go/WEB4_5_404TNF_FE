@@ -37,7 +37,7 @@ export default function NicknameInputSection({
         </label>
         <button
           type="button"
-          className="text-[14px] font-medium text-[#FF9526]"
+          className="cursor-pointer text-[14px] font-medium text-[#FF9526]"
           onClick={handleDuplicationCheck}
         >
           중복확인

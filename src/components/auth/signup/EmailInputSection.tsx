@@ -64,7 +64,7 @@ export default function EmailInputSection({
         <button
           type="button"
           onClick={handleSendEmailVerify}
-          className="text-[14px] font-medium text-[#FF9526]"
+          className="cursor-pointer text-[14px] font-medium text-[#FF9526]"
         >
           이메일 인증
         </button>
