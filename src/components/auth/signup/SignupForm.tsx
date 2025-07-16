@@ -78,10 +78,10 @@ export default function SignupForm() {
 
       <button
         className="group mt-10 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] disabled:bg-[#2B2926]/20 sm:mt-5 sm:h-[56px]"
-        disabled={!isDisabledSubmit}
+        disabled={isDisabledSubmit}
       >
         <div className="flex items-center justify-center gap-2">
-          {!isDisabledSubmit ? (
+          {isDisabledSubmit ? (
             <Icon width="20px" height="18px" left="-253px" top="-311px" />
           ) : (
             <Icon width="20px" height="18px" left="-297px" top="-312px" />
