@@ -7,37 +7,50 @@ import Card from './Card';
 import Icon from './Icon';
 import NotificationModal from '../notification/NotificationModal';
 import { useSidebarStore } from '@/stores/sidebarStore';
+import { useAuthStore } from '@/stores/authStoe';
+import Button from './Button';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { open } = useSidebarStore();
+  const isLogin = useAuthStore((state) => state.isLogin);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
       <div className="mb-[2.6vh] hidden items-center justify-end gap-7 pr-[2.43vw] sm:flex">
-        <div className="relative">
-          <div
-            ref={modalRef}
-            className="cursor-pointer"
-            onClick={() => setIsNotificationOpen((prev) => !prev)}
-          >
-            <Icon
-              width="28px"
-              height="28px"
-              left="-304px"
-              top="-18px"
-              className="cursor-pointer"
-            />
-          </div>
-          {isNotificationOpen && (
-            <NotificationModal onClose={() => setIsNotificationOpen(false)} />
-          )}
-        </div>
-        <Link href={'/profile/1'}>
-          <div className="h-9 w-9 cursor-pointer rounded-full bg-black"></div>
-        </Link>
+        {isLogin ? (
+          <>
+            <div className="relative">
+              <div
+                ref={modalRef}
+                className="cursor-pointer"
+                onClick={() => setIsNotificationOpen((prev) => !prev)}
+              >
+                <Icon
+                  width="28px"
+                  height="28px"
+                  left="-304px"
+                  top="-18px"
+                  className="cursor-pointer"
+                />
+              </div>
+              {isNotificationOpen && (
+                <NotificationModal
+                  onClose={() => setIsNotificationOpen(false)}
+                />
+              )}
+            </div>
+            <Link href={'/profile/1'}>
+              <div className="h-9 w-9 cursor-pointer rounded-full bg-black"></div>
+            </Link>
+          </>
+        ) : (
+          <Button className="h-[36px] w-[5vw] text-center text-[20px]">
+            로그인
+          </Button>
+        )}
       </div>
       <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-center rounded-none bg-[var(--color-background)] px-4 sm:hidden">
         <Icon

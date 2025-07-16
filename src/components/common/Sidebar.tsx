@@ -15,7 +15,7 @@ import AuthProvider from '@/provider/AuthProvider';
 export default function Sidebar() {
   const pathname = usePathname();
   const { isOpen, close } = useSidebarStore();
-  const setLogout = useAuthStore((state) => state.setLogout);
+  const { setLogout, isLogin } = useAuthStore();
 
   const handleLogout = async () => {
     try {
@@ -192,13 +192,15 @@ export default function Sidebar() {
                 <Icon width="24px" height="26px" left="-297px" top="-252px" />
                 <p>설정</p>
               </div>
-              <div
-                className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
-                onClick={handleLogout}
-              >
-                <Icon width="28px" height="28px" left="-264px" top="-18px" />
-                <p>로그아웃</p>
-              </div>
+              {isLogin && (
+                <div
+                  className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
+                  onClick={handleLogout}
+                >
+                  <Icon width="28px" height="28px" left="-264px" top="-18px" />
+                  <p>로그아웃</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
