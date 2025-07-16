@@ -1,6 +1,6 @@
 import { formatDate } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { twMerge } from 'tailwind-merge';
 import CalendarNav from '../diary/CalendarNav';
@@ -13,7 +13,7 @@ export default function DateInput({
 }: {
   className: string;
   selected: Date | undefined;
-  setSelected: Dispatch<SetStateAction<Date | undefined>>;
+  setSelected: (value: Date) => void;
 }) {
   const [isDateInputOpen, setIsDateInputOpen] = useState(false);
   const inputRef = useRef<HTMLDivElement>(null);
@@ -22,7 +22,9 @@ export default function DateInput({
 
   const handleSelectDate = (date: Date | undefined) => {
     setIsDateInputOpen(false);
-    setSelected(date);
+    if (date) {
+      setSelected(date);
+    }
   };
   useEffect(() => {
     const handleClickOutSide = (e: MouseEvent) => {
