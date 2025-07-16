@@ -1,18 +1,12 @@
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
-
-type WalkEntry = {
-  startHour: string;
-  startMinute: string;
-  endHour: string;
-  endMinute: string;
-  pace: string;
-};
+import type { WalkEntry } from '@/types/diary';
 
 type Props = WalkEntry & {
   onChange: (field: keyof WalkEntry, value: string) => void;
   onDelete: () => void;
 };
+
 export default function WalkingInputItem({
   startHour,
   startMinute,
@@ -31,7 +25,7 @@ export default function WalkingInputItem({
   return (
     <div className="flex h-9 w-full shrink-0 items-center gap-1 text-xs sm:justify-between sm:text-sm">
       {/* start time */}
-      <div className="flex items-center gap-1 sm:gap-0">
+      <div className="flex flex-nowrap items-center gap-1 sm:gap-0">
         <input
           className="input-style mr-0 w-11 py-1 text-center leading-[1.2] sm:mr-1"
           type="text"
@@ -53,7 +47,7 @@ export default function WalkingInputItem({
         <span className="hidden sm:block">분</span>
       </div>
 
-      <span className="mx-1 sm:mx-3">~</span>
+      <span className="mx-1 sm:mx-2">~</span>
 
       {/* end time */}
       <div className="flex items-center gap-1 sm:gap-0">
@@ -75,7 +69,7 @@ export default function WalkingInputItem({
           value={endMinute}
           onChange={(e) => onChange('endMinute', e.target.value)}
         />
-        <span className="mr-2 hidden sm:mr-5 sm:block">분</span>
+        <span className="mr-2 hidden sm:mr-3 sm:block">분</span>
       </div>
 
       {/* walking pace */}

@@ -1,13 +1,6 @@
 import DiaryCard from '../DiaryCard';
 import WalkingInputItem from './WalkingInputItem';
-
-type WalkEntry = {
-  startHour: string;
-  startMinute: string;
-  endHour: string;
-  endMinute: string;
-  pace: string;
-};
+import type { WalkEntry } from '@/types/diary';
 
 type Props = {
   walkingList: WalkEntry[];
