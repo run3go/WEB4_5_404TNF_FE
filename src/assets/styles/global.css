@@ -94,7 +94,11 @@ body {
 }
 
 .guide-card {
-  @apply flex min-w-[196px] basis-[calc(50%-10px)] cursor-pointer flex-col items-start gap-[2px] border border-[var(--color-primary-500)] bg-[#FFF5E9] px-2 py-2 text-xs sm:px-4 sm:py-2 sm:text-base;
+  @apply flex w-full cursor-pointer flex-col items-start gap-2 border border-[var(--color-primary-500)] bg-[#FFF9F0] px-5 py-3 text-sm transition-all sm:w-auto sm:basis-[calc(50%-10px)] sm:gap-[2px] sm:px-4 sm:py-2 sm:text-base;
+}
+
+.guide-card:hover {
+  @apply -translate-y-1 bg-[#FFF5E9] shadow-[0_6px_12px_rgba(0,0,0,0.2)];
 }
 
 .scrollbar-hidden {
