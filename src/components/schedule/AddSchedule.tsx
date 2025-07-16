@@ -13,8 +13,8 @@ export default function AddSchedule({
   // sId,
 }: {
   closeModal?: () => void;
-  isStart: boolean;
-  isEdit: boolean;
+  isStart?: boolean;
+  isEdit?: boolean;
   fullDate?: Date | undefined;
   sId?: number;
 }) {
