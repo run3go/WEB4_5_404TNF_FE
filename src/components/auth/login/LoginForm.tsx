@@ -16,6 +16,16 @@ export default function LoginForm() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email) {
+      setError('이메일을 입력해주세요');
+      return;
+    }
+    if (!password) {
+      setError('비밀번호를 입력해주세요');
+      return;
+    }
+
     try {
       const { data: user } = await login(email, password);
       const data = await getUserProfile(user.userId);
@@ -43,7 +53,7 @@ export default function LoginForm() {
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    type: string,
+    type: 'email' | 'password',
   ) => {
     if (type === 'email') {
       setEmail(e.target.value.trim());
