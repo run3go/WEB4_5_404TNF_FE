@@ -49,7 +49,7 @@ export default function SignupForm() {
       className="flex flex-col justify-between p-6 pt-[51px] sm:h-[712px] sm:px-[21.5vw] sm:pt-11"
       onSubmit={handleSignup}
     >
-      <div className="flex flex-col gap-7 sm:gap-7">
+      <div className="flex flex-col gap-4 sm:gap-4">
         <EmailInputSection
           onEmailVerified={(email) => {
             setFormData((prev) => ({ ...prev, email }));

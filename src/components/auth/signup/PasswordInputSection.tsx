@@ -136,7 +136,7 @@ export default function PasswordInputSection({
       </div>
       {errors.password && <p className="auth__error">{errors.password}</p>}
 
-      <div className="relative mt-4">
+      <div className="relative mt-2">
         <input
           id="confirmPassword"
           name="confirmPassword"
