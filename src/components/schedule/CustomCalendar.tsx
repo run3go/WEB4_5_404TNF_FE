@@ -1,41 +1,58 @@
-import { getDay, getMonth, getWeeksInMonth, getYear } from 'date-fns';
+'use client';
+import {
+  addMonths,
+  getDay,
+  getMonth,
+  getWeeksInMonth,
+  getYear,
+  isSameDay,
+  subMonths,
+} from 'date-fns';
 import Icon from '../common/Icon';
 import DateItem from './DateItem';
+import { useState } from 'react';
+import { useSchedules } from '@/lib/hooks/useSchedules';
 
 export default function CustomCalendar() {
-  const data = [
-    { scheduleId: 1, date: '2025-07-01', name: '병원진료', isDone: true },
-    { scheduleId: 2, date: '2025-07-01', name: '병원진료', isDone: true },
-    { scheduleId: 3, date: '2025-07-01', name: '병원진료', isDone: true },
-    { scheduleId: 4, date: '2025-07-10', name: '병원진료', isDone: true },
-    { scheduleId: 5, date: '2025-07-15', name: '병원진료', isDone: true },
-    { scheduleId: 6, date: '2025-07-18', name: '병원진료', isDone: true },
-    { scheduleId: 7, date: '2025-07-20', name: '병원진료', isDone: true },
-    { scheduleId: 8, date: '2025-07-28', name: '병원진료', isDone: true },
-  ];
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const currentYear = getYear(currentDate);
+  const currentMonth = getMonth(currentDate);
+  const firstDay = getDay(new Date(currentYear, currentMonth, 1));
+
   const today = new Date();
-  const thisMonth = getMonth(today);
-  const thisYear = getYear(today);
 
-  const firstDay = getDay(new Date(thisYear, thisMonth, 1));
-
-  const weeksOfMonth = getWeeksInMonth(today);
+  const weeksOfMonth = getWeeksInMonth(currentDate);
   const dateArray = Array.from(
     { length: weeksOfMonth * 7 },
     (_, i) => i - firstDay + 1,
   );
+
+  // month 이동
+  const goToNextMonth = () => {
+    setCurrentDate((prev) => addMonths(prev, 1));
+  };
+  const goToPrevMonth = () => {
+    setCurrentDate((prev) => subMonths(prev, 1));
+  };
+
+  // 월 바뀔 때마다 api 호출
+  const { data: schedules } = useSchedules('10002', currentDate);
+
   return (
     <div className="hidden w-full flex-col items-center sm:flex">
       <div className="mb-8 flex items-center gap-14">
         <Icon
+          onClick={goToPrevMonth}
           className="cursor-pointer"
           width="14px"
           height="22px"
           left="-108px"
           top="-122px"
         />
-        <span className="text-[24px] leading-[1.2]">7월</span>
+        <span className="text-[24px] leading-[1.2]">{currentMonth + 1}월</span>
         <Icon
+          onClick={goToNextMonth}
           className="cursor-pointer"
           width="14px"
           height="22px"
@@ -54,18 +71,24 @@ export default function CustomCalendar() {
         ))}
       </div>
       <div className="flex h-full w-full flex-wrap">
-        {dateArray.map((date) => (
-          <DateItem
-            key={date}
-            date={date}
-            targetMonth={today}
-            schedules={data.filter(
-              (schedule) =>
-                schedule.date ===
-                `${thisYear}-${thisMonth + 1 < 10 ? '0' + (thisMonth + 1) : thisMonth + 1}-${date + 1 < 10 ? '0' + date : date}`,
-            )}
-          />
-        ))}
+        {dateArray.map((date) => {
+          const thisDate = new Date(currentYear, currentMonth, date);
+          const isToday = isSameDay(thisDate, today);
+          const daySchedules = schedules?.filter((schedule) =>
+            isSameDay(new Date(schedule.date), thisDate),
+          );
+
+          return (
+            // 날짜 별 일정 전달
+            <DateItem
+              key={date}
+              date={date}
+              targetMonth={currentDate}
+              schedules={daySchedules}
+              isToday={isToday}
+            />
+          );
+        })}
       </div>
     </div>
   );
