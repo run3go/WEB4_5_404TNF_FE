@@ -43,11 +43,8 @@ export const petProfileSchema = z
     size: z.enum(['SMALL', 'MEDIUM', 'LARGE']),
     isNeutered: z.enum(['true', 'false']),
     sex: z.enum(['true', 'false']),
-    registNumber: z.string().trim().length(15, '등록번호는 15자이어야 합니다'),
-    weight: z
-      .number()
-      .min(1, '몸무게는 1kg 이상이어야 합니다')
-      .max(200, '몸무게는 200kg 이하이어야 합니다'),
+    registNumber: z.string().trim().optional(),
+    weight: z.string().optional(),
   })
   .refine(
     (data) => {
@@ -58,5 +55,43 @@ export const petProfileSchema = z
     {
       message: '태어난 날은 만난 날짜보다 이전이어야 합니다',
       path: ['birthday'],
+    },
+  )
+  .refine(
+    (data) => {
+      if (!data.registNumber) {
+        return true;
+      }
+      return data.registNumber.length === 15;
+    },
+    {
+      message: '등록 번호는 15자이어야 합니다',
+      path: ['registNumber'],
+    },
+  )
+  .refine(
+    (data) => {
+      if (!data.weight) {
+        return true;
+      }
+      const weight = Number(data.weight);
+      return weight >= 0;
+    },
+    {
+      message: '몸무게는 0kg보다 커야 합니다.',
+      path: ['weight'],
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.weight === '') {
+        return true;
+      }
+      const weight = Number(data.weight);
+      return weight <= 200;
+    },
+    {
+      message: '몸무게는 200kg 이하 이어야 합니다.',
+      path: ['weight'],
     },
   );

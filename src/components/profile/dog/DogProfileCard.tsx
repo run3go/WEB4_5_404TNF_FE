@@ -24,6 +24,7 @@ export default function DogProfileCard({
     query: '(max-width: 767px)',
   });
   const selectProfile = useProfileStore((state) => state.selectProfile);
+
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isVaccineModalOpen, setIsVaccineModalOpen] = useState(false);
   const dataRef = useRef<PetProfile | null>(null);

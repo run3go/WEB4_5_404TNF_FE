@@ -1,4 +1,9 @@
-import { deletePetProfile, getPetProfiles, registPetProfile } from '@/api/pet';
+import {
+  deletePetProfile,
+  getPetProfiles,
+  modifyPetProfile,
+  registPetProfile,
+} from '@/api/pet';
 import {
   petBreedData,
   petNeutering,
@@ -9,7 +14,9 @@ import dog from '@/assets/images/default-dog-profile.svg';
 import MobileTitle from '@/components/common/MobileTitle';
 import SelectBox from '@/components/common/SelectBox';
 import { handleError } from '@/lib/utils/handleError';
+import { petProfileSchema } from '@/lib/utils/petProfile.schema';
 import { useProfileStore } from '@/stores/profileStore';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { formatDate } from 'date-fns';
 import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
@@ -23,8 +30,10 @@ export default function DogProfileEditMobile() {
   );
   const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
   const profile = useProfileStore((state) => state.selectedProfile);
+  const selectProfile = useProfileStore((state) => state.selectProfile);
 
   const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
+    resolver: zodResolver(petProfileSchema),
     defaultValues: profile
       ? {
           image: null,
@@ -36,7 +45,7 @@ export default function DogProfileEditMobile() {
           isNeutered: profile.isNeutered ? 'true' : 'false',
           sex: profile.sex ? 'true' : 'false',
           registNumber: profile.registNumber,
-          weight: profile.weight,
+          weight: String(profile.weight),
         }
       : {
           image: null,
@@ -48,7 +57,7 @@ export default function DogProfileEditMobile() {
           isNeutered: undefined,
           sex: undefined,
           registNumber: '',
-          weight: undefined,
+          weight: '',
         },
   });
 
@@ -57,17 +66,25 @@ export default function DogProfileEditMobile() {
       ...data,
       sex: data.sex === 'true' ? true : false,
       isNeutered: data.isNeutered === 'true' ? true : false,
+      weight: data.weight ? Number(data.weight) : null,
+      registNumber: data.registNumber ?? null,
       // 로그인 기능 구현 이후 자신의 userId 입력
       userId: '10001',
       // 이미지 입력 값 생긴 후 수정
       image: null,
     };
 
-    await registPetProfile(payload);
+    if (profile) {
+      await modifyPetProfile(payload, profile.petId);
+    } else {
+      await registPetProfile(payload);
+    }
+
     // 로그인 기능 구현 이후 자신의 userId 입력
     const profiles = await getPetProfiles('10001');
     setPetProfiles(profiles);
     toggleEditingPetProfile();
+    selectProfile(null);
   };
   const handleDeletePet = async () => {
     if (!profile) return;
@@ -93,6 +110,7 @@ export default function DogProfileEditMobile() {
             }}
             closePage={() => {
               toggleEditingPetProfile();
+              selectProfile(null);
             }}
           />
           {/* 사진 선택 */}
@@ -179,20 +197,14 @@ export default function DogProfileEditMobile() {
                 id="weight"
                 label="몸무게"
                 placeholder="몸무게를 적어주세요"
-                required
                 type="number"
-                register={(value) =>
-                  register(value, {
-                    valueAsNumber: true,
-                  })
-                }
+                register={register}
               />
               <InputField
                 className="mr-2 w-full"
                 id="registNumber"
                 label="등록번호"
                 placeholder="등록번호를 적어주세요"
-                required
                 type="number"
                 register={register}
               />

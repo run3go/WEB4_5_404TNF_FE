@@ -11,7 +11,7 @@ type ProfileStore = {
   toggleEditingUserProfile: () => void;
   setPetProfiles: (data: PetProfile[]) => void;
   addPetProfile: (newProfile: PetProfile) => void;
-  selectProfile: (profile: PetProfile) => void;
+  selectProfile: (profile: PetProfile | null) => void;
 };
 
 export const useProfileStore = create<ProfileStore>()(

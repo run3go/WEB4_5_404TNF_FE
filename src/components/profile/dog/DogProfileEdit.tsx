@@ -49,7 +49,7 @@ export default function DogProfileEdit({
           isNeutered: profile.isNeutered ? 'true' : 'false',
           sex: profile.sex ? 'true' : 'false',
           registNumber: profile.registNumber,
-          weight: profile.weight,
+          weight: String(profile.weight),
         }
       : {
           image: null,
@@ -61,7 +61,7 @@ export default function DogProfileEdit({
           isNeutered: undefined,
           sex: undefined,
           registNumber: '',
-          weight: undefined,
+          weight: '',
         },
   });
 
@@ -70,6 +70,8 @@ export default function DogProfileEdit({
       ...data,
       sex: data.sex === 'true' ? true : false,
       isNeutered: data.isNeutered === 'true' ? true : false,
+      weight: data.weight ? Number(data.weight) : null,
+      registNumber: data.registNumber ?? null,
       // 로그인 기능 구현 이후 자신의 userId 입력
       userId: '10001',
       // 이미지 입력 값 생긴 후 수정
@@ -165,12 +167,7 @@ export default function DogProfileEdit({
                 label="몸무게"
                 type="number"
                 placeholder="몸무게를 적어주세요"
-                required
-                register={(value) =>
-                  register(value, {
-                    valueAsNumber: true,
-                  })
-                }
+                register={register}
               />
             </div>
             <div className="w-full">
@@ -211,7 +208,6 @@ export default function DogProfileEdit({
                 id="registNumber"
                 label="등록번호"
                 placeholder="등록번호를 적어주세요"
-                required
                 type="number"
                 register={register}
               />
