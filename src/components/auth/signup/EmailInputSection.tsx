@@ -79,6 +79,7 @@ export default function EmailInputSection({
         value={email}
         onChange={(e) => {
           setEmail(e.target.value.trim());
+          setError(validateEmail(e.target.value.trim()));
           resetEmailState();
           setTouched(true);
         }}
@@ -107,6 +108,7 @@ export default function EmailInputSection({
               seconds={180}
               keyReset={timerKey}
               onStatusChange={setIsTimerExpired}
+              stop={emailState.isEmailVerified}
             />
             <button
               type="button"

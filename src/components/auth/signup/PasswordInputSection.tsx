@@ -38,7 +38,12 @@ export default function PasswordInputSection({
       confirmPassword: touched.confirmPassword ? confirmPasswordError : '',
     });
 
-    if (!passwordError && !confirmPasswordError) {
+    if (
+      !passwordError &&
+      !confirmPasswordError &&
+      password &&
+      confirmPassword
+    ) {
       onPasswordValid(password);
     }
   };
@@ -76,7 +81,12 @@ export default function PasswordInputSection({
         confirmPassword: confirmPasswordError,
       }));
 
-      if (!passwordError && !confirmPasswordError) {
+      if (
+        !passwordError &&
+        !confirmPasswordError &&
+        password &&
+        confirmPassword
+      ) {
         onPasswordValid(password);
       }
     } else if (field === 'confirmPassword') {

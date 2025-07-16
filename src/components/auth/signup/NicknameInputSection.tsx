@@ -53,6 +53,7 @@ export default function NicknameInputSection({
         value={nickname}
         onChange={(e) => {
           setNickname(e.target.value.trim());
+          setError(validateNickname(e.target.value.trim()));
           resetNickNameState();
           setTouched(true);
         }}
