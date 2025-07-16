@@ -8,12 +8,13 @@ import Icon from './Icon';
 import NotificationModal from '../notification/NotificationModal';
 import { useSidebarStore } from '@/stores/sidebarStore';
 import { useAuthStore } from '@/stores/authStoe';
+import user_default_image from '@/assets/images/default-profile.svg';
 import Button from './Button';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { open } = useSidebarStore();
-  const isLogin = useAuthStore((state) => state.isLogin);
+  const { isLogin, userInfo } = useAuthStore();
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -42,14 +43,23 @@ export default function Header() {
                 />
               )}
             </div>
-            <Link href={'/profile/1'}>
-              <div className="h-9 w-9 cursor-pointer rounded-full bg-black"></div>
+            <Link href={`/profile/${userInfo?.userId}`}>
+              <Image
+                className="cursor-pointer rounded-full"
+                src={userInfo?.userImg || user_default_image}
+                alt="유저 프로필"
+                width={36}
+                height={36}
+                priority
+              />
             </Link>
           </>
         ) : (
-          <Button className="h-[36px] w-[5vw] text-center text-[20px]">
-            로그인
-          </Button>
+          <Link href={'/login'}>
+            <Button className="h-[36px] w-[95px] text-center text-[20px]">
+              로그인
+            </Button>
+          </Link>
         )}
       </div>
       <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-center rounded-none bg-[var(--color-background)] px-4 sm:hidden">
