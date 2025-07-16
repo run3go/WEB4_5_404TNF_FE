@@ -19,11 +19,11 @@ export default function PasswordToggleButton({
     >
       {isVisible ? (
         <Icon
-          width="16px"
-          height="16px"
-          left="-186px"
-          top="-167px"
-          className="scale-75 skew-x-12 cursor-pointer sm:scale-100"
+          width="15px"
+          height="14px"
+          left="-373px"
+          top="-381px"
+          className="scale-75 cursor-pointer sm:scale-100"
         />
       ) : (
         <Icon
