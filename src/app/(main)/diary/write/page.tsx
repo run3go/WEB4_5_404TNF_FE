@@ -1,5 +1,4 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
 
 import FeedInput from '@/components/diary/create/FeedInput';
 import WalkingInput from '@/components/diary/create/WalkingInput';
@@ -22,10 +21,6 @@ const feedUnitOptions = [
 ];
 
 export default function DiaryWrite() {
-  const searchParams = useSearchParams();
-  const dateParam = searchParams.get('date');
-  const petIdParam = searchParams.get('petId');
-
   const {
     selected,
     setSelected,
@@ -44,7 +39,7 @@ export default function DiaryWrite() {
     handleSubmit,
     walkingList,
     setWalkingList,
-  } = useDiaryForm(petIdParam, dateParam);
+  } = useDiaryForm();
 
   const petOptions = pets.map((pet) => ({
     value: pet.petId.toString(),

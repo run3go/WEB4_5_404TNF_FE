@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import { createLifeRecord, getPetsByUserId } from '@/api/diary';
 import { Pet } from '@/types/diary';
 import type { FeedEntry } from '@/types/diary';
 
-export function useDiaryForm(
-  petIdParam: string | null,
-  dateParam: string | null,
-) {
-  const [selected, setSelected] = useState<Date | undefined>(
-    dateParam ? parseISO(dateParam) : new Date(),
-  );
+export function useDiaryForm() {
+  const [selected, setSelected] = useState<Date | undefined>(new Date());
   const [pets, setPets] = useState<Pet[]>([]);
   const [selectedPetId, setSelectedPetId] = useState<string>('');
   const [selectedUnit, setSelectedUnit] = useState('GRAM');
@@ -34,14 +29,13 @@ export function useDiaryForm(
       try {
         const res = await getPetsByUserId(10004);
         setPets(res);
-        const defaultId = petIdParam || res[0]?.petId?.toString();
-        setSelectedPetId(defaultId || '');
+        setSelectedPetId(res[0]?.petId?.toString() || '');
       } catch (err) {
         console.error(err);
       }
     };
     fetchPets();
-  }, [petIdParam]);
+  }, []);
 
   const selectedPetName =
     pets.find((opt) => opt.petId.toString() === selectedPetId)?.name || '';
