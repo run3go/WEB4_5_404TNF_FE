@@ -6,16 +6,19 @@ interface CountdownTimerProps {
   keyReset: number;
   seconds: number;
   onStatusChange?: (expired: boolean) => void;
+  stop?: boolean;
 }
 
 export default function CountdownTimer({
   keyReset,
   seconds,
   onStatusChange,
+  stop = false,
 }: CountdownTimerProps) {
   const [timeLeft, setTimeLeft] = useState(seconds);
 
   useEffect(() => {
+    if (stop) return;
     setTimeLeft(seconds);
 
     setTimeout(() => {
@@ -36,7 +39,7 @@ export default function CountdownTimer({
     }, 1000);
 
     return () => clearInterval(timerId);
-  }, [keyReset, seconds, onStatusChange]);
+  }, [keyReset, seconds, stop, onStatusChange]);
 
   const formatTime = (sec: number) => {
     const m = Math.floor(sec / 60).toString();
