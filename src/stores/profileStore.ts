@@ -3,8 +3,8 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 type ProfileStore = {
-  isEditingPetProfile: boolean;
-  isEditingUserProfile: boolean;
+  isEditingPet: boolean;
+  isEditingUser: boolean;
   petProfiles: PetProfile[];
   selectedProfile: PetProfile | null;
   toggleEditingPetProfile: () => void;
@@ -17,17 +17,17 @@ type ProfileStore = {
 export const useProfileStore = create<ProfileStore>()(
   devtools(
     immer((set) => ({
-      isEditingPetProfile: false,
-      isEditingUserProfile: false,
+      isEditingPet: false,
+      isEditingUser: false,
       selectedProfile: null,
       petProfiles: [],
       toggleEditingPetProfile: () =>
         set((state) => {
-          state.isEditingPetProfile = !state.isEditingPetProfile;
+          state.isEditingPet = !state.isEditingPet;
         }),
       toggleEditingUserProfile: () =>
         set((state) => {
-          state.isEditingUserProfile = !state.isEditingUserProfile;
+          state.isEditingUser = !state.isEditingUser;
         }),
       setPetProfiles: (data) =>
         set((state) => {

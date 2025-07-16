@@ -1,5 +1,8 @@
 'use client';
+import { getPetProfiles } from '@/api/pet';
 import { useProfileStore } from '@/stores/profileStore';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
@@ -17,62 +20,66 @@ export default function ProfileClient({
   petProfiles: PetProfile[];
   userProfile: UserProfile;
 }) {
+  const params = useParams();
+  const userId = params?.userId as string;
+
+  const { data: petData } = useQuery<PetProfile[]>({
+    queryKey: ['pets', userId],
+    queryFn: () => getPetProfiles(userId),
+    initialData: petProfiles,
+    staleTime: 30000,
+  });
+
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
   const [isProfile, setIsProfile] = useState(true);
 
-  const isEditingPetProfile = useProfileStore(
-    (state) => state.isEditingPetProfile,
-  );
-  const isEditingUserProfile = useProfileStore(
-    (state) => state.isEditingUserProfile,
-  );
+  const isEditingPet = useProfileStore((state) => state.isEditingPet);
+  const isEditingUser = useProfileStore((state) => state.isEditingUser);
   const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
 
   useEffect(() => {
     setPetProfiles(petProfiles);
   }, [petProfiles, setPetProfiles]);
 
-  if (isMobile && isEditingPetProfile) {
-    return <DogProfileEditMobile />;
-  } else if (isMobile && isEditingUserProfile) {
-    return <UserProfileEditMobile />;
-  } else {
-    return (
-      <main className="scrollbar-hidden relative h-screen w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
-        <h1 className="mb-15 hidden text-center text-3xl sm:block">
-          <strong>닉네임</strong>
-          님의 페이지
-        </h1>
-        <div className="mb-8 flex justify-center gap-4 sm:hidden">
-          <Button
-            className={twMerge(
-              'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
-              isProfile && 'bg-[var(--color-pink-300)]',
-            )}
-            onClick={() => setIsProfile(true)}
-          >
-            프로필
-          </Button>
-          <Button
-            className={twMerge(
-              'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
-              !isProfile && 'bg-[var(--color-pink-300)]',
-            )}
-            onClick={() => setIsProfile(false)}
-          >
-            활동내역
-          </Button>
-        </div>
-        <div className={isProfile ? '' : 'hidden sm:block'}>
-          <UserProfile userProfile={userProfile} />
-          <DogProfileList profileData={petProfiles} />
-        </div>
-        <div className={isProfile ? 'hidden sm:block' : ''}>
-          <PostList />
-        </div>
-      </main>
-    );
+  if (isMobile) {
+    if (isEditingPet) return <DogProfileEditMobile />;
+    if (isEditingUser) return <UserProfileEditMobile />;
   }
+  return (
+    <main className="scrollbar-hidden relative h-screen w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
+      <h1 className="mb-15 hidden text-center text-3xl sm:block">
+        <strong>닉네임</strong>
+        님의 페이지
+      </h1>
+      <div className="mb-8 flex justify-center gap-4 sm:hidden">
+        <Button
+          className={twMerge(
+            'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
+            isProfile && 'bg-[var(--color-pink-300)]',
+          )}
+          onClick={() => setIsProfile(true)}
+        >
+          프로필
+        </Button>
+        <Button
+          className={twMerge(
+            'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
+            !isProfile && 'bg-[var(--color-pink-300)]',
+          )}
+          onClick={() => setIsProfile(false)}
+        >
+          활동내역
+        </Button>
+      </div>
+      <div className={isProfile ? '' : 'hidden sm:block'}>
+        <UserProfile userProfile={userProfile} />
+        <DogProfileList profileData={petData} />
+      </div>
+      <div className={isProfile ? 'hidden sm:block' : ''}>
+        <PostList />
+      </div>
+    </main>
+  );
 }
