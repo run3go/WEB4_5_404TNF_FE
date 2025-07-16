@@ -6,10 +6,12 @@ type ProfileStore = {
   isEditingPetProfile: boolean;
   isEditingUserProfile: boolean;
   petProfiles: PetProfile[];
+  selectedProfile: PetProfile | null;
   toggleEditingPetProfile: () => void;
   toggleEditingUserProfile: () => void;
   setPetProfiles: (data: PetProfile[]) => void;
   addPetProfile: (newProfile: PetProfile) => void;
+  selectProfile: (profile: PetProfile | null) => void;
 };
 
 export const useProfileStore = create<ProfileStore>()(
@@ -17,6 +19,7 @@ export const useProfileStore = create<ProfileStore>()(
     immer((set) => ({
       isEditingPetProfile: false,
       isEditingUserProfile: false,
+      selectedProfile: null,
       petProfiles: [],
       toggleEditingPetProfile: () =>
         set((state) => {
@@ -33,6 +36,10 @@ export const useProfileStore = create<ProfileStore>()(
       addPetProfile: (newProfile) =>
         set((state) => {
           state.petProfiles.push(newProfile);
+        }),
+      selectProfile: (profile) =>
+        set((state) => {
+          state.selectedProfile = profile;
         }),
     })),
   ),
