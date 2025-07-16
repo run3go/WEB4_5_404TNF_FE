@@ -13,10 +13,10 @@ export default function MobileTitle({
 }) {
   return (
     <>
-      <Card className="fixed top-0 right-0 left-0 z-100 h-18 w-screen rounded-none bg-[var(--color-background)] px-4 text-base sm:hidden">
+      <Card className="fixed top-0 right-0 left-0 z-100 h-18 w-full rounded-none bg-[var(--color-background)] px-4 text-base sm:hidden">
         <div className="relative flex h-full items-center justify-center">
           <Icon
-            className="cursor-pointer absolute left-0"
+            className="absolute left-0 cursor-pointer"
             onClick={closePage}
             width="12px"
             height="20px"
@@ -27,7 +27,7 @@ export default function MobileTitle({
           {onClick && (
             <span
               onClick={onClick}
-              className="cursor-pointer absolute right-0 leading-[1.2] text-[var(--color-primary-500)]"
+              className="absolute right-0 cursor-pointer leading-[1.2] text-[var(--color-primary-500)]"
             >
               저장
             </span>
