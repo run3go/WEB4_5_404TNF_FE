@@ -124,7 +124,7 @@ export default function PasswordInputSection({
             errors.password ? '!border-[var(--color-red)]' : ''
           }`}
           value={password}
-          onChange={(e) => handlePasswordChange(e.target.value)}
+          onChange={(e) => handlePasswordChange(e.target.value.trim())}
           onBlur={() => handleBlur('password')}
         />
         {password.length > 0 && (
@@ -146,7 +146,7 @@ export default function PasswordInputSection({
             errors.confirmPassword ? '!border-[var(--color-red)]' : ''
           }`}
           value={confirmPassword}
-          onChange={(e) => handleConfirmPasswordChange(e.target.value)}
+          onChange={(e) => handleConfirmPasswordChange(e.target.value.trim())}
           onBlur={() => handleBlur('confirmPassword')}
         />
         {confirmPassword.length > 0 && (

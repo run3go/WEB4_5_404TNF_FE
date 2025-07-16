@@ -16,6 +16,12 @@ export default function NicknameInputSection({
   const { nicknameState, isNicknameDuplicate, resetNickNameState } =
     useNicknameCheck();
 
+  const handleChange = (value: string) => {
+    setNickname(value);
+    setError(validateNickname(value));
+    resetNickNameState();
+    setTouched(true);
+  };
   const handleDuplicationCheck = async () => {
     const validationError = validateNickname(nickname);
     if (validationError) {
@@ -51,12 +57,7 @@ export default function NicknameInputSection({
           touched && error ? '!border-[var(--color-red)]' : ''
         }`}
         value={nickname}
-        onChange={(e) => {
-          setNickname(e.target.value.trim());
-          setError(validateNickname(e.target.value.trim()));
-          resetNickNameState();
-          setTouched(true);
-        }}
+        onChange={(e) => handleChange(e.target.value.trim())}
         onBlur={() => {
           setTouched(true);
           setError(validateNickname(nickname));

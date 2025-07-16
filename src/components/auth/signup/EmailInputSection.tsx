@@ -27,6 +27,13 @@ export default function EmailInputSection({
     resetVerificationError,
   } = useEmailCheck();
 
+  const handleChange = (value: string) => {
+    setEmail(value);
+    setError(validateEmail(value));
+    resetEmailState();
+    setTouched(true);
+  };
+
   const handleSendEmailVerify = async () => {
     const validationError = validateEmail(email);
     if (validationError) {
@@ -77,12 +84,7 @@ export default function EmailInputSection({
         }`}
         placeholder="example@example.com"
         value={email}
-        onChange={(e) => {
-          setEmail(e.target.value.trim());
-          setError(validateEmail(e.target.value.trim()));
-          resetEmailState();
-          setTouched(true);
-        }}
+        onChange={(e) => handleChange(e.target.value.trim())}
         onBlur={() => {
           setTouched(true);
           setError(validateEmail(email));
