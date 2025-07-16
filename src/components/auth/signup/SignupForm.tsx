@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import NicknameInputSection from './NicknameInputSection';
 import EmailInputSection from './EmailInputSection';
 import PasswordInputSection from './PasswordInputSection';
-import NameInputSection from './NameInputSection ';
+import NameInputSection from './NameInputSection';
 
 export default function SignupForm() {
   const router = useRouter();

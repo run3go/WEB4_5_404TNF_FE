@@ -1,8 +1,7 @@
 'use client';
 
-import { login } from '@/api/auth';
 import Icon from '@/components/common/Icon';
-import { useMutation } from '@tanstack/react-query';
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -11,37 +10,9 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const mutation = useMutation({
-    mutationFn: async ({
-      email,
-      password,
-    }: {
-      email: string;
-      password: string;
-    }) => await login(email, password),
-    onSuccess({ accessToken }) {
-      localStorage.setItem('accessToken', accessToken);
-      route.push('/');
-    },
-    onError(err) {
-      if (err) {
-        alert('로그인 실패');
-      }
-    },
-  });
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log({ email, password });
-    mutation.mutate({ email, password });
-  };
-
   return (
     <>
-      <form
-        className="mt-12 flex flex-col justify-center gap-5 p-6 sm:mt-14 sm:px-[20vw]"
-        onSubmit={handleLogin}
-      >
+      <form className="mt-12 flex flex-col justify-center gap-5 p-6 sm:mt-14 sm:px-[20vw]">
         <input
           name="email"
           type="email"
