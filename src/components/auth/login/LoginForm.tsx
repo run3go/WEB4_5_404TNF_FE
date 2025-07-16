@@ -31,6 +31,7 @@ export default function LoginForm() {
       };
       setLogin(userInfo);
       sessionStorage.setItem('userId', user.userId);
+      document.cookie = `userId=${user.userId}; path=/; max-age=3600`;
 
       route.push('/');
     } catch (err) {

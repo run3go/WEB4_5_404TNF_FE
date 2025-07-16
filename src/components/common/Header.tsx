@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Card from './Card';
@@ -13,10 +13,50 @@ import Button from './Button';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { open } = useSidebarStore();
   const { isLogin, userInfo } = useAuthStore();
 
   const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, []);
+
+  if (!isLoading)
+    return (
+      <>
+        <div className="relative">
+          <div
+            ref={modalRef}
+            className="cursor-pointer"
+            onClick={() => setIsNotificationOpen((prev) => !prev)}
+          >
+            <Icon
+              width="28px"
+              height="28px"
+              left="-304px"
+              top="-18px"
+              className="cursor-pointer"
+            />
+          </div>
+          {isNotificationOpen && (
+            <NotificationModal onClose={() => setIsNotificationOpen(false)} />
+          )}
+        </div>
+        <Link href={`/profile/${userInfo?.userId}`}>
+          <Image
+            className="cursor-pointer rounded-full"
+            src={userInfo?.userImg || user_default_image}
+            alt="유저 프로필"
+            width={36}
+            height={36}
+            priority
+          />
+        </Link>
+      </>
+    );
 
   return (
     <>
