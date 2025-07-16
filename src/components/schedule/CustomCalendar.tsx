@@ -39,8 +39,6 @@ export default function CustomCalendar() {
   // 월 바뀔 때마다 api 호출
   const { data: schedules } = useSchedules('10002', currentDate);
 
-  console.log('일정목록: ', schedules);
-
   return (
     <div className="hidden w-full flex-col items-center sm:flex">
       <div className="mb-8 flex items-center gap-14">

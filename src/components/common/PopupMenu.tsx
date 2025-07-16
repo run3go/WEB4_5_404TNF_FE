@@ -74,7 +74,7 @@ export default function PopupMenu({
                   : option.type === 'delete'
                     ? 'w-[125px]'
                     : 'w-[98px]'
-          } items-center justify-start gap-2 rounded-[8px] pl-2 hover:bg-[#FFCD8C]`}
+          } cursor-pointer items-center justify-start gap-2 rounded-[8px] pl-2 hover:bg-[#FFCD8C]`}
           onClick={() => onSelect(option.label)}
         >
           {getIcon(option.label)}
