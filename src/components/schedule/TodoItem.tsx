@@ -31,10 +31,10 @@ export default function TodoItem({
     setIsMenuOpen(false);
   };
 
-  const deleteTodo = (cycleLink: boolean) => {
-    // 일정 삭제 api
-    // toast
-  };
+  // const deleteTodo = (cycleLink: boolean) => {
+  //   // 일정 삭제 api
+  //   // toast
+  // };
 
   return (
     <>
