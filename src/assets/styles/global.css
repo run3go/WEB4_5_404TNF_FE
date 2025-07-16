@@ -70,7 +70,11 @@ body {
 }
 
 .profile-radio-style {
-  @apply inline-block w-full cursor-pointer rounded-[10px] border-1 border-[var(--color-primary-300)] py-[10px] text-center leading-[1.2] hover:bg-[var(--color-primary-300)] sm:mr-4 sm:w-[95px];
+  @apply inline-block w-full cursor-pointer rounded-[10px] border-1 border-[var(--color-primary-300)] py-[10px] text-center leading-[1.2] transition-all select-none sm:mr-4 sm:w-[95px];
+}
+
+.profile-radio-style:hover {
+  @apply -translate-y-[2px] border-[var(--color-primary-500)] bg-[var(--color-primary-100)] text-[var(--color-primary-500)] shadow-[0_2px_8px_rgba(0,0,0,0.1)];
 }
 
 .profile-title-style {

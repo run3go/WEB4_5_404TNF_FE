@@ -117,6 +117,12 @@ export default function DogProfileEditMobile() {
                 label="태어난 날"
                 required
               />
+              <DateField
+                control={control}
+                id="metday"
+                label="처음 만난 날"
+                required
+              />
               <RadioGroupField
                 className="basis-[calc(50%-6px)]"
                 id="sex"
@@ -150,12 +156,6 @@ export default function DogProfileEditMobile() {
                 placeholder="등록번호를 적어주세요"
                 required
                 register={register}
-              />
-              <DateField
-                control={control}
-                id="metday"
-                label="처음 만난 날"
-                required
               />
             </div>
           </div>

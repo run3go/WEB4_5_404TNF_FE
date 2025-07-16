@@ -25,6 +25,7 @@ export default function DateField({
           </label>
           <DateInput
             className="w-full rounded-[12px] border-1 border-[var(--color-primary-300)]"
+            disableFuture
             selected={new Date(field.value)}
             setSelected={(value) =>
               field.onChange(formatDate(value, 'yyyy-MM-dd'))

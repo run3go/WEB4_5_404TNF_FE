@@ -89,6 +89,12 @@ export default function DogProfileEdit({
                 required
                 register={register}
               />
+              <DateField
+                control={control}
+                id="metday"
+                label="처음 만난 날"
+                required
+              />
               <RadioGroupField
                 id="size"
                 label="크기"
@@ -112,12 +118,6 @@ export default function DogProfileEdit({
                 placeholder="몸무게를 적어주세요"
                 required
                 register={register}
-              />
-              <DateField
-                control={control}
-                id="metday"
-                label="처음 만난 날"
-                required
               />
             </div>
             <div className="w-full">
