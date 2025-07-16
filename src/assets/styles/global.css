@@ -108,6 +108,10 @@ body {
   display: none;
 }
 
+.rdp-caption_label {
+  display: none;
+}
+
 .calendar-circle {
   position: relative;
   z-index: 1;

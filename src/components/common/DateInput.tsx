@@ -1,4 +1,4 @@
-import { formatDate } from 'date-fns';
+import { formatDate, getMonth, getYear } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useEffect, useRef, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
@@ -21,6 +21,8 @@ export default function DateInput({
   const inputRef = useRef<HTMLDivElement>(null);
 
   const today = new Date();
+  const thisYear = getYear(today);
+  const thisMonth = getMonth(today);
 
   const handleSelectDate = (date: Date | undefined) => {
     setIsDateInputOpen(false);
@@ -64,7 +66,9 @@ export default function DateInput({
         >
           <DayPicker
             mode="single"
+            captionLayout="dropdown-years"
             selected={selected}
+            startMonth={new Date(thisYear - 30, thisMonth)}
             onSelect={handleSelectDate}
             disabled={disableFuture && { after: new Date() }}
             locale={ko}
