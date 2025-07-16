@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { format, parseISO } from 'date-fns';
-import { createLifeRecord, getPetsByUserId, Pet } from '@/api/diary';
+import { createLifeRecord, getPetsByUserId } from '@/api/diary';
+import { Pet } from '@/types/diary';
+import type { FeedEntry } from '@/types/diary';
 
 export function useDiaryForm(
   petIdParam: string | null,
@@ -15,9 +17,6 @@ export function useDiaryForm(
   const [weight, setWeight] = useState('');
   const [sleepTime, setSleepTime] = useState('');
   const [note, setNote] = useState('');
-  const [feedAmount, setFeedAmount] = useState('');
-  const [feedTimeHour, setFeedTimeHour] = useState('');
-  const [feedTimeMinute, setFeedTimeMinute] = useState('');
   const [walkStartHour, setWalkStartHour] = useState('');
   const [walkStartMinute, setWalkStartMinute] = useState('');
   const [walkEndHour, setWalkEndHour] = useState('');
@@ -25,6 +24,9 @@ export function useDiaryForm(
   const [pace, setPace] = useState('1');
   const [walkingList, setWalkingList] = useState([
     { startHour: '', startMinute: '', endHour: '', endMinute: '', pace: '1' },
+  ]);
+  const [feedingList, setFeedingList] = useState<FeedEntry[]>([
+    { hour: '', minute: '', amount: '', unit: 'GRAM' },
   ]);
 
   useEffect(() => {
@@ -58,13 +60,11 @@ export function useDiaryForm(
         endTime: `${recordAt}T${entry.endHour.padStart(2, '0')}:${entry.endMinute.padStart(2, '0')}:00`,
         pace: Number(entry.pace),
       })),
-      feedingList: [
-        {
-          amount: Number(feedAmount),
-          mealtime: `${recordAt}T${feedTimeHour.padStart(2, '0')}:${feedTimeMinute.padStart(2, '0')}:00`,
-          unit: selectedUnit,
-        },
-      ],
+      feedingList: feedingList.map((entry) => ({
+        amount: Number(entry.amount),
+        mealtime: `${recordAt}T${entry.hour.padStart(2, '0')}:${entry.minute.padStart(2, '0')}:00`,
+        unit: entry.unit,
+      })),
     };
 
     console.log(body);
@@ -92,12 +92,10 @@ export function useDiaryForm(
     setSleepTime,
     note,
     setNote,
-    feedAmount,
-    setFeedAmount,
-    feedTimeHour,
-    setFeedTimeHour,
-    feedTimeMinute,
-    setFeedTimeMinute,
+    walkingList,
+    setWalkingList,
+    feedingList,
+    setFeedingList,
     walkStartHour,
     setWalkStartHour,
     walkStartMinute,
@@ -110,7 +108,5 @@ export function useDiaryForm(
     handleSubmit,
     pace,
     setPace,
-    walkingList,
-    setWalkingList,
   };
 }

@@ -37,18 +37,11 @@ export default function DiaryWrite() {
     setSleepTime,
     note,
     setNote,
-    feedAmount,
-    setFeedAmount,
-    feedTimeHour,
-    setFeedTimeHour,
-    feedTimeMinute,
-    setFeedTimeMinute,
-    selectedUnit,
-    setSelectedUnit,
+    feedingList,
+    setFeedingList,
     pets,
     selectedPetName,
     handleSubmit,
-
     walkingList,
     setWalkingList,
   } = useDiaryForm(petIdParam, dateParam);
@@ -113,22 +106,20 @@ export default function DiaryWrite() {
             </DiaryCard>
           </div>
           <div className="flex grow flex-col gap-6 pb-8 sm:gap-12 sm:pb-0">
-            <div className="flex w-full flex-col justify-between gap-6 sm:flex-row sm:gap-5">
-              <FeedInput
-                feedUnitOptions={feedUnitOptions}
-                selectedUnit={selectedUnit}
-                setSelectedUnit={setSelectedUnit}
-                feedAmount={feedAmount}
-                setFeedAmount={setFeedAmount}
-                feedTimeHour={feedTimeHour}
-                setFeedTimeHour={setFeedTimeHour}
-                feedTimeMinute={feedTimeMinute}
-                setFeedTimeMinute={setFeedTimeMinute}
-              />
-              <WalkingInput
-                walkingList={walkingList}
-                setWalkingList={setWalkingList}
-              />
+            <div className="flex w-full flex-col justify-between gap-6 sm:flex-row sm:gap-4">
+              <div className="flex w-full flex-col sm:flex-1">
+                <FeedInput
+                  feedingList={feedingList}
+                  setFeedingList={setFeedingList}
+                  feedUnitOptions={feedUnitOptions}
+                />
+              </div>
+              <div className="flex w-full flex-col sm:flex-1">
+                <WalkingInput
+                  walkingList={walkingList}
+                  setWalkingList={setWalkingList}
+                />
+              </div>
             </div>
             <Note value={note} onChange={setNote} />
           </div>

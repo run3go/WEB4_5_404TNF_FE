@@ -1,82 +1,60 @@
-import SelectBox from '@/components/common/SelectBox';
 import DiaryCard from '../DiaryCard';
-import Icon from '@/components/common/Icon';
+import FeedInputItem from './FeedInputItem';
+import type { FeedEntry } from '@/types/diary';
 
 type Props = {
+  feedingList: FeedEntry[];
+  setFeedingList: (list: FeedEntry[]) => void;
   feedUnitOptions: { label: string; value: string }[];
-  selectedUnit: string;
-  setSelectedUnit: (value: string) => void;
-  feedAmount: string;
-  setFeedAmount: (value: string) => void;
-  feedTimeHour: string;
-  setFeedTimeHour: (value: string) => void;
-  feedTimeMinute: string;
-  setFeedTimeMinute: (value: string) => void;
 };
 
 export default function FeedInput({
+  feedingList,
+  setFeedingList,
   feedUnitOptions,
-  selectedUnit,
-  setSelectedUnit,
-  feedAmount,
-  setFeedAmount,
-  feedTimeHour,
-  setFeedTimeHour,
-  feedTimeMinute,
-  setFeedTimeMinute,
 }: Props) {
+  const updateField = (
+    index: number,
+    field: keyof FeedEntry,
+    value: string,
+  ) => {
+    const newList = [...feedingList];
+    newList[index][field] = value;
+    setFeedingList(newList);
+  };
+
+  const handleAddRow = () => {
+    setFeedingList([
+      ...feedingList,
+      { hour: '', minute: '', amount: '', unit: 'GRAM' },
+    ]);
+  };
+
+  const handleDeleteRow = (index: number) => {
+    const newList = [...feedingList];
+    newList.splice(index, 1);
+    setFeedingList(newList);
+  };
   return (
     <DiaryCard
-      className="min-h-50 sm:h-71 sm:w-[416px]"
+      className="min-h-50 sm:h-71"
       title="식사량"
       hasAddBtn
+      onAddBtnClick={handleAddRow}
     >
-      <div className="flex h-[38px] items-center justify-between text-xs sm:text-sm">
-        <div>
-          <input
-            className="input-style mr-2 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)] sm:w-13"
-            type="text"
-            placeholder="시간"
-            maxLength={2}
-            value={feedTimeHour}
-            onChange={(e) => setFeedTimeHour(e.target.value)}
+      <div className="scrollbar-hidden flex h-full w-full flex-col gap-2 overflow-y-auto">
+        {feedingList.map((entry, i) => (
+          <FeedInputItem
+            key={i}
+            hour={entry.hour}
+            minute={entry.minute}
+            amount={entry.amount}
+            unit={entry.unit}
+            onChange={(field, value) => updateField(i, field, value)}
+            onDelete={() => handleDeleteRow(i)}
+            feedUnitOptions={feedUnitOptions}
           />
-          <span className="mr-3">시</span>
-          <input
-            className="input-style mr-2 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)] sm:w-13"
-            type="text"
-            placeholder="분"
-            maxLength={2}
-            value={feedTimeMinute}
-            onChange={(e) => setFeedTimeMinute(e.target.value)}
-          />
-          <span>분</span>
-        </div>
-        <div className="ml-6 flex items-center gap-2">
-          <input
-            className="input-style w-14 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)] sm:w-20"
-            type="text"
-            placeholder="급여량"
-            maxLength={3}
-            value={feedAmount}
-            onChange={(e) => setFeedAmount(e.target.value)}
-          />
-          <SelectBox
-            value={selectedUnit}
-            setValue={setSelectedUnit}
-            options={feedUnitOptions}
-            width="65px"
-            borderColor="var(--color-primary-500)"
-            isCenter
-          />
-        </div>
-        <Icon
-          className="cursor-pointer"
-          width="20px"
-          height="20px"
-          left="-340px"
-          top="-256px"
-        />
+        ))}
       </div>
     </DiaryCard>
   );
