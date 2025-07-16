@@ -13,8 +13,8 @@ export default function RadioGroupField({
   id: 'size' | 'sex' | 'isNeutered';
   label: string;
   options: { value: string; label: string }[];
-  register: UseFormRegister<PetPayload>;
-  watch: UseFormWatch<PetPayload>;
+  register: UseFormRegister<PetFormValues>;
+  watch: UseFormWatch<PetFormValues>;
   required?: boolean;
   className?: string;
 }) {

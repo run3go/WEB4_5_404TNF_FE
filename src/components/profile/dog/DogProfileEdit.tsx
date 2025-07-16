@@ -9,7 +9,10 @@ import dog from '@/assets/images/default-dog-profile.svg';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
+import { handleError } from '@/lib/utils/handleError';
+import { petProfileSchema } from '@/lib/utils/petProfile.schema';
 import { useProfileStore } from '@/stores/profileStore';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { formatDate } from 'date-fns';
 import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
@@ -23,14 +26,23 @@ export default function DogProfileEdit({
   closeModal: () => void;
 }) {
   const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
-  const { handleSubmit, register, watch, control } = useForm<PetPayload>({
+  const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
+    resolver: zodResolver(petProfileSchema),
     defaultValues: {
-      birthday: formatDate(new Date(), 'yyyy-MM-dd'),
+      image: null,
+      name: '',
+      breed: 'BEAGLE',
       metday: formatDate(new Date(), 'yyyy-MM-dd'),
+      birthday: formatDate(new Date(), 'yyyy-MM-dd'),
+      size: undefined,
+      isNeutered: undefined,
+      sex: undefined,
+      registNumber: '',
+      weight: undefined,
     },
   });
 
-  const onSubmit = async (data: PetPayload) => {
+  const onSubmit = async (data: PetFormValues) => {
     const payload = {
       ...data,
       sex: data.sex === 'true' ? true : false,
@@ -65,7 +77,7 @@ export default function DogProfileEdit({
         />
         <form
           className="flex flex-col items-center"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit, handleError)}
         >
           {/* 사진 선택 */}
           <div className="mb-10 flex flex-col items-center gap-4">
@@ -115,9 +127,14 @@ export default function DogProfileEdit({
                 className="mr-2 w-[175px]"
                 id="weight"
                 label="몸무게"
+                type="number"
                 placeholder="몸무게를 적어주세요"
                 required
-                register={register}
+                register={(name) =>
+                  register(name, {
+                    valueAsNumber: true,
+                  })
+                }
               />
             </div>
             <div className="w-full">
@@ -159,6 +176,7 @@ export default function DogProfileEdit({
                 label="등록번호"
                 placeholder="등록번호를 적어주세요"
                 required
+                type="number"
                 register={register}
               />
             </div>

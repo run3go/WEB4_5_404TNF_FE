@@ -13,7 +13,7 @@ export default function InputField({
   label: string;
   required?: boolean;
   placeholder?: string;
-  register: UseFormRegister<PetPayload>;
+  register: UseFormRegister<PetFormValues>;
   type?: string;
   className?: string;
 }) {

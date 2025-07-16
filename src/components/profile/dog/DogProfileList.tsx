@@ -67,7 +67,7 @@ export default function DogProfileList() {
           </div>
         </div>
       ) : (
-        <div className="relative w-[85%]">
+        <div className="relative">
           <button
             ref={prevRef}
             className={twMerge(
@@ -86,7 +86,7 @@ export default function DogProfileList() {
           <button
             ref={nextRef}
             className={twMerge(
-              'absolute top-1/2 right-6 z-50 -translate-y-1/2',
+              'absolute top-1/2 right-2 z-50 -translate-y-1/2',
               currentPage === petProfiles.length - 1 ? 'hidden' : '',
             )}
           >

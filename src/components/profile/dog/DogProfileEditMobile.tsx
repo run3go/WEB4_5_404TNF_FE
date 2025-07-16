@@ -8,6 +8,7 @@ import {
 import dog from '@/assets/images/default-dog-profile.svg';
 import MobileTitle from '@/components/common/MobileTitle';
 import SelectBox from '@/components/common/SelectBox';
+import { handleError } from '@/lib/utils/handleError';
 import { useProfileStore } from '@/stores/profileStore';
 import { formatDate } from 'date-fns';
 import Image from 'next/image';
@@ -22,17 +23,22 @@ export default function DogProfileEditMobile() {
   );
   const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
 
-  const { handleSubmit, register, watch, control } = useForm<PetPayload>({
+  const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
     defaultValues: {
+      image: null,
+      name: '',
       breed: 'BEAGLE',
-      birthday: formatDate(new Date(), 'yyyy-MM-dd'),
       metday: formatDate(new Date(), 'yyyy-MM-dd'),
+      birthday: formatDate(new Date(), 'yyyy-MM-dd'),
+      size: undefined,
+      isNeutered: undefined,
+      sex: undefined,
+      registNumber: '',
+      weight: undefined,
     },
   });
 
-  const onSubmit = async (data: PetPayload) => {
-    console.log('hi');
-    console.log(data);
+  const onSubmit = async (data: PetFormValues) => {
     const payload = {
       ...data,
       sex: data.sex === 'true' ? true : false,
@@ -52,7 +58,10 @@ export default function DogProfileEditMobile() {
   return (
     <main className="w-screen">
       <div className="relative h-screen bg-[var(--color-background)] px-6 py-9 text-sm">
-        <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="flex flex-col"
+          onSubmit={handleSubmit(onSubmit, handleError)}
+        >
           <MobileTitle
             title="반려견 등록"
             onClick={() => {
@@ -147,7 +156,12 @@ export default function DogProfileEditMobile() {
                 label="몸무게"
                 placeholder="몸무게를 적어주세요"
                 required
-                register={register}
+                type="number"
+                register={(value) =>
+                  register(value, {
+                    valueAsNumber: true,
+                  })
+                }
               />
               <InputField
                 className="mr-2 w-full"
@@ -155,6 +169,7 @@ export default function DogProfileEditMobile() {
                 label="등록번호"
                 placeholder="등록번호를 적어주세요"
                 required
+                type="number"
                 register={register}
               />
             </div>

@@ -10,7 +10,7 @@ export default function DateField({
 }: {
   id: 'birthday' | 'metday';
   label: string;
-  control: Control<PetPayload, unknown, PetPayload>;
+  control: Control<PetFormValues, unknown, PetFormValues>;
   required?: boolean;
 }) {
   return (
