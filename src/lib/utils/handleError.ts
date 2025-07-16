@@ -8,6 +8,8 @@ export const handleError = (errors: FieldErrors<PetFormValues>) => {
     } else {
       console.log(errors.name.message);
     }
+  } else if (errors.birthday) {
+    console.log(errors.birthday.message);
   } else if (errors.size) {
     console.log('크기를 선택해 주세요');
   } else if (errors.isNeutered) {
