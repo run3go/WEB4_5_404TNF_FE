@@ -113,7 +113,6 @@ export default function DogProfileEdit({
                 required
                 register={register}
               />
-              {/* 처음 만난 날 */}
               <DateField
                 control={control}
                 id="metday"
@@ -143,7 +142,7 @@ export default function DogProfileEdit({
               <DateField
                 control={control}
                 id="birthday"
-                label="생년월일"
+                label="태어난 날"
                 required
               />
               <RadioGroupField

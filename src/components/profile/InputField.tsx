@@ -31,6 +31,7 @@ export default function InputField({
         autoComplete="off"
         {...register(id)}
       />
+      {id === 'weight' && 'kg'}
     </div>
   );
 }
