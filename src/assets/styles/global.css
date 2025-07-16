@@ -69,7 +69,7 @@ body {
   @apply h-9 rounded-[10px] border-1 border-[var(--color-primary-300)] px-4 py-[11px] leading-[1.2] focus:outline-[var(--color-primary-500)] sm:h-11 sm:py-[14px];
 }
 
-.profile-checkbox-style {
+.profile-radio-style {
   @apply inline-block w-full cursor-pointer rounded-[10px] border-1 border-[var(--color-primary-300)] py-[10px] text-center leading-[1.2] hover:bg-[var(--color-primary-300)] sm:mr-4 sm:w-[95px];
 }
 
@@ -94,7 +94,11 @@ body {
 }
 
 .guide-card {
-  @apply flex min-w-[196px] basis-[calc(50%-10px)] cursor-pointer flex-col items-start gap-[2px] border border-[var(--color-primary-500)] bg-[#FFF5E9] px-2 py-2 text-xs sm:px-4 sm:py-2 sm:text-base;
+  @apply flex w-full cursor-pointer flex-col items-start gap-2 border border-[var(--color-primary-500)] bg-[#FFF9F0] px-5 py-3 text-sm transition-all sm:w-auto sm:basis-[calc(50%-10px)] sm:gap-[2px] sm:px-4 sm:py-2 sm:text-base;
+}
+
+.guide-card:hover {
+  @apply -translate-y-1 bg-[#FFF5E9] shadow-[0_6px_12px_rgba(0,0,0,0.2)];
 }
 
 .scrollbar-hidden {
@@ -139,4 +143,15 @@ body {
   background-image: url('/images/sprite.svg');
   background-position: -340px -122px;
   background-repeat: no-repeat;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px var(--color-background) inset;
+  -webkit-text-fill-color: #000;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
 }

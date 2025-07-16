@@ -1,22 +1,20 @@
 import defaultProfile from '@/assets/images/default-profile.svg';
+import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';
 import Icon from '../../common/Icon';
 import MobileTitle from '../../common/MobileTitle';
 
-export default function UserProfileEditMobile({
-  togglePage,
-}: {
-  togglePage: () => void;
-}) {
+export default function UserProfileEditMobile() {
+  const profileStore = useProfileStore();
   return (
     <div className="w-screen">
       <MobileTitle
         title="프로필 수정"
         onClick={() => {
-          togglePage();
+          profileStore.toggleEditingUserProfile();
         }}
         closePage={() => {
-          togglePage();
+          profileStore.toggleEditingUserProfile();
         }}
       />
       <div className="relative h-screen bg-[var(--color-background)] px-6 py-9 text-sm">
