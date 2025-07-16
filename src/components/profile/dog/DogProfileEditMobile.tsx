@@ -1,4 +1,4 @@
-import { getPetProfiles, registPetProfile } from '@/api/pet';
+import { deletePetProfile, getPetProfiles, registPetProfile } from '@/api/pet';
 import {
   petBreedData,
   petNeutering,
@@ -22,20 +22,34 @@ export default function DogProfileEditMobile() {
     (state) => state.toggleEditingPetProfile,
   );
   const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
+  const profile = useProfileStore((state) => state.selectedProfile);
 
   const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
-    defaultValues: {
-      image: null,
-      name: '',
-      breed: 'BEAGLE',
-      metday: formatDate(new Date(), 'yyyy-MM-dd'),
-      birthday: formatDate(new Date(), 'yyyy-MM-dd'),
-      size: undefined,
-      isNeutered: undefined,
-      sex: undefined,
-      registNumber: '',
-      weight: undefined,
-    },
+    defaultValues: profile
+      ? {
+          image: null,
+          name: profile.name,
+          breed: profile.breed,
+          metday: profile.metday,
+          birthday: profile.birthday,
+          size: profile.size,
+          isNeutered: profile.isNeutered ? 'true' : 'false',
+          sex: profile.sex ? 'true' : 'false',
+          registNumber: profile.registNumber,
+          weight: profile.weight,
+        }
+      : {
+          image: null,
+          name: '',
+          breed: 'BEAGLE',
+          metday: formatDate(new Date(), 'yyyy-MM-dd'),
+          birthday: formatDate(new Date(), 'yyyy-MM-dd'),
+          size: undefined,
+          isNeutered: undefined,
+          sex: undefined,
+          registNumber: '',
+          weight: undefined,
+        },
   });
 
   const onSubmit = async (data: PetFormValues) => {
@@ -55,9 +69,19 @@ export default function DogProfileEditMobile() {
     setPetProfiles(profiles);
     toggleEditingPetProfile();
   };
+  const handleDeletePet = async () => {
+    if (!profile) return;
+
+    await deletePetProfile(profile.petId);
+
+    const profiles = await getPetProfiles('10001');
+    setPetProfiles(profiles);
+    toggleEditingPetProfile();
+  };
+
   return (
     <main className="w-screen">
-      <div className="relative h-screen bg-[var(--color-background)] px-6 py-9 text-sm">
+      <div className="relative h-full bg-[var(--color-background)] px-6 py-9 text-sm">
         <form
           className="flex flex-col"
           onSubmit={handleSubmit(onSubmit, handleError)}
@@ -83,7 +107,7 @@ export default function DogProfileEditMobile() {
             />
             <span className="text-[var(--color-grey)]">사진 선택하기</span>
           </div>
-          <div className="flex flex-col justify-between gap-20 border-b border-[var(--color-grey)] pb-10">
+          <div className="flex flex-col justify-between gap-20 pb-3">
             <div className="w-full">
               <InputField
                 id="name"
@@ -175,6 +199,14 @@ export default function DogProfileEditMobile() {
             </div>
           </div>
         </form>
+        {profile && (
+          <span
+            className="absolute right-6 bottom-6 cursor-pointer text-[var(--color-grey)] hover:text-[var(--color-black)]"
+            onClick={handleDeletePet}
+          >
+            반려동물 정보 삭제
+          </span>
+        )}
       </div>
     </main>
   );

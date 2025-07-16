@@ -25,6 +25,7 @@ type PetFormValues = {
 };
 
 type PetProfile = {
+  petId: number;
   registNumber: string;
   age: string;
   metday: string;
@@ -40,6 +41,9 @@ type PetProfile = {
     originName: string;
     renamedName: string;
   };
+  birthday?: string;
+  weight?: number;
+  days?: number;
 };
 
 type PetBreed =

@@ -1,4 +1,9 @@
-import { getPetProfiles, registPetProfile } from '@/api/pet';
+import {
+  deletePetProfile,
+  getPetProfiles,
+  modifyPetProfile,
+  registPetProfile,
+} from '@/api/pet';
 import {
   petBreedData,
   petNeutering,
@@ -15,6 +20,7 @@ import { useProfileStore } from '@/stores/profileStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatDate } from 'date-fns';
 import Image from 'next/image';
+import { RefObject } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
@@ -22,24 +28,41 @@ import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEdit({
   closeModal,
+  ref,
 }: {
   closeModal: () => void;
+  ref?: RefObject<PetProfile | null>;
 }) {
+  const profile = ref?.current;
+
   const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
   const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
     resolver: zodResolver(petProfileSchema),
-    defaultValues: {
-      image: null,
-      name: '',
-      breed: 'BEAGLE',
-      metday: formatDate(new Date(), 'yyyy-MM-dd'),
-      birthday: formatDate(new Date(), 'yyyy-MM-dd'),
-      size: undefined,
-      isNeutered: undefined,
-      sex: undefined,
-      registNumber: '',
-      weight: undefined,
-    },
+    defaultValues: profile
+      ? {
+          image: null,
+          name: profile.name,
+          breed: profile.breed,
+          metday: profile.metday,
+          birthday: profile.birthday,
+          size: profile.size,
+          isNeutered: profile.isNeutered ? 'true' : 'false',
+          sex: profile.sex ? 'true' : 'false',
+          registNumber: profile.registNumber,
+          weight: profile.weight,
+        }
+      : {
+          image: null,
+          name: '',
+          breed: 'BEAGLE',
+          metday: formatDate(new Date(), 'yyyy-MM-dd'),
+          birthday: formatDate(new Date(), 'yyyy-MM-dd'),
+          size: undefined,
+          isNeutered: undefined,
+          sex: undefined,
+          registNumber: '',
+          weight: undefined,
+        },
   });
 
   const onSubmit = async (data: PetFormValues) => {
@@ -52,9 +75,22 @@ export default function DogProfileEdit({
       // 이미지 입력 값 생긴 후 수정
       image: null,
     };
-
-    await registPetProfile(payload);
+    if (profile) {
+      await modifyPetProfile(payload, profile.petId);
+    } else {
+      await registPetProfile(payload);
+    }
     // 로그인 기능 구현 이후 자신의 userId 입력
+    const profiles = await getPetProfiles('10001');
+    setPetProfiles(profiles);
+    closeModal();
+  };
+
+  const handleDeletePet = async () => {
+    if (!profile) return;
+
+    await deletePetProfile(profile.petId);
+
     const profiles = await getPetProfiles('10001');
     setPetProfiles(profiles);
     closeModal();
@@ -130,8 +166,8 @@ export default function DogProfileEdit({
                 type="number"
                 placeholder="몸무게를 적어주세요"
                 required
-                register={(name) =>
-                  register(name, {
+                register={(value) =>
+                  register(value, {
                     valueAsNumber: true,
                   })
                 }
@@ -181,8 +217,16 @@ export default function DogProfileEdit({
               />
             </div>
           </div>
-          <Button className="w-50">수정하기</Button>
+          <Button className="w-50">{profile ? '수정하기' : '등록하기'}</Button>
         </form>
+        {profile && (
+          <span
+            className="absolute right-10 cursor-pointer text-[var(--color-grey)] hover:text-[var(--color-black)]"
+            onClick={handleDeletePet}
+          >
+            반려동물 정보 삭제
+          </span>
+        )}
       </div>
     </>
   );

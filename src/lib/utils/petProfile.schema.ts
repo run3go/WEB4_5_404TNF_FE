@@ -51,10 +51,8 @@ export const petProfileSchema = z
   })
   .refine(
     (data) => {
-      console.log(data);
       const birthday = new Date(data.birthday);
       const metday = new Date(data.metday);
-      console.log(birthday <= metday);
       return birthday <= metday;
     },
     {
