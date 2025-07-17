@@ -2,8 +2,8 @@
 
 import Icon from '@/components/common/Icon';
 import { register } from '@/api/auth';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 import NicknameInputSection from './NicknameInputSection';
 import EmailInputSection from './EmailInputSection';
@@ -12,6 +12,8 @@ import NameInputSection from './NameInputSection';
 
 export default function SignupForm() {
   const router = useRouter();
+  const pathname = usePathname();
+
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
@@ -43,6 +45,14 @@ export default function SignupForm() {
       alert('회원가입에 실패했습니다.');
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (!window.location.pathname.startsWith('/signup')) {
+        document.cookie = 'isAgreeTerms=; path=/; max-age=0';
+      }
+    };
+  }, [pathname]);
 
   return (
     <form

@@ -1,6 +1,16 @@
 import SignupForm from '@/components/auth/signup/SignupForm';
 
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+
 export default async function Signup() {
+  const cookieStore = cookies();
+  const isAgreeTerms = (await cookieStore).get('isAgreeTerms')?.value;
+
+  if (isAgreeTerms !== 'true') {
+    redirect('/terms');
+  }
+
   return (
     <>
       <div className="scrollbar-hidden h-[calc(100vh-72px)] w-screen min-w-[375px] overflow-y-auto bg-[var(--color-background)] py-10 sm:h-full sm:w-full sm:py-0">
