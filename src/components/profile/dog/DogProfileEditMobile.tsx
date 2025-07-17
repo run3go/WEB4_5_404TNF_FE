@@ -49,7 +49,8 @@ export default function DogProfileEditMobile() {
           size: profile.size,
           isNeutered: profile.isNeutered ? 'true' : 'false',
           sex: profile.sex ? 'true' : 'false',
-          registNumber: profile.registNumber,
+          registNumber:
+            profile.registNumber === null ? '' : profile.registNumber,
           weight: profile.weight === null ? '' : String(profile.weight),
         }
       : {
@@ -72,8 +73,7 @@ export default function DogProfileEditMobile() {
       sex: data.sex === 'true' ? true : false,
       isNeutered: data.isNeutered === 'true' ? true : false,
       weight: data.weight ? Number(data.weight) : null,
-      registNumber: data.registNumber ?? null,
-      userId: userInfo?.userId,
+      registNumber: data.registNumber ? data.registNumber : null,
       // 이미지 입력 값 생긴 후 수정
       image: null,
     };
@@ -81,11 +81,11 @@ export default function DogProfileEditMobile() {
     if (profile) {
       await modifyPetProfile(payload, profile.petId);
     } else {
-      await registPetProfile(payload);
+      await registPetProfile({ ...payload, userId: String(userInfo?.userId) });
     }
 
     await queryClient.invalidateQueries({
-      queryKey: ['pets', userInfo?.userId],
+      queryKey: ['pets', String(userInfo?.userId)],
     });
     toggleEditingPetProfile();
     selectPet(null);
@@ -97,7 +97,7 @@ export default function DogProfileEditMobile() {
     await deletePetProfile(profile.petId);
 
     await queryClient.invalidateQueries({
-      queryKey: ['pets', userInfo?.userId],
+      queryKey: ['pets', String(userInfo?.userId)],
     });
     selectPet(null);
     toggleEditingPetProfile();

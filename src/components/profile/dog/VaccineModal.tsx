@@ -19,7 +19,7 @@ export default function VaccineModal({
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
-  const { data: vaccineData, refetch } = usePetVaccine(petId);
+  const { data: vaccineData, refetch, isRefetching } = usePetVaccine(petId);
   const methods = useVaccineForm(vaccineData);
 
   const DHPPL = vaccineData?.find((data) => data.vaccine.name === 'DHPPL');
@@ -61,7 +61,6 @@ export default function VaccineModal({
     if (payload) {
       await modifyVaccineData(payload as VaccinePayload[], petId);
       await refetch();
-
       setIsEditing(false);
     }
 
@@ -95,9 +94,10 @@ export default function VaccineModal({
                 <>
                   <button
                     type="submit"
+                    disabled={isRefetching}
                     className="mr-3 cursor-pointer text-[var(--color-primary-500)]"
                   >
-                    저장
+                    {isRefetching ? '저장 중...' : '저장'}
                   </button>
                   <button
                     className="cursor-pointer text-[var(--color-grey)]"

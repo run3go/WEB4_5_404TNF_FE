@@ -1,8 +1,10 @@
 'use client';
+import alternativeImage from '@/assets/images/alternative-image.svg';
 import Card from '@/components/common/Card';
 import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -93,21 +95,23 @@ export default function DogProfileList() {
               className="cursor-pointer"
             />
           </button>
-          <button
-            ref={nextRef}
-            className={twMerge(
-              'absolute top-1/2 right-2 z-50 -translate-y-1/2',
-              currentPage === petProfiles.length - 1 ? 'hidden' : '',
-            )}
-          >
-            <Icon
-              width="12px"
-              height="20px"
-              left="-152px"
-              top="-164px"
-              className="cursor-pointer"
-            />
-          </button>
+          {petProfiles.length > 1 && (
+            <button
+              ref={nextRef}
+              className={twMerge(
+                'absolute top-1/2 right-2 z-50 -translate-y-1/2',
+                currentPage === petProfiles.length - 1 ? 'hidden' : '',
+              )}
+            >
+              <Icon
+                width="12px"
+                height="20px"
+                left="-152px"
+                top="-164px"
+                className="cursor-pointer"
+              />
+            </button>
+          )}
           <div className="relative w-full max-w-[calc(598px*2+80px)] overflow-x-hidden">
             <Swiper
               className="w-full overflow-x-hidden"
@@ -125,6 +129,19 @@ export default function DogProfileList() {
                 }
               }}
             >
+              {petProfiles.length === 0 && (
+                <SwiperSlide className="!w-[598px]">
+                  <Card className="my-7 ml-4 flex h-20 w-full max-w-150 flex-col items-center justify-center p-0 sm:h-[308px]">
+                    <Image
+                      src={alternativeImage}
+                      alt="등록된 강아지가 없어요"
+                    />
+                    <span className="mt-4 text-[var(--color-grey)]">
+                      등록된 강아지가 없어요
+                    </span>
+                  </Card>
+                </SwiperSlide>
+              )}
               {petProfiles &&
                 petProfiles.map((profile, index) => (
                   <SwiperSlide key={index} className="!w-[598px]">

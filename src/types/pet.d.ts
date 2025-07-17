@@ -113,7 +113,7 @@ type VaccineFormValues = {
 };
 
 type VaccineInfo = {
-  vaccineAt?: Date;
+  vaccineAt?: string;
   vaccineType: VaccineType;
   count?: number;
 };
