@@ -1,6 +1,6 @@
 'use client';
 
-import { getPetProfile } from '@/api/pet';
+import { getPetProfile, getVaccineData } from '@/api/pet';
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import dog from '@/assets/images/dog_img.png';
 import { useProfileStore } from '@/stores/profileStore';
@@ -41,6 +41,7 @@ export default function DogProfileCard({
       queryFn: () => getPetProfile(profile.petId),
     });
   };
+
   const calculateAge = () => {
     const numAge = Number(profile.age);
     const year = Math.floor(numAge / 12);
@@ -55,9 +56,16 @@ export default function DogProfileCard({
     setIsVaccineModalOpen(false);
   };
 
-  const openModal = async () => {
+  const openProfileModal = async () => {
     await prefetchProfile();
     setIsProfileModalOpen(true);
+  };
+  const openVaccineModal = async () => {
+    await queryClient.prefetchQuery({
+      queryKey: ['vaccine', profile.petId],
+      queryFn: () => getVaccineData(profile.petId),
+    });
+    setIsVaccineModalOpen(true);
   };
   const openPage = async () => {
     if (!togglePage) return;
@@ -73,7 +81,9 @@ export default function DogProfileCard({
       </h3>
       <div
         className="flex gap-8 px-6 py-4"
-        onClick={() => (isMobile && togglePage ? openPage() : openModal())}
+        onClick={() =>
+          isMobile && togglePage ? openPage() : openProfileModal()
+        }
       >
         <Image
           className="h-31 w-31 rounded-[12px] sm:h-55 sm:w-55"
@@ -127,7 +137,7 @@ export default function DogProfileCard({
             className="cursor-pointer self-start underline hover:text-[var(--color-primary-500)]"
             onClick={(e) => {
               e.stopPropagation();
-              setIsVaccineModalOpen(true);
+              openVaccineModal();
             }}
           >
             예방접종 정보 보기
@@ -144,7 +154,7 @@ export default function DogProfileCard({
         )}
       {isVaccineModalOpen &&
         createPortal(
-          <VaccineModal closeModal={closeVaccineModal} />,
+          <VaccineModal closeModal={closeVaccineModal} petId={profile.petId} />,
           document.body,
         )}
     </Card>

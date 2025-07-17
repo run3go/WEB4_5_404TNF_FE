@@ -18,3 +18,12 @@ export const usePetProfile = (petId: number) => {
     staleTime: 30000,
   });
 };
+
+export const usePetVaccine = (petId: number) => {
+  return useQuery<PetProfile>({
+    queryKey: ['pet', petId],
+    queryFn: () => getPetProfile(petId),
+    enabled: !petId,
+    staleTime: 30000,
+  });
+};

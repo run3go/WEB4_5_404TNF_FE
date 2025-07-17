@@ -6,10 +6,13 @@ import VaccineItem from './VaccineItem';
 
 export default function VaccineModal({
   closeModal,
+  petId,
 }: {
   closeModal: () => void;
+  petId: number;
 }) {
   const [isEditing, setIsEditing] = useState(false);
+  console.log(petId);
   return (
     <>
       <div

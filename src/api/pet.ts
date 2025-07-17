@@ -57,3 +57,13 @@ export const deletePetProfile = async (petId: number) => {
     throw new Error(errorText || '반려 동물 정보 삭제 실패');
   }
 };
+
+export const getVaccineData = async (petId: number) => {
+  const res = await fetch(`${baseURL}/api/mypage/v1/pets/${petId}/vaccination`);
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '백신 정보 조회 실패');
+  }
+  const data = await res.json();
+  return data;
+};
