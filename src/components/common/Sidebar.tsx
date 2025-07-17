@@ -15,7 +15,7 @@ import AuthProvider from '@/provider/AuthProvider';
 export default function Sidebar() {
   const pathname = usePathname();
   const { isOpen, close } = useSidebarStore();
-  const { setLogout, isLogin } = useAuthStore();
+  const { setLogout, isLogin, userInfo } = useAuthStore();
 
   const handleLogout = async () => {
     try {
@@ -169,23 +169,35 @@ export default function Sidebar() {
               </Link>
 
               {/* 관리자 */}
-              <Link
-                href={'/admin'}
-                className={`sidebar__content group relative ${pathname.startsWith('/admin') && 'sidebar__content-active'}`}
-              >
-                <div
-                  className={`absolute ${pathname === '/admin' && 'opacity-0'}`}
+              {userInfo?.role === 'ROLE_ADMIN' && (
+                <Link
+                  href={'/admin'}
+                  className={`sidebar__content group relative ${pathname.startsWith('/admin') && 'sidebar__content-active'} `}
                 >
-                  <Icon width="24px" height="26px" left="-342px" top="-20px" />
-                </div>
+                  <div
+                    className={`absolute ${pathname === '/admin' && 'opacity-0'}`}
+                  >
+                    <Icon
+                      width="24px"
+                      height="26px"
+                      left="-342px"
+                      top="-20px"
+                    />
+                  </div>
 
-                <div
-                  className={`absolute opacity-0 ${pathname.startsWith('/admin') && 'opacity-100'} `}
-                >
-                  <Icon width="24px" height="26px" left="-382px" top="-20px" />
-                </div>
-                <p className="pl-10">관리자페이지</p>
-              </Link>
+                  <div
+                    className={`absolute opacity-0 ${pathname.startsWith('/admin') && 'opacity-100'} `}
+                  >
+                    <Icon
+                      width="24px"
+                      height="26px"
+                      left="-382px"
+                      top="-20px"
+                    />
+                  </div>
+                  <p className="pl-10">관리자페이지</p>
+                </Link>
+              )}
             </div>
             <div className="text-sm font-medium sm:text-[16px]">
               <div className="flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6">
