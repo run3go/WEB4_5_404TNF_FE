@@ -12,6 +12,7 @@ export default function AuthAccessControl({
   const isLogin = useAuthStore((state) => state.isLogin);
   const router = useRouter();
   const pathname = usePathname();
+  const userId = sessionStorage.getItem('userId');
 
   const isRoot = pathname === '/';
   const publicPaths = ['/post', '/guide', '/signup', '/terms', '/login'];
@@ -19,10 +20,10 @@ export default function AuthAccessControl({
     isRoot || publicPaths.some((path) => pathname.startsWith(path));
 
   useEffect(() => {
-    if (!isLogin && !isPublic) {
+    if (!userId && !isLogin && !isPublic) {
       router.replace('/login');
     }
-  }, [isLogin, isPublic, router]);
+  }, [userId, isLogin, isPublic, router]);
 
   if (!isLogin && !isPublic) return null;
 
