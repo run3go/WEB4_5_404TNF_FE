@@ -16,7 +16,14 @@ export default function AuthAccessControl({
   const [checked, setChecked] = useState(false);
 
   const isRoot = pathname === '/';
-  const publicPaths = ['/post', '/guide', '/signup', '/terms', '/login'];
+  const publicPaths = [
+    '/post',
+    '/guide',
+    '/signup',
+    '/terms',
+    '/login',
+    '/mungdogdiarymung',
+  ];
   const isPublic =
     isRoot || publicPaths.some((path) => pathname.startsWith(path));
 
