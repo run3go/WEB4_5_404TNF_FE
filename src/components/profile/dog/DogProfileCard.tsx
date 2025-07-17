@@ -3,12 +3,15 @@
 import { getPetProfile, getVaccineData } from '@/api/pet';
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import dog from '@/assets/images/dog_img.png';
+import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMediaQuery } from 'react-responsive';
+import { twMerge } from 'tailwind-merge';
 import Card from '../../common/Card';
 import Icon from '../../common/Icon';
 import DogProfileEdit from './DogProfileEdit';
@@ -21,6 +24,11 @@ export default function DogProfileCard({
   togglePage?: () => void;
   profile: PetProfile;
 }) {
+  const params = useParams();
+  const userId = params?.userId as string;
+  const userInfo = useAuthStore((state) => state.userInfo);
+  const isMyProfile = userInfo?.userId === Number(userId);
+
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
@@ -57,10 +65,12 @@ export default function DogProfileCard({
   };
 
   const openProfileModal = async () => {
+    if (!isMyProfile) return;
     await prefetchProfile();
     setIsProfileModalOpen(true);
   };
   const openVaccineModal = async () => {
+    if (!isMyProfile) return;
     await queryClient.prefetchQuery({
       queryKey: ['vaccine', profile.petId],
       queryFn: () => getVaccineData(profile.petId),
@@ -68,7 +78,7 @@ export default function DogProfileCard({
     setIsVaccineModalOpen(true);
   };
   const openPage = async () => {
-    if (!togglePage) return;
+    if (!togglePage || !isMyProfile) return;
     selectPet(profile.petId);
     await prefetchProfile();
     togglePage();
@@ -91,7 +101,11 @@ export default function DogProfileCard({
           alt="강아지 프로필"
           priority
         />
-        <div className="flex flex-col justify-around text-sm sm:text-base">
+        <div
+          className={twMerge(
+            'flex flex-col justify-center gap-3 text-sm sm:text-base',
+          )}
+        >
           <div>
             <span className="profile-title-style">견종</span>
             {breed} ({size})
@@ -122,10 +136,12 @@ export default function DogProfileCard({
             )}
             <span>(중성화 {profile.isNeutered ? 'O' : 'X'})</span>
           </div>
-          <div className="hidden sm:block">
-            <span className="mr-3 text-[var(--color-grey)]">등록번호</span>
-            {profile.registNumber}
-          </div>
+          {isMyProfile && (
+            <div className="hidden sm:block">
+              <span className="mr-3 text-[var(--color-grey)]">등록번호</span>
+              {profile.registNumber}
+            </div>
+          )}
           <span>
             가족이 된지{' '}
             <strong className="font-medium text-[var(--color-primary-500)]">
@@ -133,15 +149,17 @@ export default function DogProfileCard({
             </strong>
             일
           </span>
-          <button
-            className="cursor-pointer self-start underline hover:text-[var(--color-primary-500)]"
-            onClick={(e) => {
-              e.stopPropagation();
-              openVaccineModal();
-            }}
-          >
-            예방접종 정보 보기
-          </button>
+          {isMyProfile && (
+            <button
+              className="cursor-pointer self-start underline hover:text-[var(--color-primary-500)]"
+              onClick={(e) => {
+                e.stopPropagation();
+                openVaccineModal();
+              }}
+            >
+              예방접종 정보 보기
+            </button>
+          )}
         </div>
       </div>
       {isProfileModalOpen &&

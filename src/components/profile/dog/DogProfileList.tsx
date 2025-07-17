@@ -1,6 +1,7 @@
 'use client';
 import Card from '@/components/common/Card';
 import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
+import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useParams } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -19,6 +20,9 @@ import RegistCard from './RegistCard';
 export default function DogProfileList() {
   const params = useParams();
   const userId = params?.userId as string;
+  const userInfo = useAuthStore((state) => state.userInfo);
+  const isMyProfile = userInfo?.userId === Number(userId);
+
   const { data: petProfiles = [] } = usePetProfiles(userId);
 
   const isMobile = useMediaQuery({
@@ -51,25 +55,26 @@ export default function DogProfileList() {
                 profile={profile}
               />
             ))}
-
-          <div onClick={togglePage}>
-            <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
-              <Icon
-                className="hidden sm:block"
-                width="47px"
-                height="47px"
-                left="-26px"
-                top="-242px"
-              />
-              <Icon
-                className="block sm:hidden"
-                width="20px"
-                height="20px"
-                left="-266px"
-                top="-75px"
-              />
-            </Card>
-          </div>
+          {isMyProfile && (
+            <div onClick={togglePage}>
+              <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
+                <Icon
+                  className="hidden sm:block"
+                  width="47px"
+                  height="47px"
+                  left="-26px"
+                  top="-242px"
+                />
+                <Icon
+                  className="block sm:hidden"
+                  width="20px"
+                  height="20px"
+                  left="-266px"
+                  top="-75px"
+                />
+              </Card>
+            </div>
+          )}
         </div>
       ) : (
         <div className="relative">
@@ -126,12 +131,15 @@ export default function DogProfileList() {
                     <DogProfileCard profile={profile} />
                   </SwiperSlide>
                 ))}
-              <SwiperSlide className="!w-[598px]">
-                <RegistCard openModal={toggleProfileModal} />
-              </SwiperSlide>
+              {isMyProfile && (
+                <SwiperSlide className="!w-[598px]">
+                  <RegistCard openModal={toggleProfileModal} />
+                </SwiperSlide>
+              )}
             </Swiper>
           </div>
           {isProfileModalOpen &&
+            isMyProfile &&
             createPortal(
               <DogProfileEdit closeModal={toggleProfileModal} petId={0} />,
               document.body,

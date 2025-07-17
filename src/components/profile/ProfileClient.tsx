@@ -1,9 +1,9 @@
 'use client';
-import { login } from '@/api/auth';
 import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
 import { useProfileStore } from '@/stores/profileStore';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
@@ -33,23 +33,14 @@ export default function ProfileClient({
   const isEditingPet = useProfileStore((state) => state.isEditingPet);
   const isEditingUser = useProfileStore((state) => state.isEditingUser);
 
-  const loginUser = async () => {
-    await login('qkrwjdtn09@gmail.com', 'wjdtn12');
-    console.log('hi');
-  };
-
-  useEffect(() => {
-    loginUser();
-  }, []);
-
   if (isMobile) {
     if (isEditingPet) return <DogProfileEditMobile />;
     if (isEditingUser) return <UserProfileEditMobile />;
   }
   return (
-    <main className="scrollbar-hidden relative h-screen w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
+    <main className="scrollbar-hidden relative h-full w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
       <h1 className="mb-15 hidden text-center text-3xl sm:block">
-        <strong>닉네임</strong>
+        <strong>{userProfile.nickname}</strong>
         님의 페이지
       </h1>
       <div className="mb-8 flex justify-center gap-4 sm:hidden">
@@ -72,6 +63,7 @@ export default function ProfileClient({
           활동내역
         </Button>
       </div>
+      <Link href={'/profile/10002'}>이동</Link>
       <div className={isProfile ? '' : 'hidden sm:block'}>
         <UserProfile userProfile={userProfile} />
         <DogProfileList />

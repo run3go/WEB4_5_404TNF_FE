@@ -15,21 +15,19 @@ import SelectBox from '@/components/common/SelectBox';
 import { usePetProfile } from '@/lib/hooks/usePetProfiles';
 import { handleError } from '@/lib/utils/handleError';
 import { petProfileSchema } from '@/lib/utils/petProfile.schema';
+import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { formatDate } from 'date-fns';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEditMobile() {
-  const params = useParams();
-  const userId = params?.userId as string;
-
+  const userInfo = useAuthStore((state) => state.userInfo);
   const selectPet = useProfileStore((state) => state.selectPet);
   const selectedPet = useProfileStore((state) => state.selectedPet);
   const toggleEditingPetProfile = useProfileStore(
@@ -75,8 +73,7 @@ export default function DogProfileEditMobile() {
       isNeutered: data.isNeutered === 'true' ? true : false,
       weight: data.weight ? Number(data.weight) : null,
       registNumber: data.registNumber ?? null,
-      // 로그인 기능 구현 이후 자신의 userId 입력
-      userId: userId,
+      userId: userInfo?.userId,
       // 이미지 입력 값 생긴 후 수정
       image: null,
     };
@@ -88,7 +85,7 @@ export default function DogProfileEditMobile() {
     }
 
     // 로그인 기능 구현 이후 자신의 userId 입력
-    queryClient.invalidateQueries({ queryKey: ['pets', userId] });
+    queryClient.invalidateQueries({ queryKey: ['pets', userInfo?.userId] });
     toggleEditingPetProfile();
     selectPet(null);
   };
@@ -98,7 +95,7 @@ export default function DogProfileEditMobile() {
 
     await deletePetProfile(profile.petId);
 
-    queryClient.invalidateQueries({ queryKey: ['pets', userId] });
+    queryClient.invalidateQueries({ queryKey: ['pets', userInfo?.userId] });
     selectPet(null);
     toggleEditingPetProfile();
   };

@@ -16,11 +16,11 @@ import SelectBox from '@/components/common/SelectBox';
 import { usePetProfile } from '@/lib/hooks/usePetProfiles';
 import { handleError } from '@/lib/utils/handleError';
 import { petProfileSchema } from '@/lib/utils/petProfile.schema';
+import { useAuthStore } from '@/stores/authStoe';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { formatDate } from 'date-fns';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
@@ -33,8 +33,7 @@ export default function DogProfileEdit({
   closeModal: () => void;
   petId: number;
 }) {
-  const params = useParams();
-  const userId = params?.userId as string;
+  const userInfo = useAuthStore((state) => state.userInfo);
 
   const queryClient = useQueryClient();
   const { data: profile } = usePetProfile(petId);
@@ -76,18 +75,17 @@ export default function DogProfileEdit({
       weight: data.weight ? Number(data.weight) : null,
       registNumber: data.registNumber ?? null,
       // 로그인 기능 구현 이후 자신의 userId 입력
-      userId: userId,
+      userId: userInfo?.userId,
       // 이미지 입력 값 생긴 후 수정
       image: null,
     };
-
     if (profile) {
       await modifyPetProfile(payload, profile.petId);
     } else {
       await registPetProfile(payload);
     }
     // 로그인 기능 구현 이후 자신의 userId 입력
-    queryClient.invalidateQueries({ queryKey: ['pets', userId] });
+    queryClient.invalidateQueries({ queryKey: ['pets', userInfo?.userId] });
     closeModal();
   };
 
@@ -96,7 +94,7 @@ export default function DogProfileEdit({
 
     await deletePetProfile(profile.petId);
 
-    queryClient.invalidateQueries({ queryKey: ['pets', userId] });
+    queryClient.invalidateQueries({ queryKey: ['pets', userInfo?.userId] });
     closeModal();
   };
 
