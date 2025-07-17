@@ -10,6 +10,7 @@ import EmailInputSection from './EmailInputSection';
 import PasswordInputSection from './PasswordInputSection';
 import NameInputSection from './NameInputSection';
 import { useTermsStore } from '@/stores/termsStore';
+import { useMutation } from '@tanstack/react-query';
 
 export default function SignupForm() {
   const router = useRouter();
@@ -32,21 +33,24 @@ export default function SignupForm() {
     Object.values(formData).every((val) => val.trim() !== '')
   );
 
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      await register({
-        name: formData.name,
-        nickname: formData.nickname,
-        email: formData.email,
-        password: formData.password,
-      });
+  const signupMutation = useMutation({
+    mutationFn: register,
+    onSuccess: () => {
       sessionStorage.removeItem('isAgreeTerms');
       router.push('/login');
-    } catch {
+    },
+    onError: () => {
       alert('회원가입에 실패했습니다.');
-    }
+    },
+  });
+  const handleSignup = (e: React.FormEvent) => {
+    e.preventDefault();
+    signupMutation.mutate({
+      name: formData.name,
+      nickname: formData.nickname,
+      email: formData.email,
+      password: formData.password,
+    });
   };
 
   useEffect(() => {
@@ -69,6 +73,7 @@ export default function SignupForm() {
             setFormData((prev) => ({ ...prev, email }));
             setIsEmailVerified(true);
           }}
+          onEmailChange={() => setIsEmailVerified(false)}
         />
 
         <NameInputSection
@@ -81,6 +86,7 @@ export default function SignupForm() {
             setFormData((prev) => ({ ...prev, nickname }));
             setIsNicknameChecked(true);
           }}
+          onNicknameChange={() => setIsNicknameChecked(false)}
         />
 
         <PasswordInputSection
