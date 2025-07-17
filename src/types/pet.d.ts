@@ -9,16 +9,17 @@ type PetPayload = {
   sex: boolean;
   isNeutered: boolean;
   image: string | null;
+  userId?: string;
 };
 
 type PetFormValues = {
-  registNumber?: string;
+  registNumber?: string | null;
   birthday: string;
   metday: string;
   name: string;
   breed: PetBreed;
   size: PetSize;
-  weight?: string;
+  weight?: string | null;
   sex: 'true' | 'false';
   isNeutered: 'true' | 'false';
   image: string | null;

@@ -50,7 +50,7 @@ export default function DogProfileEditMobile() {
           isNeutered: profile.isNeutered ? 'true' : 'false',
           sex: profile.sex ? 'true' : 'false',
           registNumber: profile.registNumber,
-          weight: String(profile.weight),
+          weight: profile.weight === null ? '' : String(profile.weight),
         }
       : {
           image: null,
@@ -84,8 +84,9 @@ export default function DogProfileEditMobile() {
       await registPetProfile(payload);
     }
 
-    // 로그인 기능 구현 이후 자신의 userId 입력
-    queryClient.invalidateQueries({ queryKey: ['pets', userInfo?.userId] });
+    await queryClient.invalidateQueries({
+      queryKey: ['pets', userInfo?.userId],
+    });
     toggleEditingPetProfile();
     selectPet(null);
   };
@@ -95,7 +96,9 @@ export default function DogProfileEditMobile() {
 
     await deletePetProfile(profile.petId);
 
-    queryClient.invalidateQueries({ queryKey: ['pets', userInfo?.userId] });
+    await queryClient.invalidateQueries({
+      queryKey: ['pets', userInfo?.userId],
+    });
     selectPet(null);
     toggleEditingPetProfile();
   };

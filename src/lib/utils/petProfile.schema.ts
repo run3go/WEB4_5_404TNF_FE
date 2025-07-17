@@ -43,8 +43,8 @@ export const petProfileSchema = z
     size: z.enum(['SMALL', 'MEDIUM', 'LARGE']),
     isNeutered: z.enum(['true', 'false']),
     sex: z.enum(['true', 'false']),
-    registNumber: z.string().trim().optional(),
-    weight: z.string().optional(),
+    registNumber: z.string().trim().optional().nullable(),
+    weight: z.string().optional().nullable(),
   })
   .refine(
     (data) => {
@@ -75,6 +75,9 @@ export const petProfileSchema = z
         return true;
       }
       const weight = Number(data.weight);
+      if (!data.weight && isNaN(weight)) {
+        return true;
+      }
       return weight >= 0;
     },
     {
@@ -84,7 +87,7 @@ export const petProfileSchema = z
   )
   .refine(
     (data) => {
-      if (data.weight === '') {
+      if (!data.weight) {
         return true;
       }
       const weight = Number(data.weight);

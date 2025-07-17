@@ -37,7 +37,6 @@ export default function DogProfileEdit({
 
   const queryClient = useQueryClient();
   const { data: profile } = usePetProfile(petId);
-
   const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
     resolver: zodResolver(petProfileSchema),
     defaultValues: profile
@@ -50,8 +49,9 @@ export default function DogProfileEdit({
           size: profile.size,
           isNeutered: profile.isNeutered ? 'true' : 'false',
           sex: profile.sex ? 'true' : 'false',
-          registNumber: profile.registNumber,
-          weight: String(profile.weight),
+          registNumber:
+            profile.registNumber === null ? '' : profile.registNumber,
+          weight: profile.weight === null ? '' : String(profile.weight),
         }
       : {
           image: null,
@@ -73,19 +73,18 @@ export default function DogProfileEdit({
       sex: data.sex === 'true' ? true : false,
       isNeutered: data.isNeutered === 'true' ? true : false,
       weight: data.weight ? Number(data.weight) : null,
-      registNumber: data.registNumber ?? null,
-      // 로그인 기능 구현 이후 자신의 userId 입력
-      userId: userInfo?.userId,
-      // 이미지 입력 값 생긴 후 수정
+      registNumber: data.registNumber ? data.registNumber : null,
       image: null,
     };
     if (profile) {
       await modifyPetProfile(payload, profile.petId);
     } else {
-      await registPetProfile(payload);
+      await registPetProfile({ ...payload, userId: String(userInfo?.userId) });
     }
-    // 로그인 기능 구현 이후 자신의 userId 입력
-    queryClient.invalidateQueries({ queryKey: ['pets', userInfo?.userId] });
+
+    await queryClient.invalidateQueries({
+      queryKey: ['pets', String(userInfo?.userId)],
+    });
     closeModal();
   };
 
@@ -94,7 +93,9 @@ export default function DogProfileEdit({
 
     await deletePetProfile(profile.petId);
 
-    queryClient.invalidateQueries({ queryKey: ['pets', userInfo?.userId] });
+    await queryClient.invalidateQueries({
+      queryKey: ['pets', String(userInfo?.userId)],
+    });
     closeModal();
   };
 

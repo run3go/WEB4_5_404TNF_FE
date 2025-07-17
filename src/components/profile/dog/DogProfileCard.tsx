@@ -139,7 +139,7 @@ export default function DogProfileCard({
           {isMyProfile && (
             <div className="hidden sm:block">
               <span className="mr-3 text-[var(--color-grey)]">등록번호</span>
-              {profile.registNumber}
+              {profile.registNumber || '-'}
             </div>
           )}
           <span>
