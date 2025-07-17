@@ -97,6 +97,10 @@ input[type='password']::-ms-reveal {
   @apply mt-2 pl-4 text-[14px] text-[#FF9526];
 }
 
+.auth__error {
+  @apply mt-2 pl-4 text-[14px] text-[var(--color-red)];
+}
+
 .sidebar__content {
   @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:bg-[#FFDBAB] sm:w-[220px] sm:py-[1.3vh] sm:pl-6;
 }
