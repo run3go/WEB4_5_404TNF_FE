@@ -1,26 +1,118 @@
-import { petBreedData } from '@/assets/data/pet';
+import {
+  deletePetProfile,
+  getPetProfiles,
+  modifyPetProfile,
+  registPetProfile,
+} from '@/api/pet';
+import {
+  petBreedData,
+  petNeutering,
+  petSex,
+  petSizeData,
+} from '@/assets/data/pet';
 import dog from '@/assets/images/default-dog-profile.svg';
-import Icon from '@/components/common/Icon';
 import MobileTitle from '@/components/common/MobileTitle';
 import SelectBox from '@/components/common/SelectBox';
+import { handleError } from '@/lib/utils/handleError';
+import { petProfileSchema } from '@/lib/utils/petProfile.schema';
 import { useProfileStore } from '@/stores/profileStore';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { formatDate } from 'date-fns';
 import Image from 'next/image';
+import { Controller, useForm } from 'react-hook-form';
+import DateField from '../DateField';
+import InputField from '../InputField';
+import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEditMobile() {
-  const profileStore = useProfileStore();
+  const toggleEditingPetProfile = useProfileStore(
+    (state) => state.toggleEditingPetProfile,
+  );
+  const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
+  const profile = useProfileStore((state) => state.selectedProfile);
+  const selectProfile = useProfileStore((state) => state.selectProfile);
+
+  const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
+    resolver: zodResolver(petProfileSchema),
+    defaultValues: profile
+      ? {
+          image: null,
+          name: profile.name,
+          breed: profile.breed,
+          metday: profile.metday,
+          birthday: profile.birthday,
+          size: profile.size,
+          isNeutered: profile.isNeutered ? 'true' : 'false',
+          sex: profile.sex ? 'true' : 'false',
+          registNumber: profile.registNumber,
+          weight: String(profile.weight),
+        }
+      : {
+          image: null,
+          name: '',
+          breed: 'BEAGLE',
+          metday: formatDate(new Date(), 'yyyy-MM-dd'),
+          birthday: formatDate(new Date(), 'yyyy-MM-dd'),
+          size: undefined,
+          isNeutered: undefined,
+          sex: undefined,
+          registNumber: '',
+          weight: '',
+        },
+  });
+
+  const onSubmit = async (data: PetFormValues) => {
+    const payload = {
+      ...data,
+      sex: data.sex === 'true' ? true : false,
+      isNeutered: data.isNeutered === 'true' ? true : false,
+      weight: data.weight ? Number(data.weight) : null,
+      registNumber: data.registNumber ?? null,
+      // 로그인 기능 구현 이후 자신의 userId 입력
+      userId: '10001',
+      // 이미지 입력 값 생긴 후 수정
+      image: null,
+    };
+
+    if (profile) {
+      await modifyPetProfile(payload, profile.petId);
+    } else {
+      await registPetProfile(payload);
+    }
+
+    // 로그인 기능 구현 이후 자신의 userId 입력
+    const profiles = await getPetProfiles('10001');
+    setPetProfiles(profiles);
+    toggleEditingPetProfile();
+    selectProfile(null);
+  };
+  const handleDeletePet = async () => {
+    if (!profile) return;
+
+    await deletePetProfile(profile.petId);
+
+    const profiles = await getPetProfiles('10001');
+    setPetProfiles(profiles);
+    toggleEditingPetProfile();
+  };
+
   return (
     <main className="w-screen">
-      <MobileTitle
-        title="반려견 등록"
-        onClick={() => {
-          profileStore.toggleEditingPetProfile();
-        }}
-        closePage={() => {
-          profileStore.toggleEditingPetProfile();
-        }}
-      />
-      <div className="relative h-screen bg-[var(--color-background)] px-6 py-9 text-sm">
-        <form className="flex flex-col" action="">
+      <div className="relative h-full bg-[var(--color-background)] px-6 py-9 text-sm">
+        <form
+          className="flex flex-col"
+          onSubmit={handleSubmit(onSubmit, handleError)}
+        >
+          <MobileTitle
+            title="반려견 등록"
+            onClick={() => {
+              handleSubmit(onSubmit);
+            }}
+            closePage={() => {
+              toggleEditingPetProfile();
+              selectProfile(null);
+            }}
+          />
           {/* 사진 선택 */}
           <div className="mb-9 flex flex-col items-center gap-4">
             <Image
@@ -33,159 +125,100 @@ export default function DogProfileEditMobile() {
             />
             <span className="text-[var(--color-grey)]">사진 선택하기</span>
           </div>
-          <div className="flex flex-col justify-between gap-20 border-b border-[var(--color-grey)] pb-10">
+          <div className="flex flex-col justify-between gap-20 pb-3">
             <div className="w-full">
-              {/* 이름 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="name">
-                  이름<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <input
-                  id="name"
-                  className="profile-input-style w-full"
-                  type="text"
-                  placeholder="이름을 적어주세요 (1~10자 이내)"
-                />
-              </div>
-              {/* 견종 셀렉트박스 스타일 수정 예정 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="breed">
-                  견종<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <SelectBox options={petBreedData} width="full" hasBorder />
-              </div>
-              {/* 크기 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="breed">
-                  크기<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div className="flex w-full justify-between gap-3">
-                  <label className="grow" htmlFor="SMALL">
-                    <span className="profile-radio-style">소형견</span>
-                    <input hidden type="checkbox" name="size" id="SMALL" />
-                  </label>
-                  <label className="grow" htmlFor="MEDIUM">
-                    <span className="profile-radio-style">중형견</span>
-                    <input hidden type="checkbox" name="size" id="MEDIUM" />
-                  </label>
-                  <label className="grow" htmlFor="LARGE">
-                    <span className="profile-radio-style">대형견</span>
-                    <input hidden type="checkbox" name="size" id="LARGE" />
-                  </label>
-                </div>
-              </div>
-              {/* 생년월일 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="birth">
-                  태어난 날<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div className="relative">
-                  <input
-                    id="name"
-                    className="profile-input-style w-full"
-                    type="text"
-                    placeholder="yyyy / mm / dd"
-                  />
-                  <Icon
-                    className="absolute top-1/2 right-4 -translate-y-1/2 scale-80"
-                    width="20px"
-                    height="20px"
-                    left="-188px"
-                    top="-123px"
-                  />
-                </div>
-              </div>
-              {/* 성별 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="breed">
-                  성별<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div className="flex gap-3">
-                  <label className="basis-[calc(50%-6px)]" htmlFor="male">
-                    <span className="profile-radio-style">남아</span>
-                    <input hidden type="checkbox" name="sex" id="male" />
-                  </label>
-                  <label className="basis-[calc(50%-6px)]" htmlFor="female">
-                    <span className="profile-radio-style">여아</span>
-                    <input hidden type="checkbox" name="sex" id="female" />
-                  </label>
-                </div>
-              </div>
-              {/* 중성화 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="breed">
-                  중성화<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div className="flex gap-3">
-                  <label className="basis-[calc(50%-6px)]" htmlFor="done">
-                    <span className="profile-radio-style">했어요</span>
-                    <input hidden type="checkbox" name="neutering" id="done" />
-                  </label>
-                  <label className="basis-[calc(50%-6px)]" htmlFor="undone">
-                    <span className="profile-radio-style">안했어요</span>
-                    <input
-                      hidden
-                      type="checkbox"
-                      name="neutering"
-                      id="undone"
+              <InputField
+                id="name"
+                label="이름"
+                className="w-full"
+                required
+                placeholder="이름을 적어주세요 (1~10자 이내)"
+                register={register}
+              />
+              <Controller
+                name="breed"
+                control={control}
+                render={({ field }) => (
+                  <div className="mb-7">
+                    <label className="mb-2 block" htmlFor="breed">
+                      견종<span className="text-[var(--color-red)]"> *</span>
+                    </label>
+                    <SelectBox
+                      options={petBreedData}
+                      width="50%"
+                      hasBorder
+                      setValue={(value) => field.onChange(value)}
+                      value={field.value}
                     />
-                  </label>
-                </div>
-              </div>
-              {/* 몸무게 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="weight">
-                  몸무게<span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div>
-                  <input
-                    id="weight"
-                    className="profile-input-style mr-2 w-[calc(50%-6px)]"
-                    type="text"
-                    placeholder="몸무게를 적어주세요"
-                  />
-                  kg
-                </div>
-              </div>
-              <div className="w-full">
-                {/* 등록번호 */}
-                <div className="mb-7">
-                  <label className="mb-2 block" htmlFor="weight">
-                    등록번호<span className="text-[var(--color-red)]"> *</span>
-                  </label>
-                  <input
-                    id="weight"
-                    className="profile-input-style mr-2 w-full"
-                    type="text"
-                    placeholder="등록번호를 적어주세요"
-                  />
-                </div>
-              </div>
-              {/* 처음 만난 날 */}
-              <div className="mb-7">
-                <label className="mb-2 block" htmlFor="name">
-                  처음 만난 날
-                  <span className="text-[var(--color-red)]"> *</span>
-                </label>
-                <div className="relative">
-                  <input
-                    id="name"
-                    className="profile-input-style w-full"
-                    type="text"
-                    placeholder="yyyy / mm / dd"
-                  />
-                  <Icon
-                    className="absolute top-1/2 right-4 -translate-y-1/2 scale-80"
-                    width="20px"
-                    height="20px"
-                    left="-188px"
-                    top="-123px"
-                  />
-                </div>
-              </div>
+                  </div>
+                )}
+              />
+              <RadioGroupField
+                className="grow"
+                id="size"
+                label="크기"
+                options={petSizeData}
+                register={register}
+                watch={watch}
+                required
+              />
+              <DateField
+                control={control}
+                id="birthday"
+                label="태어난 날"
+                required
+              />
+              <DateField
+                control={control}
+                id="metday"
+                label="처음 만난 날"
+                required
+              />
+              <RadioGroupField
+                className="basis-[calc(50%-6px)]"
+                id="sex"
+                label="성별"
+                options={petSex}
+                register={register}
+                watch={watch}
+                required
+              />
+              <RadioGroupField
+                className="basis-[calc(50%-6px)]"
+                id="isNeutered"
+                label="중성화"
+                options={petNeutering}
+                register={register}
+                watch={watch}
+                required
+              />
+              <InputField
+                className="mr-2 w-[calc(50%-6px)]"
+                id="weight"
+                label="몸무게"
+                placeholder="몸무게를 적어주세요"
+                type="number"
+                register={register}
+              />
+              <InputField
+                className="mr-2 w-full"
+                id="registNumber"
+                label="등록번호"
+                placeholder="등록번호를 적어주세요"
+                type="number"
+                register={register}
+              />
             </div>
           </div>
         </form>
+        {profile && (
+          <span
+            className="absolute right-6 bottom-6 cursor-pointer text-[var(--color-grey)] hover:text-[var(--color-black)]"
+            onClick={handleDeletePet}
+          >
+            반려동물 정보 삭제
+          </span>
+        )}
       </div>
     </main>
   );

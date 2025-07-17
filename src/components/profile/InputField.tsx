@@ -13,7 +13,7 @@ export default function InputField({
   label: string;
   required?: boolean;
   placeholder?: string;
-  register: UseFormRegister<PetPayload>;
+  register: UseFormRegister<PetFormValues>;
   type?: string;
   className?: string;
 }) {
@@ -31,6 +31,7 @@ export default function InputField({
         autoComplete="off"
         {...register(id)}
       />
+      {id === 'weight' && 'kg'}
     </div>
   );
 }
