@@ -17,7 +17,6 @@ export const getPetProfile = async (petId: number) => {
     const errorText = await res.text();
     throw new Error(errorText || '반려 동물 정보 조회 실패');
   }
-
   const data = await res.json();
   return data;
 };
@@ -26,6 +25,7 @@ export const registPetProfile = async (payload: PetPayload) => {
   const res = await fetch(`${baseURL}/api/mypage/v2/pets`, {
     method: 'post',
     body: JSON.stringify(payload),
+    credentials: 'include',
   });
 
   if (!res.ok) {
@@ -38,8 +38,8 @@ export const modifyPetProfile = async (payload: PetPayload, petId: number) => {
   const res = await fetch(`${baseURL}/api/mypage/v2/pets/${petId}`, {
     method: 'put',
     body: JSON.stringify(payload),
+    credentials: 'include',
   });
-
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText || '반려 동물 정보 수정 실패');
@@ -49,6 +49,7 @@ export const modifyPetProfile = async (payload: PetPayload, petId: number) => {
 export const deletePetProfile = async (petId: number) => {
   const res = await fetch(`${baseURL}/api/mypage/v2/pets/${petId}`, {
     method: 'delete',
+    credentials: 'include',
   });
 
   if (!res.ok) {

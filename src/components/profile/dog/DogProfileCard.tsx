@@ -4,8 +4,9 @@ import { getPetProfile } from '@/api/pet';
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import dog from '@/assets/images/dog_img.png';
 import { useProfileStore } from '@/stores/profileStore';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMediaQuery } from 'react-responsive';
 import Card from '../../common/Card';
@@ -23,17 +24,23 @@ export default function DogProfileCard({
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
-  const selectProfile = useProfileStore((state) => state.selectProfile);
+  const queryClient = useQueryClient();
 
+  const selectPet = useProfileStore((state) => state.selectPet);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isVaccineModalOpen, setIsVaccineModalOpen] = useState(false);
-  const dataRef = useRef<PetProfile | null>(null);
 
   const breed = petBreedData.find(
     (data) => data.value === profile.breed,
   )?.label;
   const size = petSizeData.find((data) => data.value === profile.size)?.label;
 
+  const prefetchProfile = async () => {
+    await queryClient.prefetchQuery({
+      queryKey: ['pet', profile.petId],
+      queryFn: () => getPetProfile(profile.petId),
+    });
+  };
   const calculateAge = () => {
     const numAge = Number(profile.age);
     const year = Math.floor(numAge / 12);
@@ -47,16 +54,15 @@ export default function DogProfileCard({
   const closeVaccineModal = () => {
     setIsVaccineModalOpen(false);
   };
+
   const openModal = async () => {
-    const data: PetProfile = await getPetProfile(profile.petId);
-    dataRef.current = data;
+    await prefetchProfile();
     setIsProfileModalOpen(true);
   };
   const openPage = async () => {
     if (!togglePage) return;
-
-    const data = await getPetProfile(profile.petId);
-    selectProfile(data);
+    selectPet(profile.petId);
+    await prefetchProfile();
     togglePage();
   };
 
@@ -130,7 +136,10 @@ export default function DogProfileCard({
       </div>
       {isProfileModalOpen &&
         createPortal(
-          <DogProfileEdit closeModal={closeProfileModal} ref={dataRef} />,
+          <DogProfileEdit
+            closeModal={closeProfileModal}
+            petId={profile.petId}
+          />,
           document.body,
         )}
       {isVaccineModalOpen &&

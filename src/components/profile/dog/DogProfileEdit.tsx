@@ -1,6 +1,5 @@
 import {
   deletePetProfile,
-  getPetProfiles,
   modifyPetProfile,
   registPetProfile,
 } from '@/api/pet';
@@ -14,13 +13,14 @@ import dog from '@/assets/images/default-dog-profile.svg';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
+import { usePetProfile } from '@/lib/hooks/usePetProfiles';
 import { handleError } from '@/lib/utils/handleError';
 import { petProfileSchema } from '@/lib/utils/petProfile.schema';
-import { useProfileStore } from '@/stores/profileStore';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { formatDate } from 'date-fns';
 import Image from 'next/image';
-import { RefObject } from 'react';
+import { useParams } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
@@ -28,14 +28,17 @@ import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEdit({
   closeModal,
-  ref,
+  petId,
 }: {
   closeModal: () => void;
-  ref?: RefObject<PetProfile | null>;
+  petId: number;
 }) {
-  const profile = ref?.current;
+  const params = useParams();
+  const userId = params?.userId as string;
 
-  const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
+  const queryClient = useQueryClient();
+  const { data: profile } = usePetProfile(petId);
+
   const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
     resolver: zodResolver(petProfileSchema),
     defaultValues: profile
@@ -73,18 +76,18 @@ export default function DogProfileEdit({
       weight: data.weight ? Number(data.weight) : null,
       registNumber: data.registNumber ?? null,
       // 로그인 기능 구현 이후 자신의 userId 입력
-      userId: '10001',
+      userId: userId,
       // 이미지 입력 값 생긴 후 수정
       image: null,
     };
+
     if (profile) {
       await modifyPetProfile(payload, profile.petId);
     } else {
       await registPetProfile(payload);
     }
     // 로그인 기능 구현 이후 자신의 userId 입력
-    const profiles = await getPetProfiles('10001');
-    setPetProfiles(profiles);
+    queryClient.invalidateQueries({ queryKey: ['pets', userId] });
     closeModal();
   };
 
@@ -93,8 +96,7 @@ export default function DogProfileEdit({
 
     await deletePetProfile(profile.petId);
 
-    const profiles = await getPetProfiles('10001');
-    setPetProfiles(profiles);
+    queryClient.invalidateQueries({ queryKey: ['pets', userId] });
     closeModal();
   };
 

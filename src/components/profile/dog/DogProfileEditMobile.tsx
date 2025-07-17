@@ -1,6 +1,5 @@
 import {
   deletePetProfile,
-  getPetProfiles,
   modifyPetProfile,
   registPetProfile,
 } from '@/api/pet';
@@ -13,24 +12,32 @@ import {
 import dog from '@/assets/images/default-dog-profile.svg';
 import MobileTitle from '@/components/common/MobileTitle';
 import SelectBox from '@/components/common/SelectBox';
+import { usePetProfile } from '@/lib/hooks/usePetProfiles';
 import { handleError } from '@/lib/utils/handleError';
 import { petProfileSchema } from '@/lib/utils/petProfile.schema';
 import { useProfileStore } from '@/stores/profileStore';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { formatDate } from 'date-fns';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEditMobile() {
+  const params = useParams();
+  const userId = params?.userId as string;
+
+  const selectPet = useProfileStore((state) => state.selectPet);
+  const selectedPet = useProfileStore((state) => state.selectedPet);
   const toggleEditingPetProfile = useProfileStore(
     (state) => state.toggleEditingPetProfile,
   );
-  const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
-  const profile = useProfileStore((state) => state.selectedProfile);
-  const selectProfile = useProfileStore((state) => state.selectProfile);
+
+  const { data: profile } = usePetProfile(selectedPet ?? 0);
+  const queryClient = useQueryClient();
 
   const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
     resolver: zodResolver(petProfileSchema),
@@ -69,7 +76,7 @@ export default function DogProfileEditMobile() {
       weight: data.weight ? Number(data.weight) : null,
       registNumber: data.registNumber ?? null,
       // 로그인 기능 구현 이후 자신의 userId 입력
-      userId: '10001',
+      userId: userId,
       // 이미지 입력 값 생긴 후 수정
       image: null,
     };
@@ -81,18 +88,18 @@ export default function DogProfileEditMobile() {
     }
 
     // 로그인 기능 구현 이후 자신의 userId 입력
-    const profiles = await getPetProfiles('10001');
-    setPetProfiles(profiles);
+    queryClient.invalidateQueries({ queryKey: ['pets', userId] });
     toggleEditingPetProfile();
-    selectProfile(null);
+    selectPet(null);
   };
+
   const handleDeletePet = async () => {
     if (!profile) return;
 
     await deletePetProfile(profile.petId);
 
-    const profiles = await getPetProfiles('10001');
-    setPetProfiles(profiles);
+    queryClient.invalidateQueries({ queryKey: ['pets', userId] });
+    selectPet(null);
     toggleEditingPetProfile();
   };
 
@@ -110,7 +117,7 @@ export default function DogProfileEditMobile() {
             }}
             closePage={() => {
               toggleEditingPetProfile();
-              selectProfile(null);
+              selectPet(null);
             }}
           />
           {/* 사진 선택 */}

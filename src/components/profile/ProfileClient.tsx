@@ -1,7 +1,7 @@
 'use client';
-import { getPetProfiles } from '@/api/pet';
+import { login } from '@/api/auth';
+import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
 import { useProfileStore } from '@/stores/profileStore';
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
@@ -23,25 +23,24 @@ export default function ProfileClient({
   const params = useParams();
   const userId = params?.userId as string;
 
-  const { data: petData } = useQuery<PetProfile[]>({
-    queryKey: ['pets', userId],
-    queryFn: () => getPetProfiles(userId),
-    initialData: petProfiles,
-    staleTime: 30000,
-  });
+  usePetProfiles(userId, petProfiles);
 
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
-  const [isProfile, setIsProfile] = useState(true);
 
+  const [isProfile, setIsProfile] = useState(true);
   const isEditingPet = useProfileStore((state) => state.isEditingPet);
   const isEditingUser = useProfileStore((state) => state.isEditingUser);
-  const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
+
+  const loginUser = async () => {
+    await login('qkrwjdtn09@gmail.com', 'wjdtn12');
+    console.log('hi');
+  };
 
   useEffect(() => {
-    setPetProfiles(petProfiles);
-  }, [petProfiles, setPetProfiles]);
+    loginUser();
+  }, []);
 
   if (isMobile) {
     if (isEditingPet) return <DogProfileEditMobile />;
@@ -75,7 +74,7 @@ export default function ProfileClient({
       </div>
       <div className={isProfile ? '' : 'hidden sm:block'}>
         <UserProfile userProfile={userProfile} />
-        <DogProfileList profileData={petData} />
+        <DogProfileList />
       </div>
       <div className={isProfile ? 'hidden sm:block' : ''}>
         <PostList />

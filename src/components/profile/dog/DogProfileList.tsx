@@ -1,7 +1,9 @@
 'use client';
 import Card from '@/components/common/Card';
+import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
 import { useProfileStore } from '@/stores/profileStore';
-import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMediaQuery } from 'react-responsive';
 import 'swiper/css';
@@ -14,19 +16,17 @@ import DogProfileCard from './DogProfileCard';
 import DogProfileEdit from './DogProfileEdit';
 import RegistCard from './RegistCard';
 
-export default function DogProfileList({
-  profileData,
-}: {
-  profileData: PetProfile[];
-}) {
+export default function DogProfileList() {
+  const params = useParams();
+  const userId = params?.userId as string;
+  const { data: petProfiles = [] } = usePetProfiles(userId);
+
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
 
-  const petProfiles = useProfileStore((state) => state.petProfiles);
   const togglePage = useProfileStore((state) => state.toggleEditingPetProfile);
 
-  const [localProfiles, setLocalProfiles] = useState<PetProfile[]>(profileData);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const prevRef = useRef(null);
@@ -36,10 +36,6 @@ export default function DogProfileList({
     setIsProfileModalOpen((state) => !state);
   };
 
-  useEffect(() => {
-    setLocalProfiles(petProfiles);
-  }, [petProfiles]);
-
   return (
     <div className="mb-20 w-full">
       <h2 className="text-sm text-[var(--color-primary-500)] sm:text-xl">
@@ -47,8 +43,8 @@ export default function DogProfileList({
       </h2>
       {isMobile ? (
         <div className="mt-6 flex flex-col gap-6">
-          {localProfiles &&
-            localProfiles.map((profile, index) => (
+          {petProfiles &&
+            petProfiles.map((profile, index) => (
               <DogProfileCard
                 key={index}
                 togglePage={togglePage}
@@ -124,8 +120,8 @@ export default function DogProfileList({
                 }
               }}
             >
-              {localProfiles &&
-                localProfiles.map((profile, index) => (
+              {petProfiles &&
+                petProfiles.map((profile, index) => (
                   <SwiperSlide key={index} className="!w-[598px]">
                     <DogProfileCard profile={profile} />
                   </SwiperSlide>
@@ -137,7 +133,7 @@ export default function DogProfileList({
           </div>
           {isProfileModalOpen &&
             createPortal(
-              <DogProfileEdit closeModal={toggleProfileModal} />,
+              <DogProfileEdit closeModal={toggleProfileModal} petId={0} />,
               document.body,
             )}
         </div>

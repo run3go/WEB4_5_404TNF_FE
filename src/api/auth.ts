@@ -1,3 +1,5 @@
+import { axiosInstance } from './axiosInstance';
+
 export const checkEmailDuplicate = async (email: string) => {
   const res = await fetch(
     `https://mungdiary-172598302113.asia-northeast3.run.app/api/auth/v1/check-email?email=${email}`,
@@ -84,4 +86,13 @@ export const register = async (formData: {
     const data = await res.json();
     throw new Error(data.message || '회원가입 실패');
   }
+};
+
+export const login = async (email: string, password: string) => {
+  const { data } = await axiosInstance.post('/api/auth/v1/login', {
+    email,
+    password,
+  });
+
+  return data;
 };
