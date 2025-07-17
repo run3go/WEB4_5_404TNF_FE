@@ -21,7 +21,6 @@ export default function Sidebar() {
     try {
       await logout();
       sessionStorage.removeItem('userId');
-      document.cookie = 'role=; path=/; max-age=0';
       setLogout();
     } catch (error) {
       console.error(error);
