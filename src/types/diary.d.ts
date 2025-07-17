@@ -1,11 +1,11 @@
-export type Pet = {
+type DiaryPet = {
   petId: number;
   name: string;
   breed: string;
   age: number;
 };
 
-export type LifeRecordPayload = {
+type LifeRecordPayload = {
   petId: number;
   recordAt: string;
   content: string;
@@ -23,7 +23,7 @@ export type LifeRecordPayload = {
   }[];
 };
 
-export type WalkEntry = {
+type WalkEntry = {
   startHour: string;
   startMinute: string;
   endHour: string;
@@ -31,7 +31,7 @@ export type WalkEntry = {
   pace: string;
 };
 
-export type FeedEntry = {
+type FeedEntry = {
   amount: string;
   hour: string;
   minute: string;

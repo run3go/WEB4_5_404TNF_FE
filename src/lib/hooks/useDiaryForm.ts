@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { createLifeRecord, getPetsByUserId } from '@/api/diary';
-import { Pet } from '@/types/diary';
-import type { FeedEntry } from '@/types/diary';
 
 export function useDiaryForm() {
   const [selected, setSelected] = useState<Date | undefined>(new Date());
-  const [pets, setPets] = useState<Pet[]>([]);
+  const [pets, setPets] = useState<DiaryPet[]>([]);
   const [selectedPetId, setSelectedPetId] = useState<string>('');
   const [selectedUnit, setSelectedUnit] = useState('GRAM');
   const [weight, setWeight] = useState('');

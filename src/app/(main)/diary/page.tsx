@@ -6,13 +6,12 @@ import DateInput from '@/components/common/DateInput';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getPetsByUserId } from '@/api/diary';
-import { Pet } from '@/types/diary';
 
 type Option = { value: string; label: string };
 
 export default function Diary() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [pets, setPets] = useState<Pet[]>([]);
+  const [pets, setPets] = useState<DiaryPet[]>([]);
   const [selectedPetId, setSelectedPetId] = useState<string>('all');
 
   const petOptions: Option[] = [
