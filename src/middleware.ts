@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
-  const token = req.cookies.get('userId')?.value;
+  const token = req.cookies.get('ACCESS_TOKEN');
   console.log(token);
   const allowedPaths = [
     '/post',
@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
     '/terms',
     '/guide',
     '/login',
-    '/adminlogin',
+    '/mungdogdiarymung',
   ];
 
   const isAllowed = allowedPaths.some((path) =>
