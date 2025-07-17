@@ -14,7 +14,7 @@ import { useTermsStore } from '@/stores/termsStore';
 export default function SignupForm() {
   const router = useRouter();
   const pathname = usePathname();
-  const { isAgreeTerms, setDisagree } = useTermsStore();
+  const { setDisagree } = useTermsStore();
 
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
@@ -42,6 +42,7 @@ export default function SignupForm() {
         email: formData.email,
         password: formData.password,
       });
+      sessionStorage.removeItem('isAgreeTerms');
       router.push('/login');
     } catch {
       alert('회원가입에 실패했습니다.');
@@ -49,20 +50,13 @@ export default function SignupForm() {
   };
 
   useEffect(() => {
-    if (!isAgreeTerms) {
-      router.replace('/terms');
-    }
-  }, [isAgreeTerms, router]);
-
-  useEffect(() => {
     return () => {
       if (!window.location.pathname.startsWith('/signup')) {
         setDisagree();
+        sessionStorage.removeItem('isAgreeTerms');
       }
     };
   }, [pathname, setDisagree]);
-
-  if (!isAgreeTerms) return null;
 
   return (
     <form

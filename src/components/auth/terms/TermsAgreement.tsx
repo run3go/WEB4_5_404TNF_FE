@@ -20,6 +20,7 @@ export default function TermsAgreement() {
 
   const handleAgree = () => {
     setAgree();
+    sessionStorage.setItem('isAgreeTerms', 'true');
     router.push('/signup');
   };
 

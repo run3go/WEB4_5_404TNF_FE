@@ -1,7 +1,6 @@
 'use client';
 
 import { useAuthStore } from '@/stores/authStoe';
-import { useTermsStore } from '@/stores/termsStore';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -11,15 +10,12 @@ export default function AuthAccessControl({
   children: React.ReactNode;
 }) {
   const isLogin = useAuthStore((state) => state.isLogin);
-  const { isAgreeTerms } = useTermsStore();
-
   const router = useRouter();
   const pathname = usePathname();
   const [userId, setUserId] = useState<string | null>(null);
-  const [checked, setChecked] = useState(false);
+  const [isGetUserId, setIsGetUserId] = useState(false);
 
   const isRoot = pathname === '/';
-  const isSignupPath = pathname.startsWith('/signup');
   const publicPaths = ['/post', '/guide', '/signup', '/terms', '/login'];
   const isPublic =
     isRoot || publicPaths.some((path) => pathname.startsWith(path));
@@ -27,25 +23,18 @@ export default function AuthAccessControl({
   useEffect(() => {
     const storedUserId = sessionStorage.getItem('userId');
     setUserId(storedUserId);
-    setChecked(true);
+    setIsGetUserId(true);
   }, []);
 
   useEffect(() => {
-    if (checked && !userId && !isLogin && !isPublic) {
+    if (isGetUserId && !userId && !isLogin && !isPublic) {
       router.replace('/login');
     }
+  }, [isGetUserId, userId, isLogin, isPublic, router]);
 
-    if (isSignupPath && !isAgreeTerms) {
-      router.replace('/terms');
-      return;
-    }
-  }, [checked, userId, isLogin, isPublic, router, isAgreeTerms, isSignupPath]);
-
-  if (!checked) return null;
+  if (!isGetUserId) return null;
 
   if (!isLogin && !isPublic) return null;
-
-  if (isSignupPath && !isAgreeTerms) return null;
 
   return <>{children}</>;
 }
