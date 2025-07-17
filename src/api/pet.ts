@@ -69,3 +69,22 @@ export const getVaccineData = async (petId: number) => {
   const data = await res.json();
   return data;
 };
+
+export const modifyVaccineData = async (
+  payload: VaccinePayload[],
+  petId: number,
+) => {
+  const res = await fetch(
+    `${baseURL}/api/mypage/v1/pets/${petId}/vaccination`,
+    {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      credentials: 'include',
+    },
+  );
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '백신 정보 저장 실패');
+  }
+};

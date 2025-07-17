@@ -1,7 +1,6 @@
 'use client';
 import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
 import { useProfileStore } from '@/stores/profileStore';
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
@@ -63,7 +62,6 @@ export default function ProfileClient({
           활동내역
         </Button>
       </div>
-      <Link href={'/profile/10002'}>이동</Link>
       <div className={isProfile ? '' : 'hidden sm:block'}>
         <UserProfile userProfile={userProfile} />
         <DogProfileList />

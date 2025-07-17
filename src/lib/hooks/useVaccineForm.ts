@@ -1,21 +1,20 @@
 import { useForm } from 'react-hook-form';
 
 export const useVaccineForm = (vaccineData: Vaccination[] | undefined) => {
-  //   const today = formatDate(new Date(), 'yyyy-MM-dd');
   const defaultValue: VaccineFormValues = {
-    DHPPL: { vaccineAt: '', vaccineType: 'FIRST', count: undefined },
+    DHPPL: { vaccineAt: undefined, vaccineType: 'FIRST', count: undefined },
     CORONAVIRUS: {
-      vaccineAt: '',
+      vaccineAt: undefined,
       vaccineType: 'FIRST',
       count: undefined,
     },
     KENNEL_COUGH: {
-      vaccineAt: '',
+      vaccineAt: undefined,
       vaccineType: 'FIRST',
       count: undefined,
     },
-    INFLUENZA: { vaccineAt: '', vaccineType: 'FIRST', count: undefined },
-    RABIES: { vaccineAt: '', vaccineType: 'FIRST', count: undefined },
+    INFLUENZA: { vaccineAt: undefined, vaccineType: 'FIRST', count: undefined },
+    RABIES: { vaccineAt: undefined, vaccineType: 'FIRST', count: undefined },
   };
   const fetchData: VaccineFormValues | Record<string, unknown> = {};
   vaccineData?.forEach((data) => {

@@ -52,6 +52,8 @@ export default function VaccineInput({
                 selected={field.value}
                 setSelected={(date) => field.onChange(date)}
                 disableFuture
+                showAllDate
+                placeholder="yyyy.mm.dd"
               />
             )}
           />
@@ -103,6 +105,9 @@ export default function VaccineInput({
                 selected={field.value}
                 setSelected={(date) => field.onChange(date)}
                 disableFuture
+                showAllDate
+                placeholder="yyyy.mm.dd"
+                placeholderClassName="text-[var(--color-grey)]"
               />
             )}
           />

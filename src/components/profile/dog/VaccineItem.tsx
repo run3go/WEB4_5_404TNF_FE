@@ -29,7 +29,7 @@ export default function VaccineItem({
           {vaccine ? vaccineAt : '-'}
         </span>
       </div>
-      <div className="leai flex basis-2/11 items-center pr-3 pl-[24px] leading-[1.2] sm:pl-[35px]">
+      <div className="basis-2/11 pr-3 pl-[14px] text-center leading-[1.2] sm:pl-[35px] sm:text-start">
         {vaccine ? vaccine.count : '-'}
       </div>
     </li>
