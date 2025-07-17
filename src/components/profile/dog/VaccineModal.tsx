@@ -78,9 +78,16 @@ export default function VaccineModal({
           <div>
             <div className="flex w-full border-b border-[var(--color-primary-300)] py-[10px] pl-3">
               <span className="basis-5/22 sm:basis-2/11">백신이름</span>
-              <span className="basis-5/22 sm:basis-3/11">유형</span>
-              <span className="basis-4/11">접종일</span>
-              <span className="basis-2/11 text-center sm:text-start">차수</span>
+
+              <div className="basis-5/22 sm:basis-3/11 sm:pl-4">
+                <span className="inline-block w-[22px] text-center sm:w-[27px]">
+                  유형
+                </span>
+              </div>
+              <span className="basis-4/11 sm:pl-[21px]">접종일</span>
+              <span className="basis-2/11 text-center sm:pl-[26px] sm:text-start">
+                차수
+              </span>
             </div>
           </div>
           <FormProvider {...methods}>

@@ -15,15 +15,21 @@ export default function VaccineItem({
         : '보충'
     : '-';
   const vaccineAt =
-    vaccine && formatDate(new Date(vaccine.vaccineAt), 'yyyy. M. dd');
+    vaccine && formatDate(new Date(vaccine.vaccineAt), 'yyyy. MM. dd');
   return (
     <li className="flex w-full items-center py-[11px] pl-3 sm:py-3">
       <span className="basis-5/22 sm:basis-2/11">{name}</span>
-      <div className="basis-5/22 pr-6 sm:basis-3/11">{type}</div>
-      <div className="relative basis-4/11 pr-6">
-        {vaccine ? vaccineAt : '-'}
+      <div className="basis-5/22 sm:basis-3/11 sm:pr-6 sm:pl-4 sm:text-start">
+        <span className="inline-block w-[22px] text-center sm:w-[27px]">
+          {type}
+        </span>
       </div>
-      <div className="flex basis-2/11 items-center pr-3">
+      <div className="relative basis-4/11 sm:pl-[22px]">
+        <span className="inline-block w-[96px]">
+          {vaccine ? vaccineAt : '-'}
+        </span>
+      </div>
+      <div className="leai flex basis-2/11 items-center pr-3 pl-[24px] leading-[1.2] sm:pl-[35px]">
         {vaccine ? vaccine.count : '-'}
       </div>
     </li>

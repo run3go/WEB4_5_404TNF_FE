@@ -24,9 +24,9 @@ export default function VaccineInput({
 
   if (isMobile) {
     return (
-      <li className="flex w-full items-center py-[11px] pl-3 text-xs">
+      <li className="flex w-full items-center py-[9px] pl-3 text-xs">
         <span className="basis-5/22">{name}</span>
-        <div className="basis-5/22">
+        <div className="basis-5/22 pl-[4px]">
           <Controller
             name={`${eng}.vaccineType`}
             control={control}
@@ -48,7 +48,7 @@ export default function VaccineInput({
             control={control}
             render={({ field }) => (
               <DateInput
-                className="w-full rounded-[12px] p-0 pr-2"
+                className="w-full rounded-[12px] p-0 pl-[6px]"
                 selected={field.value}
                 setSelected={(date) => field.onChange(date)}
                 disableFuture
@@ -58,7 +58,7 @@ export default function VaccineInput({
         </div>
         <div className="flex basis-2/11 items-center px-2">
           <input
-            className="w-full text-center"
+            className="w-full text-center leading-[1.2]"
             type="number"
             placeholder="차수"
             onInput={(e) => {
@@ -99,7 +99,7 @@ export default function VaccineInput({
             control={control}
             render={({ field }) => (
               <DateInput
-                className="w-full rounded-[12px] border-1 border-[var(--color-primary-300)]"
+                className="w-full rounded-[12px] border-1 border-[var(--color-primary-300)] pl-[21px]"
                 selected={field.value}
                 setSelected={(date) => field.onChange(date)}
                 disableFuture
