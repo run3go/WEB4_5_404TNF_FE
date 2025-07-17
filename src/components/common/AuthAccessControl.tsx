@@ -2,7 +2,7 @@
 
 import { useAuthStore } from '@/stores/authStoe';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function AuthAccessControl({
   children,
@@ -12,7 +12,8 @@ export default function AuthAccessControl({
   const isLogin = useAuthStore((state) => state.isLogin);
   const router = useRouter();
   const pathname = usePathname();
-  const userId = sessionStorage.getItem('userId');
+  const [userId, setUserId] = useState<string | null>(null);
+  const [checked, setChecked] = useState(false);
 
   const isRoot = pathname === '/';
   const publicPaths = ['/post', '/guide', '/signup', '/terms', '/login'];
@@ -20,10 +21,18 @@ export default function AuthAccessControl({
     isRoot || publicPaths.some((path) => pathname.startsWith(path));
 
   useEffect(() => {
-    if (!userId && !isLogin && !isPublic) {
+    const storedUserId = sessionStorage.getItem('userId');
+    setUserId(storedUserId);
+    setChecked(true);
+  }, []);
+
+  useEffect(() => {
+    if (checked && !userId && !isLogin && !isPublic) {
       router.replace('/login');
     }
-  }, [userId, isLogin, isPublic, router]);
+  }, [checked, userId, isLogin, isPublic, router]);
+
+  if (!checked) return null;
 
   if (!isLogin && !isPublic) return null;
 
