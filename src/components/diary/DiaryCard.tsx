@@ -5,11 +5,13 @@ import Icon from '../common/Icon';
 export default function DiaryCard({
   title,
   hasAddBtn = false,
+  onAddBtnClick,
   children,
   className,
 }: {
   title: string;
   hasAddBtn?: boolean;
+  onAddBtnClick?: () => void;
   children: React.ReactNode;
   className?: string;
 }) {
@@ -22,7 +24,7 @@ export default function DiaryCard({
     >
       <div
         className={twMerge(
-          'mb-3 flex items-center justify-start border-b border-[var(--color-primary-500)] pb-3 sm:mb-5',
+          'mb-1 flex items-center justify-start border-b border-[var(--color-primary-500)] pb-3 sm:mb-3',
           hasAddBtn && 'justify-between',
         )}
       >
@@ -36,6 +38,7 @@ export default function DiaryCard({
             height="12px"
             left="-262px"
             top="-259px"
+            onClick={onAddBtnClick}
           />
         )}
       </div>
