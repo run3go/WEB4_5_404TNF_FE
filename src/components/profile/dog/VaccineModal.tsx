@@ -1,6 +1,9 @@
 'use client';
 import Icon from '@/components/common/Icon';
+import { usePetVaccine } from '@/lib/hooks/usePetProfiles';
+import { useVaccineForm } from '@/lib/hooks/useVaccineForm';
 import { useState } from 'react';
+import { FormProvider } from 'react-hook-form';
 import VaccineInput from './VaccineInput';
 import VaccineItem from './VaccineItem';
 
@@ -12,7 +15,22 @@ export default function VaccineModal({
   petId: number;
 }) {
   const [isEditing, setIsEditing] = useState(false);
-  console.log(petId);
+
+  const { data: vaccineData } = usePetVaccine(petId);
+  const methods = useVaccineForm(vaccineData);
+
+  const DHPPL = vaccineData?.find((data) => data.vaccine.name === 'DHPPL');
+  const CORONAVIRUS = vaccineData?.find(
+    (data) => data.vaccine.name === 'CORONAVIRUS',
+  );
+  const KENNEL_COUGH = vaccineData?.find(
+    (data) => data.vaccine.name === 'KENNEL_COUGH',
+  );
+  const RABIES = vaccineData?.find((data) => data.vaccine.name === 'RABIES');
+  const INFLUENZA = vaccineData?.find(
+    (data) => data.vaccine.name === 'INFLUENZA',
+  );
+
   return (
     <>
       <div
@@ -65,25 +83,29 @@ export default function VaccineModal({
               <span className="basis-2/11 text-center sm:text-start">차수</span>
             </div>
           </div>
-          <ul className="mt-2 flex w-full flex-col gap-2">
-            {isEditing ? (
-              <>
-                <VaccineInput name="종합백신" />
-                <VaccineInput name="코로나 장염" />
-                <VaccineInput name="켄넬코프" />
-                <VaccineInput name="인플루엔자" />
-                <VaccineInput name="광견병" />
-              </>
-            ) : (
-              <>
-                <VaccineItem name="종합백신" />
-                <VaccineItem name="코로나 장염" />
-                <VaccineItem name="켄넬코프" />
-                <VaccineItem name="인플루엔자" />
-                <VaccineItem name="광견병" />
-              </>
-            )}
-          </ul>
+          <FormProvider {...methods}>
+            <form>
+              <ul className="mt-2 flex w-full flex-col gap-2">
+                {isEditing ? (
+                  <>
+                    <VaccineInput name="종합백신" eng="DHPPL" />
+                    <VaccineInput name="코로나 장염" eng="CORONAVIRUS" />
+                    <VaccineInput name="켄넬코프" eng="KENNEL_COUGH" />
+                    <VaccineInput name="인플루엔자" eng="INFLUENZA" />
+                    <VaccineInput name="광견병" eng="RABIES" />
+                  </>
+                ) : (
+                  <>
+                    <VaccineItem name="종합백신" vaccine={DHPPL} />
+                    <VaccineItem name="코로나 장염" vaccine={CORONAVIRUS} />
+                    <VaccineItem name="켄넬코프" vaccine={KENNEL_COUGH} />
+                    <VaccineItem name="인플루엔자" vaccine={INFLUENZA} />
+                    <VaccineItem name="광견병" vaccine={RABIES} />
+                  </>
+                )}
+              </ul>
+            </form>
+          </FormProvider>
         </div>
       </div>
     </>

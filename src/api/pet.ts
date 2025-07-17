@@ -24,6 +24,7 @@ export const getPetProfile = async (petId: number) => {
 export const registPetProfile = async (payload: PetPayload) => {
   const res = await fetch(`${baseURL}/api/mypage/v2/pets`, {
     method: 'post',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
     credentials: 'include',
   });
@@ -37,6 +38,7 @@ export const registPetProfile = async (payload: PetPayload) => {
 export const modifyPetProfile = async (payload: PetPayload, petId: number) => {
   const res = await fetch(`${baseURL}/api/mypage/v2/pets/${petId}`, {
     method: 'put',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
     credentials: 'include',
   });

@@ -1,4 +1,4 @@
-import { getPetProfile, getPetProfiles } from '@/api/pet';
+import { getPetProfile, getPetProfiles, getVaccineData } from '@/api/pet';
 import { useQuery } from '@tanstack/react-query';
 
 export const usePetProfiles = (userId: string, initialData?: PetProfile[]) => {
@@ -21,9 +21,9 @@ export const usePetProfile = (petId: number) => {
 };
 
 export const usePetVaccine = (petId: number) => {
-  return useQuery<PetProfile>({
-    queryKey: ['pet', petId],
-    queryFn: () => getPetProfile(petId),
+  return useQuery<Vaccination[]>({
+    queryKey: ['vaccine', petId],
+    queryFn: () => getVaccineData(petId),
     enabled: !!petId,
     staleTime: 30000,
   });

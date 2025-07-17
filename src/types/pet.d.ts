@@ -76,3 +76,52 @@ type PetBreed =
   | 'MIX';
 
 type PetSize = 'SMALL' | 'MEDIUM' | 'LARGE';
+
+type Vaccination = {
+  count: number;
+  pet: number;
+  vaccinationId: number;
+  vaccine: {
+    vaccineId: number;
+    name: VaccineName;
+    period: number;
+    additionalCycle: number;
+    boosterCount: number;
+    boosterCycle: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string;
+  };
+  vaccineAt: string;
+  vaccineType: VaccineType;
+};
+
+type VaccinePayload = {
+  name: VaccineName;
+  vaccineAt: string;
+  vaccineType: VaccineType;
+  count: number;
+};
+
+type VaccineFormValues = {
+  DHPPL: VaccineInfo;
+  CORONAVIRUS: VaccineInfo;
+  KENNEL_COUGH: VaccineInfo;
+  RABIES: VaccineInfo;
+  INFLUENZA: VaccineInfo;
+};
+
+type VaccineInfo = {
+  vaccineAt: string;
+  vaccineType: VaccineType;
+  count?: number;
+};
+
+type VaccineName =
+  | 'DHPPL'
+  | 'CORONAVIRUS'
+  | 'KENNEL_COUGH'
+  | 'RABIES'
+  | 'INFLUENZA';
+
+type VaccineType = 'FIRST' | 'BOOSTER' | 'ADDITIONAL';
