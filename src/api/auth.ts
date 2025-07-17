@@ -1,3 +1,72 @@
+export const login = async (email: string, password: string) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/auth/v1/login`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '로그인 실패');
+  }
+
+  return data;
+};
+
+export const adminLogin = async (email: string, password: string) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/auth/v1/admin/login`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '로그인 실패');
+  }
+
+  return data;
+};
+
+export const logout = async () => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/auth/v1/logout`,
+    {
+      method: 'POST',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '로그인 실패');
+  }
+
+  return data;
+};
+
+export const getUserProfile = async (userId: string) => {
+  try {
+    const response = await fetch(
+      `https://mungdiary-172598302113.asia-northeast3.run.app/api/profile/v1/${userId}`,
+      {
+        credentials: 'include',
+      },
+    );
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error(err);
+    return;
+  }
+};
+
 export const checkEmailDuplicate = async (email: string) => {
   const res = await fetch(
     `https://mungdiary-172598302113.asia-northeast3.run.app/api/auth/v1/check-email?email=${email}`,

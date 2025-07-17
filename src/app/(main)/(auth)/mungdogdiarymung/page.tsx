@@ -1,13 +1,13 @@
 'use client';
 
-import { getUserProfile, login } from '@/api/auth';
+import { adminLogin, getUserProfile } from '@/api/auth';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function LoginForm() {
-  const router = useRouter();
+export default function AdminLoginForm() {
+  const route = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -27,7 +27,7 @@ export default function LoginForm() {
     }
 
     try {
-      const { data: user } = await login(email, password);
+      const { data: user } = await adminLogin(email, password);
       const data = await getUserProfile(user.userId);
       console.log(data);
 
@@ -42,6 +42,7 @@ export default function LoginForm() {
       };
       setLogin(userInfo);
       sessionStorage.setItem('userId', user.userId);
+      document.cookie = `userId=${user.userId}; path=/; max-age=3600`;
 
       route.push('/');
     } catch (err) {
@@ -85,7 +86,7 @@ export default function LoginForm() {
             name="password"
             type="password"
             placeholder="비밀번호를 입력해주세요"
-            className="auth__input focus:!border-[#FCC389]"
+            className="auth__input w-full focus:!border-[#FCC389]"
             value={password}
             onChange={(e) => handleChange(e, 'password')}
           />
@@ -96,45 +97,10 @@ export default function LoginForm() {
           <div className="flex items-center justify-center gap-2">
             <Icon width="20px" height="18px" left="-297px" top="-312px" />
             <p className="text-[14px] font-medium text-[#2B2926] sm:text-[18px]">
-              멍멍일지 로그인
+              멍멍일지 관리자 로그인
             </p>
           </div>
         </button>
-
-        <div className="-mt-1 flex justify-end gap-1.5 text-[14px] font-medium sm:text-[16px]">
-          <p>계졍이 없으신가요? </p>
-          <p
-            className="cursor-pointer border-b text-[#FF9526]"
-            onClick={() => router.push('/terms')}
-          >
-            회원가입
-          </p>
-        </div>
-
-        <div className="mt-[3.5vh] flex items-center">
-          <div className="h-px flex-1 bg-[#2B2926]" />
-          <span className="px-4 text-[14px] font-medium text-[#2B2926] sm:px-10 sm:text-[18px]">
-            또는
-          </span>
-          <div className="h-px flex-1 bg-[#2B2926]" />
-        </div>
-
-        <div className="flex items-center justify-center sm:mt-7 sm:gap-14">
-          <Icon
-            width="60px"
-            height="60px"
-            left="-16px"
-            top="-361px"
-            className="scale-54 cursor-pointer sm:scale-100"
-          />
-          <Icon
-            width="54px"
-            height="55px"
-            left="-94px"
-            top="-361px"
-            className="scale-60 cursor-pointer sm:scale-100"
-          />
-        </div>
       </form>
     </>
   );
