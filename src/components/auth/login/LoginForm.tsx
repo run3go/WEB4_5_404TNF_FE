@@ -36,12 +36,13 @@ export default function LoginForm() {
         email: data.email,
         name: data.name,
         nickname: data.nickname,
+        role: data.role,
         provider: data.provider,
         userImg: data.userImg,
       };
       setLogin(userInfo);
       sessionStorage.setItem('userId', user.userId);
-      document.cookie = `userId=${user.userId}; path=/; max-age=3600`;
+      document.cookie = `role=${data.role}; path=/; max-age=3600`;
 
       route.push('/');
     } catch (err) {

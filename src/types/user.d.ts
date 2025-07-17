@@ -15,6 +15,7 @@ interface User {
   email: string;
   name: string;
   nickname: string;
+  role: 'ROLE_USER' | 'ROLE_ADMIN';
   provider: string;
   userImg: string | null;
 }
