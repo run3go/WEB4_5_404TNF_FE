@@ -1,6 +1,5 @@
 import DiaryCard from '../DiaryCard';
 import WalkingInputItem from './WalkingInputItem';
-import type { WalkEntry } from '@/types/diary';
 
 type Props = {
   walkingList: WalkEntry[];

@@ -1,6 +1,5 @@
 import SelectBox from '@/components/common/SelectBox';
 import Icon from '@/components/common/Icon';
-import type { FeedEntry } from '@/types/diary';
 
 type Props = FeedEntry & {
   onChange: (field: keyof FeedEntry, value: string) => void;

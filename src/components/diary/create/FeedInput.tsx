@@ -1,6 +1,5 @@
 import DiaryCard from '../DiaryCard';
 import FeedInputItem from './FeedInputItem';
-import type { FeedEntry } from '@/types/diary';
 
 type Props = {
   feedingList: FeedEntry[];

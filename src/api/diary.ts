@@ -1,7 +1,6 @@
 import { axiosInstance } from './axiosInstance';
-import { Pet, LifeRecordPayload } from '@/types/diary';
 
-export const getPetsByUserId = async (userId: number): Promise<Pet[]> => {
+export const getPetsByUserId = async (userId: number): Promise<DiaryPet[]> => {
   const { data } = await axiosInstance.get(`/api/profile/v1/pet/${userId}`);
   return data;
 };
