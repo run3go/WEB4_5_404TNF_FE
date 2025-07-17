@@ -9,3 +9,13 @@ type UserProfile = {
   provider: 'GOOGLE' | 'KAKAO' | 'NAVER' | 'LOCAL';
   userImg: null;
 };
+
+interface User {
+  userId: number;
+  email: string;
+  name: string;
+  nickname: string;
+  role: 'ROLE_USER' | 'ROLE_ADMIN';
+  provider: string;
+  userImg: string | null;
+}
