@@ -66,7 +66,7 @@ export default function Header() {
           </>
         ) : (
           <Link href={'/login'}>
-            <Button className="h-[36px] w-[95px] text-center text-[20px]">
+            <Button className="h-[36px] w-[95px] text-center text-[16px]">
               로그인
             </Button>
           </Link>
