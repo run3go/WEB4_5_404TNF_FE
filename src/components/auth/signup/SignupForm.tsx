@@ -62,6 +62,8 @@ export default function SignupForm() {
     };
   }, [pathname, setDisagree]);
 
+  if (!isAgreeTerms) return null;
+
   return (
     <form
       className="flex flex-col justify-between p-6 pt-[51px] sm:h-[712px] sm:px-[21.5vw] sm:pt-11"
