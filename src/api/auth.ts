@@ -5,6 +5,7 @@ export const login = async (email: string, password: string) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
+      credentials: 'include',
     },
   );
 
@@ -54,6 +55,9 @@ export const getUserProfile = async (userId: string) => {
   try {
     const response = await fetch(
       `https://mungdiary-172598302113.asia-northeast3.run.app/api/profile/v1/${userId}`,
+      {
+        credentials: 'include',
+      },
     );
     const data = await response.json();
     return data;
