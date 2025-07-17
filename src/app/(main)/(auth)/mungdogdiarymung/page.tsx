@@ -36,6 +36,7 @@ export default function AdminLoginForm() {
         email: data.email,
         name: data.name,
         nickname: data.nickname,
+        role: data.role,
         provider: data.provider,
         userImg: data.userImg,
       };

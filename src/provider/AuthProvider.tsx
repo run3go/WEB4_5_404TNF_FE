@@ -23,6 +23,7 @@ export default function AuthProvider({
             userId: data.userId,
             email: data.email,
             name: data.name,
+            role: data.role,
             nickname: data.nickname,
             provider: data.provider,
             userImg: data.userImg,
