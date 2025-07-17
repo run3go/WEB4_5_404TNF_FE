@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import Icon from '@/components/common/Icon';
 import { useRouter } from 'next/navigation';
+import { useTermsStore } from '@/stores/termsStore';
 
 export default function TermsAgreement() {
   const router = useRouter();
+  const setAgree = useTermsStore((state) => state.setAgree);
   const [agreements, setAgreements] = useState({
     terms: false,
     privacy: false,
@@ -17,7 +19,7 @@ export default function TermsAgreement() {
   };
 
   const handleAgree = () => {
-    document.cookie = 'isAgreeTerms=true; path=/;';
+    setAgree();
     router.push('/signup');
   };
 

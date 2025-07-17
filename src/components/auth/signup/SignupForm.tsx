@@ -9,10 +9,12 @@ import NicknameInputSection from './NicknameInputSection';
 import EmailInputSection from './EmailInputSection';
 import PasswordInputSection from './PasswordInputSection';
 import NameInputSection from './NameInputSection';
+import { useTermsStore } from '@/stores/termsStore';
 
 export default function SignupForm() {
   const router = useRouter();
   const pathname = usePathname();
+  const { isAgreeTerms, setDisagree } = useTermsStore();
 
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
@@ -47,12 +49,18 @@ export default function SignupForm() {
   };
 
   useEffect(() => {
+    if (!isAgreeTerms) {
+      router.replace('/terms');
+    }
+  }, [isAgreeTerms, router]);
+
+  useEffect(() => {
     return () => {
       if (!window.location.pathname.startsWith('/signup')) {
-        document.cookie = 'isAgreeTerms=; path=/; max-age=0';
+        setDisagree();
       }
     };
-  }, [pathname]);
+  }, [pathname, setDisagree]);
 
   return (
     <form
