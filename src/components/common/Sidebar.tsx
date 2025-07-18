@@ -1,13 +1,14 @@
 'use client';
+import { logout } from '@/api/auth';
+import AuthProvider from '@/provider/AuthProvider';
+import { useAuthStore } from '@/stores/authStoe';
+import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Icon from './Icon';
-import { useSidebarStore } from '@/stores/sidebarStore';
-import { useEffect } from 'react';
-import { useAuthStore } from '@/stores/authStoe';
-import { logout } from '@/api/auth';
-import AuthProvider from '@/provider/AuthProvider';
+import Settings from './Settings';
 {
   /* 156,122 */
 }
@@ -16,6 +17,8 @@ export default function Sidebar() {
   const pathname = usePathname();
   const { isOpen, close } = useSidebarStore();
   const { setLogout, isLogin } = useAuthStore();
+
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -188,9 +191,13 @@ export default function Sidebar() {
               </Link>
             </div>
             <div className="text-sm font-medium sm:text-[16px]">
-              <div className="flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6">
+              <div
+                className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6"
+                onClick={() => setIsSettingsOpen(true)}
+              >
                 <Icon width="24px" height="26px" left="-297px" top="-252px" />
                 <p>설정</p>
+                {isSettingsOpen && <Settings />}
               </div>
               {isLogin && (
                 <div
