@@ -30,6 +30,8 @@ export default function DateField({
             setSelected={(value) =>
               field.onChange(formatDate(value, 'yyyy-MM-dd'))
             }
+            showAllDate
+            placeholder="yyyy. mm. dd"
           />
         </div>
       )}
