@@ -74,14 +74,14 @@ export default function VaccineModal({
         onClick={closeModal}
       />
       <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <div className="absolute top-1/2 left-1/2 z-201 h-115 w-9/10 -translate-x-1/2 -translate-y-1/2 rounded-[20px] bg-[var(--color-background)] px-5 py-9 sm:h-[470px] sm:w-[720px]">
+        <div className="absolute top-1/2 left-1/2 z-201 h-115 w-9/10 -translate-x-1/2 -translate-y-1/2 rounded-[20px] bg-[var(--color-background)] px-3 py-9 sm:h-[470px] sm:w-[720px] sm:px-5">
           <div className="flex items-center justify-between sm:mb-5">
             <h3 className="ml-3 text-lg leading-[1.2] font-extrabold sm:ml-5 sm:text-2xl">
               예방접종 정보
             </h3>
             <Icon
               onClick={closeModal}
-              className="mr-1 scale-80 cursor-pointer sm:mr-5 sm:scale-90"
+              className="mr-3 scale-80 cursor-pointer sm:mr-5 sm:scale-90"
               width="16px"
               height="16px"
               left="-302px"
@@ -89,18 +89,19 @@ export default function VaccineModal({
             />
           </div>
           <div className="mt-6 flex w-full flex-col text-xs sm:mt-8 sm:mb-50 sm:text-[15px]">
-            <div className="mr-1 mb-5 self-end sm:mr-5">
+            <div className="mr-3 mb-5 self-end sm:mr-5">
               {isEditing ? (
                 <>
                   <button
-                    type="submit"
+                    className="mr-3 cursor-pointer text-[var(--color-primary-500)] transition-colors ease-in-out hover:text-orange-500"
                     disabled={isRefetching}
-                    className="mr-3 cursor-pointer text-[var(--color-primary-500)]"
+                    type="submit"
                   >
                     {isRefetching ? '저장 중...' : '저장'}
                   </button>
                   <button
-                    className="cursor-pointer text-[var(--color-grey)]"
+                    className="cursor-pointer text-[var(--color-grey)] transition-colors ease-in-out hover:text-[var(--color-black)]"
+                    disabled={isRefetching}
                     onClick={() => setIsEditing(false)}
                   >
                     취소
@@ -108,17 +109,30 @@ export default function VaccineModal({
                 </>
               ) : (
                 <span
-                  className="flex cursor-pointer items-center gap-2"
+                  className="group flex cursor-pointer items-center gap-2 hover:text-[var(--color-primary-500)]"
                   onClick={() => setIsEditing(true)}
                 >
-                  <Icon width="14px" height="14px" left="-225px" top="-168px" />
+                  <Icon
+                    className="block group-hover:hidden"
+                    width="14px"
+                    height="14px"
+                    left="-225px"
+                    top="-168px"
+                  />
+                  <Icon
+                    className="hidden group-hover:block"
+                    width="14px"
+                    height="14px"
+                    left="-414px"
+                    top="-173px"
+                  />
                   수정
                 </span>
               )}
             </div>
             <div>
               <div className="flex w-full border-b border-[var(--color-primary-300)] py-[10px] pl-3">
-                <span className="basis-5/22 sm:basis-2/11">백신이름</span>
+                <span className="basis-6/22 sm:basis-2/11">백신이름</span>
 
                 <div className="basis-5/22 sm:basis-3/11 sm:pl-4">
                   <span className="inline-block w-[22px] text-center sm:w-[27px]">

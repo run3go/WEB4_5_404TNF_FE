@@ -51,3 +51,26 @@ export const vaccineArr = [
   'INFLUENZA',
   'RABIES',
 ];
+
+export const vaccineInfo = {
+  DHPPL: {
+    additional: 5,
+    booster: 5,
+  },
+  CORONAVIRUS: {
+    additional: 2,
+    booster: 2,
+  },
+  KENNEL_COUGH: {
+    additional: 2,
+    booster: 2,
+  },
+  RABIES: {
+    additional: 2,
+    booster: 2,
+  },
+  INFLUENZA: {
+    additional: 1,
+    booster: 1,
+  },
+};

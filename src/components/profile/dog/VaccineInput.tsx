@@ -1,14 +1,17 @@
 import DateInput from '@/components/common/DateInput';
+import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
+import { useEffect, useRef, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useMediaQuery } from 'react-responsive';
+import VaccineInfo from './VaccineInfo';
 
 export default function VaccineInput({
   name,
   eng,
 }: {
   name: string;
-  eng: string;
+  eng: VaccineName;
 }) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
@@ -22,11 +25,36 @@ export default function VaccineInput({
     { value: 'ADDITIONAL', label: '추가' },
   ];
 
+  const infoRef = useRef<HTMLDivElement>(null);
+  const [isVaccineInfoOepn, setIsVaccineInfoOepn] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (infoRef.current && !infoRef.current.contains(e.target as Node)) {
+        setIsVaccineInfoOepn(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   if (isMobile) {
     return (
       <li className="flex w-full items-center py-[9px] pl-3 text-xs">
-        <span className="basis-5/22">{name}</span>
-        <div className="basis-5/22 pl-[4px]">
+        <div className="flex basis-6/22 gap-1">
+          {name}
+          <div className="relative" onClick={() => setIsVaccineInfoOepn(true)}>
+            <Icon
+              className="scale-80 cursor-pointer"
+              width="18px"
+              height="18px"
+              left="-377px"
+              top="-257px"
+            />
+            {isVaccineInfoOepn && <VaccineInfo ref={infoRef} eng={eng} />}
+          </div>
+        </div>
+        <div className="basis-5/22">
           <Controller
             name={`${eng}.vaccineType`}
             control={control}
@@ -77,7 +105,24 @@ export default function VaccineInput({
   } else
     return (
       <li className="flex w-full items-center pl-3">
-        <span className="basis-2/11">{name}</span>
+        <div className="flex basis-2/11 gap-2">
+          {name}
+          <div
+            className="relative"
+            onMouseEnter={() => setIsVaccineInfoOepn(true)}
+            onMouseLeave={() => setIsVaccineInfoOepn(false)}
+          >
+            <Icon
+              className="cursor-pointer"
+              width="18px"
+              height="18px"
+              left="-377px"
+              top="-257px"
+            />
+            {isVaccineInfoOepn && <VaccineInfo eng={eng} />}
+          </div>
+        </div>
+
         <div className="basis-3/11 pr-6">
           <Controller
             name={`${eng}.vaccineType`}
