@@ -1,11 +1,12 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Card from '../common/Card';
 import Icon from '../common/Icon';
 import AddSchedule from './AddSchedule';
 import TodoItem from './TodoItem';
 import { format } from 'date-fns';
+import { Schedule } from '@/types/schedule';
 
 export default function TodoList({
   type,
@@ -19,6 +20,12 @@ export default function TodoList({
   fullDate?: Date;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (schedules?.length === 0) {
+      closeModal?.();
+    }
+  }, [schedules, closeModal]);
 
   const formattedDate = fullDate ? format(fullDate, 'yyyy.MM.dd') : '';
 

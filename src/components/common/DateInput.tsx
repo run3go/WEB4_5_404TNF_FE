@@ -13,6 +13,7 @@ export default function DateInput({
   setSelected,
   showAllDate = false,
   placeholder = '전체 날짜',
+  disabledRange,
 }: {
   className: string;
   disableFuture?: boolean;
@@ -20,6 +21,7 @@ export default function DateInput({
   setSelected: (value: Date) => void;
   showAllDate?: boolean;
   placeholder?: string;
+  disabledRange?: { before: Date };
 }) {
   const [isDateInputOpen, setIsDateInputOpen] = useState(false);
   const inputRef = useRef<HTMLDivElement>(null);
@@ -76,7 +78,13 @@ export default function DateInput({
             selected={selected}
             startMonth={new Date(thisYear - 30, thisMonth)}
             onSelect={handleSelectDate}
-            disabled={disableFuture && { after: new Date() }}
+            disabled={
+              disableFuture
+                ? { after: new Date() }
+                : disabledRange
+                  ? disabledRange
+                  : undefined
+            }
             locale={ko}
             showOutsideDays
             classNames={{
