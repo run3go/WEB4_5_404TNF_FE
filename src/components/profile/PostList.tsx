@@ -16,7 +16,6 @@ export default function PostList() {
           <SelectBox options={options} width="100px" isCenter />
         </div>
       </div>
-      {/* 게시글 카드 추가 */}
       <div className="flex flex-col gap-10">
         <PostCard />
         <PostCard />
