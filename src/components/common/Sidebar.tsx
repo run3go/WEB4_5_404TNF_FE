@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Icon from './Icon';
 import { useSidebarStore } from '@/stores/sidebarStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/authStoe';
 import { logout } from '@/api/auth';
 import AuthProvider from '@/provider/AuthProvider';
@@ -16,11 +16,15 @@ export default function Sidebar() {
   const pathname = usePathname();
   const { isOpen, close } = useSidebarStore();
   const { setLogout, isLogin, userInfo } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
   const handleLogout = async () => {
     try {
       await logout();
       sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('role');
       setLogout();
     } catch (error) {
       console.error(error);
@@ -28,8 +32,18 @@ export default function Sidebar() {
   };
 
   useEffect(() => {
+    const storedUserId = sessionStorage.getItem('userId');
+    setUserId(storedUserId);
+    const storedRole = sessionStorage.getItem('role');
+    setRole(storedRole);
+    setIsLoading(true);
+  }, []);
+
+  useEffect(() => {
     close();
   }, [pathname, close]);
+
+  if (!isLoading) return null;
 
   return (
     <>
@@ -169,7 +183,7 @@ export default function Sidebar() {
               </Link>
 
               {/* 관리자 */}
-              {userInfo?.role === 'ROLE_ADMIN' && (
+              {(userInfo?.role === 'ROLE_ADMIN' || role) && (
                 <Link
                   href={'/admin'}
                   className={`sidebar__content group relative ${pathname.startsWith('/admin') && 'sidebar__content-active'} `}
@@ -204,7 +218,7 @@ export default function Sidebar() {
                 <Icon width="24px" height="26px" left="-297px" top="-252px" />
                 <p>설정</p>
               </div>
-              {isLogin && (
+              {(userId || isLogin) && (
                 <div
                   className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
                   onClick={handleLogout}

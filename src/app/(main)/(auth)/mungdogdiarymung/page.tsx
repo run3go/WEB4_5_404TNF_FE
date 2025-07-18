@@ -54,8 +54,7 @@ export default function AdminLoginForm() {
       };
       setLogin(userInfo);
       sessionStorage.setItem('userId', user.userId);
-      document.cookie = `userId=${user.userId}; path=/; max-age=3600`;
-
+      sessionStorage.setItem('role', data.role);
       route.push('/');
     } catch (err) {
       setError(
