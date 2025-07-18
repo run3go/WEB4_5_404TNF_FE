@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuthStore } from '@/stores/authStoe';
-import { usePathname, useRouter } from 'next/navigation';
+import { notFound, usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function AuthAccessControl({
@@ -12,8 +12,7 @@ export default function AuthAccessControl({
   const { isLogin, userInfo } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
-  const [userId, setUserId] = useState<string | null>(null);
-  const [isGetUserId, setIsGetUserId] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isRoot = pathname === '/';
   const isAdminPage = pathname.startsWith('/admin');
@@ -29,40 +28,28 @@ export default function AuthAccessControl({
     isRoot || publicPaths.some((path) => pathname.startsWith(path));
 
   useEffect(() => {
-    const storedUserId = sessionStorage.getItem('userId');
-    setUserId(storedUserId);
-    setIsGetUserId(true);
+    setIsLoading(true);
   }, []);
-
   useEffect(() => {
-    if (isGetUserId && !userId && !isLogin && isAdminPage) {
+    const storedUserId = sessionStorage.getItem('userId');
+    if (!storedUserId && !isLogin && isAdminPage) {
       router.replace('/mungdogdiarymung');
       return;
     }
 
-    if (isGetUserId && !userId && !isLogin && !isPublic) {
+    if (!storedUserId && !isLogin && !isPublic) {
       router.replace('/login');
     }
+  }, [isLogin, isPublic, router, isAdminPage]);
 
-    if (isAdminPage) {
-      if (!userInfo?.role) return;
-
-      if (userInfo?.role !== 'ROLE_ADMIN') {
-        router.replace('/not-found');
-        return;
-      }
+  useEffect(() => {
+    const storedRole = sessionStorage.getItem('role');
+    if (isAdminPage && !storedRole && userInfo?.role !== 'ROLE_ADMIN') {
+      notFound();
     }
-  }, [
-    isGetUserId,
-    userId,
-    isLogin,
-    isPublic,
-    router,
-    isAdminPage,
-    userInfo?.role,
-  ]);
+  });
 
-  if (!isGetUserId) return null;
+  if (!isLoading) return null;
 
   if (!isLogin && !isPublic) return null;
 
