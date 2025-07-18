@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { format } from 'date-fns';
 import { useCreateDiary } from './useCreateDiary';
 import { useGetPets } from './useGetPets';
+import { petBreedData, petSizeData } from '@/assets/data/pet';
 
 export function useDiaryForm() {
   const [selected, setSelected] = useState<Date | undefined>(new Date());
@@ -20,14 +21,33 @@ export function useDiaryForm() {
   const { data: pets = [] } = useGetPets(userId);
   const createMutation = useCreateDiary();
 
+  // default pet
   useEffect(() => {
     if (pets.length > 0) {
       setSelectedPetId(pets[0].petId.toString());
     }
   }, [pets]);
 
-  const selectedPetName =
-    pets.find((opt) => opt.petId.toString() === selectedPetId)?.name || '';
+  // selected pet object
+  const selectedPet = useMemo(
+    () => pets.find((p) => p.petId.toString() === selectedPetId),
+    [pets, selectedPetId],
+  );
+
+  const breedLabel =
+    petBreedData.find((b) => b.value === selectedPet?.breed)?.label || '';
+
+  const sizeLabel =
+    petSizeData.find((s) => s.value === selectedPet?.size)?.label || '';
+
+  const formatAge = (age: number) => {
+    const years = Math.floor(age / 12);
+    const months = age % 12;
+    return `${years}년 ${months}개월`;
+  };
+  const selectedPetName = selectedPet?.name || '';
+  const selectedPetAge = selectedPet?.age ? Number(selectedPet.age) : 0;
+  const selectedPetDays = selectedPet?.days ?? 0;
 
   const handleSubmit = async () => {
     const recordAt = selected ? format(selected, 'yyyy-MM-dd') : '';
@@ -66,7 +86,6 @@ export function useDiaryForm() {
   return {
     selected,
     setSelected,
-    pets,
     selectedPetId,
     setSelectedPetId,
     selectedUnit,
@@ -81,7 +100,13 @@ export function useDiaryForm() {
     setWalkingList,
     feedingList,
     setFeedingList,
+    pets,
     selectedPetName,
+    selectedPetAge,
+    selectedPetDays,
+    breedLabel,
+    sizeLabel,
+    formatAge,
     handleSubmit,
   };
 }

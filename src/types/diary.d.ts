@@ -1,10 +1,3 @@
-type DiaryPet = {
-  petId: number;
-  name: string;
-  breed: string;
-  age: number;
-};
-
 type DiarydPayload = {
   petId: number;
   recordAt: string;

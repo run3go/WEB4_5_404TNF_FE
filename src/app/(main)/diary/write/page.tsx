@@ -36,6 +36,11 @@ export default function DiaryWrite() {
     setFeedingList,
     pets,
     selectedPetName,
+    selectedPetAge,
+    selectedPetDays,
+    breedLabel,
+    sizeLabel,
+    formatAge,
     handleSubmit,
     walkingList,
     setWalkingList,
@@ -84,7 +89,14 @@ export default function DiaryWrite() {
               <Image src={diary} alt="오늘의 멍멍일지를 적어보아요!" />
               <Calendar selected={selected} setSelected={setSelected} />
             </div>
-            <DiaryProfile />
+            <DiaryProfile
+              name={selectedPetName}
+              age={selectedPetAge}
+              days={selectedPetDays}
+              breedLabel={breedLabel}
+              sizeLabel={sizeLabel}
+              formatAge={formatAge}
+            />
             <DiaryCard className="w-full sm:h-[205px]" title="오늘의 건강기록">
               <SingleInput
                 title="몸무게"
