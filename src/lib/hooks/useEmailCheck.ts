@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import {
   checkEmailDuplicate,
   sendEmailVerification,
@@ -7,91 +8,82 @@ import {
 
 export const useEmailCheck = () => {
   const [emailState, setEmailState] = useState({
-    checkedEmail: '',
     duplicateError: '',
     verificationError: '',
     isEmailVerified: false,
   });
 
-  const resetVerificationError = () => {
-    setEmailState((prev) => ({ ...prev, verificationError: '' }));
-  };
-
-  const checkDuplicate = async (email: string) => {
-    try {
-      await checkEmailDuplicate(email);
+  const checkDuplicateMutation = useMutation({
+    mutationFn: checkEmailDuplicate,
+    onSuccess: () => {
       setEmailState((prev) => ({
         ...prev,
         duplicateError: '',
       }));
-      return true;
-    } catch (err) {
+    },
+    onError: (error: Error) => {
       setEmailState((prev) => ({
         ...prev,
         duplicateError:
-          err instanceof Error
-            ? err.message
-            : '이메일 중복 확인 중 오류가 발생했습니다.',
+          error.message || '이메일 중복 확인 중 오류가 발생했습니다.',
       }));
-      return false;
-    }
-  };
+    },
+  });
 
-  const sendVerificationCode = async (email: string) => {
-    try {
-      await sendEmailVerification(email);
-      return true;
-    } catch (err) {
+  const sendVerificationCodeMutation = useMutation({
+    mutationFn: sendEmailVerification,
+    onError: (error: Error) => {
       setEmailState((prev) => ({
         ...prev,
         verificationError:
-          err instanceof Error
-            ? err.message
-            : '인증코드 전송 중 오류가 발생했습니다.',
+          error.message || '인증코드 전송 중 오류가 발생했습니다.',
       }));
-      return false;
-    }
-  };
+    },
+  });
 
-  const verifyCode = async (email: string, code: string) => {
-    try {
-      await verifyEmailCode(email, code);
+  const verifyCodeMutation = useMutation({
+    mutationFn: ({ email, code }: { email: string; code: string }) =>
+      verifyEmailCode(email, code),
+    onSuccess: () => {
       setEmailState((prev) => ({
         ...prev,
         isEmailVerified: true,
-        checkedEmail: email,
+        verificationError: '',
       }));
-      return true;
-    } catch (err) {
+    },
+    onError: (error: Error) => {
       const message =
-        err instanceof Error
-          ? err.message
-          : '이메일 인증코드 확인 중 오류가 발생했습니다.';
+        error.message === '이메일 인증에 실패하였습니다.'
+          ? '이메일 인증코드가 일치하지 않습니다.'
+          : error.message || '이메일 인증코드 확인 중 오류가 발생했습니다.';
+
       setEmailState((prev) => ({
         ...prev,
-        verificationError:
-          message === '이메일 인증에 실패하였습니다.'
-            ? '이메일 인증코드가 일치하지 않습니다.'
-            : message,
+        verificationError: message,
       }));
-      return false;
-    }
-  };
+    },
+  });
 
   const resetEmailState = () => {
     setEmailState({
-      checkedEmail: '',
       duplicateError: '',
       verificationError: '',
       isEmailVerified: false,
     });
   };
 
+  const resetVerificationError = () => {
+    setEmailState((prev) => ({
+      ...prev,
+      verificationError: '',
+    }));
+  };
+
   return {
     emailState,
-    checkDuplicate,
-    sendVerificationCode,
-    verifyCode,
+    checkDuplicateMutation,
+    sendVerificationCodeMutation,
+    verifyCodeMutation,
     resetEmailState,
     resetVerificationError,
   };

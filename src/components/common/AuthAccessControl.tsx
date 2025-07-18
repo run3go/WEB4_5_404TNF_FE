@@ -13,7 +13,7 @@ export default function AuthAccessControl({
   const router = useRouter();
   const pathname = usePathname();
   const [userId, setUserId] = useState<string | null>(null);
-  const [checked, setChecked] = useState(false);
+  const [isGetUserId, setIsGetUserId] = useState(false);
 
   const isRoot = pathname === '/';
   const publicPaths = ['/post', '/guide', '/signup', '/terms', '/login'];
@@ -23,16 +23,16 @@ export default function AuthAccessControl({
   useEffect(() => {
     const storedUserId = sessionStorage.getItem('userId');
     setUserId(storedUserId);
-    setChecked(true);
+    setIsGetUserId(true);
   }, []);
 
   useEffect(() => {
-    if (checked && !userId && !isLogin && !isPublic) {
+    if (isGetUserId && !userId && !isLogin && !isPublic) {
       router.replace('/login');
     }
-  }, [checked, userId, isLogin, isPublic, router]);
+  }, [isGetUserId, userId, isLogin, isPublic, router]);
 
-  if (!checked) return null;
+  if (!isGetUserId) return null;
 
   if (!isLogin && !isPublic) return null;
 

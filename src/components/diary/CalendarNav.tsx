@@ -9,7 +9,7 @@ export default function CalendarNav(
 ) {
   return (
     <div className="flex">
-      <button onClick={props.onPreviousClick}>
+      <button type="button" onClick={props.onPreviousClick}>
         <Icon
           className="absolute top-[12px] left-[25%] cursor-pointer"
           width="6px"
@@ -18,7 +18,7 @@ export default function CalendarNav(
           top="-210px"
         />
       </button>
-      <button onClick={props.onNextClick}>
+      <button type="button" onClick={props.onNextClick}>
         <Icon
           className="absolute top-[12px] right-[28%] cursor-pointer"
           width="6px"

@@ -3,43 +3,31 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 type ProfileStore = {
-  isEditingPetProfile: boolean;
-  isEditingUserProfile: boolean;
-  petProfiles: PetProfile[];
-  selectedProfile: PetProfile | null;
+  isEditingPet: boolean;
+  isEditingUser: boolean;
+  selectedPet: number | null;
   toggleEditingPetProfile: () => void;
   toggleEditingUserProfile: () => void;
-  setPetProfiles: (data: PetProfile[]) => void;
-  addPetProfile: (newProfile: PetProfile) => void;
-  selectProfile: (profile: PetProfile | null) => void;
+  selectPet: (petId: number | null) => void;
 };
 
 export const useProfileStore = create<ProfileStore>()(
   devtools(
     immer((set) => ({
-      isEditingPetProfile: false,
-      isEditingUserProfile: false,
-      selectedProfile: null,
-      petProfiles: [],
+      isEditingPet: false,
+      isEditingUser: false,
+      selectedPet: null,
       toggleEditingPetProfile: () =>
         set((state) => {
-          state.isEditingPetProfile = !state.isEditingPetProfile;
+          state.isEditingPet = !state.isEditingPet;
         }),
       toggleEditingUserProfile: () =>
         set((state) => {
-          state.isEditingUserProfile = !state.isEditingUserProfile;
+          state.isEditingUser = !state.isEditingUser;
         }),
-      setPetProfiles: (data) =>
+      selectPet: (petId) =>
         set((state) => {
-          state.petProfiles = data;
-        }),
-      addPetProfile: (newProfile) =>
-        set((state) => {
-          state.petProfiles.push(newProfile);
-        }),
-      selectProfile: (profile) =>
-        set((state) => {
-          state.selectedProfile = profile;
+          state.selectedPet = petId;
         }),
     })),
   ),

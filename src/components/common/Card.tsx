@@ -1,13 +1,16 @@
+import { RefObject } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export default function Card({
   children,
   className,
   onClick,
+  ref,
 }: {
   children: React.ReactNode;
   className: string;
   onClick?: () => void;
+  ref?: RefObject<HTMLDivElement | null>;
 }) {
   return (
     <>
@@ -17,6 +20,7 @@ export default function Card({
           className,
         )}
         onClick={onClick}
+        ref={ref}
       >
         {children}
       </div>

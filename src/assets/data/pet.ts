@@ -43,3 +43,34 @@ export const petNeutering = [
   { value: 'true', label: '했어요' },
   { value: 'false', label: '안했어요' },
 ];
+
+export const vaccineArr = [
+  'DHPPL',
+  'CORONAVIRUS',
+  'KENNEL_COUGH',
+  'INFLUENZA',
+  'RABIES',
+];
+
+export const vaccineInfo = {
+  DHPPL: {
+    additional: 5,
+    booster: 5,
+  },
+  CORONAVIRUS: {
+    additional: 2,
+    booster: 2,
+  },
+  KENNEL_COUGH: {
+    additional: 2,
+    booster: 2,
+  },
+  RABIES: {
+    additional: 2,
+    booster: 2,
+  },
+  INFLUENZA: {
+    additional: 1,
+    booster: 1,
+  },
+};

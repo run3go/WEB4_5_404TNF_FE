@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function LoginForm() {
-  const route = useRouter();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -43,7 +43,7 @@ export default function LoginForm() {
       setLogin(userInfo);
       sessionStorage.setItem('userId', user.userId);
 
-      route.push('/');
+      router.push('/');
     } catch (err) {
       setError(
         err instanceof Error ? err.message : '로그인 중 오류가 발생했습니다.',
@@ -105,7 +105,7 @@ export default function LoginForm() {
           <p>계졍이 없으신가요? </p>
           <p
             className="cursor-pointer border-b text-[#FF9526]"
-            onClick={() => route.push('signup')}
+            onClick={() => router.push('/terms')}
           >
             회원가입
           </p>

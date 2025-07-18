@@ -29,6 +29,7 @@ export default function InputField({
         type={type}
         placeholder={placeholder}
         autoComplete="off"
+        step={0.1}
         {...register(id)}
       />
       {id === 'weight' && 'kg'}
