@@ -62,14 +62,19 @@ export default function AddSchedule({
   // 수정하기 / 저장하기 클릭 시
   const handleSubmit = () => {
     // 필수값들 확인 후 alert
+    if (name.length === 0) {
+      alert('일정을 입력해주세요.');
+      return;
+    }
+
     if (!date) {
-      alert('날짜를 입력하세요.');
+      alert('날짜를 입력해주세요.');
       return;
     }
 
     if (cycle !== 'NONE') {
       if (!cycleEnd) {
-        alert('반복 종료일을 입력하세요');
+        alert('반복 종료일을 입력해주세요');
         return;
       }
 
@@ -123,11 +128,14 @@ export default function AddSchedule({
       />
       <div className="absolute top-1/2 left-1/2 z-501 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
           className="relative flex h-full flex-col gap-4 text-sm leading-[1.2] sm:gap-7 sm:text-base"
         >
           <div className="mb-1 flex w-full items-center justify-between">
-            <h2 className="text-base font-extrabold">
+            <h2 className="cursor-default text-base font-extrabold">
               {isEdit ? '일정 수정' : '일정 추가'}
             </h2>
             <Icon
@@ -150,10 +158,13 @@ export default function AddSchedule({
               value={name}
               onChange={(e) => setName(e.target.value)}
               maxLength={20}
+              id="todo"
             />
           </div>
           <div className="flex">
-            <span className="inline-block w-[57px] sm:w-20">날짜</span>
+            <span className="inline-block w-[57px] cursor-default sm:w-20">
+              날짜
+            </span>
             <DateInput
               selected={date}
               setSelected={setDate}
@@ -169,17 +180,22 @@ export default function AddSchedule({
             /> */}
           </div>
           <div className="flex items-center">
-            <span className="inline-block w-[57px] sm:w-20">강아지</span>
+            <span className="inline-block w-[57px] cursor-default sm:w-20">
+              강아지
+            </span>
             <SelectBox
               options={petOptions || []}
-              width="90px"
+              width="125px"
               footstep
               value={petId}
               setValue={setPetId}
+              type="schedule"
             />
           </div>
           <div className="flex items-center">
-            <span className="inline-block w-[57px] sm:w-20">반복</span>
+            <span className="inline-block w-[57px] cursor-default sm:w-20">
+              반복
+            </span>
             <SelectBox
               options={cycles}
               width="80px"
@@ -225,7 +241,8 @@ export default function AddSchedule({
             </div>
           )}
           <Button
-            onClick={handleSubmit}
+            // onClick={handleSubmit}
+            type="submit"
             className="absolute bottom-0 h-10 w-25 self-center text-sm"
           >
             {isEdit ? '수정하기' : '저장하기'}

@@ -44,7 +44,7 @@ export default function CustomCalendar() {
   );
 
   return (
-    <div className="hidden w-full flex-col items-center sm:flex">
+    <div className="hidden w-full min-w-[1040px] flex-col items-center overflow-auto sm:flex">
       <div className="mb-8 flex items-center gap-14">
         <Icon
           onClick={goToPrevMonth}
@@ -54,7 +54,10 @@ export default function CustomCalendar() {
           left="-108px"
           top="-122px"
         />
-        <span className="text-[24px] leading-[1.2]">{currentMonth + 1}월</span>
+        <div className="flex gap-2 text-[24px] leading-[1.2]">
+          <span>{currentYear}년</span>
+          <span>{currentMonth + 1}월</span>
+        </div>
         <Icon
           onClick={goToNextMonth}
           className="cursor-pointer"
