@@ -6,22 +6,30 @@ import { useNicknameCheck } from '@/lib/hooks/useNicknameCheck';
 
 export default function NicknameInputSection({
   onNicknameVerified,
+  onNicknameChange,
 }: {
   onNicknameVerified: (nickname: string) => void;
+  onNicknameChange: () => void;
 }) {
   const [nickname, setNickname] = useState('');
   const [error, setError] = useState('');
   const [touched, setTouched] = useState(false);
 
-  const { nicknameState, isNicknameDuplicate, resetNickNameState } =
-    useNicknameCheck();
+  const {
+    duplicateError,
+    isNicknameChecked,
+    checkDuplicateMutation,
+    resetNickNameState,
+  } = useNicknameCheck();
 
   const handleChange = (value: string) => {
     setNickname(value);
     setError(validateNickname(value));
     resetNickNameState();
     setTouched(true);
+    onNicknameChange();
   };
+
   const handleDuplicationCheck = async () => {
     const validationError = validateNickname(nickname);
     if (validationError) {
@@ -29,10 +37,11 @@ export default function NicknameInputSection({
       return;
     }
 
-    const success = await isNicknameDuplicate(nickname);
-    if (success) {
-      onNicknameVerified(nickname);
-    }
+    checkDuplicateMutation.mutate(nickname, {
+      onSuccess: () => {
+        onNicknameVerified(nickname);
+      },
+    });
   };
 
   return (
@@ -64,10 +73,10 @@ export default function NicknameInputSection({
         }}
       />
       {touched && error && <p className="auth__error">{error}</p>}
-      {nicknameState.duplicateError && (
-        <p className="auth__error">{nicknameState.duplicateError}</p>
+      {isNicknameChecked && duplicateError && (
+        <p className="auth__error">{duplicateError}</p>
       )}
-      {nicknameState.checkedNickname === nickname && nickname && (
+      {isNicknameChecked && !duplicateError && (
         <p className="auth__success">사용 가능한 닉네임입니다.</p>
       )}
     </div>
