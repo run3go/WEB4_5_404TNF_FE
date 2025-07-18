@@ -8,9 +8,6 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/authStoe';
 import { logout } from '@/api/auth';
 import AuthProvider from '@/provider/AuthProvider';
-{
-  /* 156,122 */
-}
 
 export default function Sidebar() {
   const pathname = usePathname();
