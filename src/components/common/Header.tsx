@@ -25,7 +25,11 @@ export default function Header() {
     const storedUserId = sessionStorage.getItem('userId');
     setUserId(storedUserId);
     setIsLoading(true);
-  }, []);
+
+    if (isLogin) {
+      setUserId(null);
+    }
+  }, [isLogin]);
 
   if (!isLoading) {
     return null;

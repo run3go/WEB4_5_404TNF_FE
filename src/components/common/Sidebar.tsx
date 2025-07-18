@@ -20,6 +20,8 @@ export default function Sidebar() {
   const handleLogout = async () => {
     try {
       await logout();
+      setUserId(null);
+      setRole(null);
       sessionStorage.removeItem('userId');
       sessionStorage.removeItem('role');
       setLogout();
