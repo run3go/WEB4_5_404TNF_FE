@@ -21,8 +21,8 @@ export default function VaccineInput({
 
   const types = [
     { value: 'FIRST', label: '기초' },
-    { value: 'BOOSTER', label: '보강' },
     { value: 'ADDITIONAL', label: '추가' },
+    { value: 'BOOSTER', label: '보강' },
   ];
 
   const infoRef = useRef<HTMLDivElement>(null);

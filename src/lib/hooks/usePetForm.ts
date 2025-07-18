@@ -25,7 +25,7 @@ export const usePetForm = (profile: PetProfile | undefined) => {
       : {
           image: null,
           name: '',
-          breed: 'BEAGLE',
+          breed: 'GREAT_DANE',
           metday: formatDate(new Date(), 'yyyy-MM-dd'),
           birthday: formatDate(new Date(), 'yyyy-MM-dd'),
           size: undefined,
