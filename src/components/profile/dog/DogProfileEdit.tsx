@@ -19,6 +19,7 @@ import { petProfileSchema } from '@/lib/utils/petProfile.schema';
 import { useAuthStore } from '@/stores/authStoe';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
+import { formatDate } from 'date-fns';
 import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
 import DateField from '../DateField';
@@ -56,8 +57,8 @@ export default function DogProfileEdit({
           image: null,
           name: '',
           breed: 'BEAGLE',
-          metday: undefined,
-          birthday: undefined,
+          metday: formatDate(new Date(), 'yyyy-MM-dd'),
+          birthday: formatDate(new Date(), 'yyyy-MM-dd'),
           size: undefined,
           isNeutered: undefined,
           sex: undefined,
