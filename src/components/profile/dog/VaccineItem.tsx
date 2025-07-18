@@ -11,8 +11,8 @@ export default function VaccineItem({
     ? vaccine.vaccineType === 'FIRST'
       ? '기초'
       : vaccine.vaccineType === 'ADDITIONAL'
-        ? '추가'
-        : '보강'
+        ? '보강'
+        : '추가'
     : '-';
   const vaccineAt =
     vaccine && formatDate(new Date(vaccine.vaccineAt), 'yyyy. MM. dd');

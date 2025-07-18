@@ -4,6 +4,7 @@ import SelectBox from '@/components/common/SelectBox';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useMediaQuery } from 'react-responsive';
+import { twMerge } from 'tailwind-merge';
 import VaccineInfo from './VaccineInfo';
 
 export default function VaccineInput({
@@ -17,16 +18,22 @@ export default function VaccineInput({
     query: '(max-width: 767px)',
   });
 
-  const { control, register } = useFormContext();
+  const { control, register, watch, setValue } = useFormContext();
 
   const types = [
     { value: 'FIRST', label: '기초' },
-    { value: 'ADDITIONAL', label: '추가' },
-    { value: 'BOOSTER', label: '보강' },
+    { value: 'BOOSTER', label: '추가' },
+    { value: 'ADDITIONAL', label: '보강' },
   ];
 
   const infoRef = useRef<HTMLDivElement>(null);
   const [isVaccineInfoOepn, setIsVaccineInfoOepn] = useState(false);
+
+  const watchedType = watch(`${eng}.vaccineType`);
+
+  if (watchedType === 'FIRST') {
+    setValue(`${eng}.count`, 1);
+  }
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -93,6 +100,7 @@ export default function VaccineInput({
             placeholder="차수"
             onInput={(e) => {
               const target = e.target as HTMLInputElement;
+              target.value = target.value.replace(/[^0-9]/g, '');
               if (target.value.length > 1) {
                 target.value = target.value.slice(0, 1);
               }
@@ -159,11 +167,16 @@ export default function VaccineInput({
         </div>
         <div className="flex basis-2/11 items-center pr-3">
           <input
-            className="profile-input-style mr-4 w-full text-center"
+            className={twMerge(
+              'profile-input-style mr-4 w-full text-center',
+              watchedType === 'FIRST' && 'border-none focus:outline-0',
+            )}
             type="number"
             placeholder="차수"
+            readOnly={watchedType === 'FIRST'}
             onInput={(e) => {
               const target = e.target as HTMLInputElement;
+              target.value = target.value.replace(/[^0-9]/g, '');
               if (target.value.length > 1) {
                 target.value = target.value.slice(0, 1);
               }

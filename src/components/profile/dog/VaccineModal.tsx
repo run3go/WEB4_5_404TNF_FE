@@ -101,7 +101,7 @@ export default function VaccineModal({
                     disabled={isPending}
                     type="submit"
                   >
-                    {isPending ? '저장 중...' : isError ? '저장 실패' : '저장'}
+                    {isPending ? '저장 중...' : isError ? '재시도' : '저장'}
                   </button>
                   {!isPending && (
                     <button

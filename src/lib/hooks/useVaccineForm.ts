@@ -36,19 +36,19 @@ export const useVaccineForm = (vaccineData: Vaccination[] | undefined) => {
     );
     methods.setValue(
       'CORONAVIRUS',
-      data.find((d) => d.vaccine.name === 'DHPPL') ?? info,
+      data.find((d) => d.vaccine.name === 'CORONAVIRUS') ?? info,
     );
     methods.setValue(
       'KENNEL_COUGH',
-      data.find((d) => d.vaccine.name === 'DHPPL') ?? info,
+      data.find((d) => d.vaccine.name === 'KENNEL_COUGH') ?? info,
     );
     methods.setValue(
       'INFLUENZA',
-      data.find((d) => d.vaccine.name === 'DHPPL') ?? info,
+      data.find((d) => d.vaccine.name === 'INFLUENZA') ?? info,
     );
     methods.setValue(
       'RABIES',
-      data.find((d) => d.vaccine.name === 'DHPPL') ?? info,
+      data.find((d) => d.vaccine.name === 'RABIES') ?? info,
     );
   };
 
@@ -68,6 +68,9 @@ export const useVaccineMutation = (petId: number, onClose: () => void) => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['vaccine', petId] });
       onClose();
+    },
+    onError: (err) => {
+      console.log(err);
     },
   });
 };
