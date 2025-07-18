@@ -9,13 +9,14 @@ export default function AuthAccessControl({
 }: {
   children: React.ReactNode;
 }) {
-  const isLogin = useAuthStore((state) => state.isLogin);
+  const { isLogin, userInfo } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
   const [userId, setUserId] = useState<string | null>(null);
-  const [checked, setChecked] = useState(false);
+  const [isGetUserId, setIsGetUserId] = useState(false);
 
   const isRoot = pathname === '/';
+  const isAdminPage = pathname.startsWith('/admin');
   const publicPaths = [
     '/post',
     '/guide',
@@ -30,16 +31,38 @@ export default function AuthAccessControl({
   useEffect(() => {
     const storedUserId = sessionStorage.getItem('userId');
     setUserId(storedUserId);
-    setChecked(true);
+    setIsGetUserId(true);
   }, []);
 
   useEffect(() => {
-    if (checked && !userId && !isLogin && !isPublic) {
+    if (isGetUserId && !userId && !isLogin && isAdminPage) {
+      router.replace('/mungdogdiarymung');
+      return;
+    }
+
+    if (isGetUserId && !userId && !isLogin && !isPublic) {
       router.replace('/login');
     }
-  }, [checked, userId, isLogin, isPublic, router]);
 
-  if (!checked) return null;
+    if (isAdminPage) {
+      if (!userInfo?.role) return;
+
+      if (userInfo?.role !== 'ROLE_ADMIN') {
+        router.replace('/not-found');
+        return;
+      }
+    }
+  }, [
+    isGetUserId,
+    userId,
+    isLogin,
+    isPublic,
+    router,
+    isAdminPage,
+    userInfo?.role,
+  ]);
+
+  if (!isGetUserId) return null;
 
   if (!isLogin && !isPublic) return null;
 
