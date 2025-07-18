@@ -5,7 +5,7 @@ type DiaryPet = {
   age: number;
 };
 
-type LifeRecordPayload = {
+type DiarydPayload = {
   petId: number;
   recordAt: string;
   content: string;

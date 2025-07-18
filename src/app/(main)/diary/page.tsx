@@ -14,18 +14,11 @@ export default function Diary() {
   const [pets, setPets] = useState<DiaryPet[]>([]);
   const [selectedPetId, setSelectedPetId] = useState<string>('all');
 
-  const petOptions: Option[] = [
-    { value: 'all', label: '모든 강아지' },
-    ...pets.map((pet) => ({
-      value: pet.petId.toString(),
-      label: pet.name,
-    })),
-  ];
   useEffect(() => {
     const fetchPets = async () => {
       try {
         // test userId
-        const res = await getPetsByUserId(10004);
+        const res = await getPetsByUserId(10002);
         setPets(res);
       } catch (err) {
         console.error(err);
@@ -34,6 +27,14 @@ export default function Diary() {
 
     fetchPets();
   }, []);
+
+  const petOptions: Option[] = [
+    { value: 'all', label: '모든 강아지' },
+    ...pets.map((pet) => ({
+      value: pet.petId.toString(),
+      label: pet.name,
+    })),
+  ];
 
   return (
     <main className="flex h-full flex-col items-center p-6 sm:block sm:p-0 sm:px-12 sm:py-7">

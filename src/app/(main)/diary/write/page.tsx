@@ -11,7 +11,7 @@ import DiaryProfile from '@/components/diary/DiaryProfile';
 import MobileTitle from '@/components/common/MobileTitle';
 import Image from 'next/image';
 import DiaryCard from '@/components/diary/DiaryCard';
-import { useDiaryForm } from '@/lib/hooks/useDiaryForm';
+import { useDiaryForm } from '@/lib/hooks/diary/useDiaryForm';
 
 const feedUnitOptions = [
   { label: 'g', value: 'GRAM' },
@@ -71,7 +71,7 @@ export default function DiaryWrite() {
             />
           </div>
           <button
-            className="hidden w-[115px] cursor-pointer rounded-xl bg-[var(--color-primary-500)] text-base sm:block"
+            className="hidden w-[115px] cursor-pointer rounded-xl bg-[var(--color-primary-200)] text-base hover:bg-[var(--color-primary-500)] sm:block"
             onClick={handleSubmit}
           >
             저장하기
