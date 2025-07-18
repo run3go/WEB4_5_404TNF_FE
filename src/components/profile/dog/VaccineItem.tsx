@@ -12,7 +12,7 @@ export default function VaccineItem({
       ? '기초'
       : vaccine.vaccineType === 'ADDITIONAL'
         ? '추가'
-        : '보충'
+        : '보강'
     : '-';
   const vaccineAt =
     vaccine && formatDate(new Date(vaccine.vaccineAt), 'yyyy. MM. dd');

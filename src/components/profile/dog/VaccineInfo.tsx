@@ -28,7 +28,7 @@ export default function VaccineInfo({
           </span>
         </li>
         <li className="flex flex-col items-center gap-1">
-          <span>보충 접종까지</span>
+          <span>보강 접종까지</span>
           <span className="font-semibold text-[var(--color-primary-500)]">
             {vaccineInfo[eng].booster}+n회
           </span>
