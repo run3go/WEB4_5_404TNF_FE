@@ -12,7 +12,12 @@ export default function AuthAccessControl({
   const { isLogin, userInfo } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
+<<<<<<< HEAD
   const [isLoading, setIsLoading] = useState(false);
+=======
+  const [userId, setUserId] = useState<string | null>(null);
+  const [isGetUserId, setIsGetUserId] = useState(false);
+>>>>>>> dev
 
   const isRoot = pathname === '/';
   const isAdminPage = pathname.startsWith('/admin');
