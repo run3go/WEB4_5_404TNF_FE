@@ -11,11 +11,17 @@ export default function DateInput({
   disableFuture = false,
   selected,
   setSelected,
+  showAllDate = false,
+  placeholder = '전체 날짜',
+  placeholderClassName = '',
 }: {
   className: string;
   disableFuture?: boolean;
   selected: Date | undefined;
   setSelected: (value: Date) => void;
+  showAllDate?: boolean;
+  placeholder?: string;
+  placeholderClassName?: string;
 }) {
   const [isDateInputOpen, setIsDateInputOpen] = useState(false);
   const inputRef = useRef<HTMLDivElement>(null);
@@ -48,9 +54,13 @@ export default function DateInput({
         )}
         onClick={() => setIsDateInputOpen(true)}
       >
-        {selected
-          ? formatDate(selected, 'yyyy. MM. dd')
-          : formatDate(today, 'yyyy. MM. dd')}
+        {selected ? (
+          formatDate(selected, 'yyyy. MM. dd')
+        ) : showAllDate ? (
+          <span className={placeholderClassName}>{placeholder}</span>
+        ) : (
+          formatDate(today, 'yyyy. MM. dd')
+        )}
         <Icon
           className="scale-90"
           width="20px"

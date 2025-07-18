@@ -1,38 +1,33 @@
-import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { checkNicknameDuplicate } from '@/api/auth';
+import { useState } from 'react';
 
 export const useNicknameCheck = () => {
-  const [nicknameState, setNicknameState] = useState({
-    checkedNickname: '',
-    duplicateError: '',
-    isNicknameChecked: false,
+  const [duplicateError, setDuplicateError] = useState('');
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+
+  const checkDuplicateMutation = useMutation({
+    mutationFn: checkNicknameDuplicate,
+    onSuccess: () => {
+      setIsNicknameChecked(true);
+
+      setDuplicateError('');
+    },
+    onError: (error: Error) => {
+      setIsNicknameChecked(true);
+      setDuplicateError(error.message || '중복 확인 실패');
+    },
   });
 
-  const isNicknameDuplicate = async (nickname: string) => {
-    try {
-      await checkNicknameDuplicate(nickname);
-      setNicknameState({
-        checkedNickname: nickname,
-        duplicateError: '',
-        isNicknameChecked: true,
-      });
-      return true;
-    } catch (err) {
-      setNicknameState((prev) => ({
-        ...prev,
-        duplicateError: err instanceof Error ? err.message : '중복 확인 실패',
-      }));
-      return false;
-    }
-  };
-
   const resetNickNameState = () => {
-    setNicknameState({
-      checkedNickname: '',
-      duplicateError: '',
-      isNicknameChecked: false,
-    });
+    setDuplicateError('');
+    setIsNicknameChecked(false);
   };
 
-  return { nicknameState, isNicknameDuplicate, resetNickNameState };
+  return {
+    duplicateError,
+    isNicknameChecked,
+    checkDuplicateMutation,
+    resetNickNameState,
+  };
 };

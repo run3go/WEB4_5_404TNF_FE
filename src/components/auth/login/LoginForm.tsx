@@ -117,7 +117,7 @@ export default function LoginForm() {
           <p>계졍이 없으신가요? </p>
           <p
             className="cursor-pointer border-b text-[#FF9526]"
-            onClick={() => router.push('signup')}
+            onClick={() => router.push('/terms')}
           >
             회원가입
           </p>
