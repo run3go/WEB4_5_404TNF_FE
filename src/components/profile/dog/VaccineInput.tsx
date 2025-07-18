@@ -95,9 +95,13 @@ export default function VaccineInput({
         </div>
         <div className="flex basis-2/11 items-center px-2">
           <input
-            className="w-full text-center leading-[1.2]"
+            className={twMerge(
+              'w-full text-center leading-[1.2]',
+              watchedType === 'FIRST' && 'focus:outline-0',
+            )}
             type="number"
             placeholder="차수"
+            readOnly={watchedType === 'FIRST'}
             onInput={(e) => {
               const target = e.target as HTMLInputElement;
               target.value = target.value.replace(/[^0-9]/g, '');
