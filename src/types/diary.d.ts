@@ -30,3 +30,20 @@ type FeedEntry = {
   minute: string;
   unit: string;
 };
+
+type DiaryCheckResponse = {
+  lifeRecordId: number;
+  content: string;
+  sleepTime: number;
+  weight: number;
+  feedingList: {
+    amount: number;
+    mealtime: string;
+    unit: string;
+  }[];
+  walkingList: {
+    startTime: string;
+    endTime: string;
+    pace: number;
+  }[];
+};

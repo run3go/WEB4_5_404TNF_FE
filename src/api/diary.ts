@@ -1,6 +1,6 @@
 // get pet list
 export const getPetsByUserId = async (userId: number) => {
-  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/profile/v1/pet/${userId}`;
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/profile/v1/users/${userId}/pet`;
   console.log(url);
 
   try {
@@ -11,9 +11,10 @@ export const getPetsByUserId = async (userId: number) => {
     });
 
     const data = await res.json();
+    console.log('getPetsByUserId: ', data);
     return data;
   } catch (err) {
-    console.error(err);
+    console.error('getPetsByUserId error:', err);
     return [];
   }
 };
@@ -34,8 +35,71 @@ export const createDiary = async (body: DiarydPayload) => {
     );
 
     const data = await res.json();
+    console.log('createDiary: ', data);
     return data;
   } catch (err) {
-    console.error(err);
+    console.error('createDiary error:', err);
+  }
+};
+
+// check diary
+export const checkDiary = async (petId: number, date: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/life-record/v2/pets/${petId}/check?date=${date}`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      },
+    );
+
+    const contentType = res.headers.get('content-type');
+
+    if (!res.ok) throw new Error('기록 확인 실패');
+
+    if (contentType?.includes('application/json')) {
+      const { data } = await res.json();
+      console.log('res: ', data);
+      return data;
+    } else {
+      const text = await res.text();
+      console.log('res: ', text);
+      return null;
+    }
+  } catch (err) {
+    console.error('checkDiary error:', err);
+    return null;
+  }
+};
+
+// update diary
+export const updateDiary = async (
+  lifeRecordId: number,
+  data: DiarydPayload,
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/life-record/v2/${lifeRecordId}/update`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ ...data, lifeRecordId }),
+      },
+    );
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error('PATCH error:', errText);
+      throw new Error('Update failed');
+    }
+
+    return await res.json();
+  } catch (err) {
+    console.error('updateDiary error', err);
+    throw err;
   }
 };

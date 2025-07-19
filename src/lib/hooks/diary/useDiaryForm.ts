@@ -3,6 +3,8 @@ import { format } from 'date-fns';
 import { useCreateDiary } from './useCreateDiary';
 import { useGetPets } from './useGetPets';
 import { petBreedData, petSizeData } from '@/assets/data/pet';
+import { useCheckDiary } from './useCheckDiary';
+import { useUpdateDiary } from './useUpdateDiary';
 
 export function useDiaryForm() {
   const [selected, setSelected] = useState<Date | undefined>(new Date());
@@ -20,6 +22,7 @@ export function useDiaryForm() {
   const userId = Number(sessionStorage.getItem('userId')) || null;
   const { data: pets = [] } = useGetPets(userId);
   const createMutation = useCreateDiary();
+  const updateMutation = useUpdateDiary();
 
   // default pet
   useEffect(() => {
@@ -49,38 +52,123 @@ export function useDiaryForm() {
   const selectedPetAge = selectedPet?.age ? Number(selectedPet.age) : 0;
   const selectedPetDays = selectedPet?.days ?? 0;
 
+  // check diary
+  const recordAt = selected ? format(selected, 'yyyy-MM-dd') : '';
+  const numericPetId = Number(selectedPetId);
+  const { data: diaryData, isSuccess: hasDiary } = useCheckDiary(
+    numericPetId,
+    recordAt,
+    !!(numericPetId && recordAt),
+  );
+
+  useEffect(() => {
+    if (hasDiary && diaryData) {
+      setNote(diaryData.content || '');
+      setWeight(diaryData.weight?.toString() || '');
+      setSleepTime(diaryData.sleepTime?.toString() || '');
+
+      setFeedingList(
+        diaryData.feedingList.map((f) => {
+          const time = new Date(f.mealtime);
+          return {
+            hour: time.getHours().toString().padStart(2, '0'),
+            minute: time.getMinutes().toString().padStart(2, '0'),
+            amount: f.amount.toString(),
+            unit: f.unit,
+          };
+        }),
+      );
+
+      setWalkingList(
+        diaryData.walkingList.map((w) => {
+          const start = new Date(w.startTime);
+          const end = new Date(w.endTime);
+          return {
+            startHour: start.getHours().toString().padStart(2, '0'),
+            startMinute: start.getMinutes().toString().padStart(2, '0'),
+            endHour: end.getHours().toString().padStart(2, '0'),
+            endMinute: end.getMinutes().toString().padStart(2, '0'),
+            pace: w.pace.toString(),
+          };
+        }),
+      );
+    } else {
+      // reset
+      setNote('');
+      setWeight('');
+      setSleepTime('');
+      setFeedingList([{ hour: '', minute: '', amount: '', unit: 'GRAM' }]);
+      setWalkingList([
+        {
+          startHour: '',
+          startMinute: '',
+          endHour: '',
+          endMinute: '',
+          pace: '1',
+        },
+      ]);
+    }
+  }, [diaryData, hasDiary]);
+
   const handleSubmit = async () => {
-    const recordAt = selected ? format(selected, 'yyyy-MM-dd') : '';
     const body = {
-      petId: Number(selectedPetId),
+      petId: numericPetId,
       recordAt,
       content: note,
       sleepTime: Number(sleepTime),
       weight: Number(weight),
-
       walkingList: walkingList.map((entry) => ({
         startTime: `${recordAt}T${entry.startHour.padStart(2, '0')}:${entry.startMinute.padStart(2, '0')}:00`,
         endTime: `${recordAt}T${entry.endHour.padStart(2, '0')}:${entry.endMinute.padStart(2, '0')}:00`,
         pace: Number(entry.pace),
       })),
-
       feedingList: feedingList.map((entry) => ({
         amount: Number(entry.amount),
         mealtime: `${recordAt}T${entry.hour.padStart(2, '0')}:${entry.minute.padStart(2, '0')}:00`,
         unit: entry.unit,
       })),
     };
-    console.log(body);
-    console.log(JSON.stringify(body, null, 2));
-    createMutation.mutate(body, {
-      onSuccess: (res) => {
-        console.log(res);
-        // detail 페이지로 이동 추가 예정
-      },
-      onError: (err) => {
-        console.error(err);
-      },
-    });
+
+    if (hasDiary && diaryData?.lifeRecordId) {
+      // update (PATCH)
+      console.log(
+        'PATCH Body:',
+        JSON.stringify(
+          { data: { ...body, lifeRecordId: diaryData.lifeRecordId } },
+          null,
+          2,
+        ),
+      );
+
+      updateMutation.mutate(
+        {
+          lifeRecordId: diaryData.lifeRecordId,
+          data: body,
+        },
+        {
+          onSuccess: (res) => {
+            console.log(res);
+            alert('멍멍일지 수정 완료');
+            // move to detail & toast
+          },
+          onError: (err) => {
+            console.error(err);
+          },
+        },
+      );
+    } else {
+      // create (POST)
+      createMutation.mutate(body, {
+        onSuccess: (res) => {
+          console.log(res);
+          alert('멍멍일지 등록 완료');
+          // move to detail & toast
+        },
+        onError: (err) => {
+          console.error(err);
+        },
+      });
+    }
   };
 
   return {
