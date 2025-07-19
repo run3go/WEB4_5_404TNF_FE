@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import TodoList from './TodoList';
 import AddSchedule from './AddSchedule';
+import { Schedule } from '@/types/schedule';
 
 export default function DateItem({
   date,
@@ -16,12 +17,14 @@ export default function DateItem({
   schedules?: Schedule[];
   isToday: boolean;
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<'add' | 'list' | null>(null);
 
   const endOfMonth = getDaysInMonth(targetMonth);
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    // setIsModalOpen(false);
+    setModalType(null);
   };
   return (
     <>
@@ -29,7 +32,12 @@ export default function DateItem({
         key={date}
         onClick={() => {
           if (date > 0 && date <= endOfMonth) {
-            setIsModalOpen(true);
+            if (schedules.length > 0) {
+              setModalType('list');
+            } else {
+              setModalType('add');
+            }
+            // setIsModalOpen(true);
           }
         }}
         className={`h-24 basis-1/7 border-b border-[var(--color-primary-200)] p-3 ${date > 0 && date <= endOfMonth ? 'cursor-pointer transition-colors duration-200 ease-in hover:bg-[var(--color-primary-100)]' : ''}`}
@@ -63,7 +71,33 @@ export default function DateItem({
           </>
         )}
       </div>
-      {isModalOpen &&
+      {modalType === 'add' &&
+        createPortal(
+          <AddSchedule
+            closeModal={closeModal}
+            isStart={true}
+            isEdit={false}
+            fullDate={
+              new Date(targetMonth.getFullYear(), targetMonth.getMonth(), date)
+            }
+          />,
+          document.body,
+        )}
+
+      {modalType === 'list' &&
+        createPortal(
+          <TodoList
+            type="modal"
+            closeModal={closeModal}
+            schedules={schedules}
+            fullDate={
+              new Date(targetMonth.getFullYear(), targetMonth.getMonth(), date)
+            }
+          />,
+          document.body,
+        )}
+
+      {/* {isModalOpen &&
         createPortal(
           schedules.length === 0 ? (
             <AddSchedule
@@ -93,7 +127,7 @@ export default function DateItem({
             />
           ),
           document.body,
-        )}
+        )} */}
     </>
   );
 }

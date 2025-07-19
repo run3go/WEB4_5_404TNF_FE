@@ -11,7 +11,8 @@ import {
 import Icon from '../common/Icon';
 import DateItem from './DateItem';
 import { useState } from 'react';
-import { useSchedules } from '@/lib/hooks/useSchedules';
+import { useGetSchedules } from '@/lib/hooks/schedule/useGetSchedules';
+import { Schedule } from '@/types/schedule';
 
 export default function CustomCalendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -37,7 +38,10 @@ export default function CustomCalendar() {
   };
 
   // 월 바뀔 때마다 api 호출
-  const { data: schedules } = useSchedules('10002', currentDate);
+  const { data: schedules }: { data?: Schedule[] } = useGetSchedules(
+    10014,
+    currentDate,
+  );
 
   return (
     <div className="hidden w-full flex-col items-center sm:flex">

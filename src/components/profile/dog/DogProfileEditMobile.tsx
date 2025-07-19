@@ -1,8 +1,4 @@
-import {
-  deletePetProfile,
-  modifyPetProfile,
-  registPetProfile,
-} from '@/api/pet';
+import { deletePetProfile } from '@/api/pet';
 import {
   petBreedData,
   petNeutering,
@@ -12,16 +8,18 @@ import {
 import dog from '@/assets/images/default-dog-profile.svg';
 import MobileTitle from '@/components/common/MobileTitle';
 import SelectBox from '@/components/common/SelectBox';
+import {
+  useModifyMutation,
+  usePetForm,
+  useRegistMutation,
+} from '@/lib/hooks/usePetForm';
 import { usePetProfile } from '@/lib/hooks/usePetProfiles';
 import { handleError } from '@/lib/utils/handleError';
-import { petProfileSchema } from '@/lib/utils/petProfile.schema';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { formatDate } from 'date-fns';
 import Image from 'next/image';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
@@ -35,37 +33,17 @@ export default function DogProfileEditMobile() {
   );
 
   const { data: profile } = usePetProfile(selectedPet ?? 0);
-  const queryClient = useQueryClient();
+  const { handleSubmit, register, watch, control } = usePetForm(profile);
 
-  const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
-    resolver: zodResolver(petProfileSchema),
-    defaultValues: profile
-      ? {
-          image: null,
-          name: profile.name,
-          breed: profile.breed,
-          metday: profile.metday,
-          birthday: profile.birthday,
-          size: profile.size,
-          isNeutered: profile.isNeutered ? 'true' : 'false',
-          sex: profile.sex ? 'true' : 'false',
-          registNumber:
-            profile.registNumber === null ? '' : profile.registNumber,
-          weight: profile.weight === null ? '' : String(profile.weight),
-        }
-      : {
-          image: null,
-          name: '',
-          breed: 'BEAGLE',
-          metday: formatDate(new Date(), 'yyyy-MM-dd'),
-          birthday: formatDate(new Date(), 'yyyy-MM-dd'),
-          size: undefined,
-          isNeutered: undefined,
-          sex: undefined,
-          registNumber: '',
-          weight: '',
-        },
-  });
+  const queryClient = useQueryClient();
+  const { mutate: registMutate } = useRegistMutation(
+    userInfo,
+    toggleEditingPetProfile,
+  );
+  const { mutate: modifyMutate } = useModifyMutation(
+    userInfo,
+    toggleEditingPetProfile,
+  );
 
   const onSubmit = async (data: PetFormValues) => {
     const payload = {
@@ -74,20 +52,14 @@ export default function DogProfileEditMobile() {
       isNeutered: data.isNeutered === 'true' ? true : false,
       weight: data.weight ? Number(data.weight) : null,
       registNumber: data.registNumber ? data.registNumber : null,
-      // 이미지 입력 값 생긴 후 수정
       image: null,
     };
 
     if (profile) {
-      await modifyPetProfile(payload, profile.petId);
+      modifyMutate({ payload, petId: profile.petId });
     } else {
-      await registPetProfile({ ...payload, userId: String(userInfo?.userId) });
+      registMutate(payload);
     }
-
-    await queryClient.invalidateQueries({
-      queryKey: ['pets', String(userInfo?.userId)],
-    });
-    toggleEditingPetProfile();
     selectPet(null);
   };
 

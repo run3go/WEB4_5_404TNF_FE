@@ -31,6 +31,8 @@ export default function DogProfileList() {
     query: '(max-width: 767px)',
   });
 
+  const sortedProfiles = petProfiles.sort((a, b) => a.petId - b.petId);
+
   const togglePage = useProfileStore((state) => state.toggleEditingPetProfile);
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -50,7 +52,7 @@ export default function DogProfileList() {
       {isMobile ? (
         <div className="mt-6 flex flex-col gap-6">
           {petProfiles &&
-            petProfiles.map((profile, index) => (
+            sortedProfiles.map((profile, index) => (
               <DogProfileCard
                 key={index}
                 togglePage={togglePage}
@@ -143,7 +145,7 @@ export default function DogProfileList() {
                 </SwiperSlide>
               )}
               {petProfiles &&
-                petProfiles.map((profile, index) => (
+                sortedProfiles.map((profile, index) => (
                   <SwiperSlide key={index} className="!w-[598px]">
                     <DogProfileCard profile={profile} />
                   </SwiperSlide>
