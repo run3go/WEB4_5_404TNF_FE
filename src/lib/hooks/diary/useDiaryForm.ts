@@ -13,6 +13,7 @@ export function useDiaryForm() {
   const [weight, setWeight] = useState('');
   const [sleepTime, setSleepTime] = useState('');
   const [note, setNote] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [walkingList, setWalkingList] = useState<WalkEntry[]>([
     { startHour: '', startMinute: '', endHour: '', endMinute: '', pace: '1' },
   ]);
@@ -111,6 +112,9 @@ export function useDiaryForm() {
   }, [diaryData, hasDiary]);
 
   const handleSubmit = async () => {
+    // prevent duplicate submissions
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     const body = {
       petId: numericPetId,
       recordAt,
@@ -128,6 +132,8 @@ export function useDiaryForm() {
         unit: entry.unit,
       })),
     };
+    // disable submit button for 1.5s
+    const onFinish = () => setTimeout(() => setIsSubmitting(false), 1500);
 
     if (hasDiary && diaryData?.lifeRecordId) {
       // update (PATCH)
@@ -149,6 +155,7 @@ export function useDiaryForm() {
           onSuccess: (res) => {
             console.log(res);
             alert('멍멍일지 수정 완료');
+            onFinish();
             // move to detail & toast
           },
           onError: (err) => {
@@ -162,10 +169,12 @@ export function useDiaryForm() {
         onSuccess: (res) => {
           console.log(res);
           alert('멍멍일지 등록 완료');
+          onFinish();
           // move to detail & toast
         },
         onError: (err) => {
           console.error(err);
+          onFinish();
         },
       });
     }
@@ -196,5 +205,6 @@ export function useDiaryForm() {
     sizeLabel,
     formatAge,
     handleSubmit,
+    isSubmitting,
   };
 }

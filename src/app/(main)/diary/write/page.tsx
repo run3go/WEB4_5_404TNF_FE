@@ -12,6 +12,7 @@ import MobileTitle from '@/components/common/MobileTitle';
 import Image from 'next/image';
 import DiaryCard from '@/components/diary/DiaryCard';
 import { useDiaryForm } from '@/lib/hooks/diary/useDiaryForm';
+import { twMerge } from 'tailwind-merge';
 
 const feedUnitOptions = [
   { label: 'g', value: 'GRAM' },
@@ -44,6 +45,7 @@ export default function DiaryWrite() {
     handleSubmit,
     walkingList,
     setWalkingList,
+    isSubmitting,
   } = useDiaryForm();
 
   const petOptions = pets.map((pet) => ({
@@ -76,10 +78,15 @@ export default function DiaryWrite() {
             />
           </div>
           <button
-            className="hidden w-[115px] cursor-pointer rounded-xl bg-[var(--color-primary-200)] text-base hover:bg-[var(--color-primary-500)] sm:block"
+            className={twMerge(
+              'hidden w-[115px] rounded-xl bg-[var(--color-primary-200)] text-base sm:block',
+              !isSubmitting &&
+                'cursor-pointer hover:bg-[var(--color-primary-500)]',
+            )}
             onClick={handleSubmit}
+            disabled={isSubmitting}
           >
-            저장하기
+            {isSubmitting ? '저장 중...' : '저장하기'}
           </button>
         </div>
 
