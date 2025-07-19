@@ -1,9 +1,8 @@
 'use client';
-import { modifyVaccineData } from '@/api/pet';
 import { vaccineArr } from '@/assets/data/pet';
 import Icon from '@/components/common/Icon';
 import { usePetVaccine } from '@/lib/hooks/usePetProfiles';
-import { useVaccineForm } from '@/lib/hooks/useVaccineForm';
+import { useVaccineForm, useVaccineMutation } from '@/lib/hooks/useVaccineForm';
 import { formatDate } from 'date-fns';
 import { useState } from 'react';
 import { FormProvider } from 'react-hook-form';
@@ -19,8 +18,11 @@ export default function VaccineModal({
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
-  const { data: vaccineData, refetch, isRefetching } = usePetVaccine(petId);
-  const methods = useVaccineForm(vaccineData);
+  const { data: vaccineData } = usePetVaccine(petId);
+  const { methods, reset } = useVaccineForm(vaccineData);
+  const { mutate, isPending, isError } = useVaccineMutation(petId, () =>
+    setIsEditing(false),
+  );
 
   const DHPPL = vaccineData?.find((data) => data.vaccine.name === 'DHPPL');
   const CORONAVIRUS = vaccineData?.find(
@@ -57,14 +59,16 @@ export default function VaccineModal({
       }),
       {},
     );
-
     if (payload) {
-      await modifyVaccineData(payload as VaccinePayload[], petId);
-      await refetch();
-      setIsEditing(false);
+      mutate({ payload: payload as VaccinePayload[], petId });
     }
-
+    if (isError) return;
     methods.reset(resetValues);
+  };
+
+  const cancelInput = () => {
+    reset(vaccineData || []);
+    setIsEditing(false);
   };
 
   return (
@@ -94,18 +98,20 @@ export default function VaccineModal({
                 <>
                   <button
                     className="mr-3 cursor-pointer text-[var(--color-primary-500)] transition-colors ease-in-out hover:text-orange-500"
-                    disabled={isRefetching}
+                    disabled={isPending}
                     type="submit"
                   >
-                    {isRefetching ? '저장 중...' : '저장'}
+                    {isPending ? '저장 중...' : isError ? '재시도' : '저장'}
                   </button>
-                  <button
-                    className="cursor-pointer text-[var(--color-grey)] transition-colors ease-in-out hover:text-[var(--color-black)]"
-                    disabled={isRefetching}
-                    onClick={() => setIsEditing(false)}
-                  >
-                    취소
-                  </button>
+                  {!isPending && (
+                    <button
+                      className="cursor-pointer text-[var(--color-grey)] transition-colors ease-in-out hover:text-[var(--color-black)]"
+                      disabled={isPending}
+                      onClick={cancelInput}
+                    >
+                      취소
+                    </button>
+                  )}
                 </>
               ) : (
                 <span

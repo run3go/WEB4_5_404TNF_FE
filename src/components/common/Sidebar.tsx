@@ -9,14 +9,15 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import Icon from './Icon';
 import Settings from './Settings';
-{
-  /* 156,122 */
-}
+
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { isOpen, close } = useSidebarStore();
-  const { setLogout, isLogin } = useAuthStore();
+  const { setLogout, isLogin, userInfo } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -24,12 +25,23 @@ export default function Sidebar() {
   const handleLogout = async () => {
     try {
       await logout();
+      setUserId(null);
+      setRole(null);
       sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('role');
       setLogout();
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const storedUserId = sessionStorage.getItem('userId');
+    setUserId(storedUserId);
+    const storedRole = sessionStorage.getItem('role');
+    setRole(storedRole);
+    setIsLoading(true);
+  }, []);
 
   useEffect(() => {
     close();
@@ -44,6 +56,8 @@ export default function Sidebar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+  
+  if (!isLoading) return null;
 
   return (
     <>
@@ -183,23 +197,35 @@ export default function Sidebar() {
               </Link>
 
               {/* 관리자 */}
-              <Link
-                href={'/admin'}
-                className={`sidebar__content group relative ${pathname.startsWith('/admin') && 'sidebar__content-active'}`}
-              >
-                <div
-                  className={`absolute ${pathname === '/admin' && 'opacity-0'}`}
+              {(userInfo?.role === 'ROLE_ADMIN' || role) && (
+                <Link
+                  href={'/admin'}
+                  className={`sidebar__content group relative ${pathname.startsWith('/admin') && 'sidebar__content-active'} `}
                 >
-                  <Icon width="24px" height="26px" left="-342px" top="-20px" />
-                </div>
+                  <div
+                    className={`absolute ${pathname === '/admin' && 'opacity-0'}`}
+                  >
+                    <Icon
+                      width="24px"
+                      height="26px"
+                      left="-342px"
+                      top="-20px"
+                    />
+                  </div>
 
-                <div
-                  className={`absolute opacity-0 ${pathname.startsWith('/admin') && 'opacity-100'} `}
-                >
-                  <Icon width="24px" height="26px" left="-382px" top="-20px" />
-                </div>
-                <p className="pl-10">관리자페이지</p>
-              </Link>
+                  <div
+                    className={`absolute opacity-0 ${pathname.startsWith('/admin') && 'opacity-100'} `}
+                  >
+                    <Icon
+                      width="24px"
+                      height="26px"
+                      left="-382px"
+                      top="-20px"
+                    />
+                  </div>
+                  <p className="pl-10">관리자페이지</p>
+                </Link>
+              )}
             </div>
             <div className="text-sm font-medium sm:text-[16px]">
               <div>
@@ -212,7 +238,7 @@ export default function Sidebar() {
                 </div>
                 {isSettingsOpen && <Settings ref={modalRef} />}
               </div>
-              {isLogin && (
+              {(userId || isLogin) && (
                 <div
                   className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
                   onClick={handleLogout}

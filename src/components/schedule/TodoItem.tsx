@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Icon from '../common/Icon';
 import AddSchedule from './AddSchedule';
 import PopupMenu from '../common/PopupMenu';
+import { useDeleteSchedule } from '@/lib/hooks/schedule/useDeleteSchedule';
+import { Schedule } from '@/types/schedule';
 
 export default function TodoItem({
   name,
@@ -16,23 +18,45 @@ export default function TodoItem({
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const { mutate: deleteSchedule } = useDeleteSchedule();
 
   const handleSelect = (label: string) => {
-    if (label === '이 일정만 삭제') {
-      console.log('이 일정만 삭제');
-      // deleteTodo(false);
+    if (label === '기본일정') {
+      const res = confirm('일정을 삭제하시겠습니까?');
+
+      if (res) {
+        deleteTodo(true);
+      }
+    } else if (label === '이 일정만 삭제') {
+      // console.log('이 일정만 삭제');
+      const res = confirm('일정을 삭제하시겠습니까?');
+
+      if (res) {
+        deleteTodo(false);
+      }
     } else {
-      console.log('반복 일정 전체 삭제');
-      // deleteTodo(true);
+      // console.log('반복 일정 전체 삭제');
+      const res = confirm('모든 반복 일정을 삭제하시겠습니까?');
+
+      if (res) {
+        deleteTodo(true);
+      }
     }
 
     setIsMenuOpen(false);
   };
 
-  // const deleteTodo = (cycleLink: boolean) => {
-  //   // 일정 삭제 api
-  //   // toast
-  // };
+  // 일정 삭제
+  const deleteTodo = (cycleLink: boolean) => {
+    if (schedule?.petId && schedule?.scheduleId) {
+      deleteSchedule({
+        petId: schedule?.petId,
+        userId: 10014,
+        scheduleId: schedule?.scheduleId,
+        cycleLink: cycleLink,
+      });
+    }
+  };
 
   return (
     <>
@@ -56,7 +80,13 @@ export default function TodoItem({
             top="-168px"
           />
           <Icon
-            onClick={() => setIsMenuOpen((prev) => !prev)}
+            onClick={() => {
+              if (schedule?.cycle === 'NONE') {
+                handleSelect('기본일정');
+              } else {
+                setIsMenuOpen((prev) => !prev);
+              }
+            }}
             className="cursor-pointer"
             width="14px"
             height="14px"

@@ -73,7 +73,7 @@ export default function TermsAgreement() {
             top="-380px"
             className="hidden scale-95 peer-checked:block"
           />
-          <p className="text-[12px] font-medium hover:text-[#FF9526] sm:text-[16px]">
+          <p className="text-[12px] font-medium sm:text-[16px]">
             [필수] 개인정보 수집 및 이용에 동의합니다.
           </p>
         </label>
@@ -97,7 +97,7 @@ export default function TermsAgreement() {
             top="-380px"
             className="hidden scale-95 peer-checked:block"
           />
-          <p className="text-[12px] font-medium hover:text-[#FF9526] sm:text-[16px]">
+          <p className="text-[12px] font-medium sm:text-[16px]">
             [선택] 광고성 정보 수신에 동의합니다.
           </p>
         </label>
