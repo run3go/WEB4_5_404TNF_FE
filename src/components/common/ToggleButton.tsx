@@ -1,3 +1,5 @@
+import { useThemeStore } from '@/stores/themeStore';
+
 export default function ToggleButton({
   id,
   darkmode = false,
@@ -5,6 +7,9 @@ export default function ToggleButton({
   id: string;
   darkmode?: boolean;
 }) {
+  const theme = useThemeStore((state) => state.theme);
+  const toggleThemeMode = useThemeStore((state) => state.toggleThemeMode);
+
   if (darkmode) {
     return (
       /*
@@ -13,7 +18,13 @@ export default function ToggleButton({
         See full license at the bottom of this file or at https://opensource.org/licenses/MIT
       */
       <div className="toggleWrapper">
-        <input type="checkbox" className="dn" id="dn" />
+        <input
+          type="checkbox"
+          checked={theme === 'dark'}
+          className="dn"
+          id="dn"
+          onChange={toggleThemeMode}
+        />
         <label htmlFor="dn" className="toggle">
           <span className="toggle__handler">
             <span className="crater crater--1"></span>

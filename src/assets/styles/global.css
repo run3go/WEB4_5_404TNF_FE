@@ -3,6 +3,8 @@
 @import '../styles/common.css';
 @import '../styles/toggle.css';
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 :root {
   /* Black / White */
   --color-black: #2b2926;
@@ -116,11 +118,11 @@ body {
 }
 
 .toggleSwitch {
-  @apply relative block h-7 w-12 cursor-pointer rounded-[50px] bg-[var(--color-primary-100)] shadow-inner;
+  @apply relative block h-7 w-12 cursor-pointer rounded-[50px] bg-[var(--color-primary-100)] shadow-inner dark:bg-[var(--color-background)];
 }
 
 .toggleButton {
-  @apply absolute top-1/2 left-1 h-6 w-6 -translate-y-1/2 rounded-full bg-[var(--color-primary-500)] shadow-md;
+  @apply absolute top-1/2 left-[4px] h-6 w-6 -translate-y-[51%] rounded-full bg-[var(--color-primary-500)] shadow-md;
 }
 
 .toggleInput:checked ~ .toggleSwitch {
@@ -128,7 +130,7 @@ body {
 }
 
 .toggleInput:checked ~ .toggleSwitch .toggleButton {
-  @apply left-[calc(100%-26px)] bg-[var(--color-background)];
+  @apply left-[calc(100%-28px)] bg-[var(--color-background)];
 }
 
 .toggleSwitch,

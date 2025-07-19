@@ -6,7 +6,7 @@ import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Icon from './Icon';
 import Settings from './Settings';
 {
@@ -18,6 +18,7 @@ export default function Sidebar() {
   const { isOpen, close } = useSidebarStore();
   const { setLogout, isLogin } = useAuthStore();
 
+  const modalRef = useRef<HTMLDivElement>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -33,6 +34,16 @@ export default function Sidebar() {
   useEffect(() => {
     close();
   }, [pathname, close]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        setIsSettingsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <>
@@ -191,13 +202,15 @@ export default function Sidebar() {
               </Link>
             </div>
             <div className="text-sm font-medium sm:text-[16px]">
-              <div
-                className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6"
-                onClick={() => setIsSettingsOpen(true)}
-              >
-                <Icon width="24px" height="26px" left="-297px" top="-252px" />
-                <p>설정</p>
-                {isSettingsOpen && <Settings />}
+              <div>
+                <div
+                  className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6"
+                  onClick={() => setIsSettingsOpen(true)}
+                >
+                  <Icon width="24px" height="26px" left="-297px" top="-252px" />
+                  <p>설정</p>
+                </div>
+                {isSettingsOpen && <Settings ref={modalRef} />}
               </div>
               {isLogin && (
                 <div

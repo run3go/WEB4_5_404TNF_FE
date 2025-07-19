@@ -1,3 +1,8 @@
+/*
+  Copyright (c) 2025 by Koderian (https://codepen.io/koderian/pen/wvvvrgz)
+  Licensed under the MIT License.
+  See full license at the bottom of this file or at https://opensource.org/licenses/MIT
+*/
 .toggleWrapper {
   overflow: hidden;
 
@@ -23,7 +28,7 @@
   position: relative;
   z-index: 1;
   top: 2px;
-  left: 2px;
+  left: 4px;
   width: 24px;
   height: 24px;
   background-color: #ffcf96;
@@ -141,7 +146,7 @@ input:checked {
 
     .toggle__handler {
       background-color: #ffe5b5;
-      transform: translate3d(20px, 0, 0) rotate(0);
+      transform: translate3d(16px, 0, 0) rotate(0);
 
       .crater {
         opacity: 1;
