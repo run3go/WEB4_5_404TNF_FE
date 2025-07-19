@@ -21,7 +21,7 @@ export default function DiaryProfile({
 }: Props) {
   return (
     <Card className="m-0 w-full p-0 sm:p-0">
-      <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-2 text-center text-lg">
+      <h3 className="cursor-default rounded-t-[12px] bg-[var(--color-primary-300)] py-2 text-center text-lg">
         {name}
       </h3>
       <div className="flex gap-8 px-6 py-4">
@@ -31,7 +31,7 @@ export default function DiaryProfile({
           alt="강아지 프로필"
           priority
         />
-        <div className="flex flex-col justify-around text-sm sm:text-base">
+        <div className="flex cursor-default flex-col justify-around text-sm sm:text-base">
           <span>
             {breedLabel} ({sizeLabel})
           </span>
