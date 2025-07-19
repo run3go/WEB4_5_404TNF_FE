@@ -7,9 +7,11 @@ import CalendarNav from './CalendarNav';
 export default function Calendar({
   selected,
   setSelected,
+  readOnly = false,
 }: {
   selected: Date | undefined;
   setSelected: Dispatch<SetStateAction<Date | undefined>>;
+  readOnly?: boolean;
 }) {
   return (
     <div className="h-55 w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)]">
@@ -19,8 +21,9 @@ export default function Calendar({
         onSelect={setSelected}
         locale={ko}
         showOutsideDays
-        captionLayout="dropdown-years"
-        disabled={{ after: new Date() }}
+        captionLayout={readOnly ? undefined : 'dropdown-years'}
+        // diary detail
+        disabled={readOnly ? () => true : { after: new Date() }}
         classNames={{
           month_caption:
             'font-medium mb-2 bg-[var(--color-primary-500)] -mx-2 rounded-t-xl py-2',

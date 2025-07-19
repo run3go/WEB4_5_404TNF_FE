@@ -47,3 +47,16 @@ type DiaryCheckResponse = {
     pace: number;
   }[];
 };
+
+// diary detail
+type Feeding = {
+  amount: number;
+  mealtime: string;
+  unit: string;
+};
+
+type Walking = {
+  startTime: string;
+  endTime: string;
+  pace: number;
+};

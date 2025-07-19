@@ -14,7 +14,7 @@ export const getPetsByUserId = async (userId: number) => {
     console.log('getPetsByUserId: ', data);
     return data;
   } catch (err) {
-    console.error('getPetsByUserId error:', err);
+    console.error('getPetsByUserId error: ', err);
     return [];
   }
 };
@@ -38,7 +38,7 @@ export const createDiary = async (body: DiarydPayload) => {
     console.log('createDiary: ', data);
     return data;
   } catch (err) {
-    console.error('createDiary error:', err);
+    console.error('createDiary error: ', err);
   }
 };
 
@@ -68,7 +68,7 @@ export const checkDiary = async (petId: number, date: string) => {
       return null;
     }
   } catch (err) {
-    console.error('checkDiary error:', err);
+    console.error('checkDiary error: ', err);
     return null;
   }
 };
@@ -99,7 +99,26 @@ export const updateDiary = async (
 
     return await res.json();
   } catch (err) {
-    console.error('updateDiary error', err);
+    console.error('updateDiary error: ', err);
+    throw err;
+  }
+};
+
+// get diary detail
+export const getDiaryDetail = async (lifeRecordId: number) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/life-record/v2/detail/${lifeRecordId}`,
+      {
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
+    const data = await res.json();
+    console.log('res: ', data);
+    return data.data;
+  } catch (err) {
+    console.error('getDiaryDetail error: ', err);
     throw err;
   }
 };

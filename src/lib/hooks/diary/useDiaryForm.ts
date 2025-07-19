@@ -110,74 +110,81 @@ export function useDiaryForm() {
       ]);
     }
   }, [diaryData, hasDiary]);
+  const handleSubmit = async (): Promise<number> => {
+    return new Promise((resolve, reject) => {
+      if (isSubmitting) return Promise.reject('Submitting...');
+      setIsSubmitting(true);
 
-  const handleSubmit = async () => {
-    // prevent duplicate submissions
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    const body = {
-      petId: numericPetId,
-      recordAt,
-      content: note,
-      sleepTime: Number(sleepTime),
-      weight: Number(weight),
-      walkingList: walkingList.map((entry) => ({
-        startTime: `${recordAt}T${entry.startHour.padStart(2, '0')}:${entry.startMinute.padStart(2, '0')}:00`,
-        endTime: `${recordAt}T${entry.endHour.padStart(2, '0')}:${entry.endMinute.padStart(2, '0')}:00`,
-        pace: Number(entry.pace),
-      })),
-      feedingList: feedingList.map((entry) => ({
-        amount: Number(entry.amount),
-        mealtime: `${recordAt}T${entry.hour.padStart(2, '0')}:${entry.minute.padStart(2, '0')}:00`,
-        unit: entry.unit,
-      })),
-    };
-    // disable submit button for 1.5s
-    const onFinish = () => setTimeout(() => setIsSubmitting(false), 1500);
+      const body = {
+        petId: numericPetId,
+        recordAt,
+        content: note,
+        sleepTime: Number(sleepTime),
+        weight: Number(weight),
+        walkingList: walkingList.map((entry) => ({
+          startTime: `${recordAt}T${entry.startHour.padStart(2, '0')}:${entry.startMinute.padStart(2, '0')}:00`,
+          endTime: `${recordAt}T${entry.endHour.padStart(2, '0')}:${entry.endMinute.padStart(2, '0')}:00`,
+          pace: Number(entry.pace),
+        })),
+        feedingList: feedingList.map((entry) => ({
+          amount: Number(entry.amount),
+          mealtime: `${recordAt}T${entry.hour.padStart(2, '0')}:${entry.minute.padStart(2, '0')}:00`,
+          unit: entry.unit,
+        })),
+      };
+      // disable submit button for 1.5s
+      const onFinish = () => setTimeout(() => setIsSubmitting(false), 1500);
 
-    if (hasDiary && diaryData?.lifeRecordId) {
-      // update (PATCH)
-      console.log(
-        'PATCH Body:',
-        JSON.stringify(
-          { data: { ...body, lifeRecordId: diaryData.lifeRecordId } },
-          null,
-          2,
-        ),
-      );
+      if (hasDiary && diaryData?.lifeRecordId) {
+        // update (PATCH)
+        console.log(
+          'PATCH Body:',
+          JSON.stringify(
+            { ...body, lifeRecordId: diaryData.lifeRecordId },
+            null,
+            2,
+          ),
+        );
 
-      updateMutation.mutate(
-        {
-          lifeRecordId: diaryData.lifeRecordId,
-          data: body,
-        },
-        {
+        updateMutation.mutate(
+          {
+            lifeRecordId: diaryData.lifeRecordId,
+            data: body,
+          },
+          {
+            onSuccess: (res) => {
+              console.log(res);
+              alert('멍멍일지 수정 완료');
+              onFinish();
+              resolve(res.lifeRecordId);
+            },
+            onError: (err) => {
+              console.error(err);
+              alert('멍멍일지 수정 실패');
+              onFinish();
+              reject(err);
+            },
+          },
+        );
+      } else {
+        // create (POST)
+        console.log('POST Body: ', JSON.stringify(body, null, 2));
+        createMutation.mutate(body, {
           onSuccess: (res) => {
             console.log(res);
-            alert('멍멍일지 수정 완료');
+            alert('멍멍일지 등록 완료');
             onFinish();
-            // move to detail & toast
+            resolve(res.lifeRecordId);
           },
           onError: (err) => {
             console.error(err);
+            alert('멍멍일지 등록 실패');
+            onFinish();
+            reject(err);
           },
-        },
-      );
-    } else {
-      // create (POST)
-      createMutation.mutate(body, {
-        onSuccess: (res) => {
-          console.log(res);
-          alert('멍멍일지 등록 완료');
-          onFinish();
-          // move to detail & toast
-        },
-        onError: (err) => {
-          console.error(err);
-          onFinish();
-        },
-      });
-    }
+        });
+      }
+    });
   };
 
   return {

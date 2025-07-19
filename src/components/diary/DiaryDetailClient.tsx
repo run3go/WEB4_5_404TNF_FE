@@ -2,16 +2,44 @@
 
 import diary from '@/assets/images/diary.svg';
 import Image from 'next/image';
-import { useState } from 'react';
 import MobileTitle from '../common/MobileTitle';
 import SelectBox from '../common/SelectBox';
 import Calendar from './Calendar';
 import DiaryCard from './DiaryCard';
 import DiaryProfile from './DiaryProfile';
+import { useDiaryForm } from '@/lib/hooks/diary/useDiaryForm';
+import { useDiaryDetail } from '@/lib/hooks/diary/useDiaryDetail';
 
-export default function DiaryDetailClient({ logId }: { logId: string }) {
-  const [selected, setSelected] = useState<Date | undefined>();
-  console.log(selected, logId);
+const feedUnitOptions = [
+  { label: 'g', value: 'GRAM' },
+  { label: '스푼', value: 'SPOON' },
+  { label: '스쿱', value: 'SCOOP' },
+  { label: '컵', value: 'CUP' },
+];
+
+const formatTime = (datetime: string) => {
+  const date = new Date(datetime);
+  const hour = date.getHours().toString().padStart(1, '0');
+  const minute = date.getMinutes().toString().padStart(2, '0');
+  return `${hour}시 ${minute}분`;
+};
+
+export default function DiaryDetailClient({ logId }: { logId: number }) {
+  const {
+    selectedPetName,
+    selectedPetAge,
+    selectedPetDays,
+    breedLabel,
+    sizeLabel,
+    formatAge,
+  } = useDiaryForm();
+
+  const { data, isLoading, error } = useDiaryDetail(logId);
+
+  if (isLoading) return <p>로딩 중...</p>;
+  if (error || !data) return <p>데이터를 불러올 수 없습니다.</p>;
+  const { recordAt, weight, sleepTime, content, feedingList, walkingList } =
+    data;
 
   const options = [
     { value: '이마음', label: '이마음' },
@@ -19,16 +47,19 @@ export default function DiaryDetailClient({ logId }: { logId: string }) {
     { value: '이솜', label: '이솜' },
   ];
 
+  // const feedingList = data.feedingList;
+  // const walkingList = data.walkingList;
+
   return (
     <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-9 sm:pb-0">
       <MobileTitle title="멍멍일지" closePage={() => {}} />
       <div className="relative flex h-full w-full flex-col gap-6 px-4 sm:px-19">
         <div className="flex w-full justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
-          <div className="flex grow-2 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
-            2025. 7. 3
-          </div>
+          {/* <div className="flex grow-2 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
+            {recordAt}
+          </div> */}
           <div className="flex grow-5 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
-            이마음
+            {selectedPetName}
           </div>
         </div>
         <div className="absolute -top-2 right-[65px] hidden self-end text-base sm:block">
@@ -38,21 +69,28 @@ export default function DiaryDetailClient({ logId }: { logId: string }) {
           <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
             <div className="hidden w-full justify-between sm:flex">
               <Image src={diary} alt="오늘의 멍멍일지를 적어보아요!" />
-              <Calendar selected={selected} setSelected={setSelected} />
+              <Calendar selected={new Date(recordAt)} setSelected={() => {}} />
             </div>
-            <DiaryProfile />
+            <DiaryProfile
+              name={selectedPetName}
+              age={selectedPetAge}
+              days={selectedPetDays}
+              breedLabel={breedLabel}
+              sizeLabel={sizeLabel}
+              formatAge={formatAge}
+            />
             <DiaryCard className="w-full sm:h-[205px]" title="오늘의 건강기록">
               <div className="mb-2 text-sm sm:mb-6 sm:text-base">
-                <span className="inline-block w-[110px] text-[var(--color-primary-500)]">
+                <span className="inline-block w-[110px] cursor-default text-[var(--color-primary-500)]">
                   몸무게
                 </span>
-                <span>36.4 kg</span>
+                <span>{weight} kg</span>
               </div>
               <div className="text-sm sm:text-base">
-                <span className="inline-block w-[110px] text-[var(--color-primary-500)]">
+                <span className="inline-block w-[110px] cursor-default text-[var(--color-primary-500)]">
                   수면시간
                 </span>
-                <span>17시간</span>
+                <span>{sleepTime}시간</span>
               </div>
             </DiaryCard>
           </div>
@@ -60,35 +98,49 @@ export default function DiaryDetailClient({ logId }: { logId: string }) {
             <div className="flex w-full flex-col justify-between gap-6 sm:flex-row sm:gap-14">
               <DiaryCard className="min-h-50 grow sm:h-71" title="식사량">
                 <ul className="-mt-3 px-2">
-                  <li className="flex border-b border-[var(--color-primary-300)] py-[9px]">
-                    <span className="basis-27">8시 00분</span>
-                    <span>1.5컵</span>
-                  </li>
-                  <li className="flex border-b border-[var(--color-primary-300)] py-[9px]">
-                    <span className="basis-27">19시 30분</span>
-                    <span>1.5컵</span>
-                  </li>
+                  {(feedingList as Feeding[]).map((item, idx) => {
+                    const unitLabel =
+                      feedUnitOptions.find((opt) => opt.value === item.unit)
+                        ?.label ?? item.unit;
+
+                    return (
+                      <li
+                        key={idx}
+                        className="flex border-b border-[var(--color-primary-300)] py-[9px]"
+                      >
+                        <span className="basis-27">
+                          {formatTime(item.mealtime)}
+                        </span>
+                        <span>
+                          {item.amount}
+                          {unitLabel}
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </DiaryCard>
               <DiaryCard className="min-h-50 grow sm:h-71" title="산책">
                 <ul className="-mt-3 px-2">
-                  <li className="border-b border-[var(--color-primary-300)] py-[9px]">
-                    <span>8시 00분 ~ 8시 20분</span>
-                  </li>
-                  <li className="border-b border-[var(--color-primary-300)] py-[9px]">
-                    <span>17시 00분 ~ 18시 30분</span>
-                  </li>
-                  <li className="border-b border-[var(--color-primary-300)] py-[9px]">
-                    <span>23시 00분 ~ 23시 30분</span>
-                  </li>
+                  {(walkingList as Walking[]).map((item, idx) => {
+                    const start = formatTime(item.startTime);
+                    const end = formatTime(item.endTime);
+                    return (
+                      <li
+                        key={idx}
+                        className="border-b border-[var(--color-primary-300)] py-[9px]"
+                      >
+                        <span>
+                          {start} ~ {end}
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </DiaryCard>
             </div>
             <DiaryCard className="mb-7 h-full w-full sm:mb-0" title="관찰노트">
-              <p>
-                날씨가 더워서 산책할 때 엄청 힘들어 함, 계속 귀를 긁음 ( 귀 세정
-                당분간 매일 하기 ), 간식 좀 많이 먹어서 그런가 저녁밥 남김
-              </p>
+              <p>{content}</p>
             </DiaryCard>
           </div>
         </div>
