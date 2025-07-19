@@ -13,6 +13,7 @@ import Image from 'next/image';
 import DiaryCard from '@/components/diary/DiaryCard';
 import { useDiaryForm } from '@/lib/hooks/diary/useDiaryForm';
 import { twMerge } from 'tailwind-merge';
+import { useRouter } from 'next/navigation';
 
 const feedUnitOptions = [
   { label: 'g', value: 'GRAM' },
@@ -52,6 +53,16 @@ export default function DiaryWrite() {
     value: pet.petId.toString(),
     label: pet.name,
   }));
+  const router = useRouter();
+
+  const onClickSave = async () => {
+    try {
+      const lifeRecordId = await handleSubmit();
+      router.push(`/diary/${lifeRecordId}`);
+    } catch (err) {
+      console.error('등록 실패:', err);
+    }
+  };
   return (
     <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-4 sm:pb-0">
       <MobileTitle title="멍멍일지" closePage={() => {}} onClick={() => {}} />
@@ -83,7 +94,7 @@ export default function DiaryWrite() {
               !isSubmitting &&
                 'cursor-pointer hover:bg-[var(--color-primary-500)]',
             )}
-            onClick={handleSubmit}
+            onClick={onClickSave}
             disabled={isSubmitting}
           >
             {isSubmitting ? '저장 중...' : '저장하기'}
