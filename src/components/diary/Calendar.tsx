@@ -19,6 +19,8 @@ export default function Calendar({
         onSelect={setSelected}
         locale={ko}
         showOutsideDays
+        captionLayout="dropdown-years"
+        disabled={{ after: new Date() }}
         classNames={{
           month_caption:
             'font-medium mb-2 bg-[var(--color-primary-500)] -mx-2 rounded-t-xl py-2',
@@ -30,6 +32,7 @@ export default function Calendar({
           day_button: 'w-full h-full cursor-pointer ',
           outside: 'text-[var(--color-grey)]',
           selected: 'calendar-circle',
+          disabled: 'text-[var(--color-grey)] pointer-events-none',
         }}
         components={{
           Nav: CalendarNav,

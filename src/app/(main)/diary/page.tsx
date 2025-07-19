@@ -11,7 +11,7 @@ type Option = { value: string; label: string };
 
 export default function Diary() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [pets, setPets] = useState<DiaryPet[]>([]);
+  const [pets, setPets] = useState<PetProfile[]>([]);
   const [selectedPetId, setSelectedPetId] = useState<string>('all');
 
   useEffect(() => {
@@ -44,6 +44,7 @@ export default function Diary() {
             selected={selectedDate}
             setSelected={setSelectedDate}
             showAllDate
+            disableFuture={true}
             className="w-[137px] rounded-xl border-1 border-[var(--color-primary-500)] sm:w-[220px]"
           />
           <SelectBox
