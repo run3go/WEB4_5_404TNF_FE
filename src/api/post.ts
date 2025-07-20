@@ -70,3 +70,22 @@ export const createComment = async ({
 
   return data;
 };
+
+export const getCommentList = async ({
+  postId,
+  totalComment,
+}: {
+  postId: number;
+  totalComment: number;
+}) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1?page=1&size=${totalComment}`,
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '게시글 불러오기 실패');
+  }
+
+  return data;
+};

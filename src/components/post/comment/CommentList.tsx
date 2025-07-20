@@ -2,43 +2,29 @@
 import { useState } from 'react';
 import MeatballsMenu from '../../common/MeatballsMenu';
 import WriterInfo from '../../common/WriterInfo';
-
-const COMMENTS = [
-  {
-    id: '1',
-    name: '유저닉네임',
-    postedAt: '2025.06.20 12:34',
-    content: '댓글 내용내용댓',
-  },
-  {
-    id: '2',
-    name: '유저닉네임',
-    postedAt: '2025.06.20 12:34',
-    content: '댓글 내용내용',
-  },
-  {
-    id: '3',
-    name: '유저닉네임',
-    postedAt: '2025.06.20 12:34',
-    content: '댓글 내용내용',
-  },
-  {
-    id: '4',
-    name: '유저닉네임',
-    postedAt: '2025.06.20 12:34',
-    content: '댓글 내용내용',
-  },
-];
+import { useQuery } from '@tanstack/react-query';
+import { getCommentList } from '@/api/post';
+import { useAuthStore } from '@/stores/authStoe';
 
 export default function CommentList({
+  postId,
+  totalComment,
   onReportClick,
 }: {
+  postId: number;
+  totalComment: number;
   onReportClick: () => void;
 }) {
-  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editedContent, setEditedContent] = useState<string>('');
+  const userInfo = useAuthStore((state) => state.userInfo);
 
-  const handleEditClick = (commentId: string, currentContent: string) => {
+  const { data } = useQuery({
+    queryKey: ['comment-list', postId, totalComment],
+    queryFn: () => getCommentList({ postId, totalComment }),
+  });
+
+  const handleEditClick = (commentId: number, currentContent: string) => {
     setEditingCommentId(commentId);
     setEditedContent(currentContent);
   };
@@ -50,17 +36,21 @@ export default function CommentList({
   return (
     <>
       <div className="mb-8">
-        <p className="pl-[34px] text-[16px] font-medium sm:pl-0 sm:text-[22px] sm:font-bold">{`댓글 (${COMMENTS.length})`}</p>
-        {COMMENTS.map((comment) => {
-          const isEditing = editingCommentId === comment.id;
+        <p className="pl-[34px] text-[16px] font-medium sm:pl-0 sm:text-[22px] sm:font-bold">{`댓글 (${totalComment})`}</p>
+        {data?.data?.replyList.map((comment: Comment) => {
+          const isEditing = editingCommentId === comment.replyId;
 
           return (
             <div
-              key={comment.id}
+              key={comment.replyId}
               className="mx-6 border-b border-b-[#FCC389] p-2 pb-3 sm:mx-0 sm:min-h-[128px] sm:w-full sm:border-b-[#2B2926]/50 sm:p-5"
             >
               <div className="flex items-center justify-between">
-                <WriterInfo name={comment.name} postedAt={comment.postedAt} />
+                <WriterInfo
+                  name={comment.nickname}
+                  postedAt={comment.createdAt}
+                  profileImage={comment.profileImgPath}
+                />
 
                 {isEditing ? (
                   <div className="flex gap-[17px] text-[16px] font-medium">
@@ -80,9 +70,11 @@ export default function CommentList({
                       { id: '3', label: '신고하기', type: 'comment' },
                     ]}
                     onReportClick={onReportClick}
-                    onEditClick={() =>
-                      handleEditClick(comment.id, comment.content)
-                    }
+                    onEditClick={() => {
+                      if (userInfo) {
+                        handleEditClick(comment.replyId, comment.content);
+                      }
+                    }}
                   />
                 )}
               </div>

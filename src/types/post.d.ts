@@ -13,3 +13,14 @@ interface PostDeatail {
   isLiked: boolean;
   images: string[];
 }
+
+interface Comment {
+  articleId: number;
+  replyId: number;
+  userId: number;
+  nickname: string;
+  profileImgPath: string | null;
+  content: string;
+  createdAt: string;
+  updatedAt: string | null;
+}

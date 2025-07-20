@@ -59,7 +59,11 @@ export default function PostDetailWrapper({
         />
         <div className="flex flex-col-reverse sm:block">
           <CommentInput postId={postDetail.articleId} />
-          <CommentList onReportClick={() => setIsReportModalOpen(true)} />
+          <CommentList
+            postId={postDetail.articleId}
+            totalComment={postDetail.replies}
+            onReportClick={() => setIsReportModalOpen(true)}
+          />
         </div>
       </div>
     </div>
