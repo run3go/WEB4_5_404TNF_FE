@@ -13,6 +13,8 @@ import DateItem from './DateItem';
 import { useState } from 'react';
 import { useGetSchedules } from '@/lib/hooks/schedule/useGetSchedules';
 import { Schedule } from '@/types/schedule';
+import { useGetPets } from '@/lib/hooks/useGetPets';
+import NoPets from './NoPets';
 
 export default function CustomCalendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -37,11 +39,18 @@ export default function CustomCalendar() {
     setCurrentDate((prev) => subMonths(prev, 1));
   };
 
+  // 애완견 리스트 불러오기
+  const { data: petOptions } = useGetPets(10014);
+
   // 월 바뀔 때마다 api 호출
   const { data: schedules }: { data?: Schedule[] } = useGetSchedules(
     10014,
     currentDate,
   );
+
+  if (!petOptions || petOptions?.length === 0) {
+    return <NoPets />;
+  }
 
   return (
     <div className="hidden w-full min-w-[1040px] flex-col items-center overflow-auto sm:flex">
