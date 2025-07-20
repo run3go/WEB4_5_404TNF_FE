@@ -20,7 +20,7 @@ export default function PostCreate() {
   const postCreateMutation = useMutation({
     mutationFn: createPost,
     onSuccess: (data) => {
-      router.push(`/post/${boardType.toLowerCase()}/${data.id}`);
+      router.push(`/post/${boardType.toLowerCase()}/${data.data.articleId}`);
     },
   });
 

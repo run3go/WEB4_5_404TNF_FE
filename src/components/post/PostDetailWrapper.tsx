@@ -9,7 +9,11 @@ import PostEditModal from './PostEditModal';
 import MobilePostEditModal from './MobilePostEditModal';
 import MobileTitle from '../common/MobileTitle';
 
-export default function PostDetailWrapper() {
+export default function PostDetailWrapper({
+  postDetail,
+}: {
+  postDetail: PostDeatail;
+}) {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -49,6 +53,7 @@ export default function PostDetailWrapper() {
       <div className="flex w-full flex-col gap-2 sm:w-full sm:gap-8 sm:pt-8">
         <MobileTitle title="게시글" closePage={() => {}} />
         <PostDetailCard
+          postDetail={postDetail}
           onReportClick={() => setIsReportModalOpen(true)}
           onEditClick={() => setIsEditModalOpen(true)}
         />

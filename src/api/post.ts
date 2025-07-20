@@ -33,3 +33,16 @@ export const createPost = async ({
 
   return data;
 };
+
+export const getPostDetail = async (postId: number) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}`,
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '게시글 불러오기 실패');
+  }
+
+  return data;
+};

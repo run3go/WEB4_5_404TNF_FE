@@ -1,9 +1,9 @@
 import Icon from './Icon';
 
 interface PostStats {
-  comment: string;
-  like: string;
-  views: string;
+  comment: number;
+  like: number;
+  views: number;
 }
 
 export default function PostStats({ comment, like, views }: PostStats) {
@@ -16,7 +16,7 @@ export default function PostStats({ comment, like, views }: PostStats) {
             height="16px"
             left="-105px"
             top="-207px"
-            className="scale-75 sm:scale-100"
+            className="mt-0.5 scale-75 sm:scale-100"
           />
           <p className="pt-1 text-[10px] sm:pt-[2px] sm:text-[14px]">
             {comment}
@@ -29,7 +29,7 @@ export default function PostStats({ comment, like, views }: PostStats) {
             height="16px"
             left="-26px"
             top="-207px"
-            className="scale-75 sm:scale-100"
+            className="mt-0.5 scale-75 sm:scale-100"
           />
           <p className="pt-1 text-[10px] sm:pt-[2px] sm:text-[14px]">{like}</p>
         </div>
@@ -40,7 +40,7 @@ export default function PostStats({ comment, like, views }: PostStats) {
             height="16px"
             left="-186px"
             top="-167px"
-            className="scale-75 sm:scale-100"
+            className="mt-0.5 scale-75 sm:scale-100"
           />
           <p className="pt-1 text-[10px] sm:pt-[2px] sm:text-[14px]">{views}</p>
         </div>

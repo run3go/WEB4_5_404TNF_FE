@@ -4,16 +4,20 @@ import { useState, useRef } from 'react';
 import PopupMenu from './PopupMenu';
 import { usePathname } from 'next/navigation';
 import ReportModal from '../post/ReportModal';
+import Image from 'next/image';
+import user_default_image from '@/assets/images/default-profile.svg';
 
 interface WriterInfoProps {
   name: string;
   postedAt: string;
+  profileImage: string | null;
   size?: 'small' | 'big';
 }
 
 export default function WriterInfo({
   name,
   postedAt,
+  profileImage,
   size = 'small',
 }: WriterInfoProps) {
   const isBig = size === 'big';
@@ -47,7 +51,11 @@ export default function WriterInfo({
           if (isPostPage) setIsMenuOpen((prev) => !prev);
         }}
       >
-        <div className={`h-9 w-9 rounded-full bg-gray-500 ${avatarSize}`}></div>
+        <Image
+          src={profileImage || user_default_image}
+          alt="유저 프로필 이미지"
+          className={`h-9 w-9 rounded-full${avatarSize}`}
+        />
         <div className={`font-medium sm:space-y-1`}>
           <p className={`text-[12px] ${textSize}`}>{name}</p>
           <p className={`text-[10px] text-[#909090] ${textSize}`}>{postedAt}</p>
