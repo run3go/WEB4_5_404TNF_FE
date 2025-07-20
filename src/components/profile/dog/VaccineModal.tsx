@@ -1,24 +1,32 @@
 'use client';
 import { vaccineArr } from '@/assets/data/pet';
 import Icon from '@/components/common/Icon';
-import { usePetVaccine } from '@/lib/hooks/usePetProfiles';
 import { useVaccineForm, useVaccineMutation } from '@/lib/hooks/useVaccineForm';
 import { formatDate } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
+import { useMediaQuery } from 'react-responsive';
+import VaccineInfo from './VaccineInfo';
 import VaccineInput from './VaccineInput';
 import VaccineItem from './VaccineItem';
 
 export default function VaccineModal({
+  vaccineData,
   closeModal,
   petId,
 }: {
+  vaccineData?: Vaccination[];
   closeModal: () => void;
   petId: number;
 }) {
-  const [isEditing, setIsEditing] = useState(false);
+  const isMobile = useMediaQuery({
+    query: '(max-width: 767px)',
+  });
 
-  const { data: vaccineData } = usePetVaccine(petId);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isTooltipOepn, setIsTooltipOepn] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
   const { methods, reset } = useVaccineForm(vaccineData);
   const { mutate, isPending, isError } = useVaccineMutation(petId, () =>
     setIsEditing(false),
@@ -40,12 +48,13 @@ export default function VaccineModal({
     const payload = Object.entries(data)
       .map((item) => ({
         name: item[0],
-        ...item[1],
+        vaccineType: item[1].vaccineType,
         vaccineAt: item[1].vaccineAt
           ? formatDate(item[1].vaccineAt, 'yyyy-MM-dd')
           : undefined,
+        count: item[1].count,
       }))
-      .filter((item) => item.count && item.vaccineAt && item.vaccineType);
+      .filter((item) => item.vaccineAt && item.vaccineType);
     const mappedData = Object.values(data).map((item) =>
       item.count && item.vaccineAt && item.vaccineType
         ? item
@@ -59,6 +68,7 @@ export default function VaccineModal({
       }),
       {},
     );
+
     if (payload) {
       mutate({ payload: payload as VaccinePayload[], petId });
     }
@@ -71,6 +81,24 @@ export default function VaccineModal({
     setIsEditing(false);
   };
 
+  const openTooltip = () => {
+    setIsTooltipOepn(true);
+  };
+
+  const closeTooltip = () => {
+    setIsTooltipOepn(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        closeTooltip();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <>
       <div
@@ -80,9 +108,25 @@ export default function VaccineModal({
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="absolute top-1/2 left-1/2 z-201 h-115 w-9/10 -translate-x-1/2 -translate-y-1/2 rounded-[20px] bg-[var(--color-background)] px-3 py-9 sm:h-[470px] sm:w-[720px] sm:px-5">
           <div className="flex items-center justify-between sm:mb-5">
-            <h3 className="ml-3 text-lg leading-[1.2] font-extrabold sm:ml-5 sm:text-2xl">
-              예방접종 정보
-            </h3>
+            <div className="flex items-center gap-2">
+              <h3 className="ml-3 text-lg leading-[1.2] font-extrabold sm:ml-5 sm:text-2xl">
+                예방접종 정보
+              </h3>
+              <div
+                onClick={() => isMobile && openTooltip()}
+                onMouseOver={() => isMobile || setIsTooltipOepn(true)}
+                onMouseLeave={() => isMobile || setIsTooltipOepn(false)}
+              >
+                <Icon
+                  className={`cursor-pointer`}
+                  width="20px"
+                  height="20px"
+                  left="-373px"
+                  top="-255px"
+                />
+              </div>
+            </div>
+            {isTooltipOepn && <VaccineInfo ref={modalRef} />}
             <Icon
               onClick={closeModal}
               className="mr-3 scale-80 cursor-pointer sm:mr-5 sm:scale-90"

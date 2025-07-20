@@ -115,7 +115,7 @@ type VaccineFormValues = {
 type VaccineInfo = {
   vaccineAt?: string;
   vaccineType: VaccineType;
-  count?: number;
+  count?: number | null;
 };
 
 type VaccineName =

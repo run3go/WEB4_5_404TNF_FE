@@ -2,6 +2,7 @@
 
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import dog from '@/assets/images/dog_img.png';
+import { usePetProfile, usePetVaccine } from '@/lib/hooks/usePetProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';
@@ -30,6 +31,8 @@ export default function DogProfileCard({
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
+  const { data: vaccineData } = usePetVaccine(profile.petId, isMyProfile);
+  const { data: profileData } = usePetProfile(profile.petId, isMyProfile);
 
   const selectPet = useProfileStore((state) => state.selectPet);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -58,7 +61,7 @@ export default function DogProfileCard({
     if (!isMyProfile) return;
     setIsProfileModalOpen(true);
   };
-  const openVaccineModal = () => {
+  const openVaccineModal = async () => {
     if (!isMyProfile) return;
     setIsVaccineModalOpen(true);
   };
@@ -149,6 +152,7 @@ export default function DogProfileCard({
       {isProfileModalOpen &&
         createPortal(
           <DogProfileEdit
+            profileData={profileData}
             closeModal={closeProfileModal}
             petId={profile.petId}
           />,
@@ -156,7 +160,11 @@ export default function DogProfileCard({
         )}
       {isVaccineModalOpen &&
         createPortal(
-          <VaccineModal closeModal={closeVaccineModal} petId={profile.petId} />,
+          <VaccineModal
+            vaccineData={vaccineData}
+            closeModal={closeVaccineModal}
+            petId={profile.petId}
+          />,
           document.body,
         )}
     </Card>

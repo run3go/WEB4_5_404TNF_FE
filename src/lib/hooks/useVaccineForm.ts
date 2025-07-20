@@ -1,20 +1,25 @@
 import { modifyVaccineData } from '@/api/pet';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
-export const useVaccineForm = (vaccineData: Vaccination[] | undefined) => {
-  const info: VaccineInfo = {
-    vaccineAt: undefined,
-    vaccineType: 'FIRST',
-    count: undefined,
-  };
-  const defaultValue: VaccineFormValues = {
+export const useVaccineForm = (vaccineData?: Vaccination[]) => {
+  const info: VaccineInfo = useMemo(
+    () => ({
+      vaccineAt: undefined,
+      vaccineType: 'FIRST',
+      count: undefined,
+    }),
+    [],
+  );
+  const defaultValues: VaccineFormValues = {
     DHPPL: info,
     CORONAVIRUS: info,
     KENNEL_COUGH: info,
     INFLUENZA: info,
     RABIES: info,
   };
+
   const fetchData: VaccineFormValues | Record<string, unknown> = {};
   vaccineData?.forEach((data) => {
     fetchData[data.vaccine.name] = {
@@ -23,34 +28,38 @@ export const useVaccineForm = (vaccineData: Vaccination[] | undefined) => {
       count: data.count,
     };
   });
+
   const methods = useForm<VaccineFormValues>({
     defaultValues: vaccineData
-      ? { ...defaultValue, ...fetchData }
-      : defaultValue,
+      ? { ...defaultValues, ...fetchData }
+      : defaultValues,
   });
 
-  const reset = (data: Vaccination[]) => {
-    methods.setValue(
-      'DHPPL',
-      data.find((d) => d.vaccine.name === 'DHPPL') ?? info,
-    );
-    methods.setValue(
-      'CORONAVIRUS',
-      data.find((d) => d.vaccine.name === 'CORONAVIRUS') ?? info,
-    );
-    methods.setValue(
-      'KENNEL_COUGH',
-      data.find((d) => d.vaccine.name === 'KENNEL_COUGH') ?? info,
-    );
-    methods.setValue(
-      'INFLUENZA',
-      data.find((d) => d.vaccine.name === 'INFLUENZA') ?? info,
-    );
-    methods.setValue(
-      'RABIES',
-      data.find((d) => d.vaccine.name === 'RABIES') ?? info,
-    );
-  };
+  const reset = useCallback(
+    (data: Vaccination[]) => {
+      methods.setValue(
+        'DHPPL',
+        data.find((d) => d.vaccine.name === 'DHPPL') ?? info,
+      );
+      methods.setValue(
+        'CORONAVIRUS',
+        data.find((d) => d.vaccine.name === 'CORONAVIRUS') ?? info,
+      );
+      methods.setValue(
+        'KENNEL_COUGH',
+        data.find((d) => d.vaccine.name === 'KENNEL_COUGH') ?? info,
+      );
+      methods.setValue(
+        'INFLUENZA',
+        data.find((d) => d.vaccine.name === 'INFLUENZA') ?? info,
+      );
+      methods.setValue(
+        'RABIES',
+        data.find((d) => d.vaccine.name === 'RABIES') ?? info,
+      );
+    },
+    [info, methods],
+  );
 
   return { methods, reset };
 };

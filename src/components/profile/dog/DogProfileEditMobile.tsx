@@ -19,22 +19,26 @@ import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEditMobile() {
+  const params = useParams();
+  const userId = params?.userId as string;
   const userInfo = useAuthStore((state) => state.userInfo);
+  const isMyProfile = userInfo?.userId === Number(userId);
+
   const selectPet = useProfileStore((state) => state.selectPet);
   const selectedPet = useProfileStore((state) => state.selectedPet);
   const toggleEditingPetProfile = useProfileStore(
     (state) => state.toggleEditingPetProfile,
   );
 
-  const { data: profile } = usePetProfile(selectedPet ?? 0);
-  const { handleSubmit, register, watch, reset, control } = usePetForm();
+  const { data: profile } = usePetProfile(selectedPet ?? 0, isMyProfile);
+  const { handleSubmit, register, watch, control } = usePetForm(profile);
 
   const queryClient = useQueryClient();
   const { mutate: registMutate } = useRegistMutation(
@@ -75,22 +79,6 @@ export default function DogProfileEditMobile() {
     selectPet(null);
     toggleEditingPetProfile();
   };
-
-  useEffect(() => {
-    if (!profile) return;
-    reset({
-      image: null,
-      name: profile.name,
-      breed: profile.breed,
-      metday: profile.metday,
-      birthday: profile.birthday,
-      size: profile.size,
-      isNeutered: profile.isNeutered ? 'true' : 'false',
-      sex: profile.sex ? 'true' : 'false',
-      registNumber: profile.registNumber === null ? '' : profile.registNumber,
-      weight: profile.weight === null ? '' : String(profile.weight),
-    });
-  }, [profile, reset]);
 
   return (
     <main className="w-screen">

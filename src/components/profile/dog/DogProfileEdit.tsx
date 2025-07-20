@@ -14,35 +14,34 @@ import {
   usePetForm,
   useRegistMutation,
 } from '@/lib/hooks/usePetForm';
-import { usePetProfile } from '@/lib/hooks/usePetProfiles';
 import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEdit({
+  profileData,
   closeModal,
   petId,
 }: {
+  profileData?: PetProfile;
   closeModal: () => void;
   petId: number;
 }) {
   const userInfo = useAuthStore((state) => state.userInfo);
 
   const queryClient = useQueryClient();
-  const { data: profile } = usePetProfile(petId);
 
-  const { handleSubmit, register, watch, reset, control } = usePetForm();
+  const { handleSubmit, register, watch, control } = usePetForm(profileData);
 
   const { mutate: registMutate, isPending: isRegistPending } =
-    useRegistMutation(userInfo, closeModal);
+    useRegistMutation(userInfo, petId, closeModal);
   const { mutate: modifyMutate, isPending: isModifyPending } =
-    useModifyMutation(userInfo, closeModal);
+    useModifyMutation(userInfo, petId, closeModal);
 
   const onSubmit = async (data: PetFormValues) => {
     const payload = {
@@ -53,39 +52,21 @@ export default function DogProfileEdit({
       registNumber: data.registNumber ? data.registNumber : null,
       image: null,
     };
-    if (profile) {
-      modifyMutate({ payload, petId });
+    if (profileData) {
+      modifyMutate(payload);
     } else {
       registMutate(payload);
     }
   };
 
   const handleDeletePet = async () => {
-    if (!profile) return;
-
-    await deletePetProfile(profile.petId);
+    await deletePetProfile(petId);
 
     await queryClient.invalidateQueries({
       queryKey: ['pets', String(userInfo?.userId)],
     });
     closeModal();
   };
-
-  useEffect(() => {
-    if (!profile) return;
-    reset({
-      image: null,
-      name: profile.name,
-      breed: profile.breed,
-      metday: profile.metday,
-      birthday: profile.birthday,
-      size: profile.size,
-      isNeutered: profile.isNeutered ? 'true' : 'false',
-      sex: profile.sex ? 'true' : 'false',
-      registNumber: profile.registNumber === null ? '' : profile.registNumber,
-      weight: profile.weight === null ? '' : String(profile.weight),
-    });
-  }, [profile, reset]);
 
   return (
     <>
@@ -206,10 +187,10 @@ export default function DogProfileEdit({
             disabled={isModifyPending || isRegistPending}
             className="w-50"
           >
-            {profile ? '수정하기' : '등록하기'}
+            {profileData ? '수정하기' : '등록하기'}
           </Button>
         </form>
-        {profile && (
+        {profileData && (
           <span
             className="absolute right-10 cursor-pointer text-[var(--color-grey)] hover:text-[var(--color-black)]"
             onClick={handleDeletePet}

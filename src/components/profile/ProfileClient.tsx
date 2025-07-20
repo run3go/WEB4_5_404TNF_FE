@@ -1,5 +1,6 @@
 'use client';
 import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
+import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
@@ -22,6 +23,8 @@ export default function ProfileClient({
 }) {
   const params = useParams();
   const userId = params?.userId as string;
+  const userInfo = useAuthStore((state) => state.userInfo);
+  const isMyProfile = userInfo?.userId === Number(userId);
 
   usePetProfiles(userId, petProfiles);
   const queryClient = useQueryClient();
@@ -35,11 +38,12 @@ export default function ProfileClient({
   const isEditingUser = useProfileStore((state) => state.isEditingUser);
 
   useEffect(() => {
+    if (!isMyProfile) return;
     petProfiles.forEach((profile) => {
       queryClient.prefetchQuery({ queryKey: ['pet', profile.petId] });
       queryClient.prefetchQuery({ queryKey: ['vaccine', profile.petId] });
     });
-  }, [petProfiles, queryClient]);
+  }, [petProfiles, queryClient, isMyProfile]);
 
   if (isMobile) {
     if (isEditingPet) return <DogProfileEditMobile />;
