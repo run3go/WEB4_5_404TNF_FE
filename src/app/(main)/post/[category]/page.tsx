@@ -4,6 +4,7 @@ import SearchBar from '@/components/common/SearchBar';
 import SelectBox from '@/components/common/SelectBox';
 import PostCard from '@/components/post/PostCard';
 import SearchButton from '@/components/post/SearchButton';
+import Link from 'next/link';
 
 const SORT = [
   { value: '최신순', label: '최신순' },
@@ -18,7 +19,12 @@ const SEARCH_LIST = [
   { value: '작성자', label: '작성자' },
 ];
 
-export default async function Board() {
+export default async function Board({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}) {
+  const { category } = await params;
   return (
     <>
       <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-full">
@@ -59,9 +65,11 @@ export default async function Board() {
             <SelectBox width={'90px'} options={SORT} isCenter />
 
             <SearchButton />
-            <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto">
-              <Icon width="20px" height="20px" left="-266px" top="-75px" />
-            </div>
+            <Link href={`${category}/create`}>
+              <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto">
+                <Icon width="20px" height="20px" left="-266px" top="-75px" />
+              </div>
+            </Link>
           </div>
         </div>
 
