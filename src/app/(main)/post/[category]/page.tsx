@@ -27,7 +27,7 @@ export default async function Board({
   const { category } = await params;
   return (
     <>
-      <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-full">
+      <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] sm:h-full">
         {/* 상단 버튼 영역 */}
         <div className="flex flex-none justify-center gap-3 pt-6 sm:gap-9 sm:pt-5">
           <Button className="board__btn">
@@ -59,9 +59,9 @@ export default async function Board({
         </div>
 
         {/* 검색 및 정렬 영역 */}
-        <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[120px]">
+        <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[6.27vw]">
           <SearchBar options={SEARCH_LIST} />
-          <div className="flex items-center gap-8 pr-[70px]">
+          <div className="flex items-center gap-8 pr-[6.27vw]">
             <SelectBox width={'90px'} options={SORT} isCenter />
 
             <SearchButton />
@@ -74,11 +74,7 @@ export default async function Board({
         </div>
 
         {/* 내부 스크롤 영역 */}
-        <div className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pr-2 pb-[20px] sm:space-y-10 sm:pl-[6.27vw]">
-          <PostCard />
-          <PostCard />
-          <PostCard />
-          <PostCard />
+        <div className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pr-2 pb-[20px] sm:space-y-10 sm:px-[6.27vw]">
           <PostCard />
         </div>
       </div>
