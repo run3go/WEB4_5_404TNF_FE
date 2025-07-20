@@ -1,8 +1,9 @@
 'use client';
 import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
 import { useProfileStore } from '@/stores/profileStore';
+import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
@@ -23,6 +24,7 @@ export default function ProfileClient({
   const userId = params?.userId as string;
 
   usePetProfiles(userId, petProfiles);
+  const queryClient = useQueryClient();
 
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
@@ -31,6 +33,13 @@ export default function ProfileClient({
   const [isProfile, setIsProfile] = useState(true);
   const isEditingPet = useProfileStore((state) => state.isEditingPet);
   const isEditingUser = useProfileStore((state) => state.isEditingUser);
+
+  useEffect(() => {
+    petProfiles.forEach((profile) => {
+      queryClient.prefetchQuery({ queryKey: ['pet', profile.petId] });
+      queryClient.prefetchQuery({ queryKey: ['vaccine', profile.petId] });
+    });
+  }, [petProfiles, queryClient]);
 
   if (isMobile) {
     if (isEditingPet) return <DogProfileEditMobile />;

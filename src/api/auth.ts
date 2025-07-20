@@ -54,7 +54,7 @@ export const logout = async () => {
 export const getUserProfile = async (userId: string) => {
   try {
     const response = await fetch(
-      `https://mungdiary-172598302113.asia-northeast3.run.app/api/profile/v1/${userId}`,
+      `https://mungdiary-172598302113.asia-northeast3.run.app/api/profile/v1/users/${userId}`,
       {
         credentials: 'include',
       },

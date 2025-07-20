@@ -5,37 +5,24 @@ import { formatDate } from 'date-fns';
 import { useForm } from 'react-hook-form';
 import { petProfileSchema } from '../utils/petProfile.schema';
 
-export const usePetForm = (profile: PetProfile | undefined) => {
-  const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
-    resolver: zodResolver(petProfileSchema),
-    defaultValues: profile
-      ? {
-          image: null,
-          name: profile.name,
-          breed: profile.breed,
-          metday: profile.metday,
-          birthday: profile.birthday,
-          size: profile.size,
-          isNeutered: profile.isNeutered ? 'true' : 'false',
-          sex: profile.sex ? 'true' : 'false',
-          registNumber:
-            profile.registNumber === null ? '' : profile.registNumber,
-          weight: profile.weight === null ? '' : String(profile.weight),
-        }
-      : {
-          image: null,
-          name: '',
-          breed: 'GREAT_DANE',
-          metday: formatDate(new Date(), 'yyyy-MM-dd'),
-          birthday: formatDate(new Date(), 'yyyy-MM-dd'),
-          size: undefined,
-          isNeutered: undefined,
-          sex: undefined,
-          registNumber: '',
-          weight: '',
-        },
-  });
-  return { handleSubmit, register, watch, control };
+export const usePetForm = () => {
+  const { handleSubmit, register, watch, reset, control } =
+    useForm<PetFormValues>({
+      resolver: zodResolver(petProfileSchema),
+      defaultValues: {
+        image: null,
+        name: '',
+        breed: 'GREAT_DANE',
+        metday: formatDate(new Date(), 'yyyy-MM-dd'),
+        birthday: formatDate(new Date(), 'yyyy-MM-dd'),
+        size: undefined,
+        isNeutered: undefined,
+        sex: undefined,
+        registNumber: '',
+        weight: '',
+      },
+    });
+  return { handleSubmit, register, watch, reset, control };
 };
 
 export const useRegistMutation = (

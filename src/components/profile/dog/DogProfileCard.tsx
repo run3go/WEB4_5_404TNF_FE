@@ -1,11 +1,9 @@
 'use client';
 
-import { getPetProfile, getVaccineData } from '@/api/pet';
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import dog from '@/assets/images/dog_img.png';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
-import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
@@ -32,7 +30,6 @@ export default function DogProfileCard({
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
-  const queryClient = useQueryClient();
 
   const selectPet = useProfileStore((state) => state.selectPet);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -42,13 +39,6 @@ export default function DogProfileCard({
     (data) => data.value === profile.breed,
   )?.label;
   const size = petSizeData.find((data) => data.value === profile.size)?.label;
-
-  const prefetchProfile = async () => {
-    await queryClient.prefetchQuery({
-      queryKey: ['pet', profile.petId],
-      queryFn: () => getPetProfile(profile.petId),
-    });
-  };
 
   const calculateAge = () => {
     const numAge = Number(profile.age);
@@ -64,23 +54,17 @@ export default function DogProfileCard({
     setIsVaccineModalOpen(false);
   };
 
-  const openProfileModal = async () => {
+  const openProfileModal = () => {
     if (!isMyProfile) return;
-    await prefetchProfile();
     setIsProfileModalOpen(true);
   };
-  const openVaccineModal = async () => {
+  const openVaccineModal = () => {
     if (!isMyProfile) return;
-    await queryClient.prefetchQuery({
-      queryKey: ['vaccine', profile.petId],
-      queryFn: () => getVaccineData(profile.petId),
-    });
     setIsVaccineModalOpen(true);
   };
-  const openPage = async () => {
+  const openPage = () => {
     if (!togglePage || !isMyProfile) return;
     selectPet(profile.petId);
-    await prefetchProfile();
     togglePage();
   };
 

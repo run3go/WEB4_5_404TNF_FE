@@ -19,6 +19,7 @@ import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
@@ -36,7 +37,7 @@ export default function DogProfileEdit({
   const queryClient = useQueryClient();
   const { data: profile } = usePetProfile(petId);
 
-  const { handleSubmit, register, watch, control } = usePetForm(profile);
+  const { handleSubmit, register, watch, reset, control } = usePetForm();
 
   const { mutate: registMutate, isPending: isRegistPending } =
     useRegistMutation(userInfo, closeModal);
@@ -69,6 +70,22 @@ export default function DogProfileEdit({
     });
     closeModal();
   };
+
+  useEffect(() => {
+    if (!profile) return;
+    reset({
+      image: null,
+      name: profile.name,
+      breed: profile.breed,
+      metday: profile.metday,
+      birthday: profile.birthday,
+      size: profile.size,
+      isNeutered: profile.isNeutered ? 'true' : 'false',
+      sex: profile.sex ? 'true' : 'false',
+      registNumber: profile.registNumber === null ? '' : profile.registNumber,
+      weight: profile.weight === null ? '' : String(profile.weight),
+    });
+  }, [profile, reset]);
 
   return (
     <>

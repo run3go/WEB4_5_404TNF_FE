@@ -1,7 +1,7 @@
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const getPetProfiles = async (userId: string): Promise<PetProfile[]> => {
-  const res = await fetch(`${baseURL}/api/profile/v1/pet/${userId}`);
+  const res = await fetch(`${baseURL}/api/profile/v1/users/${userId}/pet`);
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText || '반려 동물 정보 조회 실패');
@@ -12,12 +12,15 @@ export const getPetProfiles = async (userId: string): Promise<PetProfile[]> => {
 };
 
 export const getPetProfile = async (petId: number) => {
-  const res = await fetch(`${baseURL}/api/mypage/v1/pets/${petId}`);
+  const res = await fetch(`${baseURL}/api/mypage/v1/pets/${petId}`, {
+    credentials: 'include',
+  });
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText || '반려 동물 정보 조회 실패');
   }
   const data = await res.json();
+  console.log(data);
   return data;
 };
 
@@ -61,7 +64,12 @@ export const deletePetProfile = async (petId: number) => {
 };
 
 export const getVaccineData = async (petId: number) => {
-  const res = await fetch(`${baseURL}/api/mypage/v1/pets/${petId}/vaccination`);
+  const res = await fetch(
+    `${baseURL}/api/mypage/v1/pets/${petId}/vaccination`,
+    {
+      credentials: 'include',
+    },
+  );
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText || '백신 정보 조회 실패');
