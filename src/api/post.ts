@@ -46,3 +46,27 @@ export const getPostDetail = async (postId: number) => {
 
   return data;
 };
+
+export const createComment = async ({
+  postId,
+  comment,
+}: {
+  postId: number;
+  comment: string;
+}) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1?content=${comment}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '댓글 작성 실패');
+  }
+
+  return data;
+};
