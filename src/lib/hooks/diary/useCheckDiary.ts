@@ -10,6 +10,6 @@ export const useCheckDiary = (
     queryKey: ['diary', petId, date],
     queryFn: () => checkDiary(petId, date),
     enabled,
-    staleTime: 1000 * 60 * 3,
+    staleTime: 1000,
   });
 };

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { format } from 'date-fns';
 import { useCreateDiary } from './useCreateDiary';
@@ -5,10 +6,14 @@ import { useGetPets } from './useGetPets';
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import { useCheckDiary } from './useCheckDiary';
 import { useUpdateDiary } from './useUpdateDiary';
+import { useQueryClient } from '@tanstack/react-query';
 
-export function useDiaryForm() {
-  const [selected, setSelected] = useState<Date | undefined>(new Date());
-  const [selectedPetId, setSelectedPetId] = useState<string>('');
+export function useDiaryForm(initPetId?: string, initRecordAt?: string) {
+  const router = useRouter();
+  const [selected, setSelected] = useState<Date | undefined>(
+    initRecordAt ? new Date(initRecordAt) : new Date(),
+  );
+  const [selectedPetId, setSelectedPetId] = useState<string>(initPetId || '');
   const [selectedUnit, setSelectedUnit] = useState('GRAM');
   const [weight, setWeight] = useState('');
   const [sleepTime, setSleepTime] = useState('');
@@ -24,13 +29,14 @@ export function useDiaryForm() {
   const { data: pets = [] } = useGetPets(userId);
   const createMutation = useCreateDiary();
   const updateMutation = useUpdateDiary();
+  const queryClient = useQueryClient();
 
   // default pet
   useEffect(() => {
-    if (pets.length > 0) {
+    if (!initPetId && pets.length > 0) {
       setSelectedPetId(pets[0].petId.toString());
     }
-  }, [pets]);
+  }, [pets, initPetId]);
 
   // selected pet object
   const selectedPet = useMemo(
@@ -110,6 +116,8 @@ export function useDiaryForm() {
       ]);
     }
   }, [diaryData, hasDiary]);
+
+  // submit handler
   const handleSubmit = async (): Promise<number> => {
     return new Promise((resolve, reject) => {
       if (isSubmitting) return Promise.reject('Submitting...');
@@ -132,6 +140,7 @@ export function useDiaryForm() {
           unit: entry.unit,
         })),
       };
+
       // disable submit button for 1.5s
       const onFinish = () => setTimeout(() => setIsSubmitting(false), 1500);
 
@@ -145,16 +154,20 @@ export function useDiaryForm() {
             2,
           ),
         );
-
         updateMutation.mutate(
           {
             lifeRecordId: diaryData.lifeRecordId,
             data: body,
           },
           {
-            onSuccess: (res) => {
+            onSuccess: async (res) => {
               console.log(res);
               alert('멍멍일지 수정 완료');
+              // refresh diary data
+              await queryClient.refetchQueries({
+                queryKey: ['diaryDetail', res.lifeRecordId],
+              });
+              router.push(`/diary/${res.lifeRecordId}`);
               onFinish();
               resolve(res.lifeRecordId);
             },

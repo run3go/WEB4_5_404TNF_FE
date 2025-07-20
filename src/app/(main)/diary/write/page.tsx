@@ -14,6 +14,7 @@ import DiaryCard from '@/components/diary/DiaryCard';
 import { useDiaryForm } from '@/lib/hooks/diary/useDiaryForm';
 import { twMerge } from 'tailwind-merge';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 const feedUnitOptions = [
   { label: 'g', value: 'GRAM' },
@@ -23,6 +24,9 @@ const feedUnitOptions = [
 ];
 
 export default function DiaryWrite() {
+  const searchParams = useSearchParams();
+  const petId = searchParams.get('petId') || undefined;
+  const recordAt = searchParams.get('recordAt') || undefined;
   const {
     selected,
     setSelected,
@@ -47,7 +51,7 @@ export default function DiaryWrite() {
     walkingList,
     setWalkingList,
     isSubmitting,
-  } = useDiaryForm();
+  } = useDiaryForm(petId, recordAt);
 
   const petOptions = pets.map((pet) => ({
     value: pet.petId.toString(),
