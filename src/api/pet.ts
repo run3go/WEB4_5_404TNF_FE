@@ -20,7 +20,6 @@ export const getPetProfile = async (petId: number) => {
     throw new Error(errorText || '반려 동물 정보 조회 실패');
   }
   const data = await res.json();
-  console.log(data);
   return data;
 };
 

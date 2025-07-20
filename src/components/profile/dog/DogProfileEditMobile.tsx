@@ -36,7 +36,6 @@ export default function DogProfileEditMobile() {
   const toggleEditingPetProfile = useProfileStore(
     (state) => state.toggleEditingPetProfile,
   );
-
   const { data: profile } = usePetProfile(selectedPet ?? 0, isMyProfile);
   const { handleSubmit, register, watch, control } = usePetForm(profile);
 
@@ -47,6 +46,7 @@ export default function DogProfileEditMobile() {
   );
   const { mutate: modifyMutate } = useModifyMutation(
     userInfo,
+    selectedPet!,
     toggleEditingPetProfile,
   );
 
@@ -60,8 +60,8 @@ export default function DogProfileEditMobile() {
       image: null,
     };
 
-    if (profile) {
-      modifyMutate({ payload, petId: profile.petId });
+    if (profile && selectedPet) {
+      modifyMutate({ payload, petId: selectedPet });
     } else {
       registMutate(payload);
     }

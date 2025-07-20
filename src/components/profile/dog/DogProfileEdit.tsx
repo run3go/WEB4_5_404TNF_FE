@@ -39,7 +39,7 @@ export default function DogProfileEdit({
   const { handleSubmit, register, watch, control } = usePetForm(profileData);
 
   const { mutate: registMutate, isPending: isRegistPending } =
-    useRegistMutation(userInfo, petId, closeModal);
+    useRegistMutation(userInfo, closeModal);
   const { mutate: modifyMutate, isPending: isModifyPending } =
     useModifyMutation(userInfo, petId, closeModal);
 
@@ -53,7 +53,7 @@ export default function DogProfileEdit({
       image: null,
     };
     if (profileData) {
-      modifyMutate(payload);
+      modifyMutate({ payload, petId });
     } else {
       registMutate(payload);
     }

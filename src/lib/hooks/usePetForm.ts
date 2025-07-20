@@ -41,7 +41,6 @@ export const usePetForm = (profile?: PetProfile) => {
 
 export const useRegistMutation = (
   userInfo: User | null,
-  petId: number,
   onClose: () => void,
 ) => {
   const queryClient = useQueryClient();
@@ -51,9 +50,6 @@ export const useRegistMutation = (
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ['pets', String(userInfo?.userId)],
-      });
-      await queryClient.invalidateQueries({
-        queryKey: ['pet', petId],
       });
       onClose();
     },
@@ -70,7 +66,8 @@ export const useModifyMutation = (
 ) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: PetPayload) => modifyPetProfile(payload, petId),
+    mutationFn: ({ payload, petId }: { payload: PetPayload; petId: number }) =>
+      modifyPetProfile(payload, petId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ['pets', String(userInfo?.userId)],
