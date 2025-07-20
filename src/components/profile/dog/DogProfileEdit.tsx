@@ -1,8 +1,4 @@
-import {
-  deletePetProfile,
-  modifyPetProfile,
-  registPetProfile,
-} from '@/api/pet';
+import { deletePetProfile } from '@/api/pet';
 import {
   petBreedData,
   petNeutering,
@@ -13,15 +9,17 @@ import dog from '@/assets/images/default-dog-profile.svg';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
+import {
+  useModifyMutation,
+  usePetForm,
+  useRegistMutation,
+} from '@/lib/hooks/usePetForm';
 import { usePetProfile } from '@/lib/hooks/usePetProfiles';
 import { handleError } from '@/lib/utils/handleError';
-import { petProfileSchema } from '@/lib/utils/petProfile.schema';
 import { useAuthStore } from '@/stores/authStoe';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { formatDate } from 'date-fns';
 import Image from 'next/image';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
@@ -37,35 +35,13 @@ export default function DogProfileEdit({
 
   const queryClient = useQueryClient();
   const { data: profile } = usePetProfile(petId);
-  const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
-    resolver: zodResolver(petProfileSchema),
-    defaultValues: profile
-      ? {
-          image: null,
-          name: profile.name,
-          breed: profile.breed,
-          metday: profile.metday,
-          birthday: profile.birthday,
-          size: profile.size,
-          isNeutered: profile.isNeutered ? 'true' : 'false',
-          sex: profile.sex ? 'true' : 'false',
-          registNumber:
-            profile.registNumber === null ? '' : profile.registNumber,
-          weight: profile.weight === null ? '' : String(profile.weight),
-        }
-      : {
-          image: null,
-          name: '',
-          breed: 'BEAGLE',
-          metday: formatDate(new Date(), 'yyyy-MM-dd'),
-          birthday: formatDate(new Date(), 'yyyy-MM-dd'),
-          size: undefined,
-          isNeutered: undefined,
-          sex: undefined,
-          registNumber: '',
-          weight: '',
-        },
-  });
+
+  const { handleSubmit, register, watch, control } = usePetForm(profile);
+
+  const { mutate: registMutate, isPending: isRegistPending } =
+    useRegistMutation(userInfo, closeModal);
+  const { mutate: modifyMutate, isPending: isModifyPending } =
+    useModifyMutation(userInfo, closeModal);
 
   const onSubmit = async (data: PetFormValues) => {
     const payload = {
@@ -77,15 +53,10 @@ export default function DogProfileEdit({
       image: null,
     };
     if (profile) {
-      await modifyPetProfile(payload, profile.petId);
+      modifyMutate({ payload, petId });
     } else {
-      await registPetProfile({ ...payload, userId: String(userInfo?.userId) });
+      registMutate(payload);
     }
-
-    await queryClient.invalidateQueries({
-      queryKey: ['pets', String(userInfo?.userId)],
-    });
-    closeModal();
   };
 
   const handleDeletePet = async () => {
@@ -214,7 +185,12 @@ export default function DogProfileEdit({
               />
             </div>
           </div>
-          <Button className="w-50">{profile ? '수정하기' : '등록하기'}</Button>
+          <Button
+            disabled={isModifyPending || isRegistPending}
+            className="w-50"
+          >
+            {profile ? '수정하기' : '등록하기'}
+          </Button>
         </form>
         {profile && (
           <span
