@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import MeatballsMenu from '../common/MeatballsMenu';
-import WriterInfo from '../common/WriterInfo';
+import MeatballsMenu from '../../common/MeatballsMenu';
+import WriterInfo from '../../common/WriterInfo';
 
 const COMMENTS = [
   {

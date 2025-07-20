@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import PostDetailCard from './PostDetailCard';
-import CommentInput from './CommentInput';
-import CommentList from './CommentList';
+import CommentInput from './comment/CommentInput';
+import CommentList from './comment/CommentList';
 import ReportModal from './ReportModal';
 import PostEditModal from './PostEditModal';
 import MobilePostEditModal from './MobilePostEditModal';
@@ -58,7 +58,7 @@ export default function PostDetailWrapper({
           onEditClick={() => setIsEditModalOpen(true)}
         />
         <div className="flex flex-col-reverse sm:block">
-          <CommentInput />
+          <CommentInput postId={postDetail.articleId} />
           <CommentList onReportClick={() => setIsReportModalOpen(true)} />
         </div>
       </div>
