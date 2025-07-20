@@ -94,7 +94,7 @@ export const updateDiary = async (
     if (!res.ok) {
       const errText = await res.text();
       console.error('PATCH error:', errText);
-      throw new Error('Update failed');
+      throw new Error('멍멍일지 수정 실패');
     }
 
     return await res.json();
@@ -119,6 +119,33 @@ export const getDiaryDetail = async (lifeRecordId: number) => {
     return data.data;
   } catch (err) {
     console.error('getDiaryDetail error: ', err);
+    throw err;
+  }
+};
+
+// delete diary
+export const deleteDiary = async (lifeRecordId: number) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/life-record/v2/${lifeRecordId}/delete`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      },
+    );
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error('DELETE error:', errText);
+      throw new Error('멍멍일지 삭제 실패');
+    }
+
+    return await res.text();
+  } catch (err) {
+    console.error('deleteDiary error:', err);
     throw err;
   }
 };

@@ -3,12 +3,15 @@
 import diary from '@/assets/images/diary.svg';
 import Image from 'next/image';
 import MobileTitle from '../common/MobileTitle';
-import SelectBox from '../common/SelectBox';
 import Calendar from './Calendar';
 import DiaryCard from './DiaryCard';
 import DiaryProfile from './DiaryProfile';
+import DiaryOptionsMenu from './DiaryOptionsMenu';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import { useDiaryForm } from '@/lib/hooks/diary/useDiaryForm';
 import { useDiaryDetail } from '@/lib/hooks/diary/useDiaryDetail';
+import { useDeleteDiary } from '@/lib/hooks/diary/useDeleteDiary';
 
 const feedUnitOptions = [
   { label: 'g', value: 'GRAM' },
@@ -33,37 +36,81 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
     sizeLabel,
     formatAge,
   } = useDiaryForm();
+  const router = useRouter();
 
+  // diary detail
   const { data, isLoading, error } = useDiaryDetail(logId);
 
-  if (isLoading) return <p>로딩 중...</p>;
+  // options menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // delete diary
+  const deleteMutation = useDeleteDiary();
+  const handleDelete = () => {
+    const confirmed = confirm('정말 삭제하시겠습니까?');
+    if (!confirmed) return;
+
+    deleteMutation.mutate(data.lifeRecordId, {
+      onSuccess: () => {
+        alert('멍멍일지 삭제 완료');
+        router.push('/diary');
+      },
+      onError: (err) => {
+        console.error(err);
+        alert('멍멍일지 삭제 실패');
+      },
+    });
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!menuRef.current || menuRef.current.contains(e.target as Node))
+        return;
+      setIsMenuOpen(false);
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+  if (isLoading)
+    // temporary loading spinner
+    return (
+      <div className="flex h-full flex-col items-center justify-center gap-1">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--color-primary-500)] border-t-transparent" />
+        <span className="text-sm text-[var(--color-grey)]">
+          잠시만 기다려주세요.
+        </span>
+      </div>
+    );
   if (error || !data) return <p>데이터를 불러올 수 없습니다.</p>;
+
   const { recordAt, weight, sleepTime, content, feedingList, walkingList } =
     data;
-
-  const options = [
-    { value: '이마음', label: '이마음' },
-    { value: '이구름', label: '이구름' },
-    { value: '이솜', label: '이솜' },
-  ];
-
-  // const feedingList = data.feedingList;
-  // const walkingList = data.walkingList;
 
   return (
     <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-9 sm:pb-0">
       <MobileTitle title="멍멍일지" closePage={() => {}} />
       <div className="relative flex h-full w-full flex-col gap-6 px-4 sm:px-19">
         <div className="flex w-full justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
-          {/* <div className="flex grow-2 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
-            {recordAt}
-          </div> */}
           <div className="flex grow-5 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
             {selectedPetName}
           </div>
         </div>
         <div className="absolute -top-2 right-[65px] hidden self-end text-base sm:block">
-          <SelectBox options={options} width="105px" footstep />
+          <DiaryOptionsMenu
+            onEdit={() => {
+              const petId = data.petId;
+              const recordAt = encodeURIComponent(data.recordAt);
+              router.push(`/diary/write?petId=${petId}&recordAt=${recordAt}`);
+            }}
+            onDelete={handleDelete}
+          />
         </div>
         <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-10">
           <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
@@ -102,7 +149,6 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
                     const unitLabel =
                       feedUnitOptions.find((opt) => opt.value === item.unit)
                         ?.label ?? item.unit;
-
                     return (
                       <li
                         key={idx}
