@@ -34,6 +34,44 @@ export const createPost = async ({
   return data;
 };
 
+export const updatePost = async ({
+  title,
+  content,
+  boardType,
+  images,
+  postId,
+}: {
+  title: string;
+  content: string;
+  boardType: 'FREE' | 'QUESTION';
+  images: File[];
+  postId: number;
+}) => {
+  const formData = new FormData();
+
+  formData.append('request', JSON.stringify({ title, content, boardType }));
+
+  images.forEach((image) => {
+    formData.append('images', image);
+  });
+
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}`,
+    {
+      method: 'PATCH',
+      body: formData,
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '게시글 작성 실패');
+  }
+
+  return data;
+};
+
 export const getPostDetail = async (postId: number) => {
   const res = await fetch(
     `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}`,

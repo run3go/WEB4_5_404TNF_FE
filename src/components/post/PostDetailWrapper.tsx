@@ -41,7 +41,10 @@ export default function PostDetailWrapper({
             onClick={() => setIsEditModalOpen(false)}
           >
             <div onClick={(e) => e.stopPropagation()}>
-              <PostEditModal onClose={() => setIsEditModalOpen(false)} />
+              <PostEditModal
+                postDetail={postDetail}
+                onClose={() => setIsEditModalOpen(false)}
+              />
             </div>
           </div>
           <div className="fixed z-[120] sm:hidden">
