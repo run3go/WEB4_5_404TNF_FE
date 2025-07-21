@@ -102,6 +102,33 @@ export const getPostDetail = async (postId: number) => {
   return data;
 };
 
+export const getPostList = async ({
+  page,
+  size,
+  boardType,
+  sortType,
+  searchType,
+  keyword,
+}: {
+  page: number;
+  size: number;
+  boardType: 'FREE' | 'QUESTION';
+  sortType: string; //'DATE' | 'LIKE' | 'VIEW';
+  searchType: string; // 'TITLE' | 'CONTENT' | 'TITLE_CONTENT' | 'AUTHOR';
+  keyword: string;
+}) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1?page=${page}&size=${size}&boardType=${boardType}&sortType=${sortType}&searchType=${searchType}&keyword=${keyword}`,
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '게시글 불러오기 실패');
+  }
+
+  return data;
+};
+
 export const createComment = async ({
   postId,
   comment,

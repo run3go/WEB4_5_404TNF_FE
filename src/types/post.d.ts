@@ -1,3 +1,33 @@
+interface Post {
+  articleId: number;
+  userId: number;
+  nickname: string;
+  profileImgPath: string | null;
+  createdAt: string;
+  updatedAt: string | null;
+  title: string;
+  content: string;
+  likes: number;
+  replies: number;
+  views: number;
+  articleImgPath: string[];
+}
+
+interface PageInfo {
+  currentPage: number;
+  totalPages: number;
+  totalElements: number;
+  isFirst: boolean;
+  isLast: boolean;
+}
+
+interface GetBoardPostsResponse {
+  data: {
+    articleList: Post[];
+    pageInfo: PageInfo;
+  };
+}
+
 interface PostDeatail {
   articleId: number;
   userId: number;
@@ -30,7 +60,6 @@ interface CommentListResponse {
     replyList: PostComment[];
     pageInfo: {
       totalElements: number;
-      // other pagination info...
     };
   };
 }
