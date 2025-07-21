@@ -125,14 +125,17 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
         onDelete={handleDelete}
       />
       <div className="relative flex h-full w-full flex-col gap-6 px-4 sm:px-19">
+        {/* mobile */}
         <div className="flex w-full justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
-          <div className="flex grow-2 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
+          <div className="flex h-[38px] flex-1 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 leading-[1.2] sm:w-[160px]">
             {data.recordAt}
           </div>
-          <div className="flex grow-5 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
+          <div className="flex h-[38px] flex-1 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 leading-[1.2] sm:w-[160px]">
             {pet?.name}
           </div>
         </div>
+
+        {/* web */}
         <div className="absolute -top-2 right-[65px] hidden self-end text-base sm:block">
           <DiaryOptionsMenu
             onEdit={() => {
@@ -143,6 +146,8 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
             onDelete={handleDelete}
           />
         </div>
+
+        {/* content */}
         <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-10">
           <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
             <div className="hidden w-full justify-between sm:flex">
@@ -162,7 +167,7 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
               formatAge={formatAge}
             />
             <DiaryCard className="w-full sm:h-[205px]" title="오늘의 건강기록">
-              <div className="mb-2 text-sm sm:mb-6 sm:text-base">
+              <div className="mb-4 text-sm sm:mt-2 sm:mb-6 sm:text-base">
                 <span className="inline-block w-[110px] cursor-default text-[var(--color-primary-500)]">
                   몸무게
                 </span>
@@ -224,7 +229,9 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
               className="mb-7 min-h-50 w-full sm:mb-0 sm:h-full"
               title="관찰노트"
             >
-              <p>{content}</p>
+              <div className="scrollbar-hidden max-h-40 overflow-y-auto sm:max-h-[250px]">
+                <p>{content}</p>
+              </div>
             </DiaryCard>
           </div>
         </div>
