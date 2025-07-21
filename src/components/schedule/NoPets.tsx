@@ -15,7 +15,6 @@ export default function NoPets() {
           alt="로고 이미지"
           width={146}
           height={112}
-          priority
         />
         <div className="flex cursor-default flex-col items-center gap-2 text-[20px]">
           <p>반려견 정보가 없어요!</p>

@@ -1,18 +1,21 @@
 'use client';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Icon from '../common/Icon';
 import AddSchedule from './AddSchedule';
 import PopupMenu from '../common/PopupMenu';
 import { useDeleteSchedule } from '@/lib/hooks/schedule/useDeleteSchedule';
 import { Schedule } from '@/types/schedule';
 import { useAuthStore } from '@/stores/authStoe';
+import PopupMenuPortal from '../common/PopupMenuPortal';
 
 export default function TodoItem({
   name,
   schedule,
+  type,
 }: {
   name?: string;
   schedule?: Schedule;
+  type?: string;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,6 +24,21 @@ export default function TodoItem({
   };
   const { mutate: deleteSchedule } = useDeleteSchedule();
   const { userInfo } = useAuthStore();
+
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
+  const openMenu = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setPopupPosition({
+        top: rect.top + window.scrollY + 10,
+        left: rect.left + window.scrollX - 125,
+      });
+    }
+
+    setIsMenuOpen((prev) => !prev);
+  };
 
   const handleSelect = (label: string) => {
     if (label === '기본일정') {
@@ -74,7 +92,7 @@ export default function TodoItem({
             {name ? name : schedule?.name}
           </span>
         </div>
-        <div className="relative flex gap-5">
+        <div className="relative flex gap-4">
           <Icon
             className="cursor-pointer"
             onClick={() => setIsModalOpen(true)}
@@ -83,22 +101,27 @@ export default function TodoItem({
             left="-225px"
             top="-168px"
           />
-          <Icon
-            onClick={() => {
+          <div
+            ref={buttonRef}
+            onClick={(e) => {
+              e.stopPropagation();
+
               if (schedule?.cycle === 'NONE') {
                 handleSelect('기본일정');
               } else {
-                setIsMenuOpen((prev) => !prev);
+                if (type === 'mobile') {
+                  openMenu();
+                } else {
+                  setIsMenuOpen((prev) => !prev);
+                }
               }
             }}
             className="cursor-pointer"
-            width="14px"
-            height="14px"
-            left="-266px"
-            top="-167px"
-          />
+          >
+            <Icon width="14px" height="14px" left="-266px" top="-167px" />
+          </div>
 
-          {isMenuOpen && (
+          {/* {isMenuOpen && (
             <div className="absolute top-3 left-13 z-50">
               <PopupMenu
                 options={[
@@ -110,7 +133,33 @@ export default function TodoItem({
                 className={'text-[var(--color-black)]'}
               />
             </div>
-          )}
+          )} */}
+
+          {isMenuOpen &&
+            (type === 'mobile' ? (
+              <PopupMenuPortal
+                options={[
+                  { id: '0', label: '이 일정만 삭제' },
+                  { id: '1', label: '반복 일정 전체 삭제' },
+                ]}
+                onSelect={handleSelect}
+                onClose={() => setIsMenuOpen(false)}
+                position={popupPosition}
+                triggerRef={buttonRef}
+              />
+            ) : (
+              <div className="absolute top-3 left-13 z-50">
+                <PopupMenu
+                  options={[
+                    { id: '0', label: '이 일정만 삭제', type: 'delete' },
+                    { id: '1', label: '반복 일정 전체 삭제', type: 'delete' },
+                  ]}
+                  onSelect={handleSelect}
+                  onClose={() => setIsMenuOpen(false)}
+                  className={'text-[var(--color-black)]'}
+                />
+              </div>
+            ))}
         </div>
       </li>
       {isModalOpen && (

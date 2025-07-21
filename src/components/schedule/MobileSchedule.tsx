@@ -12,7 +12,9 @@ import { useAuthStore } from '@/stores/authStoe';
 
 export default function MobileSchedule() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    new Date(),
+  );
   const { userInfo } = useAuthStore();
 
   // 애완견 리스트 불러오기

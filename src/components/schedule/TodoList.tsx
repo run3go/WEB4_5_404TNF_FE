@@ -33,14 +33,16 @@ export default function TodoList({
 
   if (type === 'card' && fullDate) {
     return (
-      <Card className="mt-8 max-h-70 min-h-31 w-full text-sm sm:hidden">
+      <Card className="mt-8 max-h-70 min-h-50 w-full text-sm sm:hidden">
         <div className="mb-3 flex justify-between text-[var(--color-grey)]">
           <span>일정 목록</span>
           <span>{formattedDate}</span>
         </div>
-        <ul className="scrollbar-hidden flex max-h-55 flex-col items-center overflow-y-scroll">
+        <ul className="scrollbar-hidden flex max-h-55 min-h-36 flex-col items-center overflow-y-scroll">
           {schedules && schedules.length > 0 ? (
-            schedules?.map((s) => <TodoItem key={s.scheduleId} schedule={s} />)
+            schedules?.map((s) => (
+              <TodoItem key={s.scheduleId} schedule={s} type="mobile" />
+            ))
           ) : (
             <>
               <Image

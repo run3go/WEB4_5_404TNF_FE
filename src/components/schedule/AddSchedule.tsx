@@ -5,7 +5,7 @@ import SelectBox from '../common/SelectBox';
 import DateInput from '../common/DateInput';
 import { useEffect, useState } from 'react';
 import { cycles } from '@/assets/data/schedule';
-import { format, isBefore, parseISO } from 'date-fns';
+import { addMonths, format, isBefore, parseISO } from 'date-fns';
 import { Schedule } from '@/types/schedule';
 import { useGetPets } from '@/lib/hooks/useGetPets';
 import { useCreateSchedule } from '@/lib/hooks/schedule/useCreateSchedule';
@@ -41,7 +41,9 @@ export default function AddSchedule({
   const [petId, setPetId] = useState<string>('');
   const [initialCycle, setinitialCycle] = useState('NONE');
   const [cycle, setCycle] = useState('NONE');
-  const [cycleEnd, setCycleEnd] = useState<Date | undefined>(fullDate);
+  const [cycleEnd, setCycleEnd] = useState<Date | undefined>(
+    fullDate ? addMonths(fullDate, 3) : fullDate,
+  );
 
   const [cycleLink, setCycleLink] = useState(false);
 
@@ -223,7 +225,7 @@ export default function AddSchedule({
               </div>
             )}
             {isEdit && initialCycle !== 'NONE' && (
-              <div className="flex gap-4">
+              <div className="flex flex-col items-start gap-2 sm:flex-row sm:gap-4">
                 <label className="flex items-center justify-center gap-2">
                   <input
                     type="radio"
