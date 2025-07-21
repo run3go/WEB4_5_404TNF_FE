@@ -116,7 +116,11 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
           <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
             <div className="hidden w-full justify-between sm:flex">
               <Image src={diary} alt="오늘의 멍멍일지를 적어보아요!" />
-              <Calendar selected={new Date(recordAt)} setSelected={() => {}} />
+              <Calendar
+                selected={new Date(recordAt)}
+                setSelected={() => {}}
+                readOnly
+              />
             </div>
             <DiaryProfile
               name={selectedPetName}
