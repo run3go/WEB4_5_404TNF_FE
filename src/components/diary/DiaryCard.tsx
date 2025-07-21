@@ -28,7 +28,7 @@ export default function DiaryCard({
           hasAddBtn && 'justify-between',
         )}
       >
-        <h2 className="text-sm leading-[1.2] font-extrabold text-[var(--color-primary-500)] sm:text-base">
+        <h2 className="cursor-default text-sm leading-[1.2] font-extrabold text-[var(--color-primary-500)] sm:text-base">
           {title}
         </h2>
         {hasAddBtn && (

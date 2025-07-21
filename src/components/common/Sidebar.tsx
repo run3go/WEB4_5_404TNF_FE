@@ -135,11 +135,15 @@ export default function Sidebar() {
               {/* 멍멍일지 */}
               <Link
                 href="/diary"
-                className={`sidebar__content group ${pathname === '/diary' ? 'sidebar__content-active' : ''}`}
+                className={`sidebar__content group ${pathname.startsWith('/diary') ? 'sidebar__content-active' : ''}`}
               >
                 <div className="flex items-center gap-3">
                   <div className="relative h-[24px] w-[24px]">
-                    <div className={pathname === '/diary' ? 'hidden' : 'block'}>
+                    <div
+                      className={
+                        pathname.startsWith('/diary') ? 'hidden' : 'block'
+                      }
+                    >
                       <Icon
                         width="20px"
                         height="24px"
@@ -147,7 +151,11 @@ export default function Sidebar() {
                         top="-21px"
                       />
                     </div>
-                    <div className={pathname === '/diary' ? 'block' : 'hidden'}>
+                    <div
+                      className={
+                        pathname.startsWith('/diary') ? 'block' : 'hidden'
+                      }
+                    >
                       <Icon
                         width="20px"
                         height="24px"
