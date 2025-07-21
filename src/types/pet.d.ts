@@ -8,7 +8,7 @@ type PetPayload = {
   weight: number | null;
   sex: boolean;
   isNeutered: boolean;
-  image: string | null;
+  image: FormData | null;
   userId?: string;
 };
 
@@ -22,7 +22,7 @@ type PetFormValues = {
   weight?: string | null;
   sex: 'true' | 'false';
   isNeutered: 'true' | 'false';
-  image: string | null;
+  image: File | null;
 };
 
 type PetProfile = {

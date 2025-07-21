@@ -18,6 +18,7 @@ import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
@@ -33,24 +34,32 @@ export default function DogProfileEdit({
   petId: number;
 }) {
   const userInfo = useAuthStore((state) => state.userInfo);
+  const [imageUrl, setImageUrl] = useState(profileData?.image || dog);
 
   const queryClient = useQueryClient();
 
-  const { handleSubmit, register, watch, control } = usePetForm(profileData);
+  const { handleSubmit, register, watch, setValue, control } =
+    usePetForm(profileData);
 
   const { mutate: registMutate, isPending: isRegistPending } =
     useRegistMutation(userInfo, closeModal);
   const { mutate: modifyMutate, isPending: isModifyPending } =
     useModifyMutation(userInfo, petId, closeModal);
 
+  const watchedImage = watch('image');
+
   const onSubmit = async (data: PetFormValues) => {
+    const formdata = new FormData();
+    if (watchedImage) {
+      formdata.append('file', watchedImage);
+    }
     const payload = {
       ...data,
       sex: data.sex === 'true' ? true : false,
       isNeutered: data.isNeutered === 'true' ? true : false,
       weight: data.weight ? Number(data.weight) : null,
       registNumber: data.registNumber ? data.registNumber : null,
-      image: null,
+      image: watchedImage ? formdata : null,
     };
     if (profileData) {
       modifyMutate({ payload, petId });
@@ -87,18 +96,34 @@ export default function DogProfileEdit({
           className="flex flex-col items-center"
           onSubmit={handleSubmit(onSubmit, handleError)}
         >
-          {/* 사진 선택 */}
-          <div className="mb-10 flex flex-col items-center gap-4">
+          <label
+            className="group mb-10 flex cursor-pointer flex-col items-center gap-4"
+            htmlFor="image"
+          >
             <Image
-              className="rounded-full"
-              src={dog}
+              className="h-30 w-30 rounded-full object-cover"
+              src={imageUrl}
               alt="강아지 프로필"
               width={120}
               height={120}
               priority
             />
-            <span className="text-[var(--color-grey)]">사진 선택하기</span>
-          </div>
+            <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)]">
+              사진 선택하기
+            </span>
+          </label>
+          <input
+            className="hidden"
+            id="image"
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              if (e.target.files) {
+                setValue('image', e.target.files[0]);
+                setImageUrl(window.URL.createObjectURL(e.target.files[0]));
+              }
+            }}
+          />
           <div className="flex justify-between gap-20 pb-14">
             <div className="w-full">
               <InputField

@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { petProfileSchema } from '../utils/petProfile.schema';
 
 export const usePetForm = (profile?: PetProfile) => {
-  const { handleSubmit, register, watch, reset, control } =
+  const { handleSubmit, register, watch, reset, setValue, control } =
     useForm<PetFormValues>({
       resolver: zodResolver(petProfileSchema),
       defaultValues: profile
@@ -36,7 +36,7 @@ export const usePetForm = (profile?: PetProfile) => {
             weight: '',
           },
     });
-  return { handleSubmit, register, watch, reset, control };
+  return { handleSubmit, register, watch, reset, setValue, control };
 };
 
 export const useRegistMutation = (
