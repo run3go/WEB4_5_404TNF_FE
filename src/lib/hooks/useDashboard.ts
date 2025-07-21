@@ -1,9 +1,11 @@
 import {
+  getDashboardChecklist,
   getDashboardFeeding,
   getDashboardNote,
   getDashboardProfile,
   getDashboardRecommend,
   getDashboardSleep,
+  getDashboardWalking,
   getDashboardWeight,
 } from '@/api/dashboard';
 import { useQuery } from '@tanstack/react-query';
@@ -52,6 +54,22 @@ export const useDashboardFeeding = (petId: number) => {
   return useQuery<DashboardFeeding>({
     queryKey: ['dashboard', 'feeding', petId],
     queryFn: () => getDashboardFeeding(petId),
+    staleTime: 30000,
+  });
+};
+
+export const useDashboardWalking = (petId: number) => {
+  return useQuery<DashboardWalking>({
+    queryKey: ['dashboard', 'walking', petId],
+    queryFn: () => getDashboardWalking(petId),
+    staleTime: 30000,
+  });
+};
+
+export const useDashboardChecklist = (petId: number) => {
+  return useQuery<DashboardChecklist>({
+    queryKey: ['dashboard', 'checklist', petId],
+    queryFn: () => getDashboardChecklist(petId),
     staleTime: 30000,
   });
 };

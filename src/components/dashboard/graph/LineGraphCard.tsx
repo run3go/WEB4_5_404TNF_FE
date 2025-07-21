@@ -12,6 +12,7 @@ import {
 } from 'd3';
 import { formatDate } from 'date-fns';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 export default function LineGraphCard({
@@ -21,6 +22,8 @@ export default function LineGraphCard({
   title: string;
   dataset?: { date: string; weight?: number; sleep?: number }[];
 }) {
+  const router = useRouter();
+
   const [flip, setFlip] = useState(true);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,6 +47,9 @@ export default function LineGraphCard({
 
   useEffect(() => {
     if (!width || !height || !dataset) return;
+    const filteredDataset = dataset
+      ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 6);
 
     //x축(날짜)과 y축(선형)의 범위 설정
     const x = scaleTime().range([0, width]);
@@ -56,10 +62,10 @@ export default function LineGraphCard({
     const isWeight = title === '몸무게';
 
     //x축, y축 도메인값 정의
-    const domainX = extent(dataset, (d) => new Date(d.date));
+    const domainX = extent(filteredDataset, (d) => new Date(d.date));
     x.domain(domainX as [Date, Date]);
 
-    const yValues = dataset
+    const yValues = filteredDataset
       .map((d) => (isWeight ? d.weight : d.sleep))
       .filter((v): v is number => typeof v === 'number');
 
@@ -80,7 +86,7 @@ export default function LineGraphCard({
 
     svg
       .append('path')
-      .datum(dataset)
+      .datum(filteredDataset)
       .attr('fill', 'none')
       .attr(
         'stroke',
@@ -102,7 +108,7 @@ export default function LineGraphCard({
       className="relative h-40 w-full max-w-[558px] sm:h-[200px]"
       animate={{ rotateY: flip ? 0 : 180 }}
       transition={{ duration: 0.7 }}
-      onClick={() => setFlip(!flip)}
+      onClick={() => dataset?.length && setFlip(!flip)}
     >
       <motion.div
         className="absolute w-full backface-hidden"
@@ -110,18 +116,36 @@ export default function LineGraphCard({
         transition={{ duration: 0.7 }}
       >
         {/* 앞면 */}
-        <Card className="card__hover h-40 w-full sm:h-[200px]">
-          <h2 className="mb-8 text-xs font-medium text-[var(--color-grey)] sm:mb-13 sm:text-base sm:text-[var(--color-black)]">
+        <Card
+          className={`${dataset?.length ? 'card__hover' : 'bg-[#fafafa]'} h-40 w-full sm:h-[200px]`}
+        >
+          <h2 className="mb-5 text-xs font-medium text-[var(--color-grey)] sm:text-base sm:text-[var(--color-black)]">
             {title}
           </h2>
           <div className="h-[100px]" ref={containerRef}>
-            <svg
-              ref={svgRef}
-              width="100%"
-              height="100%"
-              viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-              preserveAspectRatio="none"
-            />
+            {dataset?.length ? (
+              <svg
+                className="mt-12"
+                ref={svgRef}
+                width="100%"
+                height="100%"
+                viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+                preserveAspectRatio="none"
+              />
+            ) : (
+              <div className="flex w-full flex-col items-center gap-3">
+                <span className="text-center">
+                  등록된 {title}
+                  {title === '몸무게' ? '가' : '이'} 없어요
+                </span>
+                <button
+                  className="cursor-pointer rounded-full bg-[var(--color-primary-200)] px-4 py-2 transition-all hover:bg-[var(--color-primary-300)]"
+                  onClick={() => router.push('/diary/write')}
+                >
+                  지금 기록하기
+                </button>
+              </div>
+            )}
           </div>
         </Card>
       </motion.div>

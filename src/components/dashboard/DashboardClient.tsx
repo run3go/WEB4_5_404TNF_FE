@@ -11,11 +11,13 @@ import WalkCard from './WalkCard';
 import speechBubbleMobile from '@/assets/images/speech-bubble-mobile.svg';
 import speechBubble from '@/assets/images/speech-bubble.png';
 import {
+  useDashboardChecklist,
   useDashboardFeeding,
   useDashboardNote,
   useDashboardProfile,
   useDashboardRecommend,
   useDashboardSleep,
+  useDashboardWalking,
   useDashboardWeight,
 } from '@/lib/hooks/useDashboard';
 import { useState } from 'react';
@@ -33,6 +35,8 @@ export default function DashboardClient({
   const { data: note } = useDashboardNote(selectedPet);
   const { data: recommend } = useDashboardRecommend(selectedPet);
   const { data: feeding } = useDashboardFeeding(selectedPet);
+  const { data: walking } = useDashboardWalking(selectedPet);
+  const { data: checklist } = useDashboardChecklist(selectedPet);
 
   const petOptions = petList.map((pet) => ({
     value: String(pet.petId),
@@ -82,18 +86,19 @@ export default function DashboardClient({
               alt="말풍선"
               width={558}
               height={98}
+              priority
             />
             <div className="absolute top-1/2 left-1/2 w-full max-w-105 -translate-x-1/2 -translate-y-1/2">
-              {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다'}
+              {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다...'}
             </div>
           </div>
           <div className="flex items-center justify-between gap-5 sm:gap-8">
             <FeedCard feeding={feeding} />
-            <TodoCard />
+            <TodoCard checklist={checklist} />
           </div>
           <NoteCard note={note} />
         </div>
-        <WalkCard />
+        <WalkCard walking={walking} />
       </div>
     </main>
   );

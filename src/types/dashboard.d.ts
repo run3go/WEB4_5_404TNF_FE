@@ -20,3 +20,14 @@ type DashboardFeeding = {
   average: number;
   unit: stirng;
 };
+
+type DashboardWalking = {
+  date: string;
+  time: number;
+  pace: number;
+}[];
+
+type DashboardChecklist = {
+  name: string;
+  isDone: boolean;
+}[];

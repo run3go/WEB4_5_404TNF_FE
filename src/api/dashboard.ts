@@ -120,3 +120,37 @@ export const getDashboardFeeding = async (petId: number) => {
   const data = await res.json();
   return data;
 };
+
+export const getDashboardWalking = async (petId: number) => {
+  const res = await fetch(
+    `${baseURL}/api/dashboard/${petId}/walking?${queryString}`,
+    {
+      credentials: 'include',
+    },
+  );
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '대시보드 산책량 조회 실패');
+  }
+
+  const data = await res.json();
+  return data.walkingList;
+};
+
+export const getDashboardChecklist = async (petId: number) => {
+  const res = await fetch(
+    `${baseURL}/api/dashboard/${petId}/checklist?${queryString}`,
+    {
+      credentials: 'include',
+    },
+  );
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '대시보드 체크리스트 조회 실패');
+  }
+
+  const data = await res.json();
+  return data.todoList;
+};
