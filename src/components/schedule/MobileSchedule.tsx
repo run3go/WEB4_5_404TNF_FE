@@ -8,17 +8,19 @@ import { Schedule } from '@/types/schedule';
 import NoPets from './NoPets';
 import { useGetPets } from '@/lib/hooks/useGetPets';
 import { isSameDay } from 'date-fns';
+import { useAuthStore } from '@/stores/authStoe';
 
 export default function MobileSchedule() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const { userInfo } = useAuthStore();
 
   // 애완견 리스트 불러오기
-  const { data: petOptions, isPending } = useGetPets(10014);
+  const { data: petOptions, isPending } = useGetPets(userInfo?.userId);
 
   // 월 바뀔 때마다 api 호출
   const { data: schedules }: { data?: Schedule[] } = useGetSchedules(
-    10014,
+    userInfo?.userId,
     currentDate,
   );
 

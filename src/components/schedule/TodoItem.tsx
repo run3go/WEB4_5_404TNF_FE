@@ -5,6 +5,7 @@ import AddSchedule from './AddSchedule';
 import PopupMenu from '../common/PopupMenu';
 import { useDeleteSchedule } from '@/lib/hooks/schedule/useDeleteSchedule';
 import { Schedule } from '@/types/schedule';
+import { useAuthStore } from '@/stores/authStoe';
 
 export default function TodoItem({
   name,
@@ -19,6 +20,7 @@ export default function TodoItem({
     setIsModalOpen(false);
   };
   const { mutate: deleteSchedule } = useDeleteSchedule();
+  const { userInfo } = useAuthStore();
 
   const handleSelect = (label: string) => {
     if (label === '기본일정') {
@@ -48,13 +50,15 @@ export default function TodoItem({
 
   // 일정 삭제
   const deleteTodo = (cycleLink: boolean) => {
-    if (schedule?.petId && schedule?.scheduleId) {
+    if (schedule?.petId && schedule?.scheduleId && userInfo) {
       deleteSchedule({
         petId: schedule?.petId,
-        userId: 10014,
+        userId: userInfo?.userId,
         scheduleId: schedule?.scheduleId,
         cycleLink: cycleLink,
       });
+    } else {
+      return;
     }
   };
 

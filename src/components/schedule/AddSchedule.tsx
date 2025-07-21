@@ -12,6 +12,7 @@ import { useCreateSchedule } from '@/lib/hooks/schedule/useCreateSchedule';
 import { useUpdateSchedule } from '@/lib/hooks/schedule/useUpdateSchedule';
 import Lottie from 'lottie-react';
 import loading from '../../assets/images/loading-footprint.json';
+import { useAuthStore } from '@/stores/authStoe';
 
 export default function AddSchedule({
   closeModal,
@@ -26,8 +27,10 @@ export default function AddSchedule({
   fullDate?: Date | undefined;
   schedule?: Schedule;
 }) {
+  const { userInfo } = useAuthStore();
+
   // 애완견 리스트 불러오기
-  const { data: petOptions, isPending } = useGetPets(10014);
+  const { data: petOptions, isPending } = useGetPets(10100);
 
   const { mutate: createSchedule } = useCreateSchedule();
   const { mutate: updateSchedule } = useUpdateSchedule();
@@ -88,33 +91,35 @@ export default function AddSchedule({
       }
     }
 
-    if (isEdit && schedule) {
-      console.log(cycle, date);
+    if (userInfo) {
+      if (isEdit && schedule) {
+        console.log(cycle, date);
 
-      updateSchedule({
-        scheduleId: schedule.scheduleId,
-        userId: 10014, // api 확인 후 제거
-        petId: Number(petId),
-        name,
-        date: format(date, 'yyyy-MM-dd'),
-        cycleLink,
-        cycle,
-        cycleEnd:
-          cycle !== 'NONE'
-            ? format(cycleEnd!, 'yyyy-MM-dd')
+        updateSchedule({
+          scheduleId: schedule.scheduleId,
+          userId: userInfo?.userId, // api 확인 후 제거
+          petId: Number(petId),
+          name,
+          date: format(date, 'yyyy-MM-dd'),
+          cycleLink,
+          cycle,
+          cycleEnd:
+            cycle !== 'NONE'
+              ? format(cycleEnd!, 'yyyy-MM-dd')
+              : format(date, 'yyyy-MM-dd'),
+        });
+      } else {
+        createSchedule({
+          name,
+          date: format(date, 'yyyy-MM-dd'),
+          cycle,
+          cycleEnd: cycleEnd
+            ? format(cycleEnd, 'yyyy-MM-dd')
             : format(date, 'yyyy-MM-dd'),
-      });
-    } else {
-      createSchedule({
-        name,
-        date: format(date, 'yyyy-MM-dd'),
-        cycle,
-        cycleEnd: cycleEnd
-          ? format(cycleEnd, 'yyyy-MM-dd')
-          : format(date, 'yyyy-MM-dd'),
-        userId: 10014, // api 확인 후 제거
-        petId: Number(petId),
-      });
+          userId: userInfo?.userId, // api 확인 후 제거
+          petId: Number(petId),
+        });
+      }
     }
 
     closeModal?.();
