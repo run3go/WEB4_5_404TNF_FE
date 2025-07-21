@@ -8,12 +8,14 @@ interface MeatballsMenuProps {
   options: { id: string; label: string; type: 'post' | 'comment' }[];
   onReportClick?: () => void;
   onEditClick?: () => void;
+  onRemoveClick?: () => void;
 }
 
 export default function MeatballsMenu({
   options,
   onReportClick,
   onEditClick,
+  onRemoveClick,
 }: MeatballsMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(null);
@@ -25,6 +27,9 @@ export default function MeatballsMenu({
 
     if (label === '수정' && onEditClick) {
       onEditClick();
+    }
+    if (label === '삭제' && onRemoveClick) {
+      onRemoveClick();
     }
 
     setIsOpen(false);

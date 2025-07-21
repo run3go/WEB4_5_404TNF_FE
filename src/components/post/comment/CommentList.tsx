@@ -3,7 +3,7 @@ import { useState } from 'react';
 import MeatballsMenu from '../../common/MeatballsMenu';
 import WriterInfo from '../../common/WriterInfo';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCommentList, updateComment } from '@/api/post';
+import { getCommentList, removeComment, updateComment } from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
 
 export default function CommentList({
@@ -68,6 +68,49 @@ export default function CommentList({
     },
   });
 
+  const removeCommentMutation = useMutation({
+    mutationFn: removeComment,
+    onMutate: async ({ postId, replyId }) => {
+      await queryClient.cancelQueries({ queryKey: ['comment-list', postId] });
+
+      const previousData = queryClient.getQueryData(['comment-list', postId]);
+
+      queryClient.setQueryData<CommentListResponse>(
+        ['comment-list', postId],
+        (oldData) => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              replyList: oldData.data.replyList.filter(
+                (reply) => reply.replyId !== replyId,
+              ),
+              pageInfo: {
+                ...oldData.data.pageInfo,
+                totalElements: oldData.data.pageInfo.totalElements - 1,
+              },
+            },
+          };
+        },
+      );
+
+      return { previousData };
+    },
+    onError: (_err, post, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(
+          ['comment-list', post.postId],
+          context.previousData,
+        );
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['comment-list', postId] });
+    },
+  });
+
   const handleEditClick = (commentId: number, currentContent: string) => {
     setEditingCommentId(commentId);
     setEditedContent(currentContent);
@@ -80,6 +123,10 @@ export default function CommentList({
 
   const handleUpdateComment = (replyId: number, comment: string) => {
     updateCommentMutation.mutate({ postId, replyId, comment });
+  };
+
+  const handleRemoveComment = (postId: number, replyId: number) => {
+    removeCommentMutation.mutate({ postId, replyId });
   };
   return (
     <>
@@ -130,6 +177,9 @@ export default function CommentList({
                         handleEditClick(comment.replyId, comment.content);
                       }
                     }}
+                    onRemoveClick={() =>
+                      handleRemoveComment(postId, comment.replyId)
+                    }
                   />
                 )}
               </div>

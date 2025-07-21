@@ -115,3 +115,27 @@ export const updateComment = async ({
 
   return data;
 };
+
+export const removeComment = async ({
+  postId,
+  replyId,
+}: {
+  postId: number;
+  replyId: number;
+}) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1/${replyId}`,
+    {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '댓글 삭제 실패');
+  }
+
+  return data;
+};
