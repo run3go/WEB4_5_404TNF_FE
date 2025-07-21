@@ -89,3 +89,29 @@ export const getCommentList = async ({
 
   return data;
 };
+
+export const updateComment = async ({
+  postId,
+  replyId,
+  comment,
+}: {
+  postId: number;
+  replyId: number;
+  comment: string;
+}) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1/${replyId}?content=${comment}`,
+    {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '댓글 작성 실패');
+  }
+
+  return data;
+};

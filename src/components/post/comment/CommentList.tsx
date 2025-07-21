@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import MeatballsMenu from '../../common/MeatballsMenu';
 import WriterInfo from '../../common/WriterInfo';
-import { useQuery } from '@tanstack/react-query';
-import { getCommentList } from '@/api/post';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getCommentList, updateComment } from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
 
 export default function CommentList({
@@ -19,9 +19,53 @@ export default function CommentList({
   const [editedContent, setEditedContent] = useState<string>('');
   const userInfo = useAuthStore((state) => state.userInfo);
 
+  const queryClient = useQueryClient();
+
   const { data } = useQuery({
     queryKey: ['comment-list', postId],
     queryFn: () => getCommentList({ postId, totalComment }),
+  });
+
+  const updateCommentMutation = useMutation({
+    mutationFn: updateComment,
+    onMutate: async ({ replyId, comment }) => {
+      handleCancel();
+      await queryClient.cancelQueries({ queryKey: ['comment-list', postId] });
+
+      const previousData = queryClient.getQueryData(['comment-list', postId]);
+
+      queryClient.setQueryData<CommentListResponse>(
+        ['comment-list', postId],
+        (oldData) => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              replyList: oldData.data.replyList.map((reply) => {
+                return reply.replyId === replyId
+                  ? { ...reply, content: comment }
+                  : reply;
+              }),
+            },
+          };
+        },
+      );
+
+      return { previousData };
+    },
+    onError: (_err, post, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(
+          ['comment-list', post.postId],
+          context.previousData,
+        );
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['comment-list', postId] });
+    },
   });
 
   const handleEditClick = (commentId: number, currentContent: string) => {
@@ -32,6 +76,10 @@ export default function CommentList({
   const handleCancel = () => {
     setEditingCommentId(null);
     setEditedContent('');
+  };
+
+  const handleUpdateComment = (replyId: number, comment: string) => {
+    updateCommentMutation.mutate({ postId, replyId, comment });
   };
   return (
     <>
@@ -54,7 +102,14 @@ export default function CommentList({
 
                 {isEditing ? (
                   <div className="flex gap-[17px] text-[16px] font-medium">
-                    <div className="cursor-pointer text-[#FF9526]">저장</div>
+                    <div
+                      className="cursor-pointer text-[#FF9526]"
+                      onClick={() =>
+                        handleUpdateComment(comment.replyId, editedContent)
+                      }
+                    >
+                      저장
+                    </div>
                     <div
                       onClick={handleCancel}
                       className="cursor-pointer text-[#909090]"

@@ -52,7 +52,7 @@ export default function CommentInput({ postId }: { postId: number }) {
 
       return { previousData };
     },
-    onError: (err, post, context) => {
+    onError: (_err, post, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(
           ['comment-list', post.postId],
