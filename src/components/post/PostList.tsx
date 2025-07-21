@@ -31,9 +31,9 @@ export default function PostList({
   boardType: 'free' | 'question';
   initialData: GetBoardPostsResponse;
 }) {
-  const [sortType, setSortType] = useState('');
-  const [searchType, setSearchType] = useState('');
-  const [inputSearchType, setInputSearchType] = useState('');
+  const [sortType, setSortType] = useState('DATE');
+  const [searchType, setSearchType] = useState('TITLE_CONTENT');
+  const [inputSearchType, setInputSearchType] = useState('TITLE_CONTENT');
   const [keyword, setKeyword] = useState('');
   const [inputKeyword, setInputKeyword] = useState('');
 
