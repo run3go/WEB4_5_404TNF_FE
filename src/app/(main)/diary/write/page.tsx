@@ -104,7 +104,10 @@ export default function DiaryWrite() {
 
         <div className="flex items-center justify-between">
           <div className="hidden sm:block">
-            <button className="flex cursor-pointer items-center gap-2">
+            <button
+              className="flex cursor-pointer items-center gap-2 text-base"
+              onClick={() => router.back()}
+            >
               <Icon width="8px" height="13px" left="-425px" top="-320px" />
               <p>뒤로가기</p>
             </button>
