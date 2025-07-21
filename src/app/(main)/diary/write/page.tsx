@@ -11,7 +11,10 @@ import DiaryProfile from '@/components/diary/DiaryProfile';
 import MobileTitle from '@/components/common/MobileTitle';
 import Image from 'next/image';
 import DiaryCard from '@/components/diary/DiaryCard';
-import { useDiaryForm } from '@/lib/hooks/useDiaryForm';
+import { useDiaryForm } from '@/lib/hooks/diary/useDiaryForm';
+import { twMerge } from 'tailwind-merge';
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 const feedUnitOptions = [
   { label: 'g', value: 'GRAM' },
@@ -21,6 +24,9 @@ const feedUnitOptions = [
 ];
 
 export default function DiaryWrite() {
+  const searchParams = useSearchParams();
+  const petId = searchParams.get('petId') || undefined;
+  const recordAt = searchParams.get('recordAt') || undefined;
   const {
     selected,
     setSelected,
@@ -36,15 +42,31 @@ export default function DiaryWrite() {
     setFeedingList,
     pets,
     selectedPetName,
+    selectedPetAge,
+    selectedPetDays,
+    breedLabel,
+    sizeLabel,
+    formatAge,
     handleSubmit,
     walkingList,
     setWalkingList,
-  } = useDiaryForm();
+    isSubmitting,
+  } = useDiaryForm(petId, recordAt);
 
   const petOptions = pets.map((pet) => ({
     value: pet.petId.toString(),
     label: pet.name,
   }));
+  const router = useRouter();
+
+  const onClickSave = async () => {
+    try {
+      const lifeRecordId = await handleSubmit();
+      router.push(`/diary/${lifeRecordId}`);
+    } catch (err) {
+      console.error('등록 실패:', err);
+    }
+  };
   return (
     <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-4 sm:pb-0">
       <MobileTitle title="멍멍일지" closePage={() => {}} onClick={() => {}} />
@@ -71,10 +93,15 @@ export default function DiaryWrite() {
             />
           </div>
           <button
-            className="hidden w-[115px] cursor-pointer rounded-xl bg-[var(--color-primary-500)] text-base sm:block"
-            onClick={handleSubmit}
+            className={twMerge(
+              'hidden w-[115px] rounded-xl bg-[var(--color-primary-200)] text-base sm:block',
+              !isSubmitting &&
+                'cursor-pointer hover:bg-[var(--color-primary-500)]',
+            )}
+            onClick={onClickSave}
+            disabled={isSubmitting}
           >
-            저장하기
+            {isSubmitting ? '저장 중...' : '저장하기'}
           </button>
         </div>
 
@@ -84,7 +111,14 @@ export default function DiaryWrite() {
               <Image src={diary} alt="오늘의 멍멍일지를 적어보아요!" />
               <Calendar selected={selected} setSelected={setSelected} />
             </div>
-            <DiaryProfile />
+            <DiaryProfile
+              name={selectedPetName}
+              age={selectedPetAge}
+              days={selectedPetDays}
+              breedLabel={breedLabel}
+              sizeLabel={sizeLabel}
+              formatAge={formatAge}
+            />
             <DiaryCard className="w-full sm:h-[205px]" title="오늘의 건강기록">
               <SingleInput
                 title="몸무게"
