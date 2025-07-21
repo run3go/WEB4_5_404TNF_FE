@@ -8,12 +8,14 @@ interface PostDetailCardProps {
   postDetail: PostDeatail;
   onReportClick: () => void;
   onEditClick: () => void;
+  onRemoveClick: () => void;
 }
 
 export default function PostDetailCard({
   postDetail,
   onReportClick,
   onEditClick,
+  onRemoveClick,
 }: PostDetailCardProps) {
   return (
     <>
@@ -33,6 +35,7 @@ export default function PostDetailCard({
             ]}
             onReportClick={onReportClick}
             onEditClick={onEditClick}
+            onRemoveClick={onRemoveClick}
           />
         </div>
         <div>

@@ -72,6 +72,23 @@ export const updatePost = async ({
   return data;
 };
 
+export const removePost = async ({ postId }: { postId: number }) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}`,
+    {
+      method: 'DELETE',
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '게시글 삭제 실패');
+  }
+
+  return data;
+};
+
 export const getPostDetail = async (postId: number) => {
   const res = await fetch(
     `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}`,

@@ -8,14 +8,31 @@ import ReportModal from './ReportModal';
 import PostEditModal from './PostEditModal';
 import MobilePostEditModal from './MobilePostEditModal';
 import MobileTitle from '../common/MobileTitle';
+import { useMutation } from '@tanstack/react-query';
+import { removePost } from '@/api/post';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function PostDetailWrapper({
   postDetail,
 }: {
   postDetail: PostDeatail;
 }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const removePostMutation = useMutation({
+    mutationFn: removePost,
+    onSuccess: () => {
+      const path = pathname.split('/').slice(0, -1).join('/');
+      router.push(path);
+    },
+  });
+
+  const handleRemoveClick = () => {
+    removePostMutation.mutate({ postId: postDetail.articleId });
+  };
 
   return (
     <div
@@ -59,6 +76,7 @@ export default function PostDetailWrapper({
           postDetail={postDetail}
           onReportClick={() => setIsReportModalOpen(true)}
           onEditClick={() => setIsEditModalOpen(true)}
+          onRemoveClick={handleRemoveClick}
         />
         <div className="flex flex-col-reverse sm:block">
           <CommentInput postId={postDetail.articleId} />
