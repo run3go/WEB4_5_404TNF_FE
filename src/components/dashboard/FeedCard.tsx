@@ -25,7 +25,7 @@ export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
           {feeding.amount} {unitLabel}
         </span>
       </div>
-      <DonutGraph />
+      <DonutGraph feeding={feeding} />
     </Card>
   );
 }

@@ -2,8 +2,14 @@
 import { arc, interpolate, select } from 'd3';
 import { useEffect, useRef } from 'react';
 
-export default function DonutGraph() {
+export default function DonutGraph({ feeding }: { feeding: DashboardFeeding }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
+
+  const diff = feeding.average - feeding.amount;
+  const percent = Math.ceil(Math.abs(diff / feeding.average) * 100);
+  const mainColor = diff > 0 ? 'var(--color-red-300)' : 'var(--color-blue-300)';
+  const subColor = diff > 0 ? 'var(--color-red-100)' : 'var(--color-blue-100)';
+  const textColor = diff > 0 ? 'var(--color-red)' : 'var(--color-blue)';
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -13,7 +19,7 @@ export default function DonutGraph() {
     const outerRadius = height / 2;
     const innerRadius = outerRadius * 0.75;
     const tau = 2 * Math.PI;
-    const percent = 0.75;
+    const percent = feeding.amount / feeding.average - 1;
 
     const svg = select(svgRef.current);
     svg.selectAll('*').remove();
@@ -30,13 +36,13 @@ export default function DonutGraph() {
 
     g.append('path')
       .datum({ endAngle: tau } as d3.DefaultArcObject)
-      .style('fill', 'var( --color-red-100)')
+      .style('fill', subColor)
       .attr('d', arcGenerator);
 
     const foreground = g
       .append('path')
       .datum({ endAngle: 0 } as d3.DefaultArcObject)
-      .style('fill', 'var(--color-red-300)')
+      .style('fill', mainColor)
       .attr('d', arcGenerator);
 
     foreground
@@ -49,13 +55,15 @@ export default function DonutGraph() {
           return arcGenerator(d)!;
         };
       });
-  }, []);
+  }, [feeding, mainColor, subColor]);
 
   return (
     <div className="relative self-center">
       <svg width={105} height={105} ref={svgRef}></svg>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-0 pr-1 text-sm tracking-tighter text-[var(--color-red)]">
-        ▾ 25 %
+      <div
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-0 pr-1 text-xs tracking-tighter text-[${textColor}]`}
+      >
+        {diff < 0 ? '▴' : '▾'} {percent} %
       </div>
     </div>
   );
