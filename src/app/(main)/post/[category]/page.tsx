@@ -5,6 +5,7 @@ import SelectBox from '@/components/common/SelectBox';
 import PostCard from '@/components/post/PostCard';
 import SearchButton from '@/components/post/SearchButton';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 const SORT = [
   { value: '최신순', label: '최신순' },
@@ -25,6 +26,9 @@ export default async function Board({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
+  if (category !== 'free' && category !== 'question') {
+    notFound();
+  }
   return (
     <>
       <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] sm:h-full">
