@@ -14,7 +14,7 @@ interface PostDeatail {
   images: string[];
 }
 
-interface Comment {
+interface PostComment {
   articleId: number;
   replyId: number;
   userId: number;
@@ -23,4 +23,14 @@ interface Comment {
   content: string;
   createdAt: string;
   updatedAt: string | null;
+}
+
+interface CommentListResponse {
+  data: {
+    replyList: PostComment[];
+    pageInfo: {
+      totalElements: number;
+      // other pagination info...
+    };
+  };
 }

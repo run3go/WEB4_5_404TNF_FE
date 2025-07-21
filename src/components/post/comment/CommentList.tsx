@@ -20,7 +20,7 @@ export default function CommentList({
   const userInfo = useAuthStore((state) => state.userInfo);
 
   const { data } = useQuery({
-    queryKey: ['comment-list', postId, totalComment],
+    queryKey: ['comment-list', postId],
     queryFn: () => getCommentList({ postId, totalComment }),
   });
 
@@ -36,8 +36,8 @@ export default function CommentList({
   return (
     <>
       <div className="mb-8">
-        <p className="pl-[34px] text-[16px] font-medium sm:pl-0 sm:text-[22px] sm:font-bold">{`댓글 (${totalComment})`}</p>
-        {data?.data?.replyList.map((comment: Comment) => {
+        <p className="pl-[34px] text-[16px] font-medium sm:pl-0 sm:text-[22px] sm:font-bold">{`댓글 (${data?.data.pageInfo.totalElements ?? 0})`}</p>
+        {data?.data?.replyList.map((comment: PostComment) => {
           const isEditing = editingCommentId === comment.replyId;
 
           return (
