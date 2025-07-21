@@ -1,6 +1,7 @@
 import DateInput from '@/components/common/DateInput';
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
+import { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
@@ -15,8 +16,8 @@ export default function VaccineInput({
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
-
-  const { control, register, watch, setValue } = useFormContext();
+  const { control, register, watch, reset, setValue, getValues } =
+    useFormContext();
 
   const types = [
     { value: 'FIRST', label: '기초' },
@@ -26,29 +27,31 @@ export default function VaccineInput({
 
   const watchedType = watch(`${eng}.vaccineType`);
 
-  if (watchedType === 'FIRST') {
-    setValue(`${eng}.count`, 1);
-  }
+  const resetInput = () => {
+    reset({
+      ...getValues(),
+      [eng]: {
+        vaccineAt: null,
+        vaccineType: 'FIRST',
+        count: 1,
+      },
+    });
+  };
 
-  if (watchedType === 'ADDITIONAL') {
-    setValue(`${eng}.count`, null);
-  }
+  useEffect(() => {
+    if (watchedType === 'FIRST') {
+      setValue(`${eng}.count`, 1);
+    }
+
+    if (watchedType === 'ADDITIONAL') {
+      setValue(`${eng}.count`, null);
+    }
+  }, [setValue, watchedType, eng]);
 
   if (isMobile) {
     return (
       <li className="flex w-full items-center py-[9px] pl-3 text-xs">
-        <div className="flex basis-6/22 gap-1">
-          {name}
-          <div className="relative">
-            <Icon
-              className="scale-80 cursor-pointer"
-              width="18px"
-              height="18px"
-              left="-377px"
-              top="-257px"
-            />
-          </div>
-        </div>
+        <div className="flex basis-5/22 gap-1">{name}</div>
         <div className="basis-5/22">
           <Controller
             name={`${eng}.vaccineType`}
@@ -65,13 +68,13 @@ export default function VaccineInput({
             )}
           />
         </div>
-        <div className="relative basis-9/22">
+        <div className="relative basis-15/44">
           <Controller
             name={`${eng}.vaccineAt`}
             control={control}
             render={({ field }) => (
               <DateInput
-                className="w-full rounded-[12px] p-0 pl-[6px]"
+                className="w-full rounded-[12px] p-0"
                 selected={field.value}
                 setSelected={(date) => field.onChange(date)}
                 disableFuture
@@ -81,7 +84,7 @@ export default function VaccineInput({
             )}
           />
         </div>
-        <div className="flex basis-2/11 items-center px-2">
+        <div className="flex basis-3/22 items-center">
           <input
             className={twMerge(
               'w-full text-center leading-[1.2]',
@@ -100,6 +103,14 @@ export default function VaccineInput({
             {...register(`${eng}.count`)}
           />
         </div>
+        <Icon
+          className="cursor-pointer"
+          onClick={resetInput}
+          width="16px"
+          height="16px"
+          left="-409px"
+          top="-258px"
+        />
       </li>
     );
   } else
@@ -141,7 +152,7 @@ export default function VaccineInput({
             )}
           />
         </div>
-        <div className="flex basis-2/11 items-center pr-3">
+        <div className="flex basis-2/11 items-center pr-6">
           {watchedType !== 'ADDITIONAL' ? (
             <>
               <input
@@ -167,6 +178,14 @@ export default function VaccineInput({
             <div className="h-11" />
           )}
         </div>
+        <Icon
+          className="cursor-pointer"
+          onClick={resetInput}
+          width="16px"
+          height="16px"
+          left="-409px"
+          top="-258px"
+        />
       </li>
     );
 }

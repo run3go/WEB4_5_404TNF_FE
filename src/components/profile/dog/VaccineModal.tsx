@@ -1,5 +1,4 @@
 'use client';
-import { vaccineArr } from '@/assets/data/pet';
 import Icon from '@/components/common/Icon';
 import { useVaccineForm, useVaccineMutation } from '@/lib/hooks/useVaccineForm';
 import { formatDate } from 'date-fns';
@@ -31,7 +30,6 @@ export default function VaccineModal({
   const { mutate, isPending, isError } = useVaccineMutation(petId, () =>
     setIsEditing(false),
   );
-
   const DHPPL = vaccineData?.find((data) => data.vaccine.name === 'DHPPL');
   const CORONAVIRUS = vaccineData?.find(
     (data) => data.vaccine.name === 'CORONAVIRUS',
@@ -55,25 +53,11 @@ export default function VaccineModal({
         count: item[1].count,
       }))
       .filter((item) => item.vaccineAt && item.vaccineType);
-    const mappedData = Object.values(data).map((item) =>
-      item.count && item.vaccineAt && item.vaccineType
-        ? item
-        : { vaccineAt: undefined, vaccineType: 'FIRST', count: undefined },
-    );
-
-    const resetValues = mappedData.reduce(
-      (acc, cur, index) => ({
-        ...acc,
-        [vaccineArr[index]]: cur,
-      }),
-      {},
-    );
 
     if (payload) {
       mutate({ payload: payload as VaccinePayload[], petId });
     }
     if (isError) return;
-    methods.reset(resetValues);
   };
 
   const cancelInput = () => {
@@ -182,15 +166,17 @@ export default function VaccineModal({
             </div>
             <div>
               <div className="flex w-full border-b border-[var(--color-primary-300)] py-[10px] pl-3">
-                <span className="basis-6/22 sm:basis-2/11">백신이름</span>
+                <span className="basis-5/22 sm:basis-2/11">백신이름</span>
 
-                <div className="basis-5/22 sm:basis-3/11 sm:pl-4">
+                <div className="basis-5/22 pl-2 sm:basis-3/11 sm:pl-[12px]">
                   <span className="inline-block w-[22px] text-center sm:w-[27px]">
                     유형
                   </span>
                 </div>
-                <span className="basis-4/11 sm:pl-[21px]">접종일</span>
-                <span className="basis-2/11 text-center sm:pl-[26px] sm:text-start">
+                <span className="basis-3/11 sm:basis-4/11 sm:pl-[14px]">
+                  접종일
+                </span>
+                <span className="basis-2/11 pl-[30px] text-center sm:pl-[6px] sm:text-start">
                   차수
                 </span>
               </div>
