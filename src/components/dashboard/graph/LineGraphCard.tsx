@@ -19,7 +19,7 @@ export default function LineGraphCard({
   dataset,
 }: {
   title: string;
-  dataset: { date: string; value: number }[];
+  dataset?: { date: string; weight?: number; sleep?: number }[];
 }) {
   const [flip, setFlip] = useState(true);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -43,7 +43,7 @@ export default function LineGraphCard({
   }, []);
 
   useEffect(() => {
-    if (!width || !height || dataset.length === 0) return;
+    if (!width || !height || !dataset) return;
 
     //x축(날짜)과 y축(선형)의 범위 설정
     const x = scaleTime().range([0, width]);
@@ -53,18 +53,29 @@ export default function LineGraphCard({
     const svg = select(svgRef.current);
     svg.selectAll('*').remove();
 
+    const isWeight = title === '몸무게';
+
     //x축, y축 도메인값 정의
     const domainX = extent(dataset, (d) => new Date(d.date));
-    const domainY = [
-      (min(dataset, (d) => d.value) as number) - 0.2,
-      (max(dataset, (d) => d.value) as number) + 0.2,
-    ];
     x.domain(domainX as [Date, Date]);
+
+    const yValues = dataset
+      .map((d) => (isWeight ? d.weight : d.sleep))
+      .filter((v): v is number => typeof v === 'number');
+
+    const domainY: [number, number] = [
+      (min(yValues) ?? 0) - 0.2,
+      (max(yValues) ?? 1) + 0.2,
+    ];
     y.domain(domainY as number[]);
 
-    const lineGenerator = line<{ date: string; value: number }>()
+    const lineGenerator = line<{
+      date: string;
+      weight?: number;
+      sleep?: number;
+    }>()
       .x((d) => x(new Date(d.date)))
-      .y((d) => y(d.value))
+      .y((d) => y(isWeight ? d.weight! : d.sleep!))
       .curve(curveBasis);
 
     svg
@@ -130,17 +141,22 @@ export default function LineGraphCard({
               </tr>
             </thead>
             <tbody className="scrollbar-hidden block h-23 overflow-y-scroll text-sm sm:h-[115px] sm:text-base">
-              {dataset.map((data, index) => (
-                <tr
-                  key={index}
-                  className="flex w-full border-b border-[var(--color-primary-100)] py-[6px] text-center last:border-0"
-                >
-                  <td className="basis-2/5">
-                    {formatDate(data.date, 'yyyy. M. d')}
-                  </td>
-                  <td className="basis-2/5">{`${data.value} ${title === '몸무게' ? 'kg' : '시간'}`}</td>
-                </tr>
-              ))}
+              {dataset &&
+                dataset.map((data, index) => (
+                  <tr
+                    key={index}
+                    className="flex w-full border-b border-[var(--color-primary-100)] py-[6px] text-center last:border-0"
+                  >
+                    <td className="basis-2/5">
+                      {formatDate(data.date, 'yyyy. M. d')}
+                    </td>
+                    <td className="basis-2/5">
+                      {title === '몸무게'
+                        ? `${data.weight ?? '-'} kg`
+                        : `${data.sleep ?? '-'} 시간`}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </Card>
