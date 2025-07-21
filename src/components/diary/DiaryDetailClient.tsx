@@ -9,9 +9,10 @@ import DiaryProfile from './DiaryProfile';
 import DiaryOptionsMenu from './DiaryOptionsMenu';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { useDiaryForm } from '@/lib/hooks/diary/useDiaryForm';
 import { useDiaryDetail } from '@/lib/hooks/diary/useDiaryDetail';
 import { useDeleteDiary } from '@/lib/hooks/diary/useDeleteDiary';
+import { getPetsByUserId } from '@/api/diary';
+import { petBreedData, petSizeData } from '@/assets/data/pet';
 
 const feedUnitOptions = [
   { label: 'g', value: 'GRAM' },
@@ -28,18 +29,35 @@ const formatTime = (datetime: string) => {
 };
 
 export default function DiaryDetailClient({ logId }: { logId: number }) {
-  const {
-    selectedPetName,
-    selectedPetAge,
-    selectedPetDays,
-    breedLabel,
-    sizeLabel,
-    formatAge,
-  } = useDiaryForm();
   const router = useRouter();
 
   // diary detail
   const { data, isLoading, error } = useDiaryDetail(logId);
+
+  // pet profile
+  const [pet, setPet] = useState<PetProfile | null>(null);
+  const formatAge = (age: number) => {
+    const years = Math.floor(age / 12);
+    const months = age % 12;
+    return `${years}년 ${months}개월`;
+  };
+  const getBreedLabel = (breed?: string) =>
+    petBreedData.find((b) => b.value === breed)?.label ?? '-';
+
+  const getSizeLabel = (size?: string) =>
+    petSizeData.find((s) => s.value === size)?.label ?? '-';
+  useEffect(() => {
+    const fetchPet = async () => {
+      const userId = Number(sessionStorage.getItem('userId')) || null;
+      if (!userId || !data?.petId) return;
+
+      const pets: PetProfile[] = await getPetsByUserId(userId);
+      const matchedPet = pets.find((p) => p.petId === data.petId);
+      setPet(matchedPet || null);
+    };
+
+    fetchPet();
+  }, [data?.petId]);
 
   // options menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -95,11 +113,24 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
 
   return (
     <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-9 sm:pb-0">
-      <MobileTitle title="멍멍일지" closePage={() => {}} />
+      <MobileTitle
+        title="멍멍일지"
+        closePage={() => router.back()}
+        showOptionsMenu
+        onEdit={() =>
+          router.push(
+            `/diary/write?petId=${data.petId}&recordAt=${encodeURIComponent(data.recordAt)}`,
+          )
+        }
+        onDelete={handleDelete}
+      />
       <div className="relative flex h-full w-full flex-col gap-6 px-4 sm:px-19">
         <div className="flex w-full justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
+          <div className="flex grow-2 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
+            {data.recordAt}
+          </div>
           <div className="flex grow-5 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
-            {selectedPetName}
+            {pet?.name}
           </div>
         </div>
         <div className="absolute -top-2 right-[65px] hidden self-end text-base sm:block">
@@ -123,11 +154,11 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
               />
             </div>
             <DiaryProfile
-              name={selectedPetName}
-              age={selectedPetAge}
-              days={selectedPetDays}
-              breedLabel={breedLabel}
-              sizeLabel={sizeLabel}
+              name={pet?.name ?? '-'}
+              age={Number(pet?.age)}
+              days={pet?.days ?? 0}
+              breedLabel={getBreedLabel(pet?.breed)}
+              sizeLabel={getSizeLabel(pet?.size)}
               formatAge={formatAge}
             />
             <DiaryCard className="w-full sm:h-[205px]" title="오늘의 건강기록">
@@ -189,7 +220,10 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
                 </ul>
               </DiaryCard>
             </div>
-            <DiaryCard className="mb-7 h-full w-full sm:mb-0" title="관찰노트">
+            <DiaryCard
+              className="mb-7 min-h-50 w-full sm:mb-0 sm:h-full"
+              title="관찰노트"
+            >
               <p>{content}</p>
             </DiaryCard>
           </div>
