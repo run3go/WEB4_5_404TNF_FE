@@ -90,7 +90,7 @@ export default function PostList({
         </div>
 
         {/* 검색 및 정렬 영역 */}
-        <div className="mt-[31px] flex flex-none items-center justify-between sm:gap-[39vw] sm:pl-[6.27vw]">
+        <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[6.27vw]">
           <SearchBar
             options={SEARCH_LIST}
             setSearchType={setInputSearchType}
@@ -98,7 +98,7 @@ export default function PostList({
             keyword={inputKeyword}
             onSearch={handleSearch}
           />
-          <div className="flex w-full items-center gap-6 pl-1 sm:pr-[6.27vw] sm:pl-0">
+          <div className="flex w-full items-center gap-6 pl-1 sm:w-auto sm:pr-[6.27vw] sm:pl-0">
             <div className="flex w-full items-center justify-between sm:w-auto">
               <SelectBox
                 width={'90px'}
