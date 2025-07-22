@@ -1,8 +1,16 @@
+import { useRouter } from 'next/navigation';
 import Card from '../common/Card';
 import PostStats from '../common/PostStats';
 import WriterInfo from '../common/WriterInfo';
 
-export default function PostCard({ post }: { post: Post }) {
+export default function PostCard({
+  post,
+  boardType,
+}: {
+  post: Post;
+  boardType: 'free' | 'question';
+}) {
+  const router = useRouter();
   return (
     <>
       <Card className="mx-1 flex h-[192px] w-full flex-col p-4 sm:h-[228px] sm:w-full sm:p-5">
@@ -13,7 +21,12 @@ export default function PostCard({ post }: { post: Post }) {
             profileImage={post.profileImgPath}
           />
           <div className="mt-3 flex h-[80px] justify-between sm:mt-0">
-            <div className="cursor-pointer">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() =>
+                router.push(`/post/${boardType}/${post.articleId}`)
+              }
+            >
               <p className="text-[14px] font-bold sm:pt-4 sm:text-[20px]">
                 {post.title}
               </p>

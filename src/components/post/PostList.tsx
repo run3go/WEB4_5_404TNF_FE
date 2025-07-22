@@ -132,7 +132,11 @@ export default function PostList({
         <div className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pr-2 pb-[20px] sm:space-y-10 sm:px-[6.27vw]">
           {data?.pages.map((page) =>
             page.articleList.map((post: Post) => (
-              <PostCard key={post.articleId} post={post} />
+              <PostCard
+                key={post.articleId}
+                post={post}
+                boardType={boardType}
+              />
             )),
           )}
 
