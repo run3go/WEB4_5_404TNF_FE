@@ -8,7 +8,7 @@ export default function AdminTable({
   data,
 }: {
   type: 'user' | 'report';
-  data: User[] | Reports[];
+  data: UserInfo[] | ReportInfo[];
 }) {
   const [sortKey, setSortKey] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
@@ -28,19 +28,19 @@ export default function AdminTable({
   const getSortedData = () => {
     if (!sortKey) return data;
 
-    const sorted = [...(data as Array<User | Reports>)].sort((a, b) => {
-      const valueA = a[sortKey as keyof (User | Reports)];
-      const valueB = b[sortKey as keyof (User | Reports)];
+    const sorted = [...(data as Array<UserInfo | ReportInfo>)].sort((a, b) => {
+      const valueA = a[sortKey as keyof (UserInfo | ReportInfo)];
+      const valueB = b[sortKey as keyof (UserInfo | ReportInfo)];
 
       if (valueA == null) return 1;
       if (valueB == null) return -1;
 
-      // 숫자 or 문자열 정렬
+      // 숫자 정렬
       if (typeof valueA === 'number' && typeof valueB === 'number') {
         return sortOrder === 'asc' ? valueA - valueB : valueB - valueA;
       }
 
-      // 날짜 문자열 정렬 (yyyy.MM.dd or ISO)
+      // 날짜 정렬
       if (
         typeof valueA === 'string' &&
         typeof valueB === 'string' &&
@@ -53,7 +53,7 @@ export default function AdminTable({
           : bDate.getTime() - aDate.getTime();
       }
 
-      // 기본: 문자열 정렬
+      // 문자열 정렬
       return sortOrder === 'asc'
         ? String(valueA).localeCompare(String(valueB))
         : String(valueB).localeCompare(String(valueA));
@@ -195,7 +195,7 @@ export default function AdminTable({
         </thead>
         <tbody>
           {type === 'user' &&
-            (getSortedData() as User[]).map((user, i) => (
+            (getSortedData() as UserInfo[]).map((user, i) => (
               <tr
                 key={user.id}
                 className="h-10 cursor-default border-b border-[var(--color-black)]"
@@ -217,7 +217,7 @@ export default function AdminTable({
             ))}
 
           {type === 'report' &&
-            (getSortedData() as Reports[]).map((report, i) => (
+            (getSortedData() as ReportInfo[]).map((report, i) => (
               <React.Fragment key={report.id}>
                 <tr
                   // key={report.id}

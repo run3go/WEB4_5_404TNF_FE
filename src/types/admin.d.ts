@@ -13,7 +13,7 @@ type Article = {
 
 type UserStatus = '활성' | '정지';
 
-type User = {
+type UserInfo = {
   id: number;
   email: string;
   nickname: string;
@@ -38,7 +38,7 @@ type ReportCategory =
   | '허위 정보'
   | '기타';
 
-type Reports = {
+type ReportInfo = {
   id: number;
   reporter: string;
   targetType: ReportType;

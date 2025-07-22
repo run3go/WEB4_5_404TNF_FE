@@ -1,4 +1,4 @@
-export const userDummyData: User[] = [
+export const userDummyData: UserInfo[] = [
   {
     id: 1,
     email: 'alice@example.com',
@@ -111,7 +111,7 @@ export const userDummyData: User[] = [
   },
 ];
 
-export const reportDummyData: Reports[] = [
+export const reportDummyData: ReportInfo[] = [
   {
     id: 1,
     reporter: '유저1',

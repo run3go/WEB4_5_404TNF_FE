@@ -13,7 +13,7 @@ export default function AdminTableContainer() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const data: User[] | Reports[] =
+  const data: UserInfo[] | ReportInfo[] =
     activeTab === 'user' ? userDummyData : reportDummyData;
 
   // activeTab, searchTerm, filter, currentPage, group?? 전달

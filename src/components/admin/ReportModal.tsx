@@ -11,7 +11,7 @@ export default function ReportModal({ onClose }: { onClose: () => void }) {
         <div className="relative h-[467px] w-[586px] cursor-default rounded-[30px] bg-[var(--color-background)] px-12 py-10 text-base">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 cursor-pointer"
+            className="absolute top-6 right-6 cursor-pointer"
           >
             <Icon width="16px" height="16px" left="-302px" top="-202px" />
           </button>
