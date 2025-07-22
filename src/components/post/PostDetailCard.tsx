@@ -22,6 +22,7 @@ export default function PostDetailCard({
       <Card className="m-6 w-[calc(100vw-48px)] p-4 sm:m-0 sm:w-full sm:p-8">
         <div className="flex items-center justify-between">
           <WriterInfo
+            authorId={postDetail.userId}
             name={postDetail.nickname}
             postedAt={postDetail.createdAt}
             profileImage={postDetail.profileImgPath}

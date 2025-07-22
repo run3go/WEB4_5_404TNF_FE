@@ -2,12 +2,15 @@
 
 import { useState, useRef } from 'react';
 import PopupMenu from './PopupMenu';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import ReportModal from '../post/ReportModal';
 import Image from 'next/image';
 import user_default_image from '@/assets/images/default-profile.svg';
+import { useAuthStore } from '@/stores/authStoe';
 
 interface WriterInfoProps {
+  authorId: number;
+  postId?: number;
   name: string;
   postedAt: string;
   profileImage: string | null;
@@ -15,6 +18,8 @@ interface WriterInfoProps {
 }
 
 export default function WriterInfo({
+  authorId,
+  postId,
   name,
   postedAt,
   profileImage,
@@ -25,16 +30,23 @@ export default function WriterInfo({
     ? 'sm:w-[52px] sm:h-[52px]'
     : 'sm:w-[42px] sm:h-[42px]';
   const textSize = isBig ? 'sm:text-[16px]' : 'sm:text-[14px]';
+  const router = useRouter();
   const pathname = usePathname();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const userInfo = useAuthStore((state) => state.userInfo);
+
   const handleSelect = (label: string) => {
     if (label === '신고하기') {
       console.log('qwe');
       setIsReportModalOpen(true);
+    }
+
+    if (label === '프로필 이동') {
+      router.push(`/profile/${authorId}`);
     }
     setIsMenuOpen(false);
   };
@@ -48,7 +60,11 @@ export default function WriterInfo({
       <div
         className="flex w-fit cursor-pointer items-center gap-4"
         onClick={() => {
-          if (isPostPage) setIsMenuOpen((prev) => !prev);
+          if (isPostPage) {
+            setIsMenuOpen((prev) => !prev);
+          } else {
+            router.push(`/profile/${authorId}`);
+          }
         }}
       >
         <Image
@@ -82,7 +98,13 @@ export default function WriterInfo({
           onClick={() => setIsReportModalOpen(false)}
         >
           <div onClick={(e) => e.stopPropagation()}>
-            <ReportModal onClose={() => setIsReportModalOpen(false)} />
+            <ReportModal
+              reportedId={userInfo!.userId}
+              contentId={postId!}
+              reportedName={name}
+              reportType="BOARD"
+              onClose={() => setIsReportModalOpen(false)}
+            />
           </div>
         </div>
       )}

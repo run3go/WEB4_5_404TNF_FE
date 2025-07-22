@@ -150,6 +150,7 @@ export default function CommentList({
             >
               <div className="flex items-center justify-between">
                 <WriterInfo
+                  authorId={comment.userId}
                   name={comment.nickname}
                   postedAt={comment.createdAt}
                   profileImage={comment.profileImgPath}

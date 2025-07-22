@@ -16,6 +16,8 @@ export default function PostCard({
       <Card className="mx-1 flex h-[192px] w-full flex-col p-4 sm:h-[228px] sm:w-full sm:p-5">
         <div className="relative pb-7 sm:pb-[62px]">
           <WriterInfo
+            authorId={post.userId}
+            postId={post.articleId}
             name={post.nickname}
             postedAt={post.createdAt}
             profileImage={post.profileImgPath}
