@@ -221,3 +221,35 @@ export const removeComment = async ({
 
   return data;
 };
+
+export const report = async ({
+  reporterId,
+  reportedId,
+  reportType,
+  contentId,
+  reportCategory,
+  reason,
+}: {
+  reporterId: number;
+  reportedId: number;
+  reportType: 'BOARD' | 'REPLY';
+  contentId: number;
+  reportCategory: string;
+  reason: string;
+}) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/reports/v1?reporterId=${reporterId}&reportedId=${reportedId}&reportType=${reportType}&contentId=${contentId}&reportCategory=${reportCategory}&reason=${reason}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '신고 실패');
+  }
+
+  return data;
+};

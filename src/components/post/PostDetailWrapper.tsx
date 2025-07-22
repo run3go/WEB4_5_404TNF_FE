@@ -46,7 +46,13 @@ export default function PostDetailWrapper({
           onClick={() => setIsReportModalOpen(false)}
         >
           <div onClick={(e) => e.stopPropagation()}>
-            <ReportModal onClose={() => setIsReportModalOpen(false)} />
+            <ReportModal
+              reportedName={postDetail.nickname}
+              reportedId={postDetail.userId}
+              reportType="BOARD"
+              contentId={postDetail.articleId}
+              onClose={() => setIsReportModalOpen(false)}
+            />
           </div>
         </div>
       )}
