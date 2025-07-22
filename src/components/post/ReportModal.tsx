@@ -85,13 +85,13 @@ export default function ReportModal({
             />
           </div>
 
-          <div className="flex gap-6 text-[18px] font-medium">
+          <div className="flex flex-col gap-6 text-[18px] font-medium">
             <label className="shrink-0" htmlFor="content">
               신고사유
             </label>
             <textarea
               id="content"
-              className="scrollbar-hidden h-[220px] w-[433px] resize-none overflow-y-auto rounded-[12px] border border-[#2B2926]/50 p-4 pl-[18px] placeholder:text-[#909090] focus:outline-none"
+              className="scrollbar-hidden h-[220px] w-[523px] resize-none overflow-y-auto rounded-[12px] border border-[#2B2926]/50 p-4 pl-[18px] placeholder:text-[#909090] focus:outline-none"
               placeholder="내용을 입력해주세요"
               value={reason}
               onChange={(e) => setReason(e.target.value.trim())}

@@ -60,6 +60,7 @@ export default function WriterInfo({
       <div
         className="flex w-fit cursor-pointer items-center gap-4"
         onClick={() => {
+          if (authorId === userInfo?.userId) return;
           if (isPostPage) {
             setIsMenuOpen((prev) => !prev);
           } else {

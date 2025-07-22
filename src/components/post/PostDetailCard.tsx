@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/stores/authStoe';
 import Card from '../common/Card';
 import MeatballsMenu from '../common/MeatballsMenu';
 import PostStats from '../common/PostStats';
@@ -17,6 +18,7 @@ export default function PostDetailCard({
   onEditClick,
   onRemoveClick,
 }: PostDetailCardProps) {
+  const userInfo = useAuthStore((state) => state.userInfo);
   return (
     <>
       <Card className="m-6 w-[calc(100vw-48px)] p-4 sm:m-0 sm:w-full sm:p-8">
@@ -29,11 +31,14 @@ export default function PostDetailCard({
             size="big"
           />
           <MeatballsMenu
-            options={[
-              { id: '1', label: '수정', type: 'post' },
-              { id: '2', label: '삭제', type: 'post' },
-              { id: '3', label: '신고하기', type: 'post' },
-            ]}
+            options={
+              postDetail.userId === userInfo?.userId
+                ? [
+                    { id: '1', label: '수정', type: 'post' },
+                    { id: '2', label: '삭제', type: 'post' },
+                  ]
+                : [{ id: '3', label: '신고하기', type: 'post' }]
+            }
             onReportClick={onReportClick}
             onEditClick={onEditClick}
             onRemoveClick={onRemoveClick}

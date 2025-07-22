@@ -179,11 +179,14 @@ export default function CommentList({
                   </div>
                 ) : (
                   <MeatballsMenu
-                    options={[
-                      { id: '1', label: '수정', type: 'comment' },
-                      { id: '2', label: '삭제', type: 'comment' },
-                      { id: '3', label: '신고하기', type: 'comment' },
-                    ]}
+                    options={
+                      comment.userId === userInfo?.userId
+                        ? [
+                            { id: '1', label: '수정', type: 'comment' },
+                            { id: '2', label: '삭제', type: 'comment' },
+                          ]
+                        : [{ id: '3', label: '신고하기', type: 'comment' }]
+                    }
                     onReportClick={() => {
                       onReportClick();
                       setReportedId(comment.userId);
