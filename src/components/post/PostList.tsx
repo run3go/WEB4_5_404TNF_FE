@@ -1,5 +1,6 @@
 'use client';
 
+import { SEARCH_LIST, SORT } from '@/assets/data/post';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import SearchBar from '@/components/common/SearchBar';
@@ -10,19 +11,6 @@ import { usePostList } from '@/lib/hooks/usePostList';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-
-const SORT = [
-  { value: 'DATE', label: '최신순' },
-  { value: 'LIKE', label: '좋아요순' },
-  { value: 'VIEW', label: '조회수순' },
-];
-
-const SEARCH_LIST = [
-  { value: 'TITLE_CONTENT', label: '제목 + 내용' },
-  { value: 'TITLE', label: '제목' },
-  { value: 'CONTENT', label: '내용' },
-  { value: 'AUTHOR', label: '작성자' },
-];
 
 export default function PostList({
   boardType,
@@ -68,7 +56,7 @@ export default function PostList({
   }, [hasNextPage]);
   return (
     <>
-      <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] sm:h-full">
+      <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-full sm:px-0">
         {/* 상단 버튼 영역 */}
         <div className="flex flex-none justify-center gap-3 pt-6 sm:gap-9 sm:pt-5">
           <Link href={'/post/question'}>
@@ -102,7 +90,7 @@ export default function PostList({
         </div>
 
         {/* 검색 및 정렬 영역 */}
-        <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[6.27vw]">
+        <div className="mt-[31px] flex flex-none items-center justify-between sm:gap-[39vw] sm:pl-[6.27vw]">
           <SearchBar
             options={SEARCH_LIST}
             setSearchType={setInputSearchType}
@@ -110,15 +98,22 @@ export default function PostList({
             keyword={inputKeyword}
             onSearch={handleSearch}
           />
-          <div className="flex items-center gap-6 pr-[6.27vw]">
-            <SelectBox
-              width={'90px'}
-              options={SORT}
-              isCenter
-              setValue={setSortType}
-            />
+          <div className="flex w-full items-center gap-6 pl-1 sm:pr-[6.27vw] sm:pl-0">
+            <div className="flex w-full items-center justify-between sm:w-auto">
+              <SelectBox
+                width={'90px'}
+                options={SORT}
+                isCenter
+                setValue={setSortType}
+              />
 
-            <SearchButton />
+              <SearchButton
+                setSearchType={setInputSearchType}
+                setKeyword={setInputKeyword}
+                keyword={inputKeyword}
+                onSearch={handleSearch}
+              />
+            </div>
 
             <Link href={`/post/${boardType}/create`}>
               <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto">
