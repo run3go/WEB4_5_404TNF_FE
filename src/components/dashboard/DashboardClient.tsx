@@ -17,22 +17,24 @@ import {
   getDashboardSleep,
   getDashboardWalking,
   getDashboardWeight,
+  getPetList,
 } from '@/api/dashboard';
+
+import loadingSpinner from '@/assets/images/loading-footprint.json';
 import speechBubbleMobile from '@/assets/images/speech-bubble-mobile.svg';
 import speechBubble from '@/assets/images/speech-bubble.png';
 import { useDashboardData } from '@/lib/hooks/useDashboard';
 import { useQueryClient } from '@tanstack/react-query';
+import Lottie from 'lottie-react';
 import { useEffect, useState } from 'react';
+import NoPets from '../schedule/NoPets';
 
-export default function DashboardClient({
-  petList,
-}: {
-  petList: PetProfile[];
-}) {
-  const [selectedPet, setSelectedPet] = useState(petList[0].petId);
+export default function DashboardClient() {
+  const [petList, setPetList] = useState<PetProfile[]>([]);
+  const [selectedPet, setSelectedPet] = useState(0);
 
   const {
-    isLoading,
+    isPending,
     checklist,
     feeding,
     note,
@@ -95,7 +97,22 @@ export default function DashboardClient({
       });
     });
   }, [selectedPet, queryClient, petList]);
-  if (isLoading) return <div>로딩중입니다</div>;
+
+  useEffect(() => {
+    const getPets = async () => {
+      const data: PetProfile[] = await getPetList();
+      setPetList(data);
+      setSelectedPet(data[0].petId);
+    };
+    getPets();
+  }, []);
+  if (isPending)
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Lottie className="h-50 w-50" animationData={loadingSpinner} />
+      </div>
+    );
+  if (!selectedPet) return <NoPets content="대시보드를 확인하려면" />;
   return (
     <main className="relative h-full px-[26px] py-6 sm:px-12 sm:py-7">
       <div className="flex items-center justify-between sm:mb-7">

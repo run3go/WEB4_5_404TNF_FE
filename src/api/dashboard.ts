@@ -5,8 +5,8 @@ const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const today = formatDate(new Date(), 'yyyy-MM-dd');
 const queryString = new URLSearchParams({ date: today }).toString();
 
-export const getPetList = async (userId: string) => {
-  const res = await fetch(`${baseURL}/api/profile/v1/users/${userId}/pet`, {
+export const getPetList = async () => {
+  const res = await fetch(`${baseURL}/api/mypage/v1/pets`, {
     credentials: 'include',
   });
 
