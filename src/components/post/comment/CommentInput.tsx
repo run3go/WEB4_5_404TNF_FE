@@ -107,6 +107,13 @@ export default function CommentInput({ postId }: { postId: number }) {
             e.currentTarget.style.height = 'auto';
             e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
           }}
+          onChange={(e) => setComment(e.target.value.trim())}
+          value={comment}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSubmit();
+            }
+          }}
           placeholder="댓글을 남겨주세요"
         />
       </div>

@@ -5,10 +5,12 @@ import Icon from './Icon';
 export default function MobileTitle({
   title,
   onClick,
+  onSave,
   closePage,
 }: {
   title: string;
   onClick?: () => void;
+  onSave?: () => void;
   closePage: () => void;
 }) {
   return (
@@ -27,6 +29,14 @@ export default function MobileTitle({
           {onClick && (
             <button
               onSubmit={onClick}
+              className="absolute right-0 cursor-pointer leading-[1.2] text-[var(--color-primary-500)]"
+            >
+              저장
+            </button>
+          )}
+          {onSave && (
+            <button
+              onClick={onSave}
               className="absolute right-0 cursor-pointer leading-[1.2] text-[var(--color-primary-500)]"
             >
               저장

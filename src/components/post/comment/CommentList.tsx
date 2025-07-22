@@ -217,7 +217,9 @@ export default function CommentList({
                     placeholder="댓글을 작성해주세요."
                   />
                 ) : (
-                  comment.content
+                  <div className="break-words whitespace-pre-wrap">
+                    {comment.content}
+                  </div>
                 )}
               </div>
             </div>
