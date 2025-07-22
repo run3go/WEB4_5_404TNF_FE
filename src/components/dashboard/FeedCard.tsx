@@ -5,6 +5,7 @@ import DonutGraph from './graph/DonutGraph';
 
 export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
   const router = useRouter();
+
   if (!feeding?.amount && !feeding?.average && !feeding?.date) {
     return (
       <Card className="flex h-[301px] w-full max-w-[255px] flex-col items-center justify-center gap-6 bg-[#fafafa] text-sm font-medium sm:text-base">
@@ -34,7 +35,7 @@ export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
       <div className="mb-4 flex flex-col gap-2">
         <span className="text-xs sm:text-base">오늘의 식사기록</span>
         <div className="h-6">
-          {feeding.amount} {unitLabel}
+          {feeding.amount ?? 0} {unitLabel}
         </div>
       </div>
       <DonutGraph feeding={feeding} />

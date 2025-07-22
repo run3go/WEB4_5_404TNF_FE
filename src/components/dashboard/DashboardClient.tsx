@@ -8,19 +8,21 @@ import ProfileCard from './ProfileCard';
 import TodoCard from './TodoCard';
 import WalkCard from './WalkCard';
 
+import {
+  getDashboardChecklist,
+  getDashboardFeeding,
+  getDashboardNote,
+  getDashboardProfile,
+  getDashboardRecommend,
+  getDashboardSleep,
+  getDashboardWalking,
+  getDashboardWeight,
+} from '@/api/dashboard';
 import speechBubbleMobile from '@/assets/images/speech-bubble-mobile.svg';
 import speechBubble from '@/assets/images/speech-bubble.png';
-import {
-  useDashboardChecklist,
-  useDashboardFeeding,
-  useDashboardNote,
-  useDashboardProfile,
-  useDashboardRecommend,
-  useDashboardSleep,
-  useDashboardWalking,
-  useDashboardWeight,
-} from '@/lib/hooks/useDashboard';
-import { useState } from 'react';
+import { useDashboardData } from '@/lib/hooks/useDashboard';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 export default function DashboardClient({
   petList,
@@ -29,20 +31,71 @@ export default function DashboardClient({
 }) {
   const [selectedPet, setSelectedPet] = useState(petList[0].petId);
 
-  const { data: profile } = useDashboardProfile(selectedPet);
-  const { data: weightList } = useDashboardWeight(selectedPet);
-  const { data: sleepList } = useDashboardSleep(selectedPet);
-  const { data: note } = useDashboardNote(selectedPet);
-  const { data: recommend } = useDashboardRecommend(selectedPet);
-  const { data: feeding } = useDashboardFeeding(selectedPet);
-  const { data: walking } = useDashboardWalking(selectedPet);
-  const { data: checklist } = useDashboardChecklist(selectedPet);
+  const {
+    isLoading,
+    checklist,
+    feeding,
+    note,
+    profile,
+    recommend,
+    sleepList,
+    walking,
+    weightList,
+  } = useDashboardData(selectedPet);
+  const queryClient = useQueryClient();
 
   const petOptions = petList.map((pet) => ({
     value: String(pet.petId),
     label: pet.name,
   }));
 
+  useEffect(() => {
+    petList.forEach((pet) => {
+      const petId = pet.petId;
+
+      queryClient.prefetchQuery({
+        queryKey: ['dashboard', 'profile', petId],
+        queryFn: () => getDashboardProfile(petId),
+        staleTime: 30000,
+      });
+      queryClient.prefetchQuery({
+        queryKey: ['dashboard', 'weight', petId],
+        queryFn: () => getDashboardWeight(petId),
+        staleTime: 30000,
+      });
+      queryClient.prefetchQuery({
+        queryKey: ['dashboard', 'sleep', petId],
+        queryFn: () => getDashboardSleep(petId),
+        staleTime: 30000,
+      });
+      queryClient.prefetchQuery({
+        queryKey: ['dashboard', 'recommend', petId],
+        queryFn: () => getDashboardRecommend(petId),
+        staleTime: 30000,
+      });
+      queryClient.prefetchQuery({
+        queryKey: ['dashboard', 'feeding', petId],
+        queryFn: () => getDashboardFeeding(petId),
+        staleTime: 30000,
+      });
+      queryClient.prefetchQuery({
+        queryKey: ['dashboard', 'note', petId],
+        queryFn: () => getDashboardNote(petId),
+        staleTime: 30000,
+      });
+      queryClient.prefetchQuery({
+        queryKey: ['dashboard', 'checklist', petId],
+        queryFn: () => getDashboardChecklist(petId),
+        staleTime: 30000,
+      });
+      queryClient.prefetchQuery({
+        queryKey: ['dashboard', 'walking', petId],
+        queryFn: () => getDashboardWalking(petId),
+        staleTime: 30000,
+      });
+    });
+  }, [selectedPet, queryClient, petList]);
+  if (isLoading) return <div>로딩중입니다</div>;
   return (
     <main className="relative h-full px-[26px] py-6 sm:px-12 sm:py-7">
       <div className="flex items-center justify-between sm:mb-7">

@@ -2,7 +2,6 @@
 import Card from '../common/Card';
 
 export default function NoteCard({ note }: { note?: DashboardNote }) {
-  console.log(note?.content);
   return (
     <div className="relative h-40 w-full max-w-[558px] sm:h-[200px]">
       <div className="absolute h-full w-full backface-hidden">

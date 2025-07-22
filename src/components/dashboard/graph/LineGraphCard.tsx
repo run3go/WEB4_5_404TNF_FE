@@ -47,10 +47,9 @@ export default function LineGraphCard({
 
   useEffect(() => {
     if (!width || !height || !dataset) return;
-    const filteredDataset = dataset
-      ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 6);
-
+    const filteredDataset = [...dataset]
+      ?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      .slice(-6, dataset.length);
     //x축(날짜)과 y축(선형)의 범위 설정
     const x = scaleTime().range([0, width]);
     const y = scaleLinear().range([height, 0]);
@@ -125,7 +124,6 @@ export default function LineGraphCard({
           <div className="h-[100px]" ref={containerRef}>
             {dataset?.length ? (
               <svg
-                className="mt-12"
                 ref={svgRef}
                 width="100%"
                 height="100%"
