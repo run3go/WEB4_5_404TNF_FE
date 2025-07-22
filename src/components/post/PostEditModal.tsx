@@ -2,9 +2,8 @@ import Button from '../common/Button';
 import Icon from '../common/Icon';
 import { useEffect, useState } from 'react';
 import PostCreateImages from './PostCreateImages';
-import { usePathname, useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
-import { updatePost } from '@/api/post';
+import { usePathname } from 'next/navigation';
+import { useEditPost } from '@/lib/hooks/post/useEditPost';
 
 export default function PostEditModal({
   postDetail,
@@ -13,7 +12,6 @@ export default function PostEditModal({
   postDetail: PostDeatail;
   onClose: () => void;
 }) {
-  const router = useRouter();
   const pathname = usePathname();
   const postId = pathname.split('/').pop();
   const [title, setTitle] = useState(postDetail.title);
@@ -21,13 +19,7 @@ export default function PostEditModal({
   const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>('FREE');
   const [pickedImages, setPickedImages] = useState<File[]>([]);
 
-  const postUpdateMutation = useMutation({
-    mutationFn: updatePost,
-    onSuccess: () => {
-      onClose();
-      router.push(`/post/${boardType.toLowerCase()}/${postId}`);
-    },
-  });
+  const postUpdateMutation = useEditPost(boardType, Number(postId), onClose);
 
   const handleSubmit = (
     title: string,

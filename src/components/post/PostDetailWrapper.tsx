@@ -74,7 +74,10 @@ export default function PostDetailWrapper({
             </div>
           </div>
           <div className="fixed z-[120] sm:hidden">
-            <MobilePostEditModal onClose={() => setIsEditModalOpen(false)} />
+            <MobilePostEditModal
+              postDetail={postDetail}
+              onClose={() => setIsEditModalOpen(false)}
+            />
           </div>
         </>
       )}
