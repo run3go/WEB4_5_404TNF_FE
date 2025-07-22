@@ -1,7 +1,9 @@
+import { getMyUserInfo } from '@/api/user';
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -22,6 +24,13 @@ export default function UserProfile({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isMyProfile = userInfo?.userId === userProfile.userId;
+
+  const { data: profile } = useQuery<UserProfile>({
+    queryFn: () => getMyUserInfo(),
+    queryKey: ['user', userInfo?.userId],
+    enabled: isMyProfile,
+    staleTime: 30000,
+  });
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -94,8 +103,9 @@ export default function UserProfile({
         </div>
       </div>
       {isModalOpen &&
+        profile &&
         createPortal(
-          <UserProfileEdit closeModal={closeModal} />,
+          <UserProfileEdit closeModal={closeModal} profile={profile} />,
           document.body,
         )}
     </div>

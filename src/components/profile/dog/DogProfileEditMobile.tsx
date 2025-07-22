@@ -13,7 +13,7 @@ import {
   usePetForm,
   useRegistMutation,
 } from '@/lib/hooks/usePetForm';
-import { usePetProfile } from '@/lib/hooks/usePetProfiles';
+import { usePetProfile } from '@/lib/hooks/useProfiles';
 import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';

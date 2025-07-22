@@ -1,13 +1,49 @@
+import { modifyUserInfo, resignAccount } from '@/api/user';
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import Image from 'next/image';
+import { ChangeEvent, useState } from 'react';
+import NicknameField from './NicknameField';
+import PasswordField from './PasswordField';
 
 export default function UserProfileEdit({
   closeModal,
+  profile,
 }: {
   closeModal: () => void;
+  profile: UserProfile;
 }) {
+  const [imageUrl, setImageUrl] = useState(profile.userImg || defaultProfile);
+  const [formData, setFormData] = useState<{
+    image: File | null;
+    nickname: string;
+    password: string;
+  }>({
+    image: null,
+    nickname: '',
+    password: '',
+  });
+
+  const onSubmit = async () => {
+    await modifyUserInfo(formData);
+    closeModal();
+  };
+
+  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const newImageUrl = window.URL.createObjectURL(e.target.files[0]);
+    setImageUrl(newImageUrl);
+    setFormData((prev) => ({
+      ...prev,
+      image: e.target.files ? e.target.files[0] : null,
+    }));
+  };
+
+  const handleResign = async () => {
+    await resignAccount(String(profile.userId));
+  };
+
   return (
     <>
       <div
@@ -23,95 +59,69 @@ export default function UserProfileEdit({
           left="-302px"
           top="-202px"
         />
-        <form className="relative flex flex-col items-center" action="">
-          {/* 사진 선택 */}
-          <div className="mb-10 flex flex-col items-center gap-4">
+        <form
+          className="relative flex flex-col items-center"
+          onSubmit={onSubmit}
+        >
+          <label
+            className="group mb-10 flex cursor-pointer flex-col items-center gap-4"
+            htmlFor="userImage"
+          >
             <Image
-              className="rounded-full"
-              src={defaultProfile}
+              className="h-30 w-30 rounded-full object-cover"
+              src={imageUrl}
               alt="강아지 프로필"
               width={120}
               height={120}
             />
-            <span className="text-[var(--color-grey)]">사진 선택하기</span>
-          </div>
+            <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)]">
+              사진 선택하기
+            </span>
+          </label>
+          <input
+            id="userImage"
+            type="file"
+            className="hidden"
+            accept="image/*"
+            onChange={handleImage}
+          />
           <div className="flex w-full gap-20">
             <div className="flex basis-1/2 flex-col gap-5">
               <span>이메일</span>
-              <span>user@naver.com</span>
+              <span>{profile.email}</span>
             </div>
             <div className="flex basis-1/2 flex-col gap-5">
               <span>가입유형</span>
-              <span>NAVER</span>
+              <span>{profile.provider}</span>
             </div>
           </div>
           <div className="mt-11 flex w-full gap-20">
             <div className="mb-7 basis-1/2">
               <label className="mb-2 block" htmlFor="name">
-                이름<span className="text-[var(--color-red)]"> *</span>
+                이름
               </label>
-              <input
-                id="name"
-                className="profile-input-style w-full"
-                type="text"
-                placeholder="이름을 적어주세요 (1~10자 이내)"
-              />
+              <span>{profile.name}</span>
             </div>
-            <div className="mb-7 basis-1/2">
-              <label className="mb-2 block" htmlFor="name">
-                닉네임<span className="text-[var(--color-red)]"> *</span>
-              </label>
-              <input
-                id="name"
-                className="profile-input-style w-full"
-                type="text"
-                placeholder="닉네임을 적어주세요 (1~10자 이내)"
-              />
-            </div>
-          </div>
-          <span className="cursor-pointer self-start underline">
-            비밀번호 변경
-          </span>
-          <div className="mt-8 mb-7 flex w-full items-center">
-            <label className="basis-1/4" htmlFor="name">
-              현재 비밀번호
-            </label>
-            <div className="flex w-full">
-              <input
-                id="name"
-                className="profile-input-style w-full"
-                type="password"
-                placeholder="비밀번호를 입력해 주세요"
-              />
-              <button className="ml-4 w-18 cursor-pointer rounded-[12px] bg-[var(--color-primary-300)] py-[10px] hover:bg-[var(--color-primary-500)]">
-                확인
-              </button>
-            </div>
-          </div>
-          <div className="mb-7 flex w-full items-center">
-            <label className="basis-1/4" htmlFor="name">
-              새 비밀번호
-            </label>
-            <input
-              id="name"
-              className="profile-input-style w-full"
-              type="password"
-              placeholder="영문/숫자/특수문자 혼합 8~20자"
+            <NicknameField
+              nickname={profile.nickname}
+              onNicknameVerified={(value) =>
+                setFormData((prev) => ({ ...prev, nickname: value }))
+              }
             />
           </div>
-          <div className="mb-7 flex w-full items-center">
-            <label className="basis-1/4" htmlFor="name">
-              새 비밀번호 확인
-            </label>
-            <input
-              id="name"
-              className="profile-input-style w-full"
-              type="password"
-              placeholder="비밀번호를 한 번 더 입력해 주세요"
-            />
-          </div>
-          <Button className="mt-15 w-50">수정하기</Button>
-          <button className="absolute -right-17 -bottom-8 text-[var(--color-grey)]">
+          <PasswordField
+            onPasswordValid={(value) =>
+              setFormData((prev) => ({ ...prev, password: value }))
+            }
+          />
+          <Button className="mt-15 w-50" type="button" onClick={onSubmit}>
+            수정하기
+          </Button>
+          <button
+            type="button"
+            className="absolute -right-17 -bottom-8 text-[var(--color-grey)]"
+            onClick={handleResign}
+          >
             회원 탈퇴
           </button>
         </form>

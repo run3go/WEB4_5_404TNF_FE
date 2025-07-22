@@ -1,4 +1,5 @@
 import { getPetProfile, getPetProfiles, getVaccineData } from '@/api/pet';
+import { getMyUserInfo } from '@/api/user';
 import { useQuery } from '@tanstack/react-query';
 
 export const usePetProfiles = (userId: string, initialData?: PetProfile[]) => {
@@ -25,6 +26,15 @@ export const usePetVaccine = (petId: number, isMyProfile: boolean) => {
     queryKey: ['vaccine', petId],
     queryFn: () => getVaccineData(petId),
     enabled: !!petId && isMyProfile,
+    staleTime: 30000,
+  });
+};
+
+export const useUserProfile = (userId: string, isMyProfile: boolean) => {
+  return useQuery<UserProfile>({
+    queryFn: () => getMyUserInfo(),
+    queryKey: ['user', userId],
+    enabled: isMyProfile,
     staleTime: 30000,
   });
 };
