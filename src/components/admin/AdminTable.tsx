@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Icon from '../common/Icon';
 import SortArrow from './SortArrow';
 import ReportDetail from './ReportDetail';
 
-export default function AdminTable({ type }: { type: string }) {
+export default function AdminTable({
+  type,
+  data,
+}: {
+  type: 'user' | 'report';
+  data: User[] | Reports[];
+}) {
   const [sortKey, setSortKey] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-  const status = '활성';
+  // const status = '활성';
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -17,6 +23,43 @@ export default function AdminTable({ type }: { type: string }) {
       setSortKey(key);
       setSortOrder('desc');
     }
+  };
+
+  const getSortedData = () => {
+    if (!sortKey) return data;
+
+    const sorted = [...(data as Array<User | Reports>)].sort((a, b) => {
+      const valueA = a[sortKey as keyof (User | Reports)];
+      const valueB = b[sortKey as keyof (User | Reports)];
+
+      if (valueA == null) return 1;
+      if (valueB == null) return -1;
+
+      // 숫자 or 문자열 정렬
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return sortOrder === 'asc' ? valueA - valueB : valueB - valueA;
+      }
+
+      // 날짜 문자열 정렬 (yyyy.MM.dd or ISO)
+      if (
+        typeof valueA === 'string' &&
+        typeof valueB === 'string' &&
+        /^\d{4}[\.-]\d{2}[\.-]\d{2}$/.test(valueA)
+      ) {
+        const aDate = new Date(valueA);
+        const bDate = new Date(valueB);
+        return sortOrder === 'asc'
+          ? aDate.getTime() - bDate.getTime()
+          : bDate.getTime() - aDate.getTime();
+      }
+
+      // 기본: 문자열 정렬
+      return sortOrder === 'asc'
+        ? String(valueA).localeCompare(String(valueB))
+        : String(valueB).localeCompare(String(valueA));
+    });
+
+    return sorted;
   };
 
   return (
@@ -41,46 +84,58 @@ export default function AdminTable({ type }: { type: string }) {
                   />
                 </div>
               </th>
-              <th onClick={() => handleSort('post')} className="w-25">
+              <th onClick={() => handleSort('postCount')} className="w-25">
                 <div className="admin-th-div justify-center">
                   게시글
-                  <SortArrow active={sortKey === 'post'} order={sortOrder} />
+                  <SortArrow
+                    active={sortKey === 'postCount'}
+                    order={sortOrder}
+                  />
                 </div>
               </th>
-              <th onClick={() => handleSort('comment')} className="w-25">
+              <th onClick={() => handleSort('commentCount')} className="w-25">
                 <div className="admin-th-div justify-center">
                   댓글
-                  <SortArrow active={sortKey === 'comment'} order={sortOrder} />
+                  <SortArrow
+                    active={sortKey === 'commentCount'}
+                    order={sortOrder}
+                  />
                 </div>
               </th>
-              <th onClick={() => handleSort('accessDate')} className="w-46">
+              <th onClick={() => handleSort('lastLogin')} className="w-46">
                 <div className="admin-th-div">
                   최근 접속일
                   <SortArrow
-                    active={sortKey === 'accessDate'}
+                    active={sortKey === 'lastLogin'}
                     order={sortOrder}
                   />
                 </div>
               </th>
-              <th onClick={() => handleSort('joinDate')} className="w-46">
+              <th onClick={() => handleSort('createdAt')} className="w-46">
                 <div className="admin-th-div">
                   가입일
                   <SortArrow
-                    active={sortKey === 'joinDate'}
+                    active={sortKey === 'createdAt'}
                     order={sortOrder}
                   />
                 </div>
               </th>
-              <th onClick={() => handleSort('state')} className="w-28.5">
+              <th onClick={() => handleSort('status')} className="w-28.5">
                 <div className="admin-th-div justify-center">
                   상태
-                  <SortArrow active={sortKey === 'state'} order={sortOrder} />
+                  <SortArrow active={sortKey === 'status'} order={sortOrder} />
                 </div>
               </th>
-              <th onClick={() => handleSort('endDate')} className="w-46">
+              <th
+                onClick={() => handleSort('statusChangedAt')}
+                className="w-46"
+              >
                 <div className="admin-th-div">
                   정지 종료일
-                  <SortArrow active={sortKey === 'endDate'} order={sortOrder} />
+                  <SortArrow
+                    active={sortKey === 'statusChangedAt'}
+                    order={sortOrder}
+                  />
                 </div>
               </th>
             </tr>
@@ -96,26 +151,29 @@ export default function AdminTable({ type }: { type: string }) {
                   />
                 </div>
               </th>
-              <th onClick={() => handleSort('contentType')} className="w-34">
+              <th onClick={() => handleSort('targetType')} className="w-34">
                 <div className="admin-th-div">
                   컨텐츠
                   <SortArrow
-                    active={sortKey === 'contentType'}
+                    active={sortKey === 'targetType'}
                     order={sortOrder}
                   />
                 </div>
               </th>
-              <th onClick={() => handleSort('subject')} className="w-55">
+              <th onClick={() => handleSort('reportedUser')} className="w-55">
                 <div className="admin-th-div">
                   대상자
-                  <SortArrow active={sortKey === 'subject'} order={sortOrder} />
+                  <SortArrow
+                    active={sortKey === 'reportedUser'}
+                    order={sortOrder}
+                  />
                 </div>
               </th>
-              <th onClick={() => handleSort('reportedAt')} className="w-46">
+              <th onClick={() => handleSort('reportDate')} className="w-46">
                 <div className="admin-th-div">
                   접수일
                   <SortArrow
-                    active={sortKey === 'reportedAt'}
+                    active={sortKey === 'reportDate'}
                     order={sortOrder}
                   />
                 </div>
@@ -136,63 +194,65 @@ export default function AdminTable({ type }: { type: string }) {
           )}
         </thead>
         <tbody>
-          {Array.from({ length: 10 }).map((_, index) =>
-            type === 'user' ? (
+          {type === 'user' &&
+            (getSortedData() as User[]).map((user, i) => (
               <tr
-                key={`user-${index}`}
+                key={user.id}
                 className="h-10 cursor-default border-b border-[var(--color-black)]"
               >
-                <td className="text-center">{index + 1}</td>
-                <td>user1@naver.com</td>
-                <td>유저닉네임최대열글자</td>
-                <td className="text-center">11</td>
-                <td className="text-center">10</td>
-                <td>2025.04.29</td>
-                <td>2025.04.29</td>
+                <td className="text-center">{i + 1}</td>
+                <td>{user.email}</td>
+                <td>{user.nickname}</td>
+                <td className="text-center">{user.postCount}</td>
+                <td className="text-center">{user.commentCount}</td>
+                <td>{user.lastLogin}</td>
+                <td>{user.createdAt}</td>
                 <td
-                  className={`text-center ${status === '활성' ? 'text-[var(--color-green)]' : 'text-[var(--color-red)]'}`}
+                  className={`text-center ${user.status === '활성' ? 'text-[var(--color-green)]' : 'text-[var(--color-red)]'}`}
                 >
-                  {status}
+                  {user.status}
                 </td>
-                <td>2025.05.06</td>
+                <td>{user.statusChangedAt}</td>
               </tr>
-            ) : (
-              <>
+            ))}
+
+          {type === 'report' &&
+            (getSortedData() as Reports[]).map((report, i) => (
+              <React.Fragment key={report.id}>
                 <tr
-                  key={`report-${index}`}
-                  onClick={() =>
-                    setOpenIndex(openIndex === index ? null : index)
-                  }
+                  // key={report.id}
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
                   className="h-10 cursor-pointer border-b border-[var(--color-black)]"
                 >
-                  <td className="text-center">{index + 1}</td>
-                  <td>유저1</td>
-                  <td>게시물</td>
-                  <td>유저6</td>
-                  <td>2025.04.29</td>
-                  <td>욕설</td>
+                  <td className="text-center">{i + 1}</td>
+                  <td>{report.reporter}</td>
+                  <td>{report.targetType}</td>
+                  <td>{report.reportedUser}</td>
+                  <td>{report.reportDate}</td>
+                  <td>{report.reason}</td>
                   <td>
                     <div className="flex justify-center">
-                      <Icon
-                        width="22px"
-                        height="22px"
-                        left="-101px"
-                        top="-255px"
-                      />
+                      {report.isDone && (
+                        <Icon
+                          width="22px"
+                          height="22px"
+                          left="-101px"
+                          top="-255px"
+                        />
+                      )}
                     </div>
                   </td>
                 </tr>
 
-                {openIndex === index && (
+                {openIndex === i && (
                   <tr>
                     <td colSpan={7} className="py-2.5">
                       <ReportDetail />
                     </td>
                   </tr>
                 )}
-              </>
-            ),
-          )}
+              </React.Fragment>
+            ))}
         </tbody>
       </table>
     </>
