@@ -1,21 +1,59 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
 import EditImageList from './EditImageList';
 import MobileTitle from '@/components/common/MobileTitle';
+import { usePathname } from 'next/navigation';
+import { useCreatePost } from '@/lib/hooks/post/useCreatePost';
 
 export default function MobilePostCreate() {
+  const pathname = usePathname();
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>('FREE');
+  const [pickedImages, setPickedImages] = useState<File[]>([]);
+
+  const postCreateMutation = useCreatePost(boardType);
+
+  const handleSubmit = (
+    title: string,
+    content: string,
+    pickedImages: File[],
+  ) => {
+    postCreateMutation.mutate({
+      title,
+      content,
+      boardType,
+      images: pickedImages,
+    });
+  };
+
+  useEffect(() => {
+    if (pathname.includes('free')) {
+      setBoardType('FREE');
+    }
+    if (pathname.includes('question')) {
+      setBoardType('QUESTION');
+    }
+  }, [pathname]);
+
   return (
     <div className="flex h-full flex-col bg-[var(--color-background)]">
       <MobileTitle
         title="게시글 작성"
         closePage={() => {}}
-        onClick={() => {}}
+        onSave={() => {
+          handleSubmit(title, content, pickedImages);
+        }}
       />
       <div className="flex w-full flex-col gap-6">
         <div className="flex justify-center gap-[15px] pt-5 pb-3">
-          <Button className="board__btn">
+          <Button
+            className="board__btn"
+            onClick={() => setBoardType('QUESTION')}
+          >
             <Icon
               width="20px"
               height="20px"
@@ -25,7 +63,7 @@ export default function MobilePostCreate() {
             />
             <p className="text-[10px] sm:text-[18px]">질문게시판</p>
           </Button>
-          <Button className="board__btn">
+          <Button className="board__btn" onClick={() => setBoardType('FREE')}>
             <Icon
               width="20px"
               height="20px"
@@ -41,6 +79,7 @@ export default function MobilePostCreate() {
           <input
             className="h-[44px] w-full border-b border-b-[#2B2926]/50 p-4 pr-6 text-[12px] font-medium focus:outline-none"
             placeholder="제목 입력"
+            onChange={(e) => setTitle(e.target.value.trim())}
           />
           <textarea
             className="min-h-[300px] w-full resize-none overflow-hidden border-b border-b-[#2B2926]/50 p-4 text-[12px] font-medium focus:outline-none"
@@ -49,6 +88,7 @@ export default function MobilePostCreate() {
               e.currentTarget.style.height = 'auto';
               e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
             }}
+            onChange={(e) => setContent(e.target.value.trim())}
           />
         </div>
 

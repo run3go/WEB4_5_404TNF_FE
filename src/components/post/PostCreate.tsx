@@ -5,24 +5,18 @@ import Button from '@/components/common/Button';
 import MobilePostCreate from '@/components/post/MobilePostCreate';
 import PostCreateImages from '@/components/post/PostCreateImages';
 import { useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
-import { createPost } from '@/api/post';
+import { usePathname } from 'next/navigation';
+
+import { useCreatePost } from '@/lib/hooks/post/useCreatePost';
 
 export default function PostCreate() {
-  const router = useRouter();
   const pathname = usePathname();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>('FREE');
   const [pickedImages, setPickedImages] = useState<File[]>([]);
 
-  const postCreateMutation = useMutation({
-    mutationFn: createPost,
-    onSuccess: (data) => {
-      router.push(`/post/${boardType.toLowerCase()}/${data.data.articleId}`);
-    },
-  });
+  const postCreateMutation = useCreatePost(boardType);
 
   const handleSubmit = (
     title: string,
