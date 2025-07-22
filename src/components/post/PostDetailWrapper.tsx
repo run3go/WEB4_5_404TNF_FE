@@ -19,6 +19,7 @@ export default function PostDetailWrapper({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const path = pathname.split('/').slice(0, -1).join('/');
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [reportType, setReportType] = useState<'BOARD' | 'REPLY'>('BOARD');
@@ -28,7 +29,6 @@ export default function PostDetailWrapper({
   const removePostMutation = useMutation({
     mutationFn: removePost,
     onSuccess: () => {
-      const path = pathname.split('/').slice(0, -1).join('/');
       router.push(path);
     },
   });
@@ -83,7 +83,12 @@ export default function PostDetailWrapper({
       )}
 
       <div className="flex w-full flex-col gap-2 sm:w-full sm:gap-8 sm:pt-8">
-        <MobileTitle title="게시글" closePage={() => {}} />
+        <MobileTitle
+          title="게시글"
+          closePage={() => {
+            router.push(path);
+          }}
+        />
         <PostDetailCard
           postDetail={postDetail}
           onReportClick={() => {
