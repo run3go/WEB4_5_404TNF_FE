@@ -21,6 +21,9 @@ export default function PostDetailWrapper({
   const pathname = usePathname();
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [reportType, setReportType] = useState<'BOARD' | 'REPLY'>('BOARD');
+  const [reportedId, setReportedId] = useState(0);
+  const [contentId, setContentId] = useState(0);
 
   const removePostMutation = useMutation({
     mutationFn: removePost,
@@ -48,9 +51,9 @@ export default function PostDetailWrapper({
           <div onClick={(e) => e.stopPropagation()}>
             <ReportModal
               reportedName={postDetail.nickname}
-              reportedId={postDetail.userId}
-              reportType="BOARD"
-              contentId={postDetail.articleId}
+              reportedId={reportedId}
+              reportType={reportType}
+              contentId={contentId}
               onClose={() => setIsReportModalOpen(false)}
             />
           </div>
@@ -80,7 +83,12 @@ export default function PostDetailWrapper({
         <MobileTitle title="게시글" closePage={() => {}} />
         <PostDetailCard
           postDetail={postDetail}
-          onReportClick={() => setIsReportModalOpen(true)}
+          onReportClick={() => {
+            setReportType('BOARD');
+            setReportedId(postDetail.userId);
+            setContentId(postDetail.articleId);
+            setIsReportModalOpen(true);
+          }}
           onEditClick={() => setIsEditModalOpen(true)}
           onRemoveClick={handleRemoveClick}
         />
@@ -89,7 +97,12 @@ export default function PostDetailWrapper({
           <CommentList
             postId={postDetail.articleId}
             totalComment={postDetail.replies}
-            onReportClick={() => setIsReportModalOpen(true)}
+            onReportClick={() => {
+              setReportType('REPLY');
+              setIsReportModalOpen(true);
+            }}
+            setReportedId={setReportedId}
+            setContentId={setContentId}
           />
         </div>
       </div>

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import MeatballsMenu from '../../common/MeatballsMenu';
 import WriterInfo from '../../common/WriterInfo';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -10,10 +10,14 @@ export default function CommentList({
   postId,
   totalComment,
   onReportClick,
+  setReportedId,
+  setContentId,
 }: {
   postId: number;
   totalComment: number;
   onReportClick: () => void;
+  setReportedId: Dispatch<SetStateAction<number>>;
+  setContentId: Dispatch<SetStateAction<number>>;
 }) {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editedContent, setEditedContent] = useState<string>('');
@@ -180,7 +184,11 @@ export default function CommentList({
                       { id: '2', label: '삭제', type: 'comment' },
                       { id: '3', label: '신고하기', type: 'comment' },
                     ]}
-                    onReportClick={onReportClick}
+                    onReportClick={() => {
+                      onReportClick();
+                      setReportedId(comment.userId);
+                      setContentId(comment.replyId);
+                    }}
                     onEditClick={() => {
                       if (userInfo) {
                         handleEditClick(comment.replyId, comment.content);

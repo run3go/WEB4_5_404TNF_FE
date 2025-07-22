@@ -99,7 +99,10 @@ export default function ReportModal({
           </div>
         </div>
         <div className="flex justify-center" onClick={handleReport}>
-          <Button className="mt-8 flex h-[62px] w-[156px] items-center justify-center">
+          <Button
+            className="mt-8 flex h-[62px] w-[156px] items-center justify-center disabled:bg-[#2B2926]/20 disabled:text-[#909090]"
+            disabled={reason.length === 0}
+          >
             신고하기
           </Button>
         </div>
