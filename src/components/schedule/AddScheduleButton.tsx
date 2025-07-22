@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import Icon from '../common/Icon';
 import AddSchedule from './AddSchedule';
 
-export default function AddScheduleButton() {
+export default function AddScheduleButton({ date }: { date?: Date }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => {
@@ -19,7 +19,10 @@ export default function AddScheduleButton() {
         <Icon width="20px" height="20px" left="-266px" top="-75px" />
       </div>
       {isModalOpen &&
-        createPortal(<AddSchedule closeModal={closeModal} />, document.body)}
+        createPortal(
+          <AddSchedule closeModal={closeModal} fullDate={date} />,
+          document.body,
+        )}
     </>
   );
 }

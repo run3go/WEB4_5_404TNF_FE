@@ -8,11 +8,11 @@ const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // 월별 일정 조회
 export const getSchedules = async (userId: number, date: string) => {
-  const url = `${baseUrl}/api/v1/dashboard/${userId}/calendar?&userId=${userId}&date=${date}`;
+  const url = `${baseUrl}/api/v1/dashboard/${userId}/calendar?userId=${userId}&date=${date}`;
   try {
     const res = await fetch(url, {
       method: 'GET',
-      // credentials: 'include'
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -113,7 +113,7 @@ export const createSchedule = async (createSchedule: CreateSchedule) => {
 
 // 애완견 정보 조회
 export const getPets = async (userId: number) => {
-  const url = `${baseUrl}/api/profile/v1/pet/${userId}`;
+  const url = `${baseUrl}/api/profile/v1/users/${userId}/pet`;
 
   try {
     const res = await fetch(url, {
