@@ -62,7 +62,7 @@ export default function PostCreate() {
             </label>
             <textarea
               id="content"
-              className="min-h-[236px] w-full resize-none placeholder:text-[#909090] focus:outline-none"
+              className="scrollbar-hidden min-h-[236px] w-full resize-none placeholder:text-[#909090] focus:outline-none"
               onInput={(e) => {
                 e.currentTarget.style.height = 'auto';
                 e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;

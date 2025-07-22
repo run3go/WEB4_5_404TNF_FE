@@ -48,7 +48,7 @@ export default function PostDetailCard({
           <p className="pt-6 text-[16px] font-bold sm:pt-[34px] sm:text-[28px]">
             {postDetail.title}
           </p>
-          <p className="pt-4 text-[12px] font-medium sm:pt-6 sm:text-[16px]">
+          <p className="pt-4 text-[12px] font-medium break-all whitespace-pre-wrap sm:pt-6 sm:text-[16px]">
             {postDetail.content}
           </p>
         </div>

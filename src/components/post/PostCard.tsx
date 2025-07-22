@@ -32,7 +32,7 @@ export default function PostCard({
               <p className="text-[14px] font-bold sm:pt-4 sm:text-[20px]">
                 {post.title}
               </p>
-              <p className="line-clamp-2 h-[58px] pt-2 text-[12px] font-medium sm:pt-3 sm:text-[16px]">
+              <p className="line-clamp-2 h-[58px] pt-2 text-[12px] font-medium break-all whitespace-pre-wrap sm:pt-3 sm:text-[16px]">
                 {post.content}
               </p>
             </div>
