@@ -160,11 +160,13 @@ export const getCommentList = async ({
   postId: number;
   totalComment: number;
 }) => {
+  const size = totalComment > 0 ? totalComment : 1;
   const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1?page=1&size=${totalComment}`,
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1?page=1&size=${size}`,
   );
 
   const data = await res.json();
+
   if (!res.ok) {
     throw new Error(data.message || '게시글 불러오기 실패');
   }

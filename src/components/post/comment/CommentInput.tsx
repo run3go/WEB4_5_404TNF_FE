@@ -67,12 +67,12 @@ export default function CommentInput({ postId }: { postId: number }) {
     },
     onSuccess: () => {
       console.log('댓글 등록완료');
-      setComment('');
     },
   });
 
   const handleSubmit = () => {
     if (!comment) return;
+    setComment('');
     createCommentMutation.mutate({ postId, comment });
   };
   if (!userInfo) return;

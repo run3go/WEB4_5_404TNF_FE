@@ -130,8 +130,16 @@ export default function CommentList({
   };
   return (
     <>
-      <div className="mb-8">
+      <div
+        className={`${data?.data?.replyList.length === 0 ? 'mb-8' : 'mb-16'}`}
+      >
         <p className="pl-[34px] text-[16px] font-medium sm:pl-0 sm:text-[22px] sm:font-bold">{`댓글 (${data?.data.pageInfo.totalElements ?? 0})`}</p>
+        {data?.data?.replyList.length === 0 && (
+          <p className="mt-20 text-center text-[18px] font-medium text-[#909090]">
+            등록된 댓글이 없습니다.
+          </p>
+        )}
+
         {data?.data?.replyList.map((comment: PostComment) => {
           const isEditing = editingCommentId === comment.replyId;
 
