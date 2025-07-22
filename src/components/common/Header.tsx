@@ -14,15 +14,22 @@ import Button from './Button';
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const { open } = useSidebarStore();
-  const { isLogin, userInfo } = useAuthStore();
+  const { userInfo, isLogin } = useAuthStore();
 
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const storedUserId = sessionStorage.getItem('userId');
+    setUserId(storedUserId);
     setIsLoading(true);
-  }, []);
+
+    if (isLogin) {
+      setUserId(null);
+    }
+  }, [isLogin]);
 
   if (!isLoading) {
     return null;
@@ -31,7 +38,7 @@ export default function Header() {
   return (
     <>
       <div className="mb-[2.6vh] hidden items-center justify-end gap-7 pr-[2.43vw] sm:flex">
-        {isLogin ? (
+        {userId || isLogin ? (
           <>
             <div className="relative">
               <div

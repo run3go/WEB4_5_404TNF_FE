@@ -7,8 +7,10 @@ import CountdownTimer from './CountdownTimer';
 
 export default function EmailInputSection({
   onEmailVerified,
+  onEmailChange,
 }: {
   onEmailVerified: (email: string) => void;
+  onEmailChange: () => void;
 }) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -20,9 +22,9 @@ export default function EmailInputSection({
 
   const {
     emailState,
-    checkDuplicate,
-    sendVerificationCode,
-    verifyCode,
+    checkDuplicateMutation,
+    sendVerificationCodeMutation,
+    verifyCodeMutation,
     resetEmailState,
     resetVerificationError,
   } = useEmailCheck();
@@ -32,6 +34,7 @@ export default function EmailInputSection({
     setError(validateEmail(value));
     resetEmailState();
     setTouched(true);
+    onEmailChange();
   };
 
   const handleSendEmailVerify = async () => {
@@ -41,27 +44,41 @@ export default function EmailInputSection({
       return;
     }
 
-    const isDuplicate = await checkDuplicate(email);
-    if (!isDuplicate) return;
+    try {
+      const isDuplicate = await checkDuplicateMutation.mutateAsync(email);
+      if (!isDuplicate) {
+        return;
+      }
+      const sent = await sendVerificationCodeMutation.mutateAsync(email);
+      if (!sent) {
+        return;
+      }
 
-    const sent = await sendVerificationCode(email);
-    if (!sent) return;
-
-    setVerificationCode('');
-    setIsVerificationSent(true);
-    setTimerKey((prev) => prev + 1);
-    setIsTimerExpired(false);
-    setError('');
-  };
-
-  const handleVerifyCode = async () => {
-    resetVerificationError();
-    const success = await verifyCode(email, verificationCode);
-    if (success) {
-      onEmailVerified(email);
+      setVerificationCode('');
+      setIsVerificationSent(true);
+      setTimerKey((prev) => prev + 1);
+      setIsTimerExpired(false);
+      setError('');
+    } catch (error) {
+      console.error(error);
     }
   };
 
+  const handleVerifyCode = () => {
+    resetVerificationError();
+
+    verifyCodeMutation.mutate(
+      {
+        email,
+        code: verificationCode,
+      },
+      {
+        onSuccess: () => {
+          onEmailVerified(email);
+        },
+      },
+    );
+  };
   return (
     <div className="flex flex-col">
       <div className="flex max-w-[720px] justify-between">

@@ -82,6 +82,12 @@ export const checkEmailDuplicate = async (email: string) => {
     const data = await res.json();
     throw new Error(data.message || '이메일 중복 확인 실패');
   }
+
+  const text = await res.text();
+  if (text === '사용 가능한 이메일입니다.') {
+    return true;
+  }
+  return false;
 };
 
 export const sendEmailVerification = async (email: string) => {
@@ -93,11 +99,16 @@ export const sendEmailVerification = async (email: string) => {
       body: JSON.stringify({ email }),
     },
   );
-
   if (!res.ok) {
     const data = await res.json();
     throw new Error(data.message || '이메일 인증코드 보내기 실패');
   }
+
+  const text = await res.text();
+  if (text === '인증 코드가 발송되었습니다.') {
+    return true;
+  }
+  return false;
 };
 
 export const verifyEmailCode = async (

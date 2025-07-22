@@ -27,6 +27,7 @@ export default function SelectBox({
   hasBorder = false,
   thinBorder = false,
   borderColor = 'var(--color-primary-200)',
+  type,
 }: {
   value?: string;
   setValue?: (value: string) => void;
@@ -39,6 +40,7 @@ export default function SelectBox({
   hasBorder?: boolean;
   thinBorder?: boolean;
   borderColor?: string;
+  type?: string;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [fontSize, setFontSize] = useState('16px');
@@ -71,7 +73,17 @@ export default function SelectBox({
                 {footstep && (
                   <Icon width="16px" height="14px" left="-26px" top="-79px" />
                 )}
-                {children}
+
+                {type ? (
+                  <span
+                    className="block max-w-[80px] truncate"
+                    title={typeof children === 'string' ? children : undefined}
+                  >
+                    {children}
+                  </span>
+                ) : (
+                  children
+                )}
               </div>
             </components.Option>
           ),
@@ -123,7 +135,7 @@ export default function SelectBox({
           }),
           singleValue: (base) => ({
             ...base,
-            margin: 0,
+            ...(type ? { marginRight: '15px' } : { margin: 0 }),
           }),
           valueContainer: (base) => ({
             ...base,
@@ -156,6 +168,9 @@ export default function SelectBox({
             '&:hover': {
               backgroundColor: 'var(--color-primary-200)',
             },
+            ...(type && {
+              display: 'flex',
+            }),
           }),
           placeholder: (base) => ({
             ...base,

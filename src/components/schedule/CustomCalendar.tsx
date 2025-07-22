@@ -11,9 +11,14 @@ import {
 import Icon from '../common/Icon';
 import DateItem from './DateItem';
 import { useState } from 'react';
-import { useSchedules } from '@/lib/hooks/useSchedules';
+import { useGetSchedules } from '@/lib/hooks/schedule/useGetSchedules';
+import { Schedule } from '@/types/schedule';
+import { useGetPets } from '@/lib/hooks/useGetPets';
+import NoPets from './NoPets';
+import { useAuthStore } from '@/stores/authStoe';
 
 export default function CustomCalendar() {
+  const { userInfo } = useAuthStore();
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const currentYear = getYear(currentDate);
@@ -36,11 +41,21 @@ export default function CustomCalendar() {
     setCurrentDate((prev) => subMonths(prev, 1));
   };
 
+  // 애완견 리스트 불러오기
+  const { data: petOptions } = useGetPets(userInfo?.userId);
+
   // 월 바뀔 때마다 api 호출
-  const { data: schedules } = useSchedules('10002', currentDate);
+  const { data: schedules }: { data?: Schedule[] } = useGetSchedules(
+    userInfo?.userId,
+    currentDate,
+  );
+
+  if (!petOptions || petOptions?.length === 0) {
+    return <NoPets />;
+  }
 
   return (
-    <div className="hidden w-full flex-col items-center sm:flex">
+    <div className="hidden w-full min-w-[1040px] flex-col items-center overflow-auto sm:flex">
       <div className="mb-8 flex items-center gap-14">
         <Icon
           onClick={goToPrevMonth}
@@ -50,7 +65,10 @@ export default function CustomCalendar() {
           left="-108px"
           top="-122px"
         />
-        <span className="text-[24px] leading-[1.2]">{currentMonth + 1}월</span>
+        <div className="flex gap-2 text-[24px] leading-[1.2]">
+          <span>{currentYear}년</span>
+          <span>{currentMonth + 1}월</span>
+        </div>
         <Icon
           onClick={goToNextMonth}
           className="cursor-pointer"

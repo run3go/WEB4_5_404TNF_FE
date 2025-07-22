@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import TodoList from './TodoList';
 import AddSchedule from './AddSchedule';
+import { Schedule } from '@/types/schedule';
 
 export default function DateItem({
   date,
@@ -16,20 +17,28 @@ export default function DateItem({
   schedules?: Schedule[];
   isToday: boolean;
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<'add' | 'list' | null>(null);
 
   const endOfMonth = getDaysInMonth(targetMonth);
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    // setIsModalOpen(false);
+    setModalType(null);
   };
+
   return (
     <>
       <div
         key={date}
         onClick={() => {
           if (date > 0 && date <= endOfMonth) {
-            setIsModalOpen(true);
+            if (schedules.length > 0) {
+              setModalType('list');
+            } else {
+              setModalType('add');
+            }
+            // setIsModalOpen(true);
           }
         }}
         className={`h-24 basis-1/7 border-b border-[var(--color-primary-200)] p-3 ${date > 0 && date <= endOfMonth ? 'cursor-pointer transition-colors duration-200 ease-in hover:bg-[var(--color-primary-100)]' : ''}`}
@@ -40,7 +49,7 @@ export default function DateItem({
               <div className="relative flex h-6 w-6 items-center justify-center">
                 {isToday && (
                   <div
-                    className={`absolute inset-0 -top-[5px] ${String(date).length === 1 ? '-left-1' : '-left-[2.5px]'} size-8 rounded-full bg-[var(--color-primary-500)]`}
+                    className={`absolute inset-0 -top-[5px] ${String(date).length === 1 || String(date)[0] !== '1' ? '-left-1' : '-left-[2.5px]'} size-8 rounded-full bg-[var(--color-primary-500)]`}
                   />
                 )}
                 <span className="z-100">{date}</span>
@@ -63,7 +72,33 @@ export default function DateItem({
           </>
         )}
       </div>
-      {isModalOpen &&
+      {modalType === 'add' &&
+        createPortal(
+          <AddSchedule
+            closeModal={closeModal}
+            isStart={true}
+            isEdit={false}
+            fullDate={
+              new Date(targetMonth.getFullYear(), targetMonth.getMonth(), date)
+            }
+          />,
+          document.body,
+        )}
+
+      {modalType === 'list' &&
+        createPortal(
+          <TodoList
+            type="modal"
+            closeModal={closeModal}
+            schedules={schedules}
+            fullDate={
+              new Date(targetMonth.getFullYear(), targetMonth.getMonth(), date)
+            }
+          />,
+          document.body,
+        )}
+
+      {/* {isModalOpen &&
         createPortal(
           schedules.length === 0 ? (
             <AddSchedule
@@ -93,7 +128,7 @@ export default function DateItem({
             />
           ),
           document.body,
-        )}
+        )} */}
     </>
   );
 }
