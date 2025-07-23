@@ -11,20 +11,20 @@ export const usePetProfiles = (userId: string, initialData?: PetProfile[]) => {
   });
 };
 
-export const usePetProfile = (petId: number) => {
+export const usePetProfile = (petId: number, isMyProfile: boolean) => {
   return useQuery<PetProfile>({
     queryKey: ['pet', petId],
     queryFn: () => getPetProfile(petId),
-    enabled: !!petId,
+    enabled: !!petId && isMyProfile,
     staleTime: 30000,
   });
 };
 
-export const usePetVaccine = (petId: number) => {
+export const usePetVaccine = (petId: number, isMyProfile: boolean) => {
   return useQuery<Vaccination[]>({
     queryKey: ['vaccine', petId],
     queryFn: () => getVaccineData(petId),
-    enabled: !!petId,
+    enabled: !!petId && isMyProfile,
     staleTime: 30000,
   });
 };
