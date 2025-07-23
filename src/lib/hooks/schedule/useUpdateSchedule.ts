@@ -1,5 +1,4 @@
 import { editSchedule } from '@/api/schedule';
-import { UpdateSchedule } from '@/types/schedule';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useUpdateSchedule = () => {

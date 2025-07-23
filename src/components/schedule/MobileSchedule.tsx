@@ -4,7 +4,6 @@ import MobileCalendar from './MobileCalendar';
 import TodoList from './TodoList';
 import AddScheduleButton from './AddScheduleButton';
 import { useGetSchedules } from '@/lib/hooks/schedule/useGetSchedules';
-import { Schedule } from '@/types/schedule';
 import NoPets from './NoPets';
 import { useGetPets } from '@/lib/hooks/useGetPets';
 import { isSameDay } from 'date-fns';
@@ -21,10 +20,8 @@ export default function MobileSchedule() {
   const { data: petOptions, isPending } = useGetPets(userInfo?.userId);
 
   // 월 바뀔 때마다 api 호출
-  const { data: schedules }: { data?: Schedule[] } = useGetSchedules(
-    userInfo?.userId,
-    currentDate,
-  );
+  const { data: schedules }: { data?: Schedule[] } =
+    useGetSchedules(currentDate);
 
   const scheduleDates =
     schedules?.map((schedule) => new Date(schedule.date)) ?? [];

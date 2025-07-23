@@ -90,7 +90,7 @@ export default function DateInput({
                   ? disabledRange
                   : undefined
             }
-            month={selected}
+            // month={selected}
             locale={ko}
             showOutsideDays
             classNames={{

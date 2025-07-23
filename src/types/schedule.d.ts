@@ -1,4 +1,4 @@
-export type Schedule = {
+type Schedule = {
   scheduleId: number;
   date: string;
   petId: number;
@@ -9,25 +9,16 @@ export type Schedule = {
   cycleEnd: string;
 };
 
-export type CreateSchedule = {
+type CreateSchedule = {
+  petId: number;
   name: string;
   date: string;
   cycle: string;
   cycleEnd: string;
-  userId: number;
-  petId: number;
 };
 
-export type DeleteSchedule = {
-  petId: number;
-  userId: number;
+type UpdateSchedule = {
   scheduleId: number;
-  cycleLink: boolean;
-};
-
-export type UpdateSchedule = {
-  scheduleId: number;
-  userId: number;
   petId: number;
   name: string;
   date: string;
@@ -36,4 +27,4 @@ export type UpdateSchedule = {
   cycleEnd: string;
 };
 
-export type PetOption = { label: string; value: string };
+type PetOption = { label: string; value: string };
