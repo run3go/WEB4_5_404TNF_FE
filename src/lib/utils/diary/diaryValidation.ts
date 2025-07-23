@@ -11,7 +11,7 @@ export function validateFeedingList(feedingList: FeedEntry[]): string | null {
       (hour.trim() === '' || minute.trim() === '' || amount.trim() === '');
 
     if (isIncomplete) {
-      return '식사량 항목의 모든 입력창을 채워주세요';
+      return '식사 기록의 모든 입력칸을 채워주세요';
     }
 
     if (hasEntry) {
@@ -27,7 +27,7 @@ export function validateFeedingList(feedingList: FeedEntry[]): string | null {
         minuteNum < 0 ||
         minuteNum > 59
       ) {
-        return '시간은 올바른 숫자(24시/59분 이하)로 입력해주세요';
+        return '시간은 24시 / 59분 이하의 숫자로 입력해주세요';
       }
     }
   }
@@ -54,7 +54,7 @@ export function validateWalkingList(walkingList: WalkEntry[]): string | null {
         endMinute.trim() === '');
 
     if (isIncomplete) {
-      return '산책 항목의 모든 입력창을 채워주세요';
+      return '산책 기록의 모든 입력칸을 채워주세요';
     }
 
     if (hasEntry) {
@@ -78,7 +78,7 @@ export function validateWalkingList(walkingList: WalkEntry[]): string | null {
         endM < 0 ||
         endM > 59
       ) {
-        return '시간은 올바른 숫자(24시/59분 이하)로 입력해주세요';
+        return '시간은 24시 / 59분 이하의 숫자로 입력해주세요';
       }
 
       // start time >= end time
@@ -86,7 +86,7 @@ export function validateWalkingList(walkingList: WalkEntry[]): string | null {
       const endTotal = endH * 60 + endM;
 
       if (startTotal >= endTotal) {
-        return '시작 시간이 종료 시간보다 늦은 시간입니다. 다시 입력해주세요';
+        return '종료 시간은 시작 시간 이후로 입력해주세요';
       }
     }
   }
@@ -115,11 +115,11 @@ export function runDiaryValidation({
   if (walkingError) return walkingError;
 
   if (weight && (isNaN(Number(weight)) || Number(weight) > 200)) {
-    return '200kg 이하의 몸무게를 입력해주세요';
+    return '몸무게는 200kg 이하로 입력해주세요';
   }
 
   if (sleepTime && (isNaN(Number(sleepTime)) || Number(sleepTime) > 24)) {
-    return '24시간 이하의 시간을 입력해주세요';
+    return '수면 시간은 24시간 이하로 입력해주세요';
   }
 
   const hasAnyInput =
@@ -132,7 +132,7 @@ export function runDiaryValidation({
     );
 
   if (!hasAnyInput) {
-    return '모든 항목이 비어있습니다. 한 가지 이상의 항목을 기록해주세요.';
+    return '모든 항목이 비어 있습니다. 최소 한 가지 이상 기록해주세요';
   }
 
   return null;
