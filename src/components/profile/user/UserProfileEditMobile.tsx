@@ -41,7 +41,7 @@ export default function UserProfileEditMobile() {
   };
 
   const handleResign = async () => {
-    await resignAccount(String(profile?.userId));
+    await resignAccount();
   };
 
   if (!profile) return;

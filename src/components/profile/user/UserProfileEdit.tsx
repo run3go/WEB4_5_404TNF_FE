@@ -41,9 +41,8 @@ export default function UserProfileEdit({
   };
 
   const handleResign = async () => {
-    await resignAccount(String(profile.userId));
+    await resignAccount();
   };
-  console.log(profile.provider);
   return (
     <>
       <div

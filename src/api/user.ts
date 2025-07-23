@@ -54,11 +54,9 @@ export const modifyUserInfo = async (payload: UserInfo) => {
   return data;
 };
 
-export const resignAccount = async (userId: string) => {
-  const res = await fetch(`${baseURL}/api/mypage/v1/me/delete`, {
+export const resignAccount = async () => {
+  const res = await fetch(`${baseURL}/api/mypage/v1/me`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userId),
     credentials: 'include',
   });
 
