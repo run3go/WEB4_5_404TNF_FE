@@ -93,3 +93,47 @@ export function validateWalkingList(walkingList: WalkEntry[]): string | null {
 
   return null;
 }
+
+// run validation
+export function runDiaryValidation({
+  feedingList,
+  walkingList,
+  weight,
+  sleepTime,
+  note,
+}: {
+  feedingList: FeedEntry[];
+  walkingList: WalkEntry[];
+  weight: string;
+  sleepTime: string;
+  note: string;
+}): string | null {
+  const feedingError = validateFeedingList(feedingList);
+  if (feedingError) return feedingError;
+
+  const walkingError = validateWalkingList(walkingList);
+  if (walkingError) return walkingError;
+
+  if (weight && (isNaN(Number(weight)) || Number(weight) > 200)) {
+    return '200kg 이하의 몸무게를 입력해주세요';
+  }
+
+  if (sleepTime && (isNaN(Number(sleepTime)) || Number(sleepTime) > 24)) {
+    return '24시간 이하의 시간을 입력해주세요';
+  }
+
+  const hasAnyInput =
+    note.trim() !== '' ||
+    weight.trim() !== '' ||
+    sleepTime.trim() !== '' ||
+    feedingList.some((f) => f.hour || f.minute || f.amount) ||
+    walkingList.some(
+      (w) => w.startHour || w.startMinute || w.endHour || w.endMinute,
+    );
+
+  if (!hasAnyInput) {
+    return '모든 항목이 비어있습니다. 한 가지 이상의 항목을 기록해주세요.';
+  }
+
+  return null;
+}
