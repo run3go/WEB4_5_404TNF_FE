@@ -14,7 +14,7 @@ export const getMyUserInfo = async () => {
 };
 
 export const checkPassword = async (password: { password: string }) => {
-  const res = await fetch(`${baseURL}/api/mypage/v1/me`, {
+  const res = await fetch(`${baseURL}/api/mypage/v1/me/password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(password),
@@ -34,7 +34,6 @@ export const modifyUserInfo = async (payload: UserInfo) => {
   const formdata = new FormData();
   const requestPayload = {
     nickname: payload.nickname,
-    password: payload.password,
   };
   formdata.append('request', JSON.stringify(requestPayload));
   if (payload.image) {

@@ -43,7 +43,7 @@ export default function UserProfileEdit({
   const handleResign = async () => {
     await resignAccount(String(profile.userId));
   };
-
+  console.log(profile.provider);
   return (
     <>
       <div
@@ -109,17 +109,19 @@ export default function UserProfileEdit({
               }
             />
           </div>
-          <PasswordField
-            onPasswordValid={(value) =>
-              setFormData((prev) => ({ ...prev, password: value }))
-            }
-          />
+          {profile.provider === 'local' && (
+            <PasswordField
+              onPasswordValid={(value) =>
+                setFormData((prev) => ({ ...prev, password: value }))
+              }
+            />
+          )}
           <Button className="mt-15 w-50" type="button" onClick={onSubmit}>
             수정하기
           </Button>
           <button
             type="button"
-            className="absolute -right-17 -bottom-8 text-[var(--color-grey)]"
+            className="absolute -right-17 -bottom-8 cursor-pointer text-[var(--color-grey)] transition-colors hover:text-[var(--color-black)]"
             onClick={handleResign}
           >
             회원 탈퇴

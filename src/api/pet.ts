@@ -23,11 +23,18 @@ export const getPetProfile = async (petId: number) => {
   return data;
 };
 
-export const registPetProfile = async (payload: PetPayload) => {
+export const registPetProfile = async (
+  payload: PetPayload,
+  image: File | null,
+) => {
+  const formdata = new FormData();
+  formdata.append('request', JSON.stringify(payload));
+  if (image) {
+    formdata.append('images', image);
+  }
   const res = await fetch(`${baseURL}/api/mypage/v3/pets`, {
     method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body: formdata,
     credentials: 'include',
   });
 
@@ -37,11 +44,19 @@ export const registPetProfile = async (payload: PetPayload) => {
   }
 };
 
-export const modifyPetProfile = async (payload: PetPayload, petId: number) => {
+export const modifyPetProfile = async (
+  payload: PetPayload,
+  image: File | null,
+  petId: number,
+) => {
+  const formdata = new FormData();
+  formdata.append('request', JSON.stringify(payload));
+  if (image) {
+    formdata.append('images', image);
+  }
   const res = await fetch(`${baseURL}/api/mypage/v3/pets/${petId}`, {
     method: 'put',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body: formdata,
     credentials: 'include',
   });
   if (!res.ok) {

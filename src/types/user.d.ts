@@ -6,7 +6,7 @@ type UserProfile = {
   nickname: string;
   role: 'ROLE_USER' | 'ROLE_ADMIN';
   password: null;
-  provider: 'GOOGLE' | 'KAKAO' | 'NAVER' | 'LOCAL';
+  provider: 'google' | 'kakao' | 'local';
   userImg: string | null;
 };
 

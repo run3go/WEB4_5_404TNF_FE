@@ -53,26 +53,19 @@ export default function DogProfileEditMobile() {
     toggleEditingPetProfile,
   );
 
-  const watchedImage = watch('image');
-
   const onSubmit = async (data: PetFormValues) => {
-    const formdata = new FormData();
-    if (watchedImage) {
-      formdata.append('file', watchedImage);
-    }
     const payload = {
       ...data,
       sex: data.sex === 'true' ? true : false,
       isNeutered: data.isNeutered === 'true' ? true : false,
       weight: data.weight ? Number(data.weight) : null,
       registNumber: data.registNumber ? data.registNumber : null,
-      image: watchedImage ? formdata : null,
     };
 
     if (profile && selectedPet) {
-      modifyMutate({ payload, petId: selectedPet });
+      modifyMutate({ payload, image: data.image, petId: selectedPet });
     } else {
-      registMutate(payload);
+      registMutate({ payload, image: data.image });
     }
     selectPet(null);
   };
