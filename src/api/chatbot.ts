@@ -1,6 +1,8 @@
-// const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+import { formatDate } from 'date-fns';
+import { getPetProfiles, getVaccineData } from './pet';
+import { getSchedules } from './schedule';
 
-export const askLLM = async () => {
+export const askLLM = async (question: string, userId: string) => {
   const response = await fetch(
     'https://openrouter.ai/api/v1/chat/completions',
     {
@@ -14,12 +16,26 @@ export const askLLM = async () => {
         messages: [
           {
             role: 'system',
-            content:
-              '사용자의 질문을 보고 어떤 동작을 해야하는지 판단해서 명령 객체로 반환해줘 예: {"action": "get_next_vaccine_date", "petName": "마음이"}',
+            content: `넌 반려견의 정보를 기록하고 관리하는 서비스의 챗봇이야.
+            유저가 입력한 정보들 중에 질문에 해당하는 특정 정보를 찾아서 보여주는게 네 역할이야. 
+            사용자의 질문을 보고 핵심 키워드와 명령을 찾아서 액션 객체로 반환해줘. 
+            그리고 정보 전달에 필요한 특정 수치가 있다면 네가 임의로 판단해서 객체에 넣어줘
+            질문에 강아지 이름을 유추할 수 있다면 그걸 가져와서 petName 속성의 값으로 넣어줘.
+            만약 핵심 키워드가 없다면 최대한 비슷한 단어를 연상해서 골라주고,
+            아예 관련없는 질문이라 판단되면 예외로 처리해서 객체를 반환해줘
+            핵심 키워드 : 
+            - vaccine: 백신, 종합백신, 코로나, 인플루엔자, 광견병, 켄넬코프  
+            - schedule: 언제, 일정, 할 일 
+            - weight: 몸무게, 체중
+            - sleep: 수면, 잠 
+            - feed : 식사량, 먹이, 밥
+            - note: 노트, 관찰
+            - walking: 산책
+            예: {"action": "get_next_vaccine_date", "keyword": 'vaccine', "petName": "마음이"}`,
           },
           {
             role: 'user',
-            content: '마음이 저번 주 평균 수면시간을 알려줘',
+            content: question,
           },
         ],
       }),
@@ -34,5 +50,23 @@ export const askLLM = async () => {
     .replace(/```json|```/g, '')
     .trim();
   const parsedCommand = JSON.parse(content);
-  console.log(parsedCommand);
+
+  let petInfo: PetProfile | null;
+  let res = {};
+
+  if (parsedCommand.petName) {
+    const petProfiles = await getPetProfiles(userId);
+    petInfo =
+      petProfiles.find((pet) => pet.name === parsedCommand.petName) ?? null;
+  }
+
+  if (parsedCommand.keyword === 'vaccine') {
+    res = await getVaccineData(petInfo!.petId);
+  }
+
+  if (parsedCommand.keyword === 'schedule') {
+    const today = new Date();
+    res = await getSchedules(Number(userId), formatDate(today, 'yyyy-MM-dd'));
+  }
+  console.log(res);
 };

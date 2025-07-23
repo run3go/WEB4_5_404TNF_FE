@@ -1,8 +1,10 @@
 import '@/assets/styles/global.css';
+import ChatbotIcon from '@/components/chatbot/ChatbotIcon';
 import AuthAccessControl from '@/components/common/AuthAccessControl';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/common/Sidebar';
 import TanstackProvider from '@/providers/TanstackProvider';
+
 export default function MainLayout({
   children,
 }: {
@@ -21,6 +23,7 @@ export default function MainLayout({
             <AuthAccessControl>{children}</AuthAccessControl>
           </div>
         </div>
+        <ChatbotIcon />
       </TanstackProvider>
     </div>
   );
