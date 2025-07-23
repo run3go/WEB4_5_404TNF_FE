@@ -247,7 +247,7 @@ export default function AdminTable({
                 {openIndex === i && (
                   <tr>
                     <td colSpan={7} className="py-2.5">
-                      <ReportDetail />
+                      <ReportDetail id={report.id} />
                     </td>
                   </tr>
                 )}

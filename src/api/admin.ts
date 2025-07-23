@@ -60,9 +60,9 @@ export const getArticles = async (unit: string) => {
   }
 };
 
-// 회원, 신고내역 리스트 조회
-export const getAdminTable = async () => {
-  const url = `${baseUrl}/api/admin/v1/stats/`;
+// 회원 리스트 조회
+export const getUsers = async () => {
+  const url = `${baseUrl}/api/admin/v1/admin/users`;
 
   try {
     const res = await fetch(url, {
@@ -72,6 +72,26 @@ export const getAdminTable = async () => {
 
     if (!res.ok) {
       throw new Error('Failed to load admin table data');
+    }
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error(err instanceof Error ? err.message : 'unknown error');
+  }
+};
+
+// 신고내역 상세
+export const getReportDetail = async (reportId: number) => {
+  const url = `${baseUrl}/api/admin/v1/reports/${reportId}`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to load report detail');
     }
     const data = await res.json();
     return data;

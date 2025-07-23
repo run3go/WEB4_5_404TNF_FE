@@ -47,3 +47,14 @@ type ReportInfo = {
   reason: ReportCategory;
   isDone: boolean;
 };
+
+type ReportDetail = {
+  reportId: number;
+  reporter: 'string';
+  type: 'string';
+  contentId: number;
+  articleId: number;
+  category: 'string';
+  reason: 'string';
+  status: 'string';
+};
