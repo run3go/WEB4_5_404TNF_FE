@@ -66,7 +66,7 @@ export default function DateInput({
           formatDate(today, 'yyyy. MM. dd')
         )}
         <Icon
-          className="scale-90"
+          className="scale-70 sm:scale-90"
           width="20px"
           height="20px"
           left="-188px"
