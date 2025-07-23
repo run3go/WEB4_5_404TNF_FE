@@ -11,7 +11,8 @@ import { reportDummyData, userDummyData } from '@/assets/data/admin';
 export default function AdminTableContainer() {
   const [activeTab, setActiveTab] = useState<'user' | 'report'>('user');
   const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState('all');
+  const [userFilter, setUserFilter] = useState('ALL');
+  const [reportFilter, setReportFilter] = useState('ALL');
   const [currentPage, setCurrentPage] = useState(1);
   const data: UserInfo[] | ReportInfo[] =
     activeTab === 'user' ? userDummyData : reportDummyData;
@@ -22,9 +23,17 @@ export default function AdminTableContainer() {
   // const [data] = useGetAdminTable();
 
   const isDone = [
-    { value: 'all', label: '전체' },
-    { value: 'complete', label: '처리 완료' },
-    { value: 'incomplete', label: '미완료' },
+    { value: 'ALL', label: '전체' },
+    { value: 'ACCEPT', label: '제재' },
+    { value: 'REJECT', label: '철회' },
+    { value: 'PENDING', label: '미완료' },
+  ];
+
+  const state = [
+    { value: 'ALL', label: '전체' },
+    { value: 'ACTIVE', label: '활성' },
+    { value: 'SUSPENDED', label: '정지' },
+    { value: 'WITHDRAWAL', label: '탈퇴' },
   ];
 
   const handleSearch = () => {
@@ -69,18 +78,20 @@ export default function AdminTableContainer() {
               />
             </div>
 
-            {activeTab === 'report' && (
-              // 신고 처리여부 필터링
-              <div className="flex justify-end">
-                <SelectBox
-                  options={isDone}
-                  width="105px"
-                  isCenter
-                  value={filter}
-                  setValue={setFilter}
-                />
-              </div>
-            )}
+            {/* {activeTab === 'report' && ( */}
+            {/* // 신고 처리여부 필터링 */}
+            <div className="flex justify-end">
+              <SelectBox
+                options={activeTab === 'user' ? state : isDone}
+                width="84px"
+                isCenter
+                value={activeTab === 'user' ? userFilter : reportFilter}
+                setValue={
+                  activeTab === 'user' ? setUserFilter : setReportFilter
+                }
+              />
+            </div>
+            {/* // )} */}
           </div>
 
           {/* 목록(List) */}

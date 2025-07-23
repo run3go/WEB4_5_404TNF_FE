@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 export default function ReportDetail({ id }: { id: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [result, setResult] = useState<'accept' | 'reject'>('accept');
   const { data } = useGetReportDetail(id);
 
   return (
@@ -18,7 +19,7 @@ export default function ReportDetail({ id }: { id: number }) {
 
         <div className="flex flex-col items-center justify-center gap-4">
           <Link
-            href={`/post/${data?.category}/${data?.articleId}`}
+            href={`/post/${data?.boardName}/${data?.articleId}`}
             className="flex cursor-pointer items-baseline gap-2"
           >
             해당 게시물로 이동
@@ -27,18 +28,35 @@ export default function ReportDetail({ id }: { id: number }) {
 
           <div className="flex gap-8">
             <Button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => {
+                setResult('accept');
+                setIsModalOpen(true);
+              }}
               className="h-10 w-23 pb-4 text-[16px]"
             >
               제재
             </Button>
-            <Button className="h-10 w-23 pb-4 text-[16px]">철회</Button>
+            <Button
+              onClick={() => {
+                setResult('reject');
+                setIsModalOpen(true);
+              }}
+              className="h-10 w-23 pb-4 text-[16px]"
+            >
+              철회
+            </Button>
           </div>
         </div>
       </div>
 
       {/* 모달 */}
-      {isModalOpen && <ReportModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <ReportModal
+          id={id}
+          result={result}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </>
   );
 }

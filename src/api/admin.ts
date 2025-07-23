@@ -60,26 +60,6 @@ export const getArticles = async (unit: string) => {
   }
 };
 
-// 회원 리스트 조회
-export const getUsers = async () => {
-  const url = `${baseUrl}/api/admin/v1/admin/users`;
-
-  try {
-    const res = await fetch(url, {
-      method: 'GET',
-      credentials: 'include',
-    });
-
-    if (!res.ok) {
-      throw new Error('Failed to load admin table data');
-    }
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    console.error(err instanceof Error ? err.message : 'unknown error');
-  }
-};
-
 // 신고내역 상세
 export const getReportDetail = async (reportId: number) => {
   const url = `${baseUrl}/api/admin/v1/reports/${reportId}`;
@@ -92,6 +72,61 @@ export const getReportDetail = async (reportId: number) => {
 
     if (!res.ok) {
       throw new Error('Failed to load report detail');
+    }
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error(err instanceof Error ? err.message : 'unknown error');
+  }
+};
+
+// 신고내역 처리(accept)
+export const acceptReport = async (acceptInfo: AcceptInfo) => {
+  const url = `${baseUrl}/api/admin/v1/reports/result-accept`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        reportId: acceptInfo.reportId,
+        period: acceptInfo.period,
+        adminReason: acceptInfo.adminReason,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to accept report');
+    }
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error(err instanceof Error ? err.message : 'unknown error');
+  }
+};
+
+// 신고내역 처리(reject)
+export const rejectReport = async (rejectInfo: RejectInfo) => {
+  const url = `${baseUrl}/api/admin/v1/reports/result-reject`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        reportId: rejectInfo.reportId,
+        adminReason: rejectInfo.adminReason,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to reject report');
     }
     const data = await res.json();
     return data;

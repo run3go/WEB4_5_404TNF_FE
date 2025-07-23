@@ -50,11 +50,22 @@ type ReportInfo = {
 
 type ReportDetail = {
   reportId: number;
-  reporter: 'string';
-  type: 'string';
+  type: string;
   contentId: number;
   articleId: number;
-  category: 'string';
-  reason: 'string';
-  status: 'string';
+  boardName: string;
+  category: string;
+  reason: string;
+  status: string;
+};
+
+type AcceptInfo = {
+  reportId: number;
+  period: string;
+  adminReason: string;
+};
+
+type RejectInfo = {
+  reportId: number;
+  adminReason: string;
 };
