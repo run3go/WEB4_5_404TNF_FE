@@ -7,6 +7,10 @@ import { petBreedData, petSizeData } from '@/assets/data/pet';
 import { useCheckDiary } from './useCheckDiary';
 import { useUpdateDiary } from './useUpdateDiary';
 import { useQueryClient } from '@tanstack/react-query';
+import {
+  validateFeedingList,
+  validateWalkingList,
+} from '@/lib/utils/diaryValidation';
 
 export function useDiaryForm(initPetId?: string, initRecordAt?: string) {
   const router = useRouter();
@@ -123,22 +127,95 @@ export function useDiaryForm(initPetId?: string, initRecordAt?: string) {
       if (isSubmitting) return Promise.reject('Submitting...');
       setIsSubmitting(true);
 
+      // validation check
+      const feedingError = validateFeedingList(feedingList);
+      if (feedingError) {
+        alert(feedingError);
+        setIsSubmitting(false);
+        return reject(feedingError);
+      }
+
+      const walkingError = validateWalkingList(walkingList);
+      if (walkingError) {
+        alert(walkingError);
+        setIsSubmitting(false);
+        return reject(walkingError);
+      }
+
+      if (weight.trim() !== '') {
+        const weightNum = Number(weight);
+        if (isNaN(weightNum) || weightNum > 200) {
+          alert('200kg 이하의 몸무게를 입력해주세요');
+          setIsSubmitting(false);
+          return reject('몸무게 유효성 오류');
+        }
+      }
+
+      if (sleepTime.trim() !== '') {
+        const sleepNum = Number(sleepTime);
+        if (isNaN(sleepNum) || sleepNum > 24) {
+          alert('24시간 이하의 시간을 입력해주세요');
+          setIsSubmitting(false);
+          return reject('수면시간 유효성 오류');
+        }
+      }
+
+      // check if all fields are empty
+      const hasNote = note.trim() !== '';
+      const hasWeight = weight.trim() !== '';
+      const hasSleepTime = sleepTime.trim() !== '';
+      const hasFeedingInput = feedingList.some(
+        (f) =>
+          f.hour.trim() !== '' ||
+          f.minute.trim() !== '' ||
+          f.amount.trim() !== '',
+      );
+
+      const hasWalkingInput = walkingList.some(
+        (w) =>
+          w.startHour.trim() !== '' ||
+          w.startMinute.trim() !== '' ||
+          w.endHour.trim() !== '' ||
+          w.endMinute.trim() !== '',
+      );
+
+      if (
+        !hasNote &&
+        !hasWeight &&
+        !hasSleepTime &&
+        !hasFeedingInput &&
+        !hasWalkingInput
+      ) {
+        alert('모든 항목이 비어있습니다. 한 가지 이상의 항목을 기록해주세요.');
+        setIsSubmitting(false);
+        return reject('모든 항목이 비어있음');
+      }
+
+      const transformedFeedingList = hasFeedingInput
+        ? feedingList.map((entry) => ({
+            amount: Number(entry.amount),
+            mealtime: `${recordAt}T${entry.hour.padStart(2, '0')}:${entry.minute.padStart(2, '0')}:00`,
+            unit: entry.unit,
+          }))
+        : [];
+
+      const transformedWalkingList = hasWalkingInput
+        ? walkingList.map((entry) => ({
+            startTime: `${recordAt}T${entry.startHour.padStart(2, '0')}:${entry.startMinute.padStart(2, '0')}:00`,
+            endTime: `${recordAt}T${entry.endHour.padStart(2, '0')}:${entry.endMinute.padStart(2, '0')}:00`,
+            pace: Number(entry.pace),
+          }))
+        : [];
+
+      // request body
       const body = {
         petId: numericPetId,
         recordAt,
         content: note,
-        sleepTime: Number(sleepTime),
-        weight: Number(weight),
-        walkingList: walkingList.map((entry) => ({
-          startTime: `${recordAt}T${entry.startHour.padStart(2, '0')}:${entry.startMinute.padStart(2, '0')}:00`,
-          endTime: `${recordAt}T${entry.endHour.padStart(2, '0')}:${entry.endMinute.padStart(2, '0')}:00`,
-          pace: Number(entry.pace),
-        })),
-        feedingList: feedingList.map((entry) => ({
-          amount: Number(entry.amount),
-          mealtime: `${recordAt}T${entry.hour.padStart(2, '0')}:${entry.minute.padStart(2, '0')}:00`,
-          unit: entry.unit,
-        })),
+        walkingList: transformedWalkingList,
+        feedingList: transformedFeedingList,
+        ...(weight.trim() !== '' && { weight: Number(weight) }),
+        ...(sleepTime.trim() !== '' && { sleepTime: Number(sleepTime) }),
       };
 
       // disable submit button for 1.5s

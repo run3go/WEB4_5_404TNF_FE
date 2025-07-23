@@ -171,13 +171,13 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
                 <span className="inline-block w-[110px] cursor-default text-[var(--color-primary-500)]">
                   몸무게
                 </span>
-                <span>{weight} kg</span>
+                <span>{weight != null ? `${weight} kg` : '-'}</span>
               </div>
               <div className="text-sm sm:text-base">
                 <span className="inline-block w-[110px] cursor-default text-[var(--color-primary-500)]">
                   수면시간
                 </span>
-                <span>{sleepTime}시간</span>
+                <span>{sleepTime != null ? `${sleepTime}시간` : '-'}</span>
               </div>
             </DiaryCard>
           </div>
