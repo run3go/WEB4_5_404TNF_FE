@@ -9,8 +9,8 @@ import DiaryProfile from './DiaryProfile';
 import DiaryOptionsMenu from './DiaryOptionsMenu';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { useDiaryDetail } from '@/lib/hooks/diary/useDiaryDetail';
-import { useDeleteDiary } from '@/lib/hooks/diary/useDeleteDiary';
+import { useGetDiaryDetail } from '@/lib/hooks/diary/api/useGetDiaryDetail';
+import { useDeleteDiary } from '@/lib/hooks/diary/api/useDeleteDiary';
 import { getPetsByUserId } from '@/api/diary';
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 
@@ -32,7 +32,7 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
   const router = useRouter();
 
   // diary detail
-  const { data, isLoading, error } = useDiaryDetail(logId);
+  const { data, isLoading, error } = useGetDiaryDetail(logId);
 
   // pet profile
   const [pet, setPet] = useState<PetProfile | null>(null);

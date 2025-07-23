@@ -11,7 +11,7 @@ import DiaryProfile from '@/components/diary/DiaryProfile';
 import MobileTitle from '@/components/common/MobileTitle';
 import Image from 'next/image';
 import DiaryCard from '@/components/diary/DiaryCard';
-import { useDiaryForm } from '@/lib/hooks/diary/useDiaryForm';
+import { useDiaryForm } from '@/lib/hooks/diary/state/useDiaryForm';
 import { twMerge } from 'tailwind-merge';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
