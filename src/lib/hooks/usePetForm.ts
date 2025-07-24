@@ -45,8 +45,14 @@ export const useRegistMutation = (
 ) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: PetPayload) =>
-      registPetProfile({ ...payload, userId: String(userInfo?.userId) }),
+    mutationFn: ({
+      payload,
+      image,
+    }: {
+      payload: PetPayload;
+      image: File | null;
+    }) =>
+      registPetProfile({ ...payload, userId: String(userInfo?.userId) }, image),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ['pets', String(userInfo?.userId)],
@@ -66,8 +72,15 @@ export const useModifyMutation = (
 ) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ payload, petId }: { payload: PetPayload; petId: number }) =>
-      modifyPetProfile(payload, petId),
+    mutationFn: ({
+      payload,
+      image,
+      petId,
+    }: {
+      payload: PetPayload;
+      image: File | null;
+      petId: number;
+    }) => modifyPetProfile(payload, image, petId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ['pets', String(userInfo?.userId)],
