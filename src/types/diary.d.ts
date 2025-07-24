@@ -2,8 +2,8 @@ type DiarydPayload = {
   petId: number;
   recordAt: string;
   content: string;
-  sleepTime: number;
-  weight: number;
+  sleepTime?: number;
+  weight?: number;
   walkingList: {
     startTime: string;
     endTime: string;

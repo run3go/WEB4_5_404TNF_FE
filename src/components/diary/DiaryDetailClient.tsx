@@ -9,9 +9,10 @@ import DiaryProfile from './DiaryProfile';
 import DiaryOptionsMenu from './DiaryOptionsMenu';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { useDiaryForm } from '@/lib/hooks/diary/useDiaryForm';
-import { useDiaryDetail } from '@/lib/hooks/diary/useDiaryDetail';
-import { useDeleteDiary } from '@/lib/hooks/diary/useDeleteDiary';
+import { useGetDiaryDetail } from '@/lib/hooks/diary/api/useGetDiaryDetail';
+import { useDeleteDiary } from '@/lib/hooks/diary/api/useDeleteDiary';
+import { getPetsByUserId } from '@/api/diary';
+import { petBreedData, petSizeData } from '@/assets/data/pet';
 
 const feedUnitOptions = [
   { label: 'g', value: 'GRAM' },
@@ -28,18 +29,35 @@ const formatTime = (datetime: string) => {
 };
 
 export default function DiaryDetailClient({ logId }: { logId: number }) {
-  const {
-    selectedPetName,
-    selectedPetAge,
-    selectedPetDays,
-    breedLabel,
-    sizeLabel,
-    formatAge,
-  } = useDiaryForm();
   const router = useRouter();
 
   // diary detail
-  const { data, isLoading, error } = useDiaryDetail(logId);
+  const { data, isLoading, error } = useGetDiaryDetail(logId);
+
+  // pet profile
+  const [pet, setPet] = useState<PetProfile | null>(null);
+  const formatAge = (age: number) => {
+    const years = Math.floor(age / 12);
+    const months = age % 12;
+    return `${years}년 ${months}개월`;
+  };
+  const getBreedLabel = (breed?: string) =>
+    petBreedData.find((b) => b.value === breed)?.label ?? '-';
+
+  const getSizeLabel = (size?: string) =>
+    petSizeData.find((s) => s.value === size)?.label ?? '-';
+  useEffect(() => {
+    const fetchPet = async () => {
+      const userId = Number(sessionStorage.getItem('userId')) || null;
+      if (!userId || !data?.petId) return;
+
+      const pets: PetProfile[] = await getPetsByUserId(userId);
+      const matchedPet = pets.find((p) => p.petId === data.petId);
+      setPet(matchedPet || null);
+    };
+
+    fetchPet();
+  }, [data?.petId]);
 
   // options menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -95,13 +113,29 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
 
   return (
     <main className="flex h-full flex-col pt-6 pb-5 text-sm sm:m-0 sm:block sm:w-full sm:pt-9 sm:pb-0">
-      <MobileTitle title="멍멍일지" closePage={() => {}} />
+      <MobileTitle
+        title="멍멍일지"
+        closePage={() => router.back()}
+        showOptionsMenu
+        onEdit={() =>
+          router.push(
+            `/diary/write?petId=${data.petId}&recordAt=${encodeURIComponent(data.recordAt)}`,
+          )
+        }
+        onDelete={handleDelete}
+      />
       <div className="relative flex h-full w-full flex-col gap-6 px-4 sm:px-19">
+        {/* mobile */}
         <div className="flex w-full justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
-          <div className="flex grow-5 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 py-[11px] leading-[1.2] sm:w-[160px]">
-            {selectedPetName}
+          <div className="flex h-[38px] flex-1 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 leading-[1.2] sm:w-[160px]">
+            {data.recordAt}
+          </div>
+          <div className="flex h-[38px] flex-1 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 leading-[1.2] sm:w-[160px]">
+            {pet?.name}
           </div>
         </div>
+
+        {/* web */}
         <div className="absolute -top-2 right-[65px] hidden self-end text-base sm:block">
           <DiaryOptionsMenu
             onEdit={() => {
@@ -112,6 +146,8 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
             onDelete={handleDelete}
           />
         </div>
+
+        {/* content */}
         <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-10">
           <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
             <div className="hidden w-full justify-between sm:flex">
@@ -123,25 +159,25 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
               />
             </div>
             <DiaryProfile
-              name={selectedPetName}
-              age={selectedPetAge}
-              days={selectedPetDays}
-              breedLabel={breedLabel}
-              sizeLabel={sizeLabel}
+              name={pet?.name ?? '-'}
+              age={Number(pet?.age)}
+              days={pet?.days ?? 0}
+              breedLabel={getBreedLabel(pet?.breed)}
+              sizeLabel={getSizeLabel(pet?.size)}
               formatAge={formatAge}
             />
             <DiaryCard className="w-full sm:h-[205px]" title="오늘의 건강기록">
-              <div className="mb-2 text-sm sm:mb-6 sm:text-base">
+              <div className="mb-4 text-sm sm:mt-2 sm:mb-6 sm:text-base">
                 <span className="inline-block w-[110px] cursor-default text-[var(--color-primary-500)]">
                   몸무게
                 </span>
-                <span>{weight} kg</span>
+                <span>{weight != null ? `${weight} kg` : '-'}</span>
               </div>
               <div className="text-sm sm:text-base">
                 <span className="inline-block w-[110px] cursor-default text-[var(--color-primary-500)]">
                   수면시간
                 </span>
-                <span>{sleepTime}시간</span>
+                <span>{sleepTime != null ? `${sleepTime}시간` : '-'}</span>
               </div>
             </DiaryCard>
           </div>
@@ -189,8 +225,13 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
                 </ul>
               </DiaryCard>
             </div>
-            <DiaryCard className="mb-7 h-full w-full sm:mb-0" title="관찰노트">
-              <p>{content}</p>
+            <DiaryCard
+              className="mb-7 min-h-50 w-full sm:mb-0 sm:h-full"
+              title="관찰노트"
+            >
+              <div className="scrollbar-hidden max-h-40 overflow-y-auto sm:max-h-[250px]">
+                <p>{content}</p>
+              </div>
             </DiaryCard>
           </div>
         </div>
