@@ -130,7 +130,7 @@ export default function LoginForm() {
           {error && <p className="auth__error">{error}</p>}
         </div>
 
-        <button className="mt-4 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] sm:mt-6 sm:h-[56px]">
+        <button className="mt-4 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] hover:bg-[var(--color-primary-300)] sm:mt-6 sm:h-[56px]">
           <div className="flex items-center justify-center gap-2">
             <Icon width="20px" height="18px" left="-297px" top="-312px" />
             <p className="text-[14px] font-medium text-[#2B2926] sm:text-[18px]">
