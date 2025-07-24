@@ -1,6 +1,6 @@
 'use client';
 
-import { getUserProfile, login } from '@/api/auth';
+import { getUserProfile, login, socialLogin } from '@/api/auth';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
 import { useMutation } from '@tanstack/react-query';
@@ -18,6 +18,10 @@ export default function LoginForm() {
   const loginMutation = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       login(email, password),
+  });
+
+  const socialLoginMutation = useMutation({
+    mutationFn: socialLogin,
   });
 
   const profileMutation = useMutation({
@@ -60,6 +64,16 @@ export default function LoginForm() {
       setError(
         err instanceof Error ? err.message : '로그인 중 오류가 발생했습니다.',
       );
+    }
+  };
+
+  const handleSocialLogin = async (provider: string) => {
+    try {
+      const res = await socialLoginMutation.mutateAsync(provider);
+      console.log(res);
+      window.location.href = res;
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -138,6 +152,7 @@ export default function LoginForm() {
             left="-16px"
             top="-361px"
             className="scale-54 cursor-pointer sm:scale-100"
+            onClick={() => handleSocialLogin('kakao')}
           />
           <Icon
             width="54px"
@@ -145,6 +160,7 @@ export default function LoginForm() {
             left="-94px"
             top="-361px"
             className="scale-60 cursor-pointer sm:scale-100"
+            onClick={() => handleSocialLogin('google')}
           />
         </div>
       </form>

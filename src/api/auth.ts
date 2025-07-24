@@ -165,3 +165,20 @@ export const register = async (formData: {
     throw new Error(data.message || '회원가입 실패');
   }
 };
+
+export const socialLogin = async (provider: string) => {
+  if (provider !== 'google' && provider !== 'kakao') {
+    throw new Error('지원하지 않는 소셜 로그인 방식입니다.');
+  }
+
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/auth/v1/social-auth/${provider}`,
+  );
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message || '소셜 로그인 실패');
+  }
+
+  return res.text();
+};
