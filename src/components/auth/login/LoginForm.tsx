@@ -33,6 +33,8 @@ export default function LoginForm() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (loginMutation.isPending || profileMutation.isPending) return;
+
     if (!email) {
       setError('이메일을 입력해주세요');
       return;
@@ -70,6 +72,8 @@ export default function LoginForm() {
   };
 
   const handleSocialLogin = async (provider: string) => {
+    if (socialLoginMutation.isPending) return;
+
     try {
       const res = await socialLoginMutation.mutateAsync(provider);
       console.log(res);
