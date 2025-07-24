@@ -141,13 +141,15 @@ export default function Diary() {
                 key={item.lifeRecordId}
                 className="w-full sm:basis-[calc(33%-31px)]"
               >
-                <LogCard
-                  petName={item.pet.name}
-                  recordAt={item.recordAt}
-                  weight={item.weight}
-                  walkingTime={item.walkingTime}
-                  content={item.content}
-                />
+                <Link href={`/diary/${item.lifeRecordId}`}>
+                  <LogCard
+                    petName={item.pet.name}
+                    recordAt={item.recordAt}
+                    weight={item.weight}
+                    walkingTime={item.walkingTime}
+                    content={item.content}
+                  />
+                </Link>
               </li>
             ))
           )}
