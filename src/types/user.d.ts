@@ -6,8 +6,8 @@ type UserProfile = {
   nickname: string;
   role: 'ROLE_USER' | 'ROLE_ADMIN';
   password: null;
-  provider: 'GOOGLE' | 'KAKAO' | 'NAVER' | 'LOCAL';
-  userImg: null;
+  provider: 'google' | 'kakao' | 'local';
+  userImg: string | null;
 };
 
 interface User {
@@ -19,3 +19,9 @@ interface User {
   provider: string;
   userImg: string | null;
 }
+
+type UserInfo = {
+  image: File | null;
+  nickname: string;
+  password: string;
+};

@@ -28,13 +28,13 @@ export default function DiaryOptionsMenu({
   }, [isOpen]);
 
   return (
-    <div className="relative">
+    <div className="relative sm:mr-5">
       <Icon
         width="18px"
         height="4px"
         left="-305px"
         top="-83px"
-        className="mr-5 cursor-pointer"
+        className="cursor-pointer"
         onClick={() => setIsOpen((prev) => !prev)}
       />
       {isOpen && (

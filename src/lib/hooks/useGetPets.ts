@@ -1,5 +1,4 @@
 import { getPets } from '@/api/schedule';
-import { PetOption } from '@/types/schedule';
 import { useQuery } from '@tanstack/react-query';
 
 // 애완견 정보 조회
