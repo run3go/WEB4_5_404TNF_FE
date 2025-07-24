@@ -149,3 +149,37 @@ export const deleteDiary = async (lifeRecordId: number) => {
     throw err;
   }
 };
+
+// get diary list
+export const getDiaryList = async ({
+  petId,
+  recordAt,
+  page,
+}: {
+  petId?: number;
+  recordAt?: string;
+  page: number;
+}) => {
+  const params = new URLSearchParams({
+    ...(petId ? { petId: petId.toString() } : {}),
+    ...(recordAt ? { recordAt } : {}),
+    page: page.toString(),
+  });
+
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/life-record/v1/users/life-record-list?${params}`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+
+    const data = await res.json();
+    console.log('getDiaryList result:', data);
+    return data;
+  } catch (err) {
+    console.error('getDiaryList error:', err);
+    return { data: [], pageInfo: {} };
+  }
+};
