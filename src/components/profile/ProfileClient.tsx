@@ -1,5 +1,5 @@
 'use client';
-import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
+import { usePetProfiles } from '@/lib/hooks/useProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useQueryClient } from '@tanstack/react-query';

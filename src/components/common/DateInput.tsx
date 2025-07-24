@@ -86,7 +86,9 @@ export default function DateInput({
             captionLayout="dropdown-years"
             selected={selected}
             startMonth={new Date(thisYear - 30, thisMonth)}
-            endMonth={new Date(thisYear + 10, thisMonth)}
+            endMonth={
+              disableFuture ? new Date(thisYear + 10, thisMonth) : undefined
+            }
             onSelect={handleSelectDate}
             disabled={
               disableFuture
@@ -95,7 +97,7 @@ export default function DateInput({
                   ? disabledRange
                   : undefined
             }
-            month={selected}
+            defaultMonth={selected}
             locale={ko}
             showOutsideDays
             classNames={{

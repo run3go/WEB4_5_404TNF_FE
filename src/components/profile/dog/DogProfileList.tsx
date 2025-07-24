@@ -1,7 +1,7 @@
 'use client';
 import alternativeImage from '@/assets/images/alternative-image.svg';
 import Card from '@/components/common/Card';
-import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
+import { usePetProfiles } from '@/lib/hooks/useProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';

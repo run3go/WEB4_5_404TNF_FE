@@ -144,7 +144,12 @@ export default function VaccineModal({
               ) : (
                 <span
                   className="group flex cursor-pointer items-center gap-2 hover:text-[var(--color-primary-500)]"
-                  onClick={() => setIsEditing(true)}
+                  onClick={() => {
+                    setIsEditing(true);
+                    if (vaccineData) {
+                      reset(vaccineData);
+                    }
+                  }}
                 >
                   <Icon
                     className="block group-hover:hidden"

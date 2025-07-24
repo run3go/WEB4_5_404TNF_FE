@@ -2,7 +2,7 @@
 
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import dog from '@/assets/images/dog_img.png';
-import { usePetProfile, usePetVaccine } from '@/lib/hooks/usePetProfiles';
+import { usePetProfile, usePetVaccine } from '@/lib/hooks/useProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';
