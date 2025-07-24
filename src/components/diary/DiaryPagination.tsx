@@ -22,7 +22,7 @@ export default function DiaryPagination({
   );
 
   return (
-    <div className="mt-6 flex items-center justify-center gap-5 pb-5 sm:mt-5 sm:gap-6 sm:pb-0">
+    <div className="fixed bottom-0 left-0 z-50 mt-6 flex w-full items-center justify-center gap-5 bg-[var(--color-background)] py-3 pb-5 sm:static sm:mt-5 sm:gap-6 sm:pb-0">
       {/* prev group */}
       {totalPages > pagesPerGroup && (
         <button

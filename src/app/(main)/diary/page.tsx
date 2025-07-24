@@ -4,11 +4,13 @@ import SelectBox from '@/components/common/SelectBox';
 import LogCard from '@/components/diary/LogCard';
 import DateInput from '@/components/common/DateInput';
 import Link from 'next/link';
+import symbol from '@/assets/images/alternative-image.svg';
 
 import { useCallback, useEffect, useState } from 'react';
 import { getDiaryList, getPetsByUserId } from '@/api/diary';
 import { useRouter } from 'next/navigation';
 import DiaryPagination from '@/components/diary/DiaryPagination';
+import Image from 'next/image';
 
 type Option = { value: string; label: string };
 type DiaryItem = {
@@ -27,6 +29,7 @@ export default function Diary() {
   const [selectedPetId, setSelectedPetId] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -55,6 +58,7 @@ export default function Diary() {
 
   const fetchDiaryList = useCallback(async () => {
     try {
+      setIsLoading(true);
       const recordAt = selectedDate
         ? selectedDate.toISOString().slice(0, 10)
         : undefined;
@@ -70,6 +74,8 @@ export default function Diary() {
       setTotalPages(res.pageInfo.totalPages || 1);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
   }, [selectedDate, selectedPetId, currentPage]);
 
@@ -132,9 +138,26 @@ export default function Diary() {
         </Link>
       </div>
       <div className="w-full">
-        <ul className="scrollbar-hidden flex flex-col gap-5 pt-2 pb-4 sm:h-[625px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:overflow-y-scroll sm:px-3 sm:pt-5">
-          {diaryList.length === 0 ? (
-            <p className="w-full text-center">기록이 없습니다.</p>
+        <ul className="scrollbar-hidden mb-10 flex flex-col gap-5 pt-2 pb-4 sm:mb-0 sm:h-[625px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:overflow-y-scroll sm:px-3 sm:pt-5">
+          {isLoading ? (
+            // temporary loading spinner
+            <div className="flex w-full flex-col items-center justify-center gap-1 py-8">
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--color-primary-500)] border-t-transparent" />
+              <span className="text-sm text-[var(--color-grey)]">
+                불러오는 중...
+              </span>
+            </div>
+          ) : diaryList.length === 0 ? (
+            <div className="flex h-full w-full flex-col items-center justify-center gap-2 py-64 text-[var(--color-grey)] sm:gap-3 sm:py-0">
+              <Image
+                src={symbol}
+                alt="작성된 멍멍일지가 없습니다"
+                className="h-auto w-16 sm:w-24"
+              />
+              <p className="w-full text-center text-sm sm:text-base">
+                작성된 멍멍일지가 없습니다
+              </p>
+            </div>
           ) : (
             diaryList.map((item) => (
               <li
@@ -156,11 +179,14 @@ export default function Diary() {
         </ul>
       </div>
 
-      <DiaryPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={(page) => setCurrentPage(page)}
-      />
+      {diaryList.length > 0 && (
+        <DiaryPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
+      )}
+
       {/* mobile: post button */}
       <div
         className="fixed right-4 bottom-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:hidden"
