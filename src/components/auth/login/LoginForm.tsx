@@ -6,12 +6,14 @@ import { useAuthStore } from '@/stores/authStoe';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import PasswordToggleButton from '../ShowPasswordButton';
 
 export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
   const setLogin = useAuthStore((state) => state.setLogin);
 
@@ -106,15 +108,21 @@ export default function LoginForm() {
           onChange={(e) => handleChange(e, 'email')}
         />
 
-        <div>
+        <div className="relative">
           <input
             name="password"
-            type="password"
+            type={isShowPassword ? 'text' : 'password'}
             placeholder="비밀번호를 입력해주세요"
             className="auth__input focus:!border-[#FCC389]"
             value={password}
             onChange={(e) => handleChange(e, 'password')}
           />
+          {password.length > 0 && (
+            <PasswordToggleButton
+              isVisible={isShowPassword}
+              onClick={() => setIsShowPassword((prev) => !prev)}
+            />
+          )}
           {error && <p className="auth__error">{error}</p>}
         </div>
 
