@@ -95,7 +95,7 @@ export default function LoginForm() {
     <>
       <form
         onSubmit={handleLogin}
-        className="mt-12 flex flex-col justify-center gap-5 p-6 sm:mt-14 sm:px-[20vw]"
+        className="mt-12 flex flex-col justify-center gap-5 p-6 sm:mt-14 sm:px-[25vw]"
       >
         <input
           name="email"
