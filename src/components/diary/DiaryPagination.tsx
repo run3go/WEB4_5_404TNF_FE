@@ -22,7 +22,7 @@ export default function DiaryPagination({
   );
 
   return (
-    <div className="mt-5 flex items-center justify-center gap-6">
+    <div className="mt-6 flex items-center justify-center gap-5 pb-5 sm:mt-5 sm:gap-6 sm:pb-0">
       {/* prev group */}
       {totalPages > pagesPerGroup && (
         <button
@@ -30,7 +30,20 @@ export default function DiaryPagination({
           disabled={currentGroup === 1}
           className="flex h-4 items-center justify-center disabled:cursor-auto"
         >
-          <Icon width="11px" height="14px" left="-383px" top="-199px" />
+          <Icon
+            width="11px"
+            height="14px"
+            left="-383px"
+            top="-199px"
+            className="hidden sm:block"
+          />
+          <Icon
+            width="8px"
+            height="10px"
+            left="-436px"
+            top="-202px"
+            className="block sm:hidden"
+          />
         </button>
       )}
       {/* page numbers */}
@@ -38,7 +51,7 @@ export default function DiaryPagination({
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`flex h-4 cursor-pointer items-center justify-center ${
+          className={`flex h-4 cursor-pointer items-center justify-center text-xs sm:text-sm ${
             currentPage === page
               ? 'font-bold text-[var(--color-primary-500)]'
               : ''
@@ -55,7 +68,20 @@ export default function DiaryPagination({
           disabled={endPage >= totalPages}
           className="flex h-4 items-center justify-center disabled:cursor-auto"
         >
-          <Icon width="11px" height="14px" left="-407px" top="-199px" />
+          <Icon
+            width="11px"
+            height="14px"
+            left="-407px"
+            top="-199px"
+            className="hidden sm:block"
+          />
+          <Icon
+            width="8px"
+            height="10px"
+            left="-456px"
+            top="-202px"
+            className="block sm:hidden"
+          />
         </button>
       )}
     </div>

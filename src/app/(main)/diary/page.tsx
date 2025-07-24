@@ -131,24 +131,28 @@ export default function Diary() {
           <span className="inline-block w-20 font-medium">기록하기</span>
         </Link>
       </div>
-
-      <ul className="scrollbar-hidden flex flex-col gap-5 pt-2 pb-4 sm:h-[620px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:overflow-y-scroll sm:px-3 sm:pt-5">
-        {diaryList.length === 0 ? (
-          <p className="w-full text-center">기록이 없습니다.</p>
-        ) : (
-          diaryList.map((item) => (
-            <li key={item.lifeRecordId} className="basis-[calc(33%-31px)]">
-              <LogCard
-                petName={item.pet.name}
-                recordAt={item.recordAt}
-                weight={item.weight}
-                walkingTime={item.walkingTime}
-                content={item.content}
-              />
-            </li>
-          ))
-        )}
-      </ul>
+      <div className="w-full">
+        <ul className="scrollbar-hidden flex flex-col gap-5 pt-2 pb-4 sm:h-[625px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:overflow-y-scroll sm:px-3 sm:pt-5">
+          {diaryList.length === 0 ? (
+            <p className="w-full text-center">기록이 없습니다.</p>
+          ) : (
+            diaryList.map((item) => (
+              <li
+                key={item.lifeRecordId}
+                className="w-full sm:basis-[calc(33%-31px)]"
+              >
+                <LogCard
+                  petName={item.pet.name}
+                  recordAt={item.recordAt}
+                  weight={item.weight}
+                  walkingTime={item.walkingTime}
+                  content={item.content}
+                />
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
 
       <DiaryPagination
         currentPage={currentPage}

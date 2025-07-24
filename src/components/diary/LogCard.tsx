@@ -18,8 +18,8 @@ export default function LogCard({
   content,
 }: Props) {
   return (
-    <Card className="card__hover flex flex-col gap-3 border-1 border-[var(--color-primary-500)] text-sm sm:text-base">
-      <div className="mb-2 flex justify-between border-b border-[var(--color-primary-500)] pb-3">
+    <Card className="card__hover flex flex-col gap-3 border-1 border-[var(--color-primary-500)]">
+      <div className="mb-2 flex items-center justify-between border-b border-[var(--color-primary-500)] pb-3">
         <div className="flex items-center gap-4">
           <Image
             className="rounded-full"
@@ -28,29 +28,35 @@ export default function LogCard({
             width={32}
             height={32}
           />
-          <span>{petName}</span>
+          <span className="text-sm sm:text-base">{petName}</span>
         </div>
-        <span>{recordAt.replace(/-/g, '. ')}</span>
+        <span className="text-xs sm:text-sm">
+          {recordAt.replace(/-/g, '. ')}
+        </span>
       </div>
       <div>
-        <span className="inline-block w-[78px] text-[var(--color-primary-500)]">
+        <span className="inline-block w-[78px] text-sm text-[var(--color-primary-500)] sm:text-base">
           몸무게
         </span>
-        <span>{weight !== null ? `${weight} kg` : '-'}</span>
+        <span className="text-sm sm:text-base">
+          {weight !== null ? `${weight} kg` : '-'}
+        </span>
       </div>
       <div>
-        <span className="inline-block w-[78px] text-[var(--color-primary-500)]">
+        <span className="inline-block w-[78px] text-sm text-[var(--color-primary-500)] sm:text-base">
           산책시간
         </span>
-        <span>
+        <span className="text-sm sm:text-base">
           {walkingTime === 0
             ? '-'
             : `${Math.floor(walkingTime / 60)}시간 ${walkingTime % 60}분`}
         </span>
       </div>
       <div>
-        <span className="text-[var(--color-primary-500)]">관찰노트</span>
-        <p className="mt-2 line-clamp-2 h-12 overflow-hidden leading-[1.5rem] text-ellipsis">
+        <span className="text-sm text-[var(--color-primary-500)] sm:text-base">
+          관찰노트
+        </span>
+        <p className="mt-2 line-clamp-2 h-12 overflow-hidden text-sm leading-[1.5rem] text-ellipsis sm:text-base">
           {content !== '' ? content : '-'}
         </p>
       </div>
