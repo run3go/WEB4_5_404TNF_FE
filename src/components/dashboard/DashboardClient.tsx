@@ -45,7 +45,6 @@ export default function DashboardClient() {
     weightList,
   } = useDashboardData(selectedPet);
   const queryClient = useQueryClient();
-
   const petOptions = petList.map((pet) => ({
     value: String(pet.petId),
     label: pet.name,

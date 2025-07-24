@@ -145,12 +145,12 @@ export const getDashboardChecklist = async (petId: number) => {
       credentials: 'include',
     },
   );
-
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText || '대시보드 체크리스트 조회 실패');
   }
 
   const data = await res.json();
+  console.log(data);
   return data.todoList;
 };

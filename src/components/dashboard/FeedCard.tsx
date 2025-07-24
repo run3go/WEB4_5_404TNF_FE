@@ -29,13 +29,13 @@ export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
       <div className="mb-5 flex flex-col gap-2">
         <span className="text-xs sm:text-base">지난주 평균 식사량 (일)</span>
         <span>
-          {feeding.average} {unitLabel}
+          {Math.floor(feeding.average)} {unitLabel}
         </span>
       </div>
       <div className="mb-4 flex flex-col gap-2">
         <span className="text-xs sm:text-base">오늘의 식사기록</span>
         <div className="h-6">
-          {feeding.amount ?? 0} {unitLabel}
+          {Math.floor(feeding.amount) ?? 0} {unitLabel}
         </div>
       </div>
       <DonutGraph feeding={feeding} />

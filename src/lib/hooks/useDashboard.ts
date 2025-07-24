@@ -15,7 +15,9 @@ export const useDashboardData = (petId: number) => {
     useQuery<DashboardProfile>({
       queryKey: ['dashboard', 'profile', petId],
       queryFn: () => getDashboardProfile(petId),
-      staleTime: 30000,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
       retry: 1,
     });
 
@@ -23,7 +25,9 @@ export const useDashboardData = (petId: number) => {
     useQuery<DashboardWeight>({
       queryKey: ['dashboard', 'weight', petId],
       queryFn: () => getDashboardWeight(petId),
-      staleTime: 30000,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
       retry: 1,
     });
 
@@ -31,21 +35,27 @@ export const useDashboardData = (petId: number) => {
     useQuery<DashboardSleep>({
       queryKey: ['dashboard', 'sleep', petId],
       queryFn: () => getDashboardSleep(petId),
-      staleTime: 30000,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
       retry: 1,
     });
 
   const { data: note, isPending: isNotePending } = useQuery<DashboardNote>({
     queryKey: ['dashboard', 'note', petId],
     queryFn: () => getDashboardNote(petId),
-    staleTime: 30000,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
     retry: 1,
   });
 
   const { data: recommend, isPending: isRecommendPending } = useQuery({
     queryKey: ['dashboard', 'recommend', petId],
     queryFn: () => getDashboardRecommend(petId),
-    staleTime: 30000,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
     retry: 1,
   });
 
@@ -53,7 +63,9 @@ export const useDashboardData = (petId: number) => {
     useQuery<DashboardFeeding>({
       queryKey: ['dashboard', 'feeding', petId],
       queryFn: () => getDashboardFeeding(petId),
-      staleTime: 30000,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
       retry: 1,
     });
 
@@ -61,7 +73,9 @@ export const useDashboardData = (petId: number) => {
     useQuery<DashboardWalking>({
       queryKey: ['dashboard', 'walking', petId],
       queryFn: () => getDashboardWalking(petId),
-      staleTime: 30000,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
       retry: 1,
     });
 
@@ -69,7 +83,9 @@ export const useDashboardData = (petId: number) => {
     useQuery<DashboardChecklist>({
       queryKey: ['dashboard', 'checklist', petId],
       queryFn: () => getDashboardChecklist(petId),
-      staleTime: 30000,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
       retry: 1,
     });
 
