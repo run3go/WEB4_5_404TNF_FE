@@ -1,9 +1,20 @@
 // feeding list
 export function validateFeedingList(feedingList: FeedEntry[]): string | null {
+  let firstUnit: string | null = null;
+
   for (const entry of feedingList) {
-    const { hour, minute, amount } = entry;
+    const { hour, minute, amount, unit } = entry;
     const hasEntry =
       hour.trim() !== '' || minute.trim() !== '' || amount.trim() !== '';
+
+    // unit
+    if (hasEntry) {
+      if (firstUnit === null) {
+        firstUnit = unit;
+      } else if (unit !== firstUnit) {
+        return '식사량 단위를 통일해주세요';
+      }
+    }
 
     // incomplete entry
     const isIncomplete =
