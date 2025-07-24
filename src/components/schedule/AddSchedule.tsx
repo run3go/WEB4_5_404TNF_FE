@@ -166,7 +166,7 @@ export default function AddSchedule({
                 할 일
               </label>
               <input
-                className="input-style w-full px-3 py-[11px]"
+                className="input-style w-full px-3 py-[11px] focus:border-2 focus:outline-[var(--color-primary-500)]"
                 type="text"
                 placeholder="할 일을 입력하세요"
                 value={name}
