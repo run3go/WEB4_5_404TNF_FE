@@ -2,7 +2,7 @@
 
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import dog from '@/assets/images/dog_img.png';
-import { usePetProfile, usePetVaccine } from '@/lib/hooks/usePetProfiles';
+import { usePetProfile, usePetVaccine } from '@/lib/hooks/useProfiles';
 import { calculateAge } from '@/lib/utils/date';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
