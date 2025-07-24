@@ -6,7 +6,6 @@ import DateInput from '../common/DateInput';
 import { useEffect, useState } from 'react';
 import { cycles } from '@/assets/data/schedule';
 import { addMonths, format, isBefore, parseISO } from 'date-fns';
-import { Schedule } from '@/types/schedule';
 import { useGetPets } from '@/lib/hooks/useGetPets';
 import { useCreateSchedule } from '@/lib/hooks/schedule/useCreateSchedule';
 import { useUpdateSchedule } from '@/lib/hooks/schedule/useUpdateSchedule';
@@ -30,7 +29,7 @@ export default function AddSchedule({
   const { userInfo } = useAuthStore();
 
   // 애완견 리스트 불러오기
-  const { data: petOptions, isPending } = useGetPets(10100);
+  const { data: petOptions, isPending } = useGetPets(userInfo?.userId);
 
   const { mutate: createSchedule } = useCreateSchedule();
   const { mutate: updateSchedule } = useUpdateSchedule();
@@ -99,7 +98,6 @@ export default function AddSchedule({
 
         updateSchedule({
           scheduleId: schedule.scheduleId,
-          userId: userInfo?.userId, // api 확인 후 제거
           petId: Number(petId),
           name,
           date: format(date, 'yyyy-MM-dd'),
@@ -118,7 +116,6 @@ export default function AddSchedule({
           cycleEnd: cycleEnd
             ? format(cycleEnd, 'yyyy-MM-dd')
             : format(date, 'yyyy-MM-dd'),
-          userId: userInfo?.userId, // api 확인 후 제거
           petId: Number(petId),
         });
       }
@@ -169,7 +166,7 @@ export default function AddSchedule({
                 할 일
               </label>
               <input
-                className="input-style w-full px-3 py-[11px]"
+                className="input-style w-full px-3 py-[11px] focus:border-2 focus:outline-[var(--color-primary-500)]"
                 type="text"
                 placeholder="할 일을 입력하세요"
                 value={name}

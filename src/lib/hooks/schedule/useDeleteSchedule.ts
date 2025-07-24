@@ -1,13 +1,17 @@
 import { deleteSchedule } from '@/api/schedule';
-import { DeleteSchedule } from '@/types/schedule';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useDeleteSchedule = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (deleteData: DeleteSchedule) =>
-      await deleteSchedule(deleteData),
+    mutationFn: async ({
+      scheduleId,
+      cycleLink,
+    }: {
+      scheduleId: number;
+      cycleLink: boolean;
+    }) => await deleteSchedule(scheduleId, cycleLink),
 
     onSuccess: () => {
       // 일정 다시 불러오기 (쿼리 무효화)

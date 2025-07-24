@@ -4,8 +4,6 @@ import Icon from '../common/Icon';
 import AddSchedule from './AddSchedule';
 import PopupMenu from '../common/PopupMenu';
 import { useDeleteSchedule } from '@/lib/hooks/schedule/useDeleteSchedule';
-import { Schedule } from '@/types/schedule';
-import { useAuthStore } from '@/stores/authStoe';
 import PopupMenuPortal from '../common/PopupMenuPortal';
 
 export default function TodoItem({
@@ -23,7 +21,6 @@ export default function TodoItem({
     setIsModalOpen(false);
   };
   const { mutate: deleteSchedule } = useDeleteSchedule();
-  const { userInfo } = useAuthStore();
 
   const buttonRef = useRef<HTMLDivElement>(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
@@ -68,10 +65,9 @@ export default function TodoItem({
 
   // 일정 삭제
   const deleteTodo = (cycleLink: boolean) => {
-    if (schedule?.petId && schedule?.scheduleId && userInfo) {
+    console.log(schedule?.scheduleId, cycleLink);
+    if (schedule?.scheduleId) {
       deleteSchedule({
-        petId: schedule?.petId,
-        userId: userInfo?.userId,
         scheduleId: schedule?.scheduleId,
         cycleLink: cycleLink,
       });

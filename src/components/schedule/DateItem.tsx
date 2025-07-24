@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import TodoList from './TodoList';
 import AddSchedule from './AddSchedule';
-import { Schedule } from '@/types/schedule';
 
 export default function DateItem({
   date,
