@@ -240,11 +240,19 @@ export const report = async ({
   reason: string;
 }) => {
   const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/reports/v1?reporterId=${reporterId}&reportedId=${reportedId}&reportType=${reportType}&contentId=${contentId}&reportCategory=${reportCategory}&reason=${reason}`,
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/reports/v1`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
+      body: JSON.stringify({
+        reporterId,
+        reportedId,
+        reportType,
+        contentId,
+        reportCategory,
+        reason,
+      }),
     },
   );
 
