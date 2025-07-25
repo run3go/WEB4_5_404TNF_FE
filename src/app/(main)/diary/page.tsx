@@ -54,13 +54,16 @@ export default function Diary() {
   ];
 
   const [diaryList, setDiaryList] = useState<DiaryItem[]>([]);
-
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
   const fetchDiaryList = useCallback(async () => {
     try {
       setIsLoading(true);
-      const recordAt = selectedDate
-        ? selectedDate.toISOString().slice(0, 10)
-        : undefined;
+      const recordAt = selectedDate ? formatDate(selectedDate) : undefined;
       const petId = selectedPetId !== 'all' ? Number(selectedPetId) : undefined;
 
       const res = await getDiaryList({
