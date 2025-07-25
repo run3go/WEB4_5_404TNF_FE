@@ -65,7 +65,7 @@ export default function SignupForm() {
 
   return (
     <form
-      className="flex flex-col justify-between p-6 pt-[51px] sm:h-[712px] sm:px-[21.5vw] sm:pt-11"
+      className="flex flex-col justify-between p-6 pt-[51px] sm:h-[712px] sm:px-[25vw] sm:pt-11"
       onSubmit={handleSignup}
     >
       <div className="flex flex-col gap-4 sm:gap-4">
