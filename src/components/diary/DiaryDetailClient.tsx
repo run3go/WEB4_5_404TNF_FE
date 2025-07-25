@@ -7,6 +7,7 @@ import Calendar from './Calendar';
 import DiaryCard from './DiaryCard';
 import DiaryProfile from './DiaryProfile';
 import DiaryOptionsMenu from './DiaryOptionsMenu';
+import symbol from '@/assets/images/alternative-image.svg';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useGetDiaryDetail } from '@/lib/hooks/diary/api/useGetDiaryDetail';
@@ -112,7 +113,26 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
         </span>
       </div>
     );
-  if (error || !data) return <p>데이터를 불러올 수 없습니다.</p>;
+  if (error || !data) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center gap-2 py-64 sm:gap-3 sm:py-0">
+        <Image
+          src={symbol}
+          alt="작성된 멍멍일지가 없습니다"
+          className="ml-[-8px] h-auto w-16 sm:w-24"
+        />
+        <p className="w-full text-center text-sm text-[var(--color-grey)] sm:text-base">
+          존재하지 않는 멍멍일지 입니다
+        </p>
+        <button
+          className="mt-5 cursor-pointer rounded-full bg-[var(--color-pink-300)] px-8 py-3 hover:bg-[var(--color-pink-500)]"
+          onClick={() => router.back()}
+        >
+          돌아가기
+        </button>
+      </div>
+    );
+  }
 
   const { recordAt, weight, sleepTime, content, feedingList, walkingList } =
     data;
