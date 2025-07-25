@@ -1,9 +1,13 @@
-import Image from 'next/image';
-import NoPetImg from '../../assets/images/alternative-image.svg';
-import Link from 'next/link';
 import { useAuthStore } from '@/stores/authStoe';
+import Image from 'next/image';
+import Link from 'next/link';
+import NoPetImg from '../../assets/images/alternative-image.svg';
 
-export default function NoPets() {
+export default function NoPets({
+  content = '일정을 등록하려면',
+}: {
+  content?: string;
+}) {
   const { userInfo } = useAuthStore();
 
   return (
@@ -18,7 +22,7 @@ export default function NoPets() {
         />
         <div className="flex cursor-default flex-col items-center gap-2 text-[20px]">
           <p>반려견 정보가 없어요!</p>
-          <p>일정을 등록하려면 먼저 반려견 프로필을 등록해주세요.</p>
+          <p>{content} 먼저 반려견 프로필을 등록해주세요.</p>
         </div>
         <Link
           href={`/profile/${userInfo?.userId}`}

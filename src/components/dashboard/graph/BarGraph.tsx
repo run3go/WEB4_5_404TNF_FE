@@ -2,11 +2,10 @@
 import { select } from 'd3';
 import { useEffect, useRef } from 'react';
 
-export default function BarGraph() {
+export default function BarGraph({ walking }: { walking: DashboardWalking }) {
   const svgRef = useRef<SVGSVGElement>(null);
-
   useEffect(() => {
-    const dataset = [100, 80, 90, 30, 20, 70, 50, 60];
+    const dataset = walking.map((item) => item.time);
     const maxData = Math.max(...dataset);
     const width = 192;
     const height = 560;
@@ -32,7 +31,7 @@ export default function BarGraph() {
       .transition()
       .duration(1000)
       .attr('width', (d) => (d / maxData) * width);
-  }, []);
+  }, [walking]);
 
   return (
     <div>

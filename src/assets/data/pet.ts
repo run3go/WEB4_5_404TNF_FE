@@ -28,6 +28,13 @@ export const petBreedData = [
   { value: 'HUSKY', label: '허스키' },
 ];
 
+export const feedUnit = [
+  { value: 'GRAM', label: 'g' },
+  { value: 'SPOON', label: '스푼' },
+  { value: 'SCOOP', label: '스쿱' },
+  { value: 'CUP', label: '컵' },
+];
+
 export const petSex = [
   { value: 'true', label: '남아' },
   { value: 'false', label: '여아' },
