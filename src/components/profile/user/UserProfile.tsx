@@ -66,7 +66,7 @@ export default function UserProfile({
       <div className="mt-7 flex gap-2 sm:gap-7">
         <Image
           className="h-24 w-24 rounded-full sm:h-40 sm:w-40"
-          src={defaultProfile}
+          src={profile?.imgUrl || defaultProfile}
           alt="프로필 이미지"
           width={160}
           height={160}
@@ -90,7 +90,7 @@ export default function UserProfile({
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               닉네임
             </span>
-            {userProfile.nickname}
+            {profile?.nickname}
           </div>
           {isMyProfile && (
             <div>

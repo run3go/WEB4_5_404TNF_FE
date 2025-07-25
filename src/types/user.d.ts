@@ -7,7 +7,7 @@ type UserProfile = {
   role: 'ROLE_USER' | 'ROLE_ADMIN';
   password: null;
   provider: 'google' | 'kakao' | 'local';
-  userImg: string | null;
+  imgUrl: string | null;
 };
 
 interface User {
@@ -17,7 +17,7 @@ interface User {
   nickname: string;
   role: 'ROLE_USER' | 'ROLE_ADMIN';
   provider: string;
-  userImg: string | null;
+  imgUrl: string | null;
 }
 
 type UserInfo = {

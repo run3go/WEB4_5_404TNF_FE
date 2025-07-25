@@ -40,7 +40,7 @@ export default function DogProfileEditMobile() {
   const { data: profile } = usePetProfile(selectedPet ?? 0, isMyProfile);
   const { handleSubmit, register, watch, setValue, control } =
     usePetForm(profile);
-  const [imageUrl, setImageUrl] = useState(profile?.image || dog);
+  const [imageUrl, setImageUrl] = useState(profile?.imgUrl || dog);
 
   const queryClient = useQueryClient();
   const { mutate: registMutate } = useRegistMutation(

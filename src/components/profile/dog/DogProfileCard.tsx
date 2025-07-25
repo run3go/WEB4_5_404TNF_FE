@@ -1,7 +1,7 @@
 'use client';
 
 import { petBreedData, petSizeData } from '@/assets/data/pet';
-import dog from '@/assets/images/dog_img.png';
+import defaultDogImage from '@/assets/images/default-dog-profile.svg';
 import { usePetProfile, usePetVaccine } from '@/lib/hooks/useProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
@@ -70,7 +70,6 @@ export default function DogProfileCard({
     selectPet(profile.petId);
     togglePage();
   };
-
   return (
     <Card className="card__hover m-0 max-w-150 p-0 sm:my-7 sm:ml-4 sm:p-0">
       <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-[9px] text-center text-sm sm:py-[14px] sm:text-lg">
@@ -83,9 +82,12 @@ export default function DogProfileCard({
         }
       >
         <Image
-          className="h-31 w-31 rounded-[12px] sm:h-55 sm:w-55"
-          src={dog}
+          className="h-31 w-31 rounded-[12px] object-cover sm:h-55 sm:w-55"
+          src={profile.imgUrl || defaultDogImage}
+          width={220}
+          height={220}
           alt="강아지 프로필"
+          quality={100}
           priority
         />
         <div

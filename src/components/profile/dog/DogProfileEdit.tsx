@@ -34,7 +34,7 @@ export default function DogProfileEdit({
   petId: number;
 }) {
   const userInfo = useAuthStore((state) => state.userInfo);
-  const [imageUrl, setImageUrl] = useState(profileData?.image || dog);
+  const [imageUrl, setImageUrl] = useState(profileData?.imgUrl || dog);
 
   const queryClient = useQueryClient();
 

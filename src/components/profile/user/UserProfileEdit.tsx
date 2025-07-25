@@ -2,6 +2,7 @@ import { modifyUserInfo, resignAccount } from '@/api/user';
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import NicknameField from './NicknameField';
@@ -14,19 +15,22 @@ export default function UserProfileEdit({
   closeModal: () => void;
   profile: UserProfile;
 }) {
-  const [imageUrl, setImageUrl] = useState(profile.userImg || defaultProfile);
+  const [imageUrl, setImageUrl] = useState(profile.imgUrl || defaultProfile);
   const [formData, setFormData] = useState<{
     image: File | null;
     nickname: string;
     password: string;
   }>({
     image: null,
-    nickname: '',
+    nickname: profile.nickname,
     password: '',
   });
 
+  const queryClient = useQueryClient();
+
   const onSubmit = async () => {
     await modifyUserInfo(formData);
+    await queryClient.invalidateQueries({ queryKey: ['user', profile.userId] });
     closeModal();
   };
 
