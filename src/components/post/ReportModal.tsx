@@ -6,13 +6,7 @@ import MobileReportModal from './MobileReportModal';
 import { report } from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
 import { useState } from 'react';
-
-const CATEGORY = [
-  { value: 'ABUSE', label: '부적절한 언행' },
-  { value: 'SPAM', label: '도배 및 광고' },
-  { value: 'FRAUD', label: '사기 행위' },
-  { value: 'ADULT_CONTENT', label: '선정적 콘텐츠' },
-];
+import { REPORT_LIST } from '@/assets/data/post';
 
 export default function ReportModal({
   reportedName,
@@ -76,7 +70,7 @@ export default function ReportModal({
           <div className="flex items-center gap-6 text-[18px] font-medium">
             <p>카테고리</p>
             <SelectBox
-              options={CATEGORY}
+              options={REPORT_LIST}
               width="433px"
               isCenter={true}
               hasBorder={true}
@@ -108,7 +102,13 @@ export default function ReportModal({
         </div>
       </div>
       <div className="sm:hidden">
-        <MobileReportModal onClose={onClose} />
+        <MobileReportModal
+          reportedName={reportedName}
+          reportedId={reportedId}
+          reportType={reportType}
+          contentId={contentId}
+          onClose={onClose}
+        />
       </div>
     </>
   );

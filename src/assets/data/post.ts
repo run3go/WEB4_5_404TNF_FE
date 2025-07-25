@@ -10,3 +10,10 @@ export const SEARCH_LIST = [
   { value: 'CONTENT', label: '내용' },
   { value: 'AUTHOR', label: '작성자' },
 ];
+
+export const REPORT_LIST = [
+  { value: 'ABUSE', label: '부적절한 언행' },
+  { value: 'SPAM', label: '도배 및 광고' },
+  { value: 'FRAUD', label: '사기 행위' },
+  { value: 'ADULT_CONTENT', label: '선정적 콘텐츠' },
+];
