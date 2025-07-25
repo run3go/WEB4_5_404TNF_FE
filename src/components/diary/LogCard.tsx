@@ -55,9 +55,16 @@ export default function LogCard({
           산책시간
         </span>
         <span className="text-sm sm:text-base">
-          {walkingTime === 0
-            ? '-'
-            : `${Math.floor(walkingTime / 60)}시간 ${walkingTime % 60}분`}
+          {(() => {
+            if (typeof walkingTime !== 'number' || walkingTime === 0)
+              return '-';
+
+            const adjustedTime =
+              walkingTime < 0 ? walkingTime + 1440 : walkingTime;
+            const hours = Math.floor(adjustedTime / 60);
+            const minutes = adjustedTime % 60;
+            return `${hours}시간 ${minutes}분`;
+          })()}
         </span>
       </div>
       <div>
