@@ -21,6 +21,12 @@ const feedUnitOptions = [
   { label: '컵', value: 'CUP' },
 ];
 
+const paceOptions = [
+  { value: '1', label: '가볍게' },
+  { value: '2', label: '적당히' },
+  { value: '3', label: '힘차게' },
+];
+
 const formatTime = (datetime: string) => {
   const date = new Date(datetime);
   const hour = date.getHours().toString().padStart(1, '0');
@@ -216,9 +222,18 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
                         key={idx}
                         className="border-b border-[var(--color-primary-300)] py-[9px]"
                       >
-                        <span>
-                          {start} ~ {end}
-                        </span>
+                        <div className="inline-flex gap-2">
+                          <span>
+                            {start} ~ {end}
+                          </span>
+                          <span>
+                            {'( 강도: '}
+                            {paceOptions.find(
+                              (opt) => opt.value === String(item.pace),
+                            )?.label ?? `${item.pace}`}
+                            {' )'}
+                          </span>
+                        </div>
                       </li>
                     );
                   })}
