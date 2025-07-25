@@ -6,10 +6,12 @@ import DateInput from '@/components/common/DateInput';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getPetsByUserId } from '@/api/diary';
+import { useRouter } from 'next/navigation';
 
 type Option = { value: string; label: string };
 
 export default function Diary() {
+  const router = useRouter();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [pets, setPets] = useState<PetProfile[]>([]);
   const [selectedPetId, setSelectedPetId] = useState<string>('all');
@@ -39,23 +41,28 @@ export default function Diary() {
   return (
     <main className="flex h-full flex-col items-center p-6 sm:block sm:p-0 sm:px-12 sm:py-7">
       <div className="mb-3 flex w-full justify-between">
-        <div className="flex w-full justify-between gap-6 sm:justify-start sm:pl-3">
-          <DateInput
-            selected={selectedDate}
-            setSelected={setSelectedDate}
-            showAllDate
-            disableFuture={true}
-            className="w-[137px] rounded-xl border-1 border-[var(--color-primary-500)] sm:w-[220px]"
-          />
-          <SelectBox
-            value={selectedPetId}
-            setValue={setSelectedPetId}
-            options={petOptions}
-            width="178px"
-            borderColor="var(--color-primary-500)"
-            footstep
-            hasBorder
-          />
+        <div className="flex w-full justify-between gap-5 sm:justify-start sm:gap-6 sm:pl-3">
+          <div className="flex-1 sm:w-[220px] sm:flex-none">
+            <DateInput
+              selected={selectedDate}
+              setSelected={setSelectedDate}
+              showAllDate
+              disableFuture={true}
+              className="rounded-xl border-1 border-[var(--color-primary-500)]"
+              align="left"
+            />
+          </div>
+          <div className="flex-1 sm:w-[178px] sm:flex-none">
+            <SelectBox
+              value={selectedPetId}
+              setValue={setSelectedPetId}
+              options={petOptions}
+              width="100%"
+              borderColor="var(--color-primary-500)"
+              footstep
+              hasBorder
+            />
+          </div>
         </div>
         <Link
           className="hidden items-center gap-2 sm:flex"
@@ -74,7 +81,10 @@ export default function Diary() {
             </li>
           ))}
       </ul>
-      <div className="fixed right-4 bottom-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:hidden">
+      <div
+        className="fixed right-4 bottom-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:hidden"
+        onClick={() => router.push('/diary/write')}
+      >
         <Icon width="20px" height="20px" left="-266px" top="-75px" />
       </div>
     </main>

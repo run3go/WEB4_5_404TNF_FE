@@ -2,27 +2,33 @@
 import { useEffect, useRef } from 'react';
 import { scaleBand, scaleLinear, select } from 'd3';
 
-export default function GroupedBarChart() {
+export default function GroupedBarChart({
+  data,
+}: {
+  data?: { label: string; value1: number; value2: number }[];
+}) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    const dataset = [
-      { name: '3월', value1: 100, value2: 40 },
-      { name: '4월', value1: 80, value2: 50 },
-      { name: '5월', value1: 90, value2: 30 },
-      { name: '6월', value1: 60, value2: 20 },
-      { name: '7월', value1: 70, value2: 10 },
-    ];
+    // const dataset = [
+    //   { label: '3월', value1: 100, value2: 40 },
+    //   { label: '4월', value1: 80, value2: 50 },
+    //   { label: '5월', value1: 90, value2: 30 },
+    //   { label: '6월', value1: 60, value2: 20 },
+    //   { label: '7월', value1: 70, value2: 10 },
+    // ];
 
-    const maxData = dataset.reduce((max, d) => {
+    if (!data || data.length === 0) {
+      select(svgRef.current).selectAll('*').remove();
+      return;
+    }
+
+    const maxData = data.reduce((max, d) => {
       return Math.max(max, d.value1, d.value2);
-    }, -1);
+    }, 0);
 
     const width = 620;
     const height = 180;
-    // const barWidth = 46;
-    // const groupSpacing = 40;
-    // const groupCount = dataset.length;
     const margin = { top: 0, right: 0, bottom: 0, left: 0 };
 
     const svg = select(svgRef.current);
@@ -30,9 +36,32 @@ export default function GroupedBarChart() {
 
     svg.attr('width', width).attr('height', height);
 
+    // 툴팁
+    const tooltip = select('body')
+      .append('div')
+      .attr('class', 'tooltip')
+      .style('position', 'absolute')
+      .style('background', '#fff')
+      .style('border', '1px solid #ccc')
+      .style('padding', '6px 8px')
+      .style('border-radius', '4px')
+      .style('box-shadow', '0 2px 6px rgba(0,0,0,0.15)')
+      .style('font-size', '14px')
+      .style('pointer-events', 'none')
+      .style('opacity', 0);
+
+    // 툴팁 이벤트 핸들러
+    const handleMouseOver = () => {
+      tooltip.transition().duration(200).style('opacity', 1);
+    };
+
+    const handleMouseOut = () => {
+      tooltip.transition().duration(500).style('opacity', 0);
+    };
+
     // 그룹별 위치
     const fx = scaleBand()
-      .domain(dataset.map((d) => d.name))
+      .domain(data.map((d) => d.label))
       .rangeRound([0, width])
       .paddingInner(0.29) // 그룹간 간격(%)
       .paddingOuter(0); // 그룹 양끝 여백
@@ -49,11 +78,11 @@ export default function GroupedBarChart() {
 
     const group = svg
       .selectAll('g.bar-group')
-      .data(dataset)
+      .data(data)
       .enter()
       .append('g')
       .attr('class', 'bar-group')
-      .attr('transform', (d) => `translate(${fx(d.name)}, 0)`);
+      .attr('transform', (d) => `translate(${fx(d.label)}, 0)`);
 
     // 신규 가입
     group
@@ -64,6 +93,14 @@ export default function GroupedBarChart() {
       .attr('height', 0)
       .attr('fill', 'var(--color-blue-300)')
       .attr('rx', 16)
+      .on('mouseover', handleMouseOver)
+      .on('mousemove', (event, d) => {
+        tooltip
+          .html(`신규 가입: ${d.value1}명`)
+          .style('left', `${event.pageX + 15}px`)
+          .style('top', `${event.pageY - 28}px`);
+      })
+      .on('mouseout', handleMouseOut)
       .transition()
       .duration(1000)
       .attr('y', (d) => y(d.value1))
@@ -78,11 +115,23 @@ export default function GroupedBarChart() {
       .attr('height', 0)
       .attr('fill', 'var(--color-red-300)')
       .attr('rx', 16)
+      .on('mouseover', handleMouseOver)
+      .on('mousemove', (event, d) => {
+        tooltip
+          .html(`탈퇴: ${d.value2}명`)
+          .style('left', `${event.pageX + 15}px`)
+          .style('top', `${event.pageY - 28}px`);
+      })
+      .on('mouseout', handleMouseOut)
       .transition()
       .duration(1000)
       .attr('y', (d) => y(d.value2))
       .attr('height', (d) => y(0) - y(d.value2));
-  }, []);
+
+    return () => {
+      tooltip.remove();
+    };
+  }, [data]);
 
   return (
     <div>

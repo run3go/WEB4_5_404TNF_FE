@@ -27,5 +27,7 @@ export const handleError = (errors: FieldErrors<PetFormValues>) => {
     } else {
       console.log(errors.weight.message);
     }
+  } else {
+    console.log(errors);
   }
 };

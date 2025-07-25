@@ -3,11 +3,17 @@ import SelectBox from './SelectBox';
 
 export default function SearchBar({
   options,
+  value,
+  onChange,
+  onSearch,
 }: {
   options?: {
     value: string;
     label: string;
   }[];
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch?: () => void;
 }) {
   return (
     <>
@@ -18,6 +24,13 @@ export default function SearchBar({
         <input
           className="h-[40px] w-[250px] focus:outline-none"
           placeholder="검색어를 입력해주세요"
+          value={value}
+          onChange={onChange}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && onSearch) {
+              onSearch();
+            }
+          }}
         />
         <Icon
           width="18px"
@@ -25,6 +38,7 @@ export default function SearchBar({
           left="-263px"
           top="-124px"
           className="absolute right-3 cursor-pointer"
+          onClick={onSearch}
         />
       </div>
     </>

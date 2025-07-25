@@ -2,7 +2,7 @@ import z from 'zod/v3';
 
 export const petProfileSchema = z
   .object({
-    image: z.nullable(z.string()),
+    image: z.nullable(z.instanceof(File)),
     name: z
       .string()
       .trim()
