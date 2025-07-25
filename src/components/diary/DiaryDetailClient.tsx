@@ -199,6 +199,7 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
               breedLabel={getBreedLabel(pet?.breed)}
               sizeLabel={getSizeLabel(pet?.size)}
               formatAge={formatAge}
+              imageUrl={pet?.imgUrl ?? null}
             />
             <DiaryCard className="w-full sm:h-[205px]" title="오늘의 건강기록">
               <div className="mb-4 text-sm sm:mt-2 sm:mb-6 sm:text-base">
