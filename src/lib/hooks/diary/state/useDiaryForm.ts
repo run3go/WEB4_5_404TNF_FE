@@ -134,5 +134,6 @@ export function useDiaryForm(initPetId?: string, initRecordAt?: string) {
     formatAge,
     handleSubmit,
     isSubmitting,
+    selectedPet,
   };
 }

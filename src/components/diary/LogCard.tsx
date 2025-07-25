@@ -1,6 +1,6 @@
-import dog from '@/assets/images/dog_img.png';
 import Image from 'next/image';
 import Card from '../common/Card';
+import defaultProfile from '@/assets/images/default-dog-profile.svg';
 
 type Props = {
   petName: string;
@@ -8,6 +8,7 @@ type Props = {
   weight: number | null;
   walkingTime: number;
   content: string;
+  imageUrl?: string | null;
 };
 
 export default function LogCard({
@@ -16,17 +17,24 @@ export default function LogCard({
   weight,
   walkingTime,
   content,
+  imageUrl,
 }: Props) {
+  const profileImg = imageUrl || defaultProfile;
   return (
     <Card className="card__hover flex flex-col gap-3 border-1 border-[var(--color-primary-500)]">
       <div className="mb-2 flex items-center justify-between border-b border-[var(--color-primary-500)] pb-3">
         <div className="flex items-center gap-4">
           <Image
-            className="rounded-full"
-            src={dog}
+            src={profileImg}
             alt="프로필 이미지"
             width={32}
             height={32}
+            style={{
+              width: '32px',
+              height: '32px',
+              objectFit: 'cover',
+              borderRadius: '50%',
+            }}
           />
           <span className="text-sm sm:text-base">{petName}</span>
         </div>

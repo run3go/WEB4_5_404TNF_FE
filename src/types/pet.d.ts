@@ -34,6 +34,7 @@ type PetProfile = {
   size: PetSize;
   sex: boolean;
   isNeutered: boolean;
+  imgUrl?: string | null;
   image: {
     petImgId: number;
     savePath: string;

@@ -1,16 +1,15 @@
 'use client';
 import Icon from '@/components/common/Icon';
-import SelectBox from '@/components/common/SelectBox';
 import LogCard from '@/components/diary/LogCard';
 import DateInput from '@/components/common/DateInput';
-import Link from 'next/link';
-import symbol from '@/assets/images/alternative-image.svg';
-
-import { useCallback, useEffect, useState } from 'react';
-import { getDiaryList, getPetsByUserId } from '@/api/diary';
-import { useRouter } from 'next/navigation';
+import SelectBox from '@/components/common/SelectBox';
 import DiaryPagination from '@/components/diary/DiaryPagination';
+import symbol from '@/assets/images/alternative-image.svg';
+import Link from 'next/link';
 import Image from 'next/image';
+import { getDiaryList, getPetsByUserId } from '@/api/diary';
+import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type Option = { value: string; label: string };
 type DiaryItem = {
@@ -171,6 +170,7 @@ export default function Diary() {
                     weight={item.weight}
                     walkingTime={item.walkingTime}
                     content={item.content}
+                    imageUrl={item.pet.url ?? null}
                   />
                 </Link>
               </li>
