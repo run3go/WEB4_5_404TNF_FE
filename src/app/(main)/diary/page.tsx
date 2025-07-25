@@ -131,13 +131,22 @@ export default function Diary() {
             </button>
           )}
         </div>
-        <Link
-          className="hidden items-center gap-2 sm:flex"
-          href={'/diary/write'}
+        <button
+          className="hidden cursor-pointer items-center gap-1 sm:flex"
+          onClick={() => {
+            if (pets.length === 0) {
+              alert(
+                '아직 등록된 강아지가 없어요. 먼저 강아지를 등록해 주세요!',
+              );
+              router.push(`/profile/${sessionStorage.getItem('userId')}`);
+            } else {
+              router.push('/diary/write');
+            }
+          }}
         >
           <Icon width="14px" height="14px" left="-231px" top="-79px" />
-          <span className="inline-block w-20 font-medium">기록하기</span>
-        </Link>
+          <span className="inline-block w-16 font-medium">기록하기</span>
+        </button>
       </div>
       <div className="w-full">
         <ul className="scrollbar-hidden mb-10 flex flex-col gap-5 pt-2 pb-4 sm:mb-0 sm:h-[625px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:overflow-y-scroll sm:px-3 sm:pt-5">
@@ -193,7 +202,14 @@ export default function Diary() {
       {/* mobile: post button */}
       <div
         className="fixed right-4 bottom-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:hidden"
-        onClick={() => router.push('/diary/write')}
+        onClick={() => {
+          if (pets.length === 0) {
+            alert('등록된 강아지가 없습니다. 강아지를 먼저 등록해주세요');
+            router.push(`/profile/${sessionStorage.getItem('userId')}`);
+          } else {
+            router.push('/diary/write');
+          }
+        }}
       >
         <Icon width="20px" height="20px" left="-266px" top="-75px" />
       </div>
