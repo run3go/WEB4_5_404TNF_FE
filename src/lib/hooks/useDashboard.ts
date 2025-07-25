@@ -15,6 +15,7 @@ export const useDashboardData = (petId: number) => {
     useQuery<DashboardProfile>({
       queryKey: ['dashboard', 'profile', petId],
       queryFn: () => getDashboardProfile(petId),
+      enabled: !!petId,
       staleTime: Infinity,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
@@ -28,6 +29,7 @@ export const useDashboardData = (petId: number) => {
       staleTime: Infinity,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
+      enabled: !!petId,
       retry: 1,
     });
 
@@ -38,6 +40,7 @@ export const useDashboardData = (petId: number) => {
       staleTime: Infinity,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
+      enabled: !!petId,
       retry: 1,
     });
 
@@ -47,6 +50,7 @@ export const useDashboardData = (petId: number) => {
     staleTime: Infinity,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
+    enabled: !!petId,
     retry: 1,
   });
 
@@ -56,6 +60,7 @@ export const useDashboardData = (petId: number) => {
     staleTime: Infinity,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
+    enabled: !!petId,
     retry: 1,
   });
 
@@ -66,6 +71,7 @@ export const useDashboardData = (petId: number) => {
       staleTime: Infinity,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
+      enabled: !!petId,
       retry: 1,
     });
 
@@ -76,6 +82,7 @@ export const useDashboardData = (petId: number) => {
       staleTime: Infinity,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
+      enabled: !!petId,
       retry: 1,
     });
 
@@ -86,6 +93,7 @@ export const useDashboardData = (petId: number) => {
       staleTime: Infinity,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
+      enabled: !!petId,
       retry: 1,
     });
 

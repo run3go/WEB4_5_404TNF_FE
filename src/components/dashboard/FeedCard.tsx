@@ -5,8 +5,7 @@ import DonutGraph from './graph/DonutGraph';
 
 export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
   const router = useRouter();
-
-  if (!feeding?.amount && !feeding?.average && !feeding?.date) {
+  if (!feeding?.amount && !feeding?.date) {
     return (
       <Card className="flex h-[301px] w-full max-w-[255px] flex-col items-center justify-center gap-6 bg-[#fafafa] text-sm font-medium sm:text-base">
         <span>등록된 식사량 기록이 없어요</span>

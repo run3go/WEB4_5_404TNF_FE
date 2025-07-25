@@ -144,8 +144,8 @@ export default function DashboardClient() {
         </div>
         <div className="flex w-full flex-col gap-5 sm:w-[520px] sm:gap-8">
           <ProfileCard profile={profile} />
-          <LineGraphCard title="몸무게" dataset={weightList} />
-          <LineGraphCard title="수면시간" dataset={sleepList} />
+          {weightList && <LineGraphCard title="몸무게" dataset={weightList} />}
+          {sleepList && <LineGraphCard title="수면시간" dataset={sleepList} />}
         </div>
         <div className="flex w-full flex-col gap-5 sm:w-[558px] sm:gap-8">
           <div className="relative hidden text-xl font-medium sm:block">
@@ -165,7 +165,7 @@ export default function DashboardClient() {
             <FeedCard feeding={feeding} />
             <TodoCard checklist={checklist} />
           </div>
-          <NoteCard note={note} />
+          {note && <NoteCard note={note} />}
         </div>
         <WalkCard walking={walking} />
       </div>

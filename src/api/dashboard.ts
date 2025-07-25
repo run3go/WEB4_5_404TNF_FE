@@ -88,20 +88,17 @@ export const getDashboardNote = async (petId: number) => {
 };
 
 export const getDashboardRecommend = async (petId: number) => {
-  const res = await fetch(
-    `${baseURL}/api/dashboard/${petId}/recommend?${queryString}`,
-    {
-      credentials: 'include',
-    },
-  );
+  const res = await fetch(`${baseURL}/api/recommend/v1/pet/${petId}`, {
+    credentials: 'include',
+  });
 
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText || '대시보드 맞춤형 데이터 조회 실패');
   }
 
-  const data = await res.json();
-  return data.recommend;
+  const data = await res.text();
+  return data;
 };
 
 export const getDashboardFeeding = async (petId: number) => {
@@ -151,6 +148,5 @@ export const getDashboardChecklist = async (petId: number) => {
   }
 
   const data = await res.json();
-  console.log(data);
-  return data.todoList;
+  return data;
 };

@@ -11,28 +11,25 @@ export default function TodoCard({
   return (
     <Card className="flex h-full w-full max-w-[255px] flex-col">
       <h2 className="mb-5 text-xs font-medium sm:text-base">오늘의 할 일</h2>
-      <ul className="scrollbar-hidden flex grow-1 flex-col items-center gap-3 overflow-y-scroll text-sm select-none sm:text-base">
-        {checklist ? (
+      <ul className="scrollbar-hidden flex grow-1 flex-col gap-3 overflow-y-scroll text-sm select-none sm:text-base">
+        {checklist && checklist.length ? (
           checklist.map((item, index) => (
-            <li key={index}>
-              <label
-                className="flex cursor-pointer items-center gap-2"
-                htmlFor="todo1"
-              >
+            <li key={index} className="flex gap-3">
+              <label className="cursor-pointer" htmlFor="todo1">
                 <Icon
                   width="22px"
                   height="22px"
-                  left={item.isDone ? '-100px' : '-146px'}
-                  top="-254px"
+                  left={item.isDone ? '-101px' : '-147px'}
+                  top="-255px"
                 />
                 <input
-                  className="mr-[13px] cursor-pointer"
+                  className="hidden cursor-pointer"
                   hidden
                   id="todo1"
                   type="checkbox"
                 />
-                <span className="leading-[1.2]">{item.isDone}</span>
               </label>
+              <span className="leading-[1.2]">{item.name}</span>
             </li>
           ))
         ) : (

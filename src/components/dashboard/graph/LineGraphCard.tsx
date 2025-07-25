@@ -20,7 +20,7 @@ export default function LineGraphCard({
   dataset,
 }: {
   title: string;
-  dataset?: { date: string; weight?: number; sleep?: number }[];
+  dataset: { date: string; weight?: number; sleep?: number }[];
 }) {
   const router = useRouter();
 
@@ -122,7 +122,7 @@ export default function LineGraphCard({
             {title}
           </h2>
           <div className="h-[100px]" ref={containerRef}>
-            {dataset?.length ? (
+            {dataset && dataset.length ? (
               dataset.length === 1 ? (
                 <div className="flex h-full items-center justify-center">
                   <span className="text-[var(--color-grey)]">
