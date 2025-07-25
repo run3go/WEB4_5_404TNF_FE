@@ -35,6 +35,14 @@ const formatTime = (datetime: string) => {
   return `${hour}시 ${minute}분`;
 };
 
+const formatDate = (dateStr: string) => {
+  const date = new Date(dateStr);
+  const yyyy = date.getFullYear();
+  const mm = (date.getMonth() + 1).toString().padStart(2, '0');
+  const dd = date.getDate().toString().padStart(2, '0');
+  return `${yyyy}. ${mm}. ${dd}`;
+};
+
 export default function DiaryDetailClient({ logId }: { logId: number }) {
   const router = useRouter();
 
@@ -154,7 +162,7 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
         {/* mobile */}
         <div className="flex w-full justify-between gap-6 sm:hidden sm:justify-start sm:pl-3">
           <div className="flex h-[38px] flex-1 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 leading-[1.2] sm:w-[160px]">
-            {data.recordAt}
+            {formatDate(data.recordAt)}
           </div>
           <div className="flex h-[38px] flex-1 items-center justify-center rounded-xl border-1 border-[var(--color-primary-500)] px-4 leading-[1.2] sm:w-[160px]">
             {pet?.name}
@@ -208,8 +216,8 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
             </DiaryCard>
           </div>
           <div className="flex grow flex-col gap-6 sm:gap-12">
-            <div className="flex w-full flex-col justify-between gap-6 sm:flex-row sm:gap-14">
-              <DiaryCard className="min-h-50 grow sm:h-71" title="식사량">
+            <div className="flex w-full flex-col justify-between gap-6 sm:flex-row sm:gap-4">
+              <DiaryCard className="min-h-50 sm:h-71 sm:flex-1" title="식사량">
                 <ul className="-mt-3 px-2">
                   {(feedingList as Feeding[]).map((item, idx) => {
                     const unitLabel =
@@ -232,7 +240,7 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
                   })}
                 </ul>
               </DiaryCard>
-              <DiaryCard className="min-h-50 grow sm:h-71" title="산책">
+              <DiaryCard className="min-h-50 sm:h-71 sm:flex-1" title="산책">
                 <ul className="-mt-3 px-2">
                   {(walkingList as Walking[]).map((item, idx) => {
                     const start = formatTime(item.startTime);
