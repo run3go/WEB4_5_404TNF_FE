@@ -12,7 +12,6 @@ import Icon from '../common/Icon';
 import DateItem from './DateItem';
 import { useState } from 'react';
 import { useGetSchedules } from '@/lib/hooks/schedule/useGetSchedules';
-import { Schedule } from '@/types/schedule';
 import { useGetPets } from '@/lib/hooks/useGetPets';
 import NoPets from './NoPets';
 import { useAuthStore } from '@/stores/authStoe';
@@ -45,10 +44,8 @@ export default function CustomCalendar() {
   const { data: petOptions } = useGetPets(userInfo?.userId);
 
   // 월 바뀔 때마다 api 호출
-  const { data: schedules }: { data?: Schedule[] } = useGetSchedules(
-    userInfo?.userId,
-    currentDate,
-  );
+  const { data: schedules }: { data?: Schedule[] } =
+    useGetSchedules(currentDate);
 
   if (!petOptions || petOptions?.length === 0) {
     return <NoPets />;

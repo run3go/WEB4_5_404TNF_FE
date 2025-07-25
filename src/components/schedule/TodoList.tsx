@@ -6,7 +6,6 @@ import Icon from '../common/Icon';
 import AddSchedule from './AddSchedule';
 import TodoItem from './TodoItem';
 import { format } from 'date-fns';
-import { Schedule } from '@/types/schedule';
 import Image from 'next/image';
 import alternative from '../../assets/images/alternative-image.svg';
 
