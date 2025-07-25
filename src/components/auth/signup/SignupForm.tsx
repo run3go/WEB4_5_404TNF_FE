@@ -45,6 +45,7 @@ export default function SignupForm() {
   });
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
+    if (signupMutation.isPending) return;
     signupMutation.mutate({
       name: formData.name,
       nickname: formData.nickname,
