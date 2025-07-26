@@ -1,7 +1,7 @@
 import { modifyUserInfo, resignAccount } from '@/api/user';
 import defaultProfile from '@/assets/images/default-profile.svg';
+import { useUserProfile } from '@/lib/hooks/profile/useProfiles';
 import { usePassword } from '@/lib/hooks/usePassword';
-import { useUserProfile } from '@/lib/hooks/useProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useQueryClient } from '@tanstack/react-query';

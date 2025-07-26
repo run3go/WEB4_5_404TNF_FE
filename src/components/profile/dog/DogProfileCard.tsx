@@ -2,7 +2,7 @@
 
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import defaultDogImage from '@/assets/images/default-dog-profile.svg';
-import { usePetProfile, usePetVaccine } from '@/lib/hooks/useProfiles';
+import { usePetProfile, usePetVaccine } from '@/lib/hooks/profile/useProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';

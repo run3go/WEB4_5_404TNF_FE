@@ -13,7 +13,7 @@ import {
   useModifyMutation,
   usePetForm,
   useRegistMutation,
-} from '@/lib/hooks/usePetForm';
+} from '@/lib/hooks/profile/usePetForm';
 import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useQueryClient } from '@tanstack/react-query';

@@ -66,3 +66,20 @@ export const resignAccount = async () => {
     throw new Error(errorText || '회원 탈퇴 실패');
   }
 };
+
+export const getMyPosts = async (type: PostType, payload: PostPaylaod) => {
+  const queryString = new URLSearchParams(payload).toString();
+  const res = await fetch(
+    `${baseURL}/api/mypage/v1/board/${type}?${queryString}`,
+    {
+      credentials: 'include',
+    },
+  );
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '내 게시글 조회 실패');
+  }
+  const data = await res.json();
+  return data;
+};

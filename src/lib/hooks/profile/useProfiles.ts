@@ -7,7 +7,7 @@ export const usePetProfiles = (userId: string, initialData?: PetProfile[]) => {
     queryKey: ['pets', userId],
     queryFn: () => getPetProfiles(userId),
     enabled: !!userId,
-    staleTime: 30000,
+    staleTime: 300000,
     initialData,
   });
 };
@@ -17,7 +17,7 @@ export const usePetProfile = (petId: number, isMyProfile: boolean) => {
     queryKey: ['pet', petId],
     queryFn: () => getPetProfile(petId),
     enabled: !!petId && isMyProfile,
-    staleTime: 30000,
+    staleTime: 300000,
   });
 };
 
@@ -26,7 +26,7 @@ export const usePetVaccine = (petId: number, isMyProfile: boolean) => {
     queryKey: ['vaccine', petId],
     queryFn: () => getVaccineData(petId),
     enabled: !!petId && isMyProfile,
-    staleTime: 30000,
+    staleTime: 300000,
   });
 };
 
@@ -35,6 +35,6 @@ export const useUserProfile = (userId: string, isMyProfile: boolean) => {
     queryFn: () => getMyUserInfo(),
     queryKey: ['user', userId],
     enabled: isMyProfile,
-    staleTime: 30000,
+    staleTime: 300000,
   });
 };

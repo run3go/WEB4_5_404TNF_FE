@@ -12,8 +12,8 @@ import {
   useModifyMutation,
   usePetForm,
   useRegistMutation,
-} from '@/lib/hooks/usePetForm';
-import { usePetProfile } from '@/lib/hooks/useProfiles';
+} from '@/lib/hooks/profile/usePetForm';
+import { usePetProfile } from '@/lib/hooks/profile/useProfiles';
 import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
