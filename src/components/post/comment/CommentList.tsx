@@ -126,10 +126,12 @@ export default function CommentList({
   };
 
   const handleUpdateComment = (replyId: number, comment: string) => {
+    if (updateCommentMutation.isPending) return;
     updateCommentMutation.mutate({ postId, replyId, comment });
   };
 
   const handleRemoveComment = (postId: number, replyId: number) => {
+    if (removeCommentMutation.isPending) return;
     removeCommentMutation.mutate({ postId, replyId });
   };
   return (

@@ -29,6 +29,7 @@ export default function PostEditModal({
     pickedImages: (File | string)[],
     postId: number,
   ) => {
+    if (postUpdateMutation.isPending) return;
     const filesOnly = pickedImages.filter(
       (img) => img instanceof File,
     ) as File[];

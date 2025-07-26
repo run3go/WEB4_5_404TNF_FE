@@ -36,6 +36,7 @@ export default function MobileReportModal({
   });
 
   const handleReport = () => {
+    if (reportMutation.isPending) return;
     reportMutation.mutate({
       reporterId: userInfo!.userId,
       reportedId,

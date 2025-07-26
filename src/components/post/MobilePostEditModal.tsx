@@ -32,6 +32,7 @@ export default function MobilePostEditModal({
     pickedImages: (File | string)[],
     postId: number,
   ) => {
+    if (postUpdateMutation.isPending) return;
     const filesOnly = pickedImages.filter(
       (img) => img instanceof File,
     ) as File[];

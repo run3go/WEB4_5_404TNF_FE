@@ -71,7 +71,7 @@ export default function CommentInput({ postId }: { postId: number }) {
   });
 
   const handleSubmit = () => {
-    if (!comment) return;
+    if (createCommentMutation.isPending || !comment) return;
     setComment('');
     createCommentMutation.mutate({ postId, comment });
   };

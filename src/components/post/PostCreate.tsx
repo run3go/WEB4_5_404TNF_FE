@@ -23,6 +23,7 @@ export default function PostCreate() {
     content: string,
     pickedImages: (File | string)[],
   ) => {
+    if (postCreateMutation.isPending) return;
     postCreateMutation.mutate({
       title,
       content,

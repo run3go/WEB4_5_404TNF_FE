@@ -34,6 +34,7 @@ export default function PostDetailWrapper({
   });
 
   const handleRemoveClick = () => {
+    if (removePostMutation.isPending) return;
     removePostMutation.mutate({ postId: postDetail.articleId });
   };
 
