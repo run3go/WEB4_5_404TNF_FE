@@ -7,6 +7,7 @@ import ReportModal from '../post/ReportModal';
 import Image from 'next/image';
 import user_default_image from '@/assets/images/default-profile.svg';
 import { useAuthStore } from '@/stores/authStoe';
+import getElapsedTime from '@/lib/utils/format-time';
 
 interface WriterInfoProps {
   authorId: number;
@@ -78,7 +79,9 @@ export default function WriterInfo({
         </div>
         <div className={`font-medium sm:space-y-1`}>
           <p className={`text-[12px] ${textSize}`}>{name}</p>
-          <p className={`text-[10px] text-[#909090] ${textSize}`}>{postedAt}</p>
+          <p className={`text-[10px] text-[#909090] ${textSize}`}>
+            {getElapsedTime(postedAt)}
+          </p>
         </div>
       </div>
 
