@@ -1,16 +1,9 @@
-type DiaryPet = {
-  petId: number;
-  name: string;
-  breed: string;
-  age: number;
-};
-
-type LifeRecordPayload = {
+type DiarydPayload = {
   petId: number;
   recordAt: string;
   content: string;
-  sleepTime: number;
-  weight: number;
+  sleepTime?: number;
+  weight?: number;
   walkingList: {
     startTime: string;
     endTime: string;
@@ -36,4 +29,34 @@ type FeedEntry = {
   hour: string;
   minute: string;
   unit: string;
+};
+
+type DiaryCheckResponse = {
+  lifeRecordId: number;
+  content: string;
+  sleepTime: number;
+  weight: number;
+  feedingList: {
+    amount: number;
+    mealtime: string;
+    unit: string;
+  }[];
+  walkingList: {
+    startTime: string;
+    endTime: string;
+    pace: number;
+  }[];
+};
+
+// diary detail
+type Feeding = {
+  amount: number;
+  mealtime: string;
+  unit: string;
+};
+
+type Walking = {
+  startTime: string;
+  endTime: string;
+  pace: number;
 };

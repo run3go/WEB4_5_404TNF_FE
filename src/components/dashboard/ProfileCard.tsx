@@ -1,15 +1,27 @@
+import { petBreedData } from '@/assets/data/pet';
 import dog from '@/assets/images/dog_img.png';
+import { calculateMetDay } from '@/lib/utils/date';
 import Image from 'next/image';
 import Card from '../common/Card';
 import Icon from '../common/Icon';
 
-export default function ProfileCard() {
+export default function ProfileCard({
+  profile,
+}: {
+  profile?: DashboardProfile;
+}) {
+  if (!profile) return;
+
+  const breedName = petBreedData
+    .filter((breed) => breed.value === profile.breed)
+    .map((breed) => breed.label);
+
   return (
     <Card className="flex w-full max-w-[560px] flex-row-reverse justify-end sm:flex-row sm:justify-between">
       <ul className="flex flex-col gap-3 text-sm font-medium sm:gap-[12px] sm:text-lg">
         <li className="flex items-center">
           <span className="mr-3 text-[var(--color-grey)]">이름</span>
-          <span>이마음</span>
+          <span>{profile.name}</span>
           <Icon
             className="ml-2"
             width="12px"
@@ -20,17 +32,17 @@ export default function ProfileCard() {
         </li>
         <li>
           <span className="mr-3 text-[var(--color-grey)]">견종</span>
-          <span>골든 리트리버</span>
+          <span>{breedName}</span>
         </li>
         <li>
           <span className="mr-3 text-[var(--color-grey)]">나이</span>
-          <span>5년 6개월</span>
+          <span>데이터 없음</span>
         </li>
         <li>
           <span>
             가족이 된지{' '}
             <strong className="font-medium text-[var(--color-primary-500)]">
-              1943
+              {calculateMetDay(profile.metDay)}
             </strong>
             일
           </span>

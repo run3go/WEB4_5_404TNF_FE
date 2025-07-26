@@ -3,6 +3,7 @@
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import defaultDogImage from '@/assets/images/default-dog-profile.svg';
 import { usePetProfile, usePetVaccine } from '@/lib/hooks/profile/useProfiles';
+import { calculateAge } from '@/lib/utils/date';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';
@@ -42,13 +43,6 @@ export default function DogProfileCard({
     (data) => data.value === profile.breed,
   )?.label;
   const size = petSizeData.find((data) => data.value === profile.size)?.label;
-
-  const calculateAge = () => {
-    const numAge = Number(profile.age);
-    const year = Math.floor(numAge / 12);
-    const month = numAge % 12;
-    return `${year ? year + '년 ' : ''}${month ? month + '개월' : '0개월'}`;
-  };
 
   const closeProfileModal = () => {
     setIsProfileModalOpen(false);
@@ -101,7 +95,7 @@ export default function DogProfileCard({
           </div>
           <div>
             <span className="profile-title-style">나이</span>
-            {calculateAge()}
+            {calculateAge(Number(profile.age))}
           </div>
           <div className="flex items-center">
             <span className="profile-title-style">성별</span>

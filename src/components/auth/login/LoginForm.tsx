@@ -3,16 +3,26 @@
 import { getUserProfile, login } from '@/api/auth';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function LoginForm() {
-  const route = useRouter();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const setLogin = useAuthStore((state) => state.setLogin);
+
+  const loginMutation = useMutation({
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      login(email, password),
+  });
+
+  const profileMutation = useMutation({
+    mutationFn: getUserProfile,
+  });
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,9 +37,11 @@ export default function LoginForm() {
     }
 
     try {
-      const { data: user } = await login(email, password);
-      const data = await getUserProfile(user.userId);
-      console.log(data);
+      const { data: user } = await loginMutation.mutateAsync({
+        email,
+        password,
+      });
+      const data = await profileMutation.mutateAsync(user.userId);
 
       const userInfo: User = {
         userId: data.userId,
@@ -40,10 +52,10 @@ export default function LoginForm() {
         provider: data.provider,
         userImg: data.userImg,
       };
+
       setLogin(userInfo);
       sessionStorage.setItem('userId', user.userId);
-
-      route.push('/');
+      router.push('/');
     } catch (err) {
       setError(
         err instanceof Error ? err.message : '로그인 중 오류가 발생했습니다.',
@@ -105,7 +117,7 @@ export default function LoginForm() {
           <p>계졍이 없으신가요? </p>
           <p
             className="cursor-pointer border-b text-[#FF9526]"
-            onClick={() => route.push('signup')}
+            onClick={() => router.push('/terms')}
           >
             회원가입
           </p>

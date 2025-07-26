@@ -13,8 +13,12 @@ export default function NicknameField({
   const [error, setError] = useState('');
   const [touched, setTouched] = useState(false);
 
-  const { isNicknameDuplicate, nicknameState, resetNickNameState } =
-    useNicknameCheck();
+  const {
+    checkDuplicateMutation,
+    duplicateError,
+    isNicknameChecked,
+    resetNickNameState,
+  } = useNicknameCheck();
 
   const handleChange = (value: string) => {
     setValue(value);
@@ -22,6 +26,7 @@ export default function NicknameField({
     resetNickNameState();
     setTouched(true);
   };
+
   const handleDuplicationCheck = async () => {
     const validationError = validateNickname(value);
     if (validationError) {
@@ -29,10 +34,11 @@ export default function NicknameField({
       return;
     }
 
-    const success = await isNicknameDuplicate(value);
-    if (success) {
-      onNicknameVerified(value);
-    }
+    checkDuplicateMutation.mutate(value, {
+      onSuccess: () => {
+        onNicknameVerified(value);
+      },
+    });
   };
   return (
     <div className="mb-10 basis-1/2">
@@ -61,11 +67,11 @@ export default function NicknameField({
         }}
       />
       {touched && error && <p className="auth__error absolute">{error}</p>}
-      {nicknameState.duplicateError && (
-        <p className="auth__error absolute">{nicknameState.duplicateError}</p>
+      {isNicknameChecked && duplicateError && (
+        <p className="auth__error">{duplicateError}</p>
       )}
-      {nicknameState.checkedNickname === value && value && (
-        <p className="auth__success absolute">사용 가능한 닉네임입니다.</p>
+      {isNicknameChecked && !duplicateError && (
+        <p className="auth__success">사용 가능한 닉네임입니다.</p>
       )}
     </div>
   );

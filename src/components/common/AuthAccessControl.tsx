@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuthStore } from '@/stores/authStoe';
-import { usePathname, useRouter } from 'next/navigation';
+import { notFound, usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function AuthAccessControl({
@@ -9,30 +9,47 @@ export default function AuthAccessControl({
 }: {
   children: React.ReactNode;
 }) {
-  const isLogin = useAuthStore((state) => state.isLogin);
+  const { isLogin, userInfo } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
-  const [userId, setUserId] = useState<string | null>(null);
-  const [checked, setChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isRoot = pathname === '/';
-  const publicPaths = ['/post', '/guide', '/signup', '/terms', '/login'];
+  const isAdminPage = pathname.startsWith('/admin');
+  const publicPaths = [
+    '/post',
+    '/guide',
+    '/signup',
+    '/terms',
+    '/login',
+    '/mungdogdiarymung',
+  ];
   const isPublic =
     isRoot || publicPaths.some((path) => pathname.startsWith(path));
 
   useEffect(() => {
-    const storedUserId = sessionStorage.getItem('userId');
-    setUserId(storedUserId);
-    setChecked(true);
+    setIsLoading(true);
   }, []);
-
   useEffect(() => {
-    if (checked && !userId && !isLogin && !isPublic) {
+    const storedUserId = sessionStorage.getItem('userId');
+    if (!storedUserId && !isLogin && isAdminPage) {
+      router.replace('/mungdogdiarymung');
+      return;
+    }
+
+    if (!storedUserId && !isLogin && !isPublic) {
       router.replace('/login');
     }
-  }, [checked, userId, isLogin, isPublic, router]);
+  }, [isLogin, isPublic, router, isAdminPage]);
 
-  if (!checked) return null;
+  useEffect(() => {
+    const storedRole = sessionStorage.getItem('role');
+    if (isAdminPage && !storedRole && userInfo?.role !== 'ROLE_ADMIN') {
+      notFound();
+    }
+  });
+
+  if (!isLoading) return null;
 
   if (!isLogin && !isPublic) return null;
 
