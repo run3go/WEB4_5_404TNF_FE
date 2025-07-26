@@ -11,19 +11,12 @@ import DiaryProfile from '@/components/diary/DiaryProfile';
 import MobileTitle from '@/components/common/MobileTitle';
 import Image from 'next/image';
 import DiaryCard from '@/components/diary/DiaryCard';
+import DateInput from '@/components/common/DateInput';
+import Icon from '@/components/common/Icon';
 import { useDiaryForm } from '@/lib/hooks/diary/state/useDiaryForm';
 import { twMerge } from 'tailwind-merge';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import DateInput from '@/components/common/DateInput';
-import Icon from '@/components/common/Icon';
-
-const feedUnitOptions = [
-  { label: 'g', value: 'GRAM' },
-  { label: '스푼', value: 'SPOON' },
-  { label: '스쿱', value: 'SCOOP' },
-  { label: '컵', value: 'CUP' },
-];
 
 export default function DiaryWrite() {
   const router = useRouter();
@@ -175,7 +168,6 @@ export default function DiaryWrite() {
                 <FeedInput
                   feedingList={feedingList}
                   setFeedingList={setFeedingList}
-                  feedUnitOptions={feedUnitOptions}
                 />
               </div>
               <div className="flex w-full flex-col sm:flex-1">
