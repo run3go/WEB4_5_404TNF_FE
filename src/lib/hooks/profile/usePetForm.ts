@@ -1,9 +1,9 @@
 import { modifyPetProfile, registPetProfile } from '@/api/pet';
+import { petProfileSchema } from '@/lib/utils/petProfile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { formatDate } from 'date-fns';
 import { useForm } from 'react-hook-form';
-import { petProfileSchema } from '../utils/petProfile.schema';
 
 export const usePetForm = (profile?: PetProfile) => {
   const { handleSubmit, register, watch, reset, setValue, control } =

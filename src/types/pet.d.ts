@@ -34,6 +34,7 @@ type PetProfile = {
   size: PetSize;
   sex: boolean;
   isNeutered: boolean;
+<<<<<<< HEAD
   imgUrl?: string | null;
   image: {
     petImgId: number;
@@ -42,6 +43,9 @@ type PetProfile = {
     originName: string;
     renamedName: string;
   };
+=======
+  imgUrl: string;
+>>>>>>> dev
   birthday?: string;
   weight?: number;
   days?: number;

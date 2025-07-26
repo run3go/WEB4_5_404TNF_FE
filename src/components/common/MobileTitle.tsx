@@ -37,6 +37,7 @@ export default function MobileTitle({
             </div>
           ) : onClick ? (
             <button
+              type="button"
               onClick={onClick}
               className="absolute right-0 cursor-pointer leading-[1.2] text-[var(--color-primary-500)]"
             >

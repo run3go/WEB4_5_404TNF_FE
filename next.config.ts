@@ -1,9 +1,10 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
-    domains: ['storage.googleapis.com'],
+    remotePatterns: [
+      new URL('https://storage.googleapis.com/mungnote-storage/**'),
+    ],
   },
 };
 
