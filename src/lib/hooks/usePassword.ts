@@ -4,6 +4,7 @@ import { validatePassword } from '../utils/validation';
 
 export const usePassword = (onPasswordValid: (password: string) => void) => {
   const [currentPwd, setCurrentPwd] = useState('');
+  const [isMatched, setIsMatched] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -21,6 +22,7 @@ export const usePassword = (onPasswordValid: (password: string) => void) => {
     try {
       const payload = { password: currentPwd };
       const isMatched = await checkPassword(payload);
+      setIsMatched(isMatched);
       alert(
         isMatched ? '비밀번호가 일치합니다' : '비밀번호가 일치하지 않습니다',
       );
@@ -110,11 +112,14 @@ export const usePassword = (onPasswordValid: (password: string) => void) => {
       }
     }
   };
+  const isConfirmMatched = password === confirmPassword;
   return {
     password,
     confirmPassword,
     errors,
     currentPwd,
+    isMatched,
+    isConfirmMatched,
     setCurrentPwd,
     checkCurrentPassword,
     handlePasswordChange,

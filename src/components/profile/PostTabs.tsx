@@ -4,7 +4,13 @@ import { useParams } from 'next/navigation';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
 
-export default function PostTabs() {
+export default function PostTabs({
+  handleChangeTab,
+  type,
+}: {
+  handleChangeTab: (type: PostType) => void;
+  type: PostType;
+}) {
   const params = useParams();
   const userId = params?.userId as string;
   const userInfo = useAuthStore((state) => state.userInfo);
@@ -20,17 +26,33 @@ export default function PostTabs() {
         <button
           className={twMerge(
             'basis-1/3 cursor-pointer border-b border-[var(--color-input-border)] px-4 py-[7px]',
-            'border-[var(--color-primary-500)] text-[var(--color-primary-500)]',
+            type === 'WRITE' &&
+              'border-[var(--color-primary-500)] text-[var(--color-primary-500)]',
           )}
+          onClick={() => handleChangeTab('WRITE')}
         >
           작성 글
         </button>
         {isMyProfile && (
           <>
-            <button className="basis-1/3 cursor-pointer border-b border-[var(--color-input-border)] px-4 py-[7px]">
+            <button
+              className={twMerge(
+                'basis-1/3 cursor-pointer border-b border-[var(--color-input-border)] px-4 py-[7px]',
+                type === 'LIKE' &&
+                  'border-[var(--color-primary-500)] text-[var(--color-primary-500)]',
+              )}
+              onClick={() => handleChangeTab('LIKE')}
+            >
               좋아요한 글
             </button>
-            <button className="basis-1/3 cursor-pointer border-b border-[var(--color-input-border)] px-4 py-[7px]">
+            <button
+              className={twMerge(
+                'basis-1/3 cursor-pointer border-b border-[var(--color-input-border)] px-4 py-[7px]',
+                type === 'COMMENT' &&
+                  'border-[var(--color-primary-500)] text-[var(--color-primary-500)]',
+              )}
+              onClick={() => handleChangeTab('COMMENT')}
+            >
               댓글 작성한 글
             </button>
           </>
@@ -41,19 +63,35 @@ export default function PostTabs() {
     return (
       <div className="mb-6">
         <button
+          type="button"
           className={twMerge(
             'cursor-pointer px-4 hover:text-[var(--color-primary-300)]',
-            'text-[var(--color-primary-500)]',
+            type === 'WRITE' && 'text-[var(--color-primary-500)]',
           )}
+          onClick={() => handleChangeTab('WRITE')}
         >
           작성 글
         </button>
         {isMyProfile && (
           <>
-            <button className="cursor-pointer border-l-2 border-[var(--color-primary-500)] px-4 hover:text-[var(--color-primary-300)]">
+            <button
+              type="button"
+              className={twMerge(
+                'cursor-pointer border-l-2 border-[var(--color-primary-500)] px-4 hover:text-[var(--color-primary-300)]',
+                type === 'LIKE' && 'text-[var(--color-primary-500)]',
+              )}
+              onClick={() => handleChangeTab('LIKE')}
+            >
               좋아요한 글
             </button>
-            <button className="cursor-pointer border-l-2 border-[var(--color-primary-500)] px-4 hover:text-[var(--color-primary-300)]">
+            <button
+              type="button"
+              className={twMerge(
+                'cursor-pointer border-l-2 border-[var(--color-primary-500)] px-4 hover:text-[var(--color-primary-300)]',
+                type === 'COMMENT' && 'text-[var(--color-primary-500)]',
+              )}
+              onClick={() => handleChangeTab('COMMENT')}
+            >
               댓글 작성한 글
             </button>
           </>

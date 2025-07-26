@@ -1,8 +1,10 @@
 import { modifyUserInfo, resignAccount } from '@/api/user';
 import defaultProfile from '@/assets/images/default-profile.svg';
-import { useUserProfile } from '@/lib/hooks/useProfiles';
+import { useUserProfile } from '@/lib/hooks/profile/useProfiles';
+import { usePassword } from '@/lib/hooks/usePassword';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import Icon from '../../common/Icon';
@@ -14,19 +16,36 @@ export default function UserProfileEditMobile() {
   const profileStore = useProfileStore();
   const userInfo = useAuthStore((state) => state.userInfo);
   const { data: profile } = useUserProfile(String(userInfo?.userId), true);
-  const [imageUrl, setImageUrl] = useState(profile?.userImg || defaultProfile);
+  const [imageUrl, setImageUrl] = useState(profile?.imgUrl);
   const [formData, setFormData] = useState<{
     image: File | null;
     nickname: string;
     password: string;
   }>({
     image: null,
-    nickname: '',
+    nickname: userInfo!.nickname,
     password: '',
   });
 
+  const passwordHook = usePassword((value) =>
+    setFormData((prev) => ({ ...prev, password: value })),
+  );
+  const queryClient = useQueryClient();
+
   const onSubmit = async () => {
+    if (passwordHook.password && !passwordHook.isMatched) {
+      alert('현재 비밀번호가 일치하는지 확인해주세요');
+      return;
+    }
+    console.log(passwordHook.password, passwordHook.confirmPassword);
+    if (!passwordHook.isConfirmMatched) {
+      alert('새 비밀번호가 일치하지 않아요');
+      return;
+    }
     await modifyUserInfo(formData);
+    await queryClient.invalidateQueries({
+      queryKey: ['user', userInfo?.userId],
+    });
     profileStore.toggleEditingUserProfile();
   };
 
@@ -45,7 +64,6 @@ export default function UserProfileEditMobile() {
   };
 
   if (!profile) return;
-
   return (
     <div className="w-screen">
       <div className="relative h-full bg-[var(--color-background)] px-6 py-9 text-sm">
@@ -54,20 +72,19 @@ export default function UserProfileEditMobile() {
             title="프로필 수정"
             onClick={() => {
               onSubmit();
-              profileStore.toggleEditingUserProfile();
             }}
             closePage={() => {
               profileStore.toggleEditingUserProfile();
             }}
           />
           <label
-            className="group mb-9 flex cursor-pointer flex-col items-center gap-4"
+            className="group mb-9 flex cursor-pointer flex-col items-center gap-4 self-center"
             htmlFor="userImage"
           >
             <Image
               className="h-25 w-25 rounded-full object-cover"
-              src={imageUrl}
-              alt="강아지 프로필"
+              src={imageUrl || profile.imgUrl || defaultProfile}
+              alt="유저 프로필"
               width={100}
               height={100}
               priority
@@ -105,11 +122,7 @@ export default function UserProfileEditMobile() {
               setFormData((prev) => ({ ...prev, nickname: value }))
             }
           />
-          <PasswordField
-            onPasswordValid={(value) =>
-              setFormData((prev) => ({ ...prev, password: value }))
-            }
-          />
+          <PasswordField passwordHook={passwordHook} />
           <button
             type="button"
             className="mt-20 mb-6 self-end text-[var(--color-grey)]"
