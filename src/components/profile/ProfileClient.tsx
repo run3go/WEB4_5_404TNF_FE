@@ -10,7 +10,7 @@ import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
 import DogProfileEditMobile from './dog/DogProfileEditMobile';
 import DogProfileList from './dog/DogProfileList';
-import PostWrapper from './PostWrapper';
+import PostWrapper from './post/PostWrapper';
 import UserProfile from './user/UserProfile';
 import UserProfileEditMobile from './user/UserProfileEditMobile';
 

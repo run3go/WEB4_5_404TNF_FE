@@ -1,9 +1,9 @@
 import { useMyPosts } from '@/lib/hooks/profile/usePostList';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import SelectBox from '../common/SelectBox';
+import SelectBox from '../../common/SelectBox';
+import PostList from './PostList';
 import PostTabs from './PostTabs';
-import PostList from './post/PostList';
 
 export default function PostWrapper() {
   const options = [

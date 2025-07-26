@@ -63,9 +63,9 @@ export default function UserProfile({
           <span className="text-[var(--color-grey)]">수정</span>
         </button>
       )}
-      <div className="mt-7 flex gap-2 sm:gap-7">
+      <div className="mt-7 flex items-center gap-4 sm:gap-7">
         <Image
-          className="h-24 w-24 rounded-full sm:h-40 sm:w-40"
+          className="h-20 w-20 rounded-full sm:h-40 sm:w-40"
           src={profile?.imgUrl || userProfile.imgUrl || defaultProfile}
           alt="프로필 이미지"
           width={160}

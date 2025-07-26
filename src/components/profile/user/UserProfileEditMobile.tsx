@@ -5,10 +5,10 @@ import { usePassword } from '@/lib/hooks/usePassword';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useQueryClient } from '@tanstack/react-query';
-import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import Icon from '../../common/Icon';
 import MobileTitle from '../../common/MobileTitle';
+import ImageField from '../ImageField';
 import NicknameField from './NicknameField';
 import PasswordField from './PasswordField';
 
@@ -37,7 +37,6 @@ export default function UserProfileEditMobile() {
       alert('현재 비밀번호가 일치하는지 확인해주세요');
       return;
     }
-    console.log(passwordHook.password, passwordHook.confirmPassword);
     if (!passwordHook.isConfirmMatched) {
       alert('새 비밀번호가 일치하지 않아요');
       return;
@@ -77,27 +76,11 @@ export default function UserProfileEditMobile() {
               profileStore.toggleEditingUserProfile();
             }}
           />
-          <label
-            className="group mb-9 flex cursor-pointer flex-col items-center gap-4 self-center"
-            htmlFor="userImage"
-          >
-            <Image
-              className="h-25 w-25 rounded-full object-cover"
-              src={imageUrl || profile.imgUrl || defaultProfile}
-              alt="유저 프로필"
-              width={100}
-              height={100}
-              priority
-            />
-            <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)]">
-              사진 선택하기
-            </span>
-          </label>
-          <input
-            className="hidden"
-            id="userImage"
-            type="file"
-            onChange={handleImage}
+          <ImageField
+            alt="유저 프로필"
+            image={imageUrl || profile.imgUrl || defaultProfile}
+            isMobile
+            handleImage={handleImage}
           />
           <div className="mb-8 flex basis-1/2 flex-col gap-5">
             <span>이메일</span>

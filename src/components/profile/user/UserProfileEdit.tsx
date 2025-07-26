@@ -4,9 +4,9 @@ import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import { usePassword } from '@/lib/hooks/usePassword';
 import { useQueryClient } from '@tanstack/react-query';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
+import ImageField from '../ImageField';
 import NicknameField from './NicknameField';
 import PasswordField from './PasswordField';
 
@@ -18,9 +18,7 @@ export default function UserProfileEdit({
   profile: UserProfile;
 }) {
   const router = useRouter();
-  const [imageUrl, setImageUrl] = useState<string>(
-    profile.imgUrl || defaultProfile,
-  );
+  const [imageUrl, setImageUrl] = useState<string | null>(profile.imgUrl);
   const [formData, setFormData] = useState<{
     image: File | null;
     nickname: string;
@@ -60,6 +58,10 @@ export default function UserProfileEdit({
     }));
   };
 
+  const resetImage = () => {
+    setImageUrl(null);
+  };
+
   const handleResign = async () => {
     await resignAccount();
     router.push('/');
@@ -83,27 +85,11 @@ export default function UserProfileEdit({
           className="relative flex flex-col items-center"
           onSubmit={onSubmit}
         >
-          <label
-            className="group mb-10 flex cursor-pointer flex-col items-center gap-4"
-            htmlFor="userImage"
-          >
-            <Image
-              className="h-30 w-30 rounded-full object-cover"
-              src={imageUrl}
-              alt="유저 프로필"
-              width={120}
-              height={120}
-            />
-            <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)]">
-              사진 선택하기
-            </span>
-          </label>
-          <input
-            id="userImage"
-            type="file"
-            className="hidden"
-            accept="image/*"
-            onChange={handleImage}
+          <ImageField
+            alt="유저 프로필"
+            image={imageUrl || defaultProfile}
+            handleImage={handleImage}
+            resetImage={resetImage}
           />
           <div className="flex w-full gap-20">
             <div className="flex basis-1/2 flex-col gap-5">
