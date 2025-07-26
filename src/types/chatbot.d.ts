@@ -11,3 +11,8 @@ type ChatbotMessage = {
   time: string;
   message: string;
 };
+
+type ChatbotResponse = {
+  message: string;
+  pet?: string;
+};
