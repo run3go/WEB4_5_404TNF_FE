@@ -2,6 +2,7 @@ import { useRouter } from 'next/navigation';
 import Card from '../common/Card';
 import PostStats from '../common/PostStats';
 import WriterInfo from '../common/WriterInfo';
+import Image from 'next/image';
 
 export default function PostCard({
   post,
@@ -36,7 +37,22 @@ export default function PostCard({
                 {post.content}
               </p>
             </div>
-            <div className="ml-2 h-[80px] w-[80px] flex-shrink-0 cursor-pointer rounded-[10px] bg-gray-500 sm:-mt-[58px] sm:ml-[1.05vw] sm:h-[200px] sm:w-[200px] sm:rounded-[30px]"></div>
+            {post.articleImgPath[0]?.savePath && (
+              <div
+                className="relative ml-2 h-[80px] w-[80px] flex-shrink-0 cursor-pointer rounded-[10px] sm:-mt-[46px] sm:ml-[1.05vw] sm:h-[188px] sm:w-[188px] sm:rounded-[30px]"
+                onClick={() =>
+                  router.push(`/post/${boardType}/${post.articleId}`)
+                }
+              >
+                <Image
+                  className="rounded-[10px] sm:rounded-[30px]"
+                  src={post.articleImgPath[0]?.savePath}
+                  alt="썸네일 이미지"
+                  fill
+                  priority
+                />
+              </div>
+            )}
           </div>
           <div className="absolute bottom-0 left-0">
             <PostStats

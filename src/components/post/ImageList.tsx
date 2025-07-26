@@ -4,19 +4,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import img from '@/assets/images/dog_img.png';
 import Image from 'next/image';
 import { useRef } from 'react';
 import Icon from '../common/Icon';
-const IMAGES = [
-  { id: 1, image: img },
-  { id: 2, image: img },
-  { id: 3, image: img },
-  { id: 4, image: img },
-  { id: 5, image: img },
-];
 
-export default function ImageList() {
+export default function ImageList({ postImage }: { postImage: PostImage[] }) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   return (
@@ -65,15 +57,17 @@ export default function ImageList() {
             }
           }}
         >
-          {IMAGES.map((img) => (
-            <SwiperSlide key={img.id} className="!w-[300px]">
-              <div className="relative flex h-[300px] w-[300px] items-end">
+          {postImage.map((img) => (
+            <SwiperSlide
+              key={img.articleImgId + img.savePath}
+              className="!w-[76.8vw] sm:!w-[300px]"
+            >
+              <div className="relative flex h-[300px] w-[76.8vw] items-end sm:w-[300px]">
                 <Image
                   className="rounded-[10px]"
-                  src={img.image}
-                  alt="강아지"
-                  width={300}
-                  height={300}
+                  src={img.savePath}
+                  alt="포스트 이미지"
+                  fill
                   priority
                 />
               </div>

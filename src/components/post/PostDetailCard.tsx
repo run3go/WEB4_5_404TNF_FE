@@ -54,7 +54,7 @@ export default function PostDetailCard({
         </div>
         {postDetail.images.length !== 0 && (
           <div className="w-full sm:max-w-[calc(100vw-622px)]">
-            <ImageList />
+            <ImageList postImage={postDetail.images} />
           </div>
         )}
         <div className="pt-7 sm:pt-14">

@@ -7,7 +7,7 @@ export const createPost = async ({
   title: string;
   content: string;
   boardType: 'FREE' | 'QUESTION';
-  images: File[];
+  images: (File | string)[];
 }) => {
   const formData = new FormData();
 
@@ -44,7 +44,7 @@ export const updatePost = async ({
   title: string;
   content: string;
   boardType: 'FREE' | 'QUESTION';
-  images: File[];
+  images: (File | string)[];
   postId: number;
 }) => {
   const formData = new FormData();
@@ -163,6 +163,9 @@ export const getCommentList = async ({
   const size = totalComment > 0 ? totalComment : 1;
   const res = await fetch(
     `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1?page=1&size=${size}`,
+    {
+      credentials: 'include',
+    },
   );
 
   const data = await res.json();

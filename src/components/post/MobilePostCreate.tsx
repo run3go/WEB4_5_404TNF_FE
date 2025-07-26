@@ -1,26 +1,33 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
 import EditImageList from './EditImageList';
 import MobileTitle from '@/components/common/MobileTitle';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCreatePost } from '@/lib/hooks/post/useCreatePost';
 
-export default function MobilePostCreate() {
+export default function MobilePostCreate({
+  pickedImages,
+  setPickedImages,
+}: {
+  pickedImages: (File | string)[];
+  setPickedImages: Dispatch<SetStateAction<(File | string)[]>>;
+}) {
+  const router = useRouter();
   const pathname = usePathname();
+  const path = pathname.split('/').slice(0, -1).join('/');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>('FREE');
-  const [pickedImages, setPickedImages] = useState<File[]>([]);
 
   const postCreateMutation = useCreatePost(boardType);
 
   const handleSubmit = (
     title: string,
     content: string,
-    pickedImages: File[],
+    pickedImages: (File | string)[],
   ) => {
     postCreateMutation.mutate({
       title,
@@ -43,7 +50,9 @@ export default function MobilePostCreate() {
     <div className="flex h-full flex-col bg-[var(--color-background)]">
       <MobileTitle
         title="게시글 작성"
-        closePage={() => {}}
+        closePage={() => {
+          router.push(path);
+        }}
         onSave={() => {
           handleSubmit(title, content, pickedImages);
         }}
@@ -92,14 +101,11 @@ export default function MobilePostCreate() {
           />
         </div>
 
-        <div className="flex items-end gap-2 px-4">
-          <div className="flex h-[80px] w-[80px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[10px] bg-[#E1E1E1]">
-            <Icon width="22px" height="22px" left="-301px" top="-121px" />
-            <p className="text-[16px] font-medium">5 / 5</p>
-          </div>
-          <div className="min-w-[254px]">
-            <EditImageList />
-          </div>
+        <div className="min-w-[254px]">
+          <EditImageList
+            pickedImages={pickedImages}
+            setPickedImages={setPickedImages}
+          />
         </div>
       </div>
     </div>

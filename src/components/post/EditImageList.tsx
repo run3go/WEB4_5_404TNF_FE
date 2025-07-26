@@ -1,88 +1,104 @@
 'use client';
 
 import 'swiper/css';
-import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import img from '@/assets/images/dog_img.png';
 import Image from 'next/image';
-import { useRef } from 'react';
 import Icon from '../common/Icon';
-const IMAGES = [
-  { id: 1, image: img },
-  { id: 2, image: img },
-  { id: 3, image: img },
-  { id: 4, image: img },
-  { id: 5, image: img },
-];
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 
-export default function ImageList() {
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
+export default function ImageList({
+  pickedImages,
+  setPickedImages,
+}: {
+  pickedImages: (File | string)[];
+  setPickedImages: Dispatch<SetStateAction<(File | string)[]>>;
+}) {
+  const objectUrls = useRef<string[]>([]);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const maxSelectable = 5 - pickedImages.length;
+    const selectedFiles = Array.from(files).slice(0, maxSelectable);
+
+    if (selectedFiles.length < files.length) {
+      alert('이미지는 최대 5개까지 업로드할 수 있어요!');
+    }
+
+    setPickedImages((prev) => [...prev, ...selectedFiles]);
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setPickedImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const getPreviewUrl = (img: File | string): string => {
+    if (typeof img === 'string') return img;
+
+    const url = URL.createObjectURL(img);
+    objectUrls.current.push(url);
+    return url;
+  };
+
+  useEffect(() => {
+    return () => {
+      objectUrls.current.forEach((url) => URL.revokeObjectURL(url));
+      objectUrls.current = [];
+    };
+  }, []);
   return (
     <>
-      <div className="relative mt-5 px-1 sm:mt-10 sm:px-[54px]">
-        <button
-          ref={prevRef}
-          className="absolute top-1/2 left-[14px] z-10 hidden -translate-y-1/2 text-2xl sm:block"
+      <div className="flex w-[45vw] items-end gap-2 px-4">
+        <label
+          className="mt-[8px] flex h-[80px] w-[80px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[10px] bg-[#E1E1E1]"
+          htmlFor="inputMFile"
         >
-          <Icon
-            width="12px"
-            height="20px"
-            left="-107px"
-            top="-164px"
-            className="cursor-pointer"
-          />
-        </button>
-        <button
-          ref={nextRef}
-          className="absolute top-1/2 right-[14px] z-10 hidden -translate-y-1/2 text-2xl sm:block"
-        >
-          <Icon
-            width="12px"
-            height="20px"
-            left="-152px"
-            top="-164px"
-            className="cursor-pointer"
-          />
-        </button>
+          <Icon width="22px" height="22px" left="-301px" top="-121px" />
+          <p className="text-[16px] font-medium">{`${pickedImages?.length ?? 0} / 5`}</p>
+        </label>
+        <input
+          type="file"
+          id="inputMFile"
+          accept="image/*"
+          className="hidden"
+          multiple
+          onChange={handleImageChange}
+        />
 
-        <Swiper
-          modules={[Navigation]}
-          spaceBetween={4}
-          navigation={{
-            prevEl: prevRef.current,
-            nextEl: nextRef.current,
-          }}
-          slidesPerView="auto"
-          onBeforeInit={(swiper) => {
-            if (
-              typeof swiper.params.navigation === 'object' &&
-              swiper.params.navigation !== null
-            ) {
-              swiper.params.navigation.prevEl = prevRef.current;
-              swiper.params.navigation.nextEl = nextRef.current;
-            }
-          }}
-        >
-          {IMAGES.map((img) => (
-            <SwiperSlide key={img.id} className="!w-[88px]">
-              <div className="relative flex h-[88px] w-[88px] items-end">
-                <Image
-                  className="rounded-[10px]"
-                  src={img.image}
-                  alt="강아지"
-                  width={80}
-                  height={80}
-                  priority
-                />
-                <div className="absolute top-0 right-0 flex h-[20px] w-[20px] cursor-pointer items-center justify-center rounded-full bg-[#FCC389]">
-                  <Icon width="12px" height="12px" left="-72px" top="-126px" />
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {(pickedImages?.length ?? 0) > 0 && (
+          <div className="relative px-1 sm:mt-10 sm:px-[54px]">
+            <Swiper
+              spaceBetween={12}
+              slidesPerView="auto"
+              className="!h-[88px] !w-[68.9vw]"
+            >
+              {pickedImages.map((preview, i) => (
+                <SwiperSlide key={i} className="!w-[80px]">
+                  <div className="relative flex h-[80px] w-[80px] items-end">
+                    <Image
+                      className="mt-[8px] rounded-[10px] object-cover"
+                      src={getPreviewUrl(preview)}
+                      alt={`선택한 이미지${i}`}
+                      fill
+                      priority
+                    />
+                    <div
+                      className="absolute top-0 right-[-8px] flex h-[20px] w-[20px] cursor-pointer items-center justify-center rounded-full bg-[#FCC389]"
+                      onClick={() => handleRemoveImage(i)}
+                    >
+                      <Icon
+                        width="12px"
+                        height="12px"
+                        left="-72px"
+                        top="-126px"
+                      />
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
       </div>
     </>
   );

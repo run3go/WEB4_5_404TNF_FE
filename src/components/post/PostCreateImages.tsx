@@ -1,53 +1,58 @@
 import Icon from '../common/Icon';
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { usePathname } from 'next/navigation';
 
 export default function PostCreateImages({
   pickedImages,
   setPickedImages,
 }: {
-  pickedImages: File[];
-  setPickedImages: Dispatch<SetStateAction<File[]>>;
+  pickedImages: (File | string)[];
+  setPickedImages: Dispatch<SetStateAction<(File | string)[]>>;
 }) {
-  const [previews, setPreviews] = useState<string[]>([]);
-
+  const path = usePathname();
+  const objectUrls = useRef<string[]>([]);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
 
-    const imageFiles: File[] = [];
-    const previewPromises: Promise<string>[] = [];
+    const maxSelectable = 5 - pickedImages.length;
+    const selectedFiles = Array.from(files).slice(0, maxSelectable);
 
-    for (
-      let i = 0;
-      i < files.length && pickedImages.length + imageFiles.length < 5;
-      i++
-    ) {
-      const file = files[i];
-      imageFiles.push(file);
-      const previewPromise = new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.readAsDataURL(file);
-      });
-      previewPromises.push(previewPromise);
+    if (selectedFiles.length < files.length) {
+      alert('이미지는 최대 5개까지 업로드할 수 있어요!');
     }
 
-    Promise.all(previewPromises).then((newPreviewUrls) => {
-      setPickedImages((prev) => [...prev, ...imageFiles]);
-      setPreviews((prev) => [...prev, ...newPreviewUrls]);
-    });
+    setPickedImages((prev) => [...prev, ...selectedFiles]);
   };
 
   const handleRemoveImage = (index: number) => {
     setPickedImages((prev) => prev.filter((_, i) => i !== index));
-    setPreviews((prev) => prev.filter((_, i) => i !== index));
   };
+
+  const getPreviewUrl = (img: File | string): string => {
+    if (typeof img === 'string') return img;
+
+    const url = URL.createObjectURL(img);
+    objectUrls.current.push(url);
+    return url;
+  };
+
+  useEffect(() => {
+    return () => {
+      objectUrls.current.forEach((url) => URL.revokeObjectURL(url));
+      objectUrls.current = [];
+    };
+  }, []);
   return (
     <>
-      <div className="mt-6 ml-12 flex gap-6 px-[8.37vw]">
+      <div
+        className={`flex items-end gap-6 ${path.includes('create') ? 'w-[55vw] pl-[8.37vw]' : 'w-[45vw]'}`}
+      >
         <label
-          className="flex h-[120px] w-[120px] cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-[#E1E1E1]"
+          className="flex h-[120px] w-[120px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-[#E1E1E1]"
           htmlFor="inputFile"
         >
           <Icon width="22px" height="22px" left="-301px" top="-121px" />
@@ -62,26 +67,38 @@ export default function PostCreateImages({
           onChange={handleImageChange}
         />
 
-        <div className="gpa-6 flex">
-          {previews.map((preview, i) => (
-            <div key={i} className="relative space-x-6">
-              <Image
-                className="h-[120px] w-[120px] rounded-[20px] object-cover"
-                src={preview}
-                alt={`선택한 이미지${i}`}
-                width={120}
-                height={120}
-                priority
-              />
-              <div
-                className="absolute top-[-10px] right-[14px] flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full bg-[#FCC389]"
-                onClick={() => handleRemoveImage(i)}
-              >
-                <Icon width="12px" height="12px" left="-72px" top="-126px" />
-              </div>
-            </div>
-          ))}
-        </div>
+        {pickedImages.length > 0 && (
+          <Swiper
+            spaceBetween={24}
+            slidesPerView="auto"
+            className={`!h-[135px] ${path.includes('create') ? '!w-[45vw]' : '!w-[36.8vw]'} `}
+          >
+            {pickedImages.map((preview, i) => (
+              <SwiperSlide key={i} className="!w-[120px]">
+                <div className="relative h-[120px] w-[120px]">
+                  <Image
+                    className="mt-[15px] rounded-[20px] object-cover"
+                    src={getPreviewUrl(preview)}
+                    alt={`선택한 이미지${i}`}
+                    fill
+                    priority
+                  />
+                  <div
+                    className="absolute top-[5px] right-[-10px] z-[300px] flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full bg-[#FCC389]"
+                    onClick={() => handleRemoveImage(i)}
+                  >
+                    <Icon
+                      width="12px"
+                      height="12px"
+                      left="-72px"
+                      top="-126px"
+                    />
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
     </>
   );

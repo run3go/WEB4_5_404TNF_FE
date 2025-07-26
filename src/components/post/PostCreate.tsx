@@ -14,14 +14,14 @@ export default function PostCreate() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>('FREE');
-  const [pickedImages, setPickedImages] = useState<File[]>([]);
+  const [pickedImages, setPickedImages] = useState<(File | string)[]>([]);
 
   const postCreateMutation = useCreatePost(boardType);
 
   const handleSubmit = (
     title: string,
     content: string,
-    pickedImages: File[],
+    pickedImages: (File | string)[],
   ) => {
     postCreateMutation.mutate({
       title,
@@ -86,7 +86,10 @@ export default function PostCreate() {
         </Card>
       </div>
       <div className="scrollbar-hidden block h-full w-screen overflow-x-hidden sm:hidden">
-        <MobilePostCreate />
+        <MobilePostCreate
+          pickedImages={pickedImages}
+          setPickedImages={setPickedImages}
+        />
       </div>
     </>
   );

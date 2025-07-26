@@ -17,21 +17,27 @@ export default function PostEditModal({
   const [title, setTitle] = useState(postDetail.title);
   const [content, setContent] = useState(postDetail.content);
   const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>('FREE');
-  const [pickedImages, setPickedImages] = useState<File[]>([]);
+  const [pickedImages, setPickedImages] = useState<(File | string)[]>(
+    postDetail.images.map((img) => img.savePath),
+  );
 
   const postUpdateMutation = useEditPost(boardType, Number(postId), onClose);
 
   const handleSubmit = (
     title: string,
     content: string,
-    pickedImages: File[],
+    pickedImages: (File | string)[],
     postId: number,
   ) => {
+    const filesOnly = pickedImages.filter(
+      (img) => img instanceof File,
+    ) as File[];
+
     postUpdateMutation.mutate({
       title,
       content,
       boardType,
-      images: pickedImages,
+      images: filesOnly,
       postId,
     });
   };
@@ -44,6 +50,21 @@ export default function PostEditModal({
       setBoardType('QUESTION');
     }
   }, [pathname]);
+
+  useEffect(() => {
+    const convertImages = async () => {
+      const files = await Promise.all(
+        postDetail.images.map(async (img, i) => {
+          const res = await fetch(img.savePath);
+          const blob = await res.blob();
+          return new File([blob], `image${i}.jpg`, { type: blob.type });
+        }),
+      );
+      setPickedImages(files);
+    };
+
+    convertImages();
+  }, [postDetail.images]);
 
   return (
     <>

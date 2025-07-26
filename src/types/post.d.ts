@@ -10,7 +10,7 @@ interface Post {
   likes: number;
   replies: number;
   views: number;
-  articleImgPath: string[];
+  articleImgPath: PostImage[];
 }
 
 interface PageInfo {
@@ -41,7 +41,14 @@ interface PostDeatail {
   likes: number;
   views: number;
   isLiked: boolean;
-  images: string[];
+  images: PostImage[];
+}
+
+interface PostImage {
+  articleImgId: number;
+  articleId: number;
+  savePath: string;
+  imgType: string;
 }
 
 interface PostComment {

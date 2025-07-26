@@ -20,21 +20,27 @@ export default function MobilePostEditModal({
   const [title, setTitle] = useState(postDetail.title);
   const [content, setContent] = useState(postDetail.content);
   const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>('FREE');
-  const [pickedImages, setPickedImages] = useState<File[]>([]);
+  const [pickedImages, setPickedImages] = useState<(File | string)[]>(
+    postDetail.images.map((img) => img.savePath),
+  );
 
   const postUpdateMutation = useEditPost(boardType, Number(postId), onClose);
 
   const handleSubmit = (
     title: string,
     content: string,
-    pickedImages: File[],
+    pickedImages: (File | string)[],
     postId: number,
   ) => {
+    const filesOnly = pickedImages.filter(
+      (img) => img instanceof File,
+    ) as File[];
+
     postUpdateMutation.mutate({
       title,
       content,
       boardType,
-      images: pickedImages,
+      images: filesOnly,
       postId,
     });
   };
@@ -47,6 +53,21 @@ export default function MobilePostEditModal({
       setBoardType('QUESTION');
     }
   }, [pathname]);
+
+  useEffect(() => {
+    const convertImages = async () => {
+      const files = await Promise.all(
+        postDetail.images.map(async (img, i) => {
+          const res = await fetch(img.savePath);
+          const blob = await res.blob();
+          return new File([blob], `image${i}.jpg`, { type: blob.type });
+        }),
+      );
+      setPickedImages(files);
+    };
+
+    convertImages();
+  }, [postDetail.images]);
 
   return (
     <div className="flex h-screen flex-col bg-[var(--color-background)]">
@@ -105,14 +126,11 @@ export default function MobilePostEditModal({
               />
             </div>
 
-            <div className="flex items-end gap-2 px-4">
-              <div className="flex h-[80px] w-[80px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[10px] bg-[#E1E1E1]">
-                <Icon width="22px" height="22px" left="-301px" top="-121px" />
-                <p className="text-[16px] font-medium">5 / 5</p>
-              </div>
-              <div className="min-w-[254px]">
-                <EditImageList />
-              </div>
+            <div className="min-w-[254px]">
+              <EditImageList
+                pickedImages={pickedImages}
+                setPickedImages={setPickedImages}
+              />
             </div>
           </div>
         </>
