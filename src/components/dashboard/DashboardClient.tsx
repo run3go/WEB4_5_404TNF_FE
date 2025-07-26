@@ -163,7 +163,7 @@ export default function DashboardClient() {
           </div>
           <div className="flex items-center justify-between gap-5 sm:gap-8">
             <FeedCard feeding={feeding} />
-            <TodoCard checklist={checklist} />
+            <TodoCard checklist={checklist} petId={selectedPet} />
           </div>
           {note && <NoteCard note={note} />}
         </div>

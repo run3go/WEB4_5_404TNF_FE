@@ -150,3 +150,16 @@ export const getDashboardChecklist = async (petId: number) => {
   const data = await res.json();
   return data;
 };
+
+export const setChecklistDone = async (scheduleId: number) => {
+  const res = await fetch(
+    `${baseURL}/api/dashboard/v2/calendar/${scheduleId}`,
+    {
+      credentials: 'include',
+    },
+  );
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '대시보드 체크리스트 완료/취소 실패');
+  }
+};

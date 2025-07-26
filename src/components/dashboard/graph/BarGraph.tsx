@@ -74,7 +74,7 @@ export default function BarGraph({ walking }: { walking: DashboardWalking }) {
       })
       .transition()
       .duration(1000)
-      .attr('width', (d) => (d.time / maxData) * width);
+      .attr('width', (d) => (d.time === 0 ? 2 : (d.time / maxData) * width));
   }, [walking]);
 
   return (
