@@ -86,7 +86,10 @@ export default function MobilePostEditModal({
         <>
           <div className="flex w-full flex-col gap-6">
             <div className="flex w-screen justify-center gap-[15px] pt-5 pb-3">
-              <Button className="board__btn">
+              <Button
+                className="board__btn"
+                onClick={() => setBoardType('QUESTION')}
+              >
                 <Icon
                   width="20px"
                   height="20px"
@@ -96,7 +99,10 @@ export default function MobilePostEditModal({
                 />
                 <p className="text-[10px] sm:text-[18px]">질문게시판</p>
               </Button>
-              <Button className="board__btn">
+              <Button
+                className="board__btn"
+                onClick={() => setBoardType('FREE')}
+              >
                 <Icon
                   width="20px"
                   height="20px"
