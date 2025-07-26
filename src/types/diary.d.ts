@@ -70,3 +70,17 @@ type Walking = {
   endTime: string;
   pace: number;
 };
+
+type DiaryItem = {
+  lifeRecordId: number;
+  pet: { name: string; url: string | null };
+  recordAt: string;
+  weight: number | null;
+  walkingTime: number;
+  content: string;
+};
+
+type DiaryListResponse = {
+  data: DiaryItem[];
+  pageInfo: { totalPages: number };
+};
