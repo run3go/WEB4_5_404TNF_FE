@@ -68,11 +68,14 @@ export default function WriterInfo({
           }
         }}
       >
-        <Image
-          src={profileImage || user_default_image}
-          alt="유저 프로필 이미지"
-          className={`h-9 w-9 rounded-full${avatarSize}`}
-        />
+        <div className={`relative h-9 w-9 rounded-full ${avatarSize}`}>
+          <Image
+            src={profileImage || user_default_image}
+            alt="유저 프로필 이미지"
+            fill
+            className={`rounded-full`}
+          />
+        </div>
         <div className={`font-medium sm:space-y-1`}>
           <p className={`text-[12px] ${textSize}`}>{name}</p>
           <p className={`text-[10px] text-[#909090] ${textSize}`}>{postedAt}</p>
