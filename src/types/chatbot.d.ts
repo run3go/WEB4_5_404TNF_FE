@@ -6,7 +6,8 @@ type ActionObject = {
 };
 
 type ChatbotMessage = {
-  sender: 'user' | 'chatbot';
+  id: number;
+  sender: string;
   time: string;
   message: string;
 };

@@ -3,7 +3,7 @@ import chatbotImage from '@/assets/images/chatbot-icon.png';
 import { useAuthStore } from '@/stores/authStoe';
 import Image from 'next/image';
 import { useState } from 'react';
-import ChatbotPrompt from './ChatbotPrompt';
+import ChatbotWrapper from './ChatbotWrapper';
 
 export default function ChatbotIcon() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,7 +22,7 @@ export default function ChatbotIcon() {
               priority
             />
           </div>
-          {isModalOpen && <ChatbotPrompt />}
+          {isModalOpen && <ChatbotWrapper />}
         </div>
       </>
     );

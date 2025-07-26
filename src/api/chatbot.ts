@@ -63,7 +63,6 @@ export const askLLM = async (question: string, userId: string) => {
   const content = data.choices[0].message.content
     .replace(/```json|```/g, '')
     .trim();
-  console.log(content);
   const jsonMatch = content.match(/\{[\s\S]*?\}/);
 
   if (!jsonMatch) {
@@ -71,17 +70,15 @@ export const askLLM = async (question: string, userId: string) => {
   }
 
   const parsedCommand: ActionObject = JSON.parse(jsonMatch[0]);
-
   console.log(parsedCommand);
 
   let res = {};
-
   const petProfiles = await getPetProfiles(userId);
   const petInfo =
     petProfiles.find((pet) => pet.name === parsedCommand.petName) ?? null;
 
   if (!petInfo) {
-    return `${parsedCommand.petName}는(은) 반려견 목록에 없어요!`;
+    throw new Error(`${parsedCommand.petName}은(는) 반려견 목록에 없어요`);
   }
 
   if (parsedCommand.keyword === 'vaccine' && parsedCommand.petName) {
@@ -142,10 +139,10 @@ export const askLLM = async (question: string, userId: string) => {
     );
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(errorText || '챗봇이 응답을 가져오는데 실패하였습니다');
+      throw new Error(errorText || '답변을 불러오지 못했어요');
     }
     const data = await response.json();
-    return data;
+    return data.choices?.[0].message.content ?? '답변을 불러오지 못했어요';
   }
   return '질문을 이해하지 못 했어요';
 };
