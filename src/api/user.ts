@@ -34,6 +34,7 @@ export const modifyUserInfo = async (payload: UserInfo) => {
   const formdata = new FormData();
   const requestPayload = {
     nickname: payload.nickname,
+    password: payload.password,
   };
   formdata.append('request', JSON.stringify(requestPayload));
   if (payload.image) {

@@ -26,7 +26,8 @@ export default function MobileTitle({
           <h1 className="leading-[1.2]">{title}</h1>
           {onClick && (
             <button
-              onSubmit={onClick}
+              type="button"
+              onClick={onClick}
               className="absolute right-0 cursor-pointer leading-[1.2] text-[var(--color-primary-500)]"
             >
               저장
