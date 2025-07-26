@@ -92,8 +92,10 @@ export const removePost = async ({ postId }: { postId: number }) => {
 export const getPostDetail = async (postId: number) => {
   const res = await fetch(
     `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}`,
+    {
+      credentials: 'include',
+    },
   );
-
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data.message || '게시글 불러오기 실패');
@@ -262,6 +264,42 @@ export const report = async ({
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data.message || '신고 실패');
+  }
+
+  return data;
+};
+
+export const requestLike = async (postId: number) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}/like`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '좋아요 요청 실패');
+  }
+
+  return data;
+};
+
+export const cancelLike = async (postId: number) => {
+  const res = await fetch(
+    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}/like`,
+    {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '좋아요 취소 실패');
   }
 
   return data;

@@ -59,6 +59,7 @@ export default function PostDetailCard({
         )}
         <div className="pt-7 sm:pt-14">
           <PostStats
+            postId={postDetail.articleId}
             comment={postDetail.replies}
             like={postDetail.likes}
             views={postDetail.views}
