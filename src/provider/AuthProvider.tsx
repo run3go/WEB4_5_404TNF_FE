@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
 import { getUserProfile } from '@/api/auth';
 import { useAuthStore } from '@/stores/authStoe';
+import { useEffect } from 'react';
 
 export default function AuthProvider({
   children,
@@ -26,7 +26,7 @@ export default function AuthProvider({
             role: data.role,
             nickname: data.nickname,
             provider: data.provider,
-            userImg: data.userImg,
+            imgUrl: data.userImg,
           };
 
           setLogin(userInfo);

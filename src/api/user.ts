@@ -30,7 +30,7 @@ export const checkPassword = async (password: { password: string }) => {
   return data;
 };
 
-export const modifyUserInfo = async (payload: UserInfo) => {
+export const modifyUserInfo = async (payload: ProfileInfo) => {
   const formdata = new FormData();
   const requestPayload = {
     nickname: payload.nickname,

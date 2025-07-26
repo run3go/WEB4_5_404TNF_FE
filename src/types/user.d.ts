@@ -20,7 +20,7 @@ interface User {
   imgUrl: string | null;
 }
 
-type UserInfo = {
+type ProfileInfo = {
   image: File | null;
   nickname: string;
   password: string;

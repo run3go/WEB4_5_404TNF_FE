@@ -1,15 +1,15 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import user_default_image from '@/assets/images/default-profile.svg';
+import { useAuthStore } from '@/stores/authStoe';
+import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import NotificationModal from '../notification/NotificationModal';
+import Button from './Button';
 import Card from './Card';
 import Icon from './Icon';
-import NotificationModal from '../notification/NotificationModal';
-import { useSidebarStore } from '@/stores/sidebarStore';
-import { useAuthStore } from '@/stores/authStoe';
-import user_default_image from '@/assets/images/default-profile.svg';
-import Button from './Button';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -63,7 +63,7 @@ export default function Header() {
             <Link href={`/profile/${userInfo?.userId}`}>
               <Image
                 className="cursor-pointer rounded-full"
-                src={userInfo?.userImg || user_default_image}
+                src={userInfo?.imgUrl || user_default_image}
                 alt="유저 프로필"
                 width={36}
                 height={36}

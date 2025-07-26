@@ -9,11 +9,11 @@ type PostPaylaod = {
 };
 
 type Post = {
-  articles: Article[];
+  articles: PostDetail[];
   pageInfo: PageInfo;
 };
 
-type Article = {
+type PostDetail = {
   articleId: number;
   userId: number;
   nickname: string;
@@ -26,10 +26,10 @@ type Article = {
   likes: number;
   replies: number;
   views: number;
-  articleImgPath: ArticleImage[];
+  articleImgPath: PostImage[];
 };
 
-type ArticleImage = {
+type PostImage = {
   articleImgId: number;
   articleId: number;
   savePath: string;
