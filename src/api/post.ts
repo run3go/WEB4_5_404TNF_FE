@@ -1,3 +1,5 @@
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export const createPost = async ({
   title,
   content,
@@ -17,14 +19,11 @@ export const createPost = async ({
     formData.append('images', image);
   });
 
-  const res = await fetch(
-    'https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1',
-    {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
-    },
-  );
+  const res = await fetch(`${baseURL}/api/community/articles/v1`, {
+    method: 'POST',
+    body: formData,
+    credentials: 'include',
+  });
 
   const data = await res.json();
   if (!res.ok) {
@@ -55,14 +54,11 @@ export const updatePost = async ({
     formData.append('images', image);
   });
 
-  const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}`,
-    {
-      method: 'PATCH',
-      body: formData,
-      credentials: 'include',
-    },
-  );
+  const res = await fetch(`${baseURL}/api/community/articles/v1/${postId}`, {
+    method: 'PATCH',
+    body: formData,
+    credentials: 'include',
+  });
 
   const data = await res.json();
   if (!res.ok) {
@@ -73,13 +69,10 @@ export const updatePost = async ({
 };
 
 export const removePost = async ({ postId }: { postId: number }) => {
-  const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}`,
-    {
-      method: 'DELETE',
-      credentials: 'include',
-    },
-  );
+  const res = await fetch(`${baseURL}/api/community/articles/v1/${postId}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
 
   const data = await res.json();
   if (!res.ok) {
@@ -90,12 +83,9 @@ export const removePost = async ({ postId }: { postId: number }) => {
 };
 
 export const getPostDetail = async (postId: number) => {
-  const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}`,
-    {
-      credentials: 'include',
-    },
-  );
+  const res = await fetch(`${baseURL}/api/community/articles/v1/${postId}`, {
+    credentials: 'include',
+  });
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data.message || '게시글 불러오기 실패');
@@ -120,7 +110,7 @@ export const getPostList = async ({
   keyword: string;
 }) => {
   const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1?page=${page}&size=${size}&boardType=${boardType}&sortType=${sortType}&searchType=${searchType}&keyword=${keyword}`,
+    `${baseURL}/api/community/articles/v1?page=${page}&size=${size}&boardType=${boardType}&sortType=${sortType}&searchType=${searchType}&keyword=${keyword}`,
   );
 
   const data = await res.json();
@@ -139,7 +129,7 @@ export const createComment = async ({
   comment: string;
 }) => {
   const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1?content=${comment}`,
+    `${baseURL}/api/community/articles/${postId}/replies/v1?content=${comment}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -164,7 +154,7 @@ export const getCommentList = async ({
 }) => {
   const size = totalComment > 0 ? totalComment : 1;
   const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1?page=1&size=${size}`,
+    `${baseURL}/api/community/articles/${postId}/replies/v1?page=1&size=${size}`,
     {
       credentials: 'include',
     },
@@ -189,7 +179,7 @@ export const updateComment = async ({
   comment: string;
 }) => {
   const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1/${replyId}?content=${comment}`,
+    `${baseURL}/api/community/articles/${postId}/replies/v1/${replyId}?content=${comment}`,
     {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -213,7 +203,7 @@ export const removeComment = async ({
   replyId: number;
 }) => {
   const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/${postId}/replies/v1/${replyId}`,
+    `${baseURL}/api/community/articles/${postId}/replies/v1/${replyId}`,
     {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -244,22 +234,19 @@ export const report = async ({
   reportCategory: string;
   reason: string;
 }) => {
-  const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/reports/v1`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-        reporterId,
-        reportedId,
-        reportType,
-        contentId,
-        reportCategory,
-        reason,
-      }),
-    },
-  );
+  const res = await fetch(`${baseURL}/api/community/reports/v1`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({
+      reporterId,
+      reportedId,
+      reportType,
+      contentId,
+      reportCategory,
+      reason,
+    }),
+  });
 
   const data = await res.json();
   if (!res.ok) {
@@ -271,7 +258,7 @@ export const report = async ({
 
 export const requestLike = async (postId: number) => {
   const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}/like`,
+    `${baseURL}/api/community/articles/v1/${postId}/like`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -289,7 +276,7 @@ export const requestLike = async (postId: number) => {
 
 export const cancelLike = async (postId: number) => {
   const res = await fetch(
-    `https://mungdiary-172598302113.asia-northeast3.run.app/api/community/articles/v1/${postId}/like`,
+    `${baseURL}/api/community/articles/v1/${postId}/like`,
     {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
