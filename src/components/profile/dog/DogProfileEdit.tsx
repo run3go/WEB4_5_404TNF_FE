@@ -13,7 +13,7 @@ import {
   useModifyMutation,
   usePetForm,
   useRegistMutation,
-} from '@/lib/hooks/usePetForm';
+} from '@/lib/hooks/profile/usePetForm';
 import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useQueryClient } from '@tanstack/react-query';
@@ -34,7 +34,7 @@ export default function DogProfileEdit({
   petId: number;
 }) {
   const userInfo = useAuthStore((state) => state.userInfo);
-  const [imageUrl, setImageUrl] = useState(profileData?.image || dog);
+  const [imageUrl, setImageUrl] = useState(profileData?.imgUrl || dog);
 
   const queryClient = useQueryClient();
 

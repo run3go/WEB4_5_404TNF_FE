@@ -50,7 +50,7 @@ export default function AdminLoginForm() {
         nickname: data.nickname,
         role: data.role,
         provider: data.provider,
-        userImg: data.userImg,
+        imgUrl: data.userImg,
       };
       setLogin(userInfo);
       sessionStorage.setItem('userId', user.userId);
