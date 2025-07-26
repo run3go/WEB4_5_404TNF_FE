@@ -2,7 +2,10 @@ import { modifyUserInfo, resignAccount } from '@/api/user';
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
+import { usePassword } from '@/lib/hooks/usePassword';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 import NicknameField from './NicknameField';
 import PasswordField from './PasswordField';
@@ -14,19 +17,36 @@ export default function UserProfileEdit({
   closeModal: () => void;
   profile: UserProfile;
 }) {
-  const [imageUrl, setImageUrl] = useState(profile.userImg || defaultProfile);
+  const router = useRouter();
+  const [imageUrl, setImageUrl] = useState<string>(
+    profile.imgUrl || defaultProfile,
+  );
   const [formData, setFormData] = useState<{
     image: File | null;
     nickname: string;
     password: string;
   }>({
     image: null,
-    nickname: '',
+    nickname: profile.nickname,
     password: '',
   });
 
+  const passwordHook = usePassword((value) =>
+    setFormData((prev) => ({ ...prev, password: value })),
+  );
+  const queryClient = useQueryClient();
+
   const onSubmit = async () => {
+    if (passwordHook.password && !passwordHook.isMatched) {
+      alert('현재 비밀번호가 일치하는지 확인해주세요');
+      return;
+    }
+    if (!passwordHook.isConfirmMatched) {
+      alert('새 비밀번호가 일치하지 않아요');
+      return;
+    }
     await modifyUserInfo(formData);
+    await queryClient.invalidateQueries({ queryKey: ['user', profile.userId] });
     closeModal();
   };
 
@@ -42,6 +62,7 @@ export default function UserProfileEdit({
 
   const handleResign = async () => {
     await resignAccount();
+    router.push('/');
   };
   return (
     <>
@@ -69,7 +90,7 @@ export default function UserProfileEdit({
             <Image
               className="h-30 w-30 rounded-full object-cover"
               src={imageUrl}
-              alt="강아지 프로필"
+              alt="유저 프로필"
               width={120}
               height={120}
             />
@@ -109,11 +130,7 @@ export default function UserProfileEdit({
             />
           </div>
           {profile.provider === 'local' && (
-            <PasswordField
-              onPasswordValid={(value) =>
-                setFormData((prev) => ({ ...prev, password: value }))
-              }
-            />
+            <PasswordField passwordHook={passwordHook} />
           )}
           <Button className="mt-15 w-50" type="button" onClick={onSubmit}>
             수정하기

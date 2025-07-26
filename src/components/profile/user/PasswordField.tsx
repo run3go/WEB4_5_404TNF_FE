@@ -1,11 +1,23 @@
-import { usePassword } from '@/lib/hooks/usePassword';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 export default function PasswordField({
-  onPasswordValid,
+  passwordHook,
 }: {
-  onPasswordValid: (password: string) => void;
+  passwordHook: {
+    password: string;
+    confirmPassword: string;
+    errors: {
+      password: string;
+      confirmPassword: string;
+    };
+    currentPwd: string;
+    setCurrentPwd: Dispatch<SetStateAction<string>>;
+    checkCurrentPassword: () => void;
+    handlePasswordChange: (value: string) => void;
+    handleConfirmPasswordChange: (value: string) => void;
+    handleBlur: (field: 'password' | 'confirmPassword') => void;
+  };
 }) {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
@@ -22,7 +34,7 @@ export default function PasswordField({
     handleConfirmPasswordChange,
     handlePasswordChange,
     setCurrentPwd,
-  } = usePassword(onPasswordValid);
+  } = passwordHook;
   return (
     <>
       <button
@@ -35,7 +47,7 @@ export default function PasswordField({
       {isFieldOpen &&
         (isMobile ? (
           <>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-10">
               <div className="mt-8 w-full items-center">
                 <label className="mb-3 block" htmlFor="name">
                   현재 비밀번호
@@ -46,8 +58,14 @@ export default function PasswordField({
                     className="profile-input-style w-full"
                     type="password"
                     placeholder="비밀번호를 입력해 주세요"
+                    value={currentPwd}
+                    onChange={(e) => setCurrentPwd(e.target.value)}
                   />
-                  <button className="ml-4 w-18 cursor-pointer rounded-[12px] bg-[var(--color-primary-300)] py-[10px] hover:bg-[var(--color-primary-500)]">
+                  <button
+                    type="button"
+                    className="ml-4 w-18 cursor-pointer rounded-[12px] bg-[var(--color-primary-300)] py-[10px] hover:bg-[var(--color-primary-500)]"
+                    onClick={checkCurrentPassword}
+                  >
                     확인
                   </button>
                 </div>
@@ -61,7 +79,13 @@ export default function PasswordField({
                   className="profile-input-style w-full"
                   type="password"
                   placeholder="영문/숫자/특수문자 혼합 8~20자"
+                  value={password}
+                  onChange={(e) => handlePasswordChange(e.target.value.trim())}
+                  onBlur={() => handleBlur('password')}
                 />
+                {errors.password && (
+                  <p className="auth__error absolute">{errors.password}</p>
+                )}
               </div>
               <div className="w-full items-center">
                 <label className="mb-3 block" htmlFor="name">
@@ -72,7 +96,17 @@ export default function PasswordField({
                   className="profile-input-style w-full"
                   type="password"
                   placeholder="비밀번호를 한 번 더 입력해 주세요"
+                  value={confirmPassword}
+                  onChange={(e) =>
+                    handleConfirmPasswordChange(e.target.value.trim())
+                  }
+                  onBlur={() => handleBlur('confirmPassword')}
                 />
+                {errors.confirmPassword && (
+                  <p className="auth__error absolute">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </div>
             </div>
           </>

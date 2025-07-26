@@ -12,8 +12,8 @@ import {
   useModifyMutation,
   usePetForm,
   useRegistMutation,
-} from '@/lib/hooks/usePetForm';
-import { usePetProfile } from '@/lib/hooks/useProfiles';
+} from '@/lib/hooks/profile/usePetForm';
+import { usePetProfile } from '@/lib/hooks/profile/useProfiles';
 import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
@@ -40,7 +40,7 @@ export default function DogProfileEditMobile() {
   const { data: profile } = usePetProfile(selectedPet ?? 0, isMyProfile);
   const { handleSubmit, register, watch, setValue, control } =
     usePetForm(profile);
-  const [imageUrl, setImageUrl] = useState(profile?.image || dog);
+  const [imageUrl, setImageUrl] = useState(profile?.imgUrl || dog);
 
   const queryClient = useQueryClient();
   const { mutate: registMutate } = useRegistMutation(
