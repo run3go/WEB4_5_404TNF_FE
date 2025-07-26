@@ -30,7 +30,7 @@ export const registPetProfile = async (
   const formdata = new FormData();
   formdata.append('request', JSON.stringify(payload));
   if (image) {
-    formdata.append('images', image);
+    formdata.append('image', image);
   }
   const res = await fetch(`${baseURL}/api/mypage/v3/pets`, {
     method: 'post',
@@ -52,7 +52,7 @@ export const modifyPetProfile = async (
   const formdata = new FormData();
   formdata.append('request', JSON.stringify(payload));
   if (image) {
-    formdata.append('images', image);
+    formdata.append('image', image);
   }
   const res = await fetch(`${baseURL}/api/mypage/v3/pets/${petId}`, {
     method: 'put',

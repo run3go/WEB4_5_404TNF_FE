@@ -34,13 +34,7 @@ type PetProfile = {
   size: PetSize;
   sex: boolean;
   isNeutered: boolean;
-  image: {
-    petImgId: number;
-    savePath: string;
-    type: 'THUMBNAIL' | 'PROFILE' | 'GALLERY';
-    originName: string;
-    renamedName: string;
-  };
+  imgUrl: string;
   birthday?: string;
   weight?: number;
   days?: number;

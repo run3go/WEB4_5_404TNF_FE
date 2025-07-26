@@ -1,5 +1,5 @@
 'use client';
-import { usePetProfiles } from '@/lib/hooks/useProfiles';
+import { usePetProfiles } from '@/lib/hooks/profile/useProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useQueryClient } from '@tanstack/react-query';
@@ -10,7 +10,7 @@ import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
 import DogProfileEditMobile from './dog/DogProfileEditMobile';
 import DogProfileList from './dog/DogProfileList';
-import PostList from './PostList';
+import PostWrapper from './PostWrapper';
 import UserProfile from './user/UserProfile';
 import UserProfileEditMobile from './user/UserProfileEditMobile';
 
@@ -80,7 +80,7 @@ export default function ProfileClient({
         <DogProfileList />
       </div>
       <div className={isProfile ? 'hidden sm:block' : ''}>
-        <PostList />
+        <PostWrapper />
       </div>
     </main>
   );

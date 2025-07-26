@@ -1,6 +1,9 @@
 'use client';
 import Icon from '@/components/common/Icon';
-import { useVaccineForm, useVaccineMutation } from '@/lib/hooks/useVaccineForm';
+import {
+  useVaccineForm,
+  useVaccineMutation,
+} from '@/lib/hooks/profile/useVaccineForm';
 import { formatDate } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
