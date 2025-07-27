@@ -1,6 +1,5 @@
 'use client';
 import Icon from '@/components/common/Icon';
-import DiaryPagination from '@/components/diary/DiaryPagination';
 import DiaryListHeader from '@/components/diary/DiaryListHeader';
 import DiaryListSection from '@/components/diary/DiaryListSection';
 import { useEffect, useState } from 'react';
@@ -8,13 +7,11 @@ import { useRouter } from 'next/navigation';
 import { useGetDiaryList } from '@/lib/hooks/diary/api/useGetDiaryList';
 import { useGetPets } from '@/lib/hooks/diary/api/useGetPets';
 
-type Option = { value: string; label: string };
-
 export default function Diary() {
   const router = useRouter();
+
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedPetId, setSelectedPetId] = useState<string>('all');
-  const [currentPage, setCurrentPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
 
   const userId =
@@ -24,7 +21,7 @@ export default function Diary() {
 
   const { data: pets = [] } = useGetPets(userId);
 
-  const petOptions: Option[] = [
+  const petOptions: { value: string; label: string }[] = [
     { value: 'all', label: '모든 강아지' },
     ...pets.map((pet) => ({
       value: pet.petId.toString(),
@@ -38,14 +35,13 @@ export default function Diary() {
     const day = `${date.getDate()}`.padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
-  const { data: diaryData, isLoading } = useGetDiaryList({
+
+  const { data, fetchNextPage, hasNextPage, isLoading } = useGetDiaryList({
     petId: selectedPetId !== 'all' ? Number(selectedPetId) : undefined,
     recordAt: selectedDate ? formatDate(selectedDate) : undefined,
-    page: currentPage,
   });
 
-  const diaryList = diaryData?.data ?? [];
-  const totalPages = diaryData?.pageInfo?.totalPages ?? 1;
+  const diaryList = data?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
     const checkViewport = () => {
@@ -58,7 +54,7 @@ export default function Diary() {
   }, []);
 
   return (
-    <main className="flex h-full flex-col items-center p-6 sm:block sm:p-0 sm:px-12 sm:py-7">
+    <main className="scrollbar-hidden flex h-full flex-col items-center overflow-y-auto p-6 sm:block sm:p-0 sm:px-12 sm:py-7">
       <DiaryListHeader
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
@@ -77,17 +73,13 @@ export default function Diary() {
         }}
       />
       <div className="w-full">
-        <DiaryListSection isLoading={isLoading} diaryList={diaryList} />
-      </div>
-
-      {diaryList.length > 0 && (
-        <DiaryPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={(page) => setCurrentPage(page)}
+        <DiaryListSection
+          isLoading={isLoading}
+          diaryList={diaryList}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
         />
-      )}
-
+      </div>
       {/* mobile: post button */}
       <div
         className="fixed right-4 bottom-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:hidden"

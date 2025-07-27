@@ -73,14 +73,33 @@ type Walking = {
 
 type DiaryItem = {
   lifeRecordId: number;
-  pet: { name: string; url: string | null };
+  pet: {
+    name: string;
+    url: string | null;
+    type: string | null;
+  };
   recordAt: string;
   weight: number | null;
   walkingTime: number;
   content: string;
 };
 
+type PageInfo = {
+  page: number;
+  size: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+};
+
 type DiaryListResponse = {
   data: DiaryItem[];
-  pageInfo: { totalPages: number };
+  pageInfo: PageInfo;
+};
+
+type GetDiaryListParams = {
+  petId?: number;
+  recordAt?: string;
+  page: number;
 };

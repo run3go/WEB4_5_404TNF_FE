@@ -4,19 +4,51 @@ import Link from 'next/link';
 import Image from 'next/image';
 import symbol from '@/assets/images/alternative-image.svg';
 import LogCard from '@/components/diary/LogCard';
+import { useEffect, useRef } from 'react';
+import DiaryCardSkeleton from './DiaryCardSkeleton';
 
-interface Props {
+type Props = {
   isLoading: boolean;
   diaryList: DiaryItem[];
-}
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
+};
 
-export default function DiaryListSection({ isLoading, diaryList }: Props) {
+export default function DiaryListSection({
+  isLoading,
+  diaryList,
+  fetchNextPage,
+  hasNextPage,
+}: Props) {
+  const loaderRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!loaderRef.current || !hasNextPage) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    observer.observe(loaderRef.current);
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage]);
   if (isLoading) {
     return (
-      <div className="mt-40 flex w-full flex-col items-center justify-center gap-1 py-8 sm:mt-64">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--color-primary-500)] border-t-transparent" />
-        <span className="text-sm text-[var(--color-grey)]">불러오는 중...</span>
-      </div>
+      <ul className="scrollbar-hidden flex flex-col gap-5 pt-2 pb-4 sm:h-[625px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:px-3 sm:pt-5">
+        {Array.from({ length: 6 }).map((_, idx) => (
+          <li
+            key={`initial-skeleton-${idx}`}
+            className="w-full sm:basis-[calc(33%-31px)]"
+          >
+            <DiaryCardSkeleton />
+          </li>
+        ))}
+      </ul>
     );
   }
 
@@ -54,6 +86,16 @@ export default function DiaryListSection({ isLoading, diaryList }: Props) {
           </Link>
         </li>
       ))}
+      <div ref={loaderRef} className="h-0 w-full" />
+      {hasNextPage &&
+        Array.from({ length: 6 }).map((_, idx) => (
+          <li
+            key={`skeleton-${idx}`}
+            className="w-full sm:basis-[calc(33%-31px)]"
+          >
+            <DiaryCardSkeleton />
+          </li>
+        ))}
     </ul>
   );
 }

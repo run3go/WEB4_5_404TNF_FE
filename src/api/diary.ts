@@ -168,11 +168,7 @@ export const getDiaryList = async ({
   petId,
   recordAt,
   page,
-}: {
-  petId?: number;
-  recordAt?: string;
-  page: number;
-}) => {
+}: GetDiaryListParams): Promise<DiaryListResponse> => {
   const params = new URLSearchParams({
     ...(petId ? { petId: petId.toString() } : {}),
     ...(recordAt ? { recordAt } : {}),
@@ -193,6 +189,6 @@ export const getDiaryList = async ({
     return data;
   } catch (err) {
     console.error('getDiaryList error:', err);
-    return { data: [], pageInfo: {} };
+    return { data: [], pageInfo: {} as PageInfo };
   }
 };

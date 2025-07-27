@@ -25,7 +25,7 @@ export default function DiaryListHeader({
   onClickWrite,
 }: Props) {
   return (
-    <div className="mb-3 flex w-full justify-between">
+    <div className="mb-5 flex w-full justify-between sm:py-2">
       <div className="flex w-full justify-between gap-5 sm:justify-start sm:gap-6 sm:pl-3">
         <div className="flex-1 sm:w-[220px] sm:flex-none">
           <DateInput
