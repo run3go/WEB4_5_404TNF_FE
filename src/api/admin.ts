@@ -104,6 +104,7 @@ export const acceptReport = async (acceptInfo: AcceptInfo) => {
     const data = await res.json();
     return data;
   } catch (err) {
+    console.log(err);
     console.error(err instanceof Error ? err.message : 'unknown error');
   }
 };
@@ -127,6 +128,46 @@ export const rejectReport = async (rejectInfo: RejectInfo) => {
 
     if (!res.ok) {
       throw new Error('Failed to reject report');
+    }
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error(err instanceof Error ? err.message : 'unknown error');
+  }
+};
+
+// 회원 목록 조회
+export const getUserList = async (getUserListInfo: GetListInfo) => {
+  const url = `${baseUrl}/api/admin/v1/users?page=${getUserListInfo.page}&size=10&search=${getUserListInfo.search}&sort=${getUserListInfo.sort}&sortBy=${getUserListInfo.sortBy}&status=${getUserListInfo.status}`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to load users');
+    }
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error(err instanceof Error ? err.message : 'unknown error');
+  }
+};
+
+// 신고 목록 조회
+export const getReportList = async (getReportListInfo: GetListInfo) => {
+  const url = `${baseUrl}/api/admin/v1/reports?page=${getReportListInfo.page}&size=10&search=${getReportListInfo.search}&sort=${getReportListInfo.sort}&sortBy=${getReportListInfo.sortBy}&status=${getReportListInfo.status}`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to load reports');
     }
     const data = await res.json();
     return data;

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useAcceptReport } from '@/lib/hooks/admin/useAcceptReport';
 import { useEffect } from 'react';
 import { useRejectReport } from '@/lib/hooks/admin/useRejectReport';
+import { periodData, userState, userStateColor } from '@/assets/data/admin';
 
 type FormData = {
   period: string;
@@ -14,31 +15,25 @@ type FormData = {
 export default function ReportModal({
   id,
   result,
+  status,
+  reportedUser,
+  user,
+  adminReason,
   onClose,
 }: {
   id: number;
-  result: 'accept' | 'reject';
+  result: 'accept' | 'reject' | 'reason';
+  status: string;
+  reportedUser: string;
+  user: { state: string; suspendedAt: string; offsetdatetime: string };
+  adminReason: string;
   onClose: () => void;
 }) {
-  const periodData = [
-    { value: '1day', label: '1일' },
-    { value: '2day', label: '2일' },
-    { value: '3day', label: '3일' },
-    { value: '5day', label: '5일' },
-    { value: '7day', label: '7일' },
-    { value: '2week', label: '2주' },
-    { value: '1month', label: '1달' },
-    { value: '3month', label: '3달' },
-    { value: '1year', label: '1년' },
-    { value: 'permanent', label: '영구' },
-  ];
-
   const { mutate: acceptReport } = useAcceptReport();
   const { mutate: rejectReport } = useRejectReport();
 
   const {
     register,
-    unregister,
     handleSubmit,
     setValue,
     watch,
@@ -48,13 +43,14 @@ export default function ReportModal({
       period: periodData[0].value,
       reason: '',
     },
+    shouldUnregister: true,
   });
 
   useEffect(() => {
-    if (result === 'reject') {
-      unregister('period');
+    if (result === 'reason') {
+      setValue('reason', adminReason);
     }
-  }, [result, unregister]);
+  }, [result, adminReason, setValue]);
 
   const onSubmit = (data: FormData) => {
     if (result === 'accept') {
@@ -63,7 +59,7 @@ export default function ReportModal({
         period: data.period,
         adminReason: data.reason,
       });
-    } else {
+    } else if (result === 'reject') {
       rejectReport({
         reportId: id,
         adminReason: data.reason,
@@ -77,6 +73,13 @@ export default function ReportModal({
 
   const period = watch('period');
 
+  const reasonLable =
+    status === 'ACCEPT' || result === 'accept'
+      ? '제재 사유'
+      : status === 'REJECT' || result === 'reject'
+        ? '철회 사유'
+        : null;
+
   return (
     <>
       <div
@@ -85,7 +88,7 @@ export default function ReportModal({
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className={`relative ${result === 'accept' ? 'h-[495px]' : 'h-[455px]'} w-[586px] cursor-default rounded-[30px] bg-[var(--color-background)] px-12 py-10 text-base`}
+          className={`relative ${result === 'accept' ? 'h-[480px]' : 'h-[440px]'} w-[586px] cursor-default rounded-[30px] bg-[var(--color-background)] px-12 py-10 text-base`}
         >
           <button
             onClick={onClose}
@@ -96,15 +99,24 @@ export default function ReportModal({
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <h1 className="mb-8 flex justify-center text-xl font-bold">
-              신고 내역 처리 - {result === 'accept' ? '제재' : '철회'}
+              {result === 'reason'
+                ? '처리 내역 확인'
+                : `신고 내역 처리 - ${result === 'accept' ? '제재' : '철회'}`}
             </h1>
             <div className="mb-4 flex gap-9">
               <h3>대상자</h3>
-              <h3>유저6</h3>
+              <h3>{reportedUser}</h3>
             </div>
             <div className="mb-4 flex gap-13">
               <h3>상태</h3>
-              <h3 className="text-[var(--color-green)]">활성</h3>
+              <div className={`${userStateColor[user.state]} flex gap-3`}>
+                <h3>{userState[user.state]}</h3>
+                {user.state === 'SUSPENDED' && (
+                  <h3>
+                    ({user.suspendedAt} ~ {user.offsetdatetime})
+                  </h3>
+                )}
+              </div>
             </div>
 
             {result === 'accept' && (
@@ -120,17 +132,16 @@ export default function ReportModal({
               </div>
             )}
 
-            <div>
-              <h3 className="mb-0">
-                {result === 'accept' ? '제재 사유' : '철회 사유'}
-              </h3>
-              <p className="mr-2 mb-2 h-4 justify-self-end text-[14px] text-[var(--color-red)]">
-                {errors.reason?.message ?? ''}
+            <div className="relative">
+              <h3 className="mb-2">{reasonLable}</h3>
+              <p className="absolute top-2 right-0 mr-2 mb-2 h-4 justify-self-end text-[14px] text-[var(--color-red)]">
+                {errors.reason?.message}
               </p>
               <textarea
                 {...register('reason', { required: '사유는 필수입니다.' })}
-                className="h-27 w-full resize-none rounded-[20px] border p-2 focus:outline-none"
+                readOnly={result === 'reason'}
                 placeholder="사유를 입력해주세요."
+                className={`${result === 'reason' ? 'cursor-default' : ''} h-27 w-full resize-none rounded-[20px] border px-4 py-2 focus:outline-none`}
               />
             </div>
             <div className="mt-8 flex justify-center">

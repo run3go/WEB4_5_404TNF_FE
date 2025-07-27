@@ -10,7 +10,7 @@ export const useRejectReport = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['reports'],
+        queryKey: ['reportList'],
       });
 
       alert('처리되었습니다.');
