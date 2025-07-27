@@ -10,7 +10,7 @@ export default function WalkCard({ walking }: { walking?: DashboardWalking }) {
         <Card className="hidden w-60 bg-[#fafafa] sm:block">
           <h2 className="mb-8 font-medium">산책 시간</h2>
           <div className="mt-55 flex flex-col items-center gap-5">
-            <span>등록된 식사량 기록이 없어요</span>
+            <span>등록된 산책 기록이 없어요</span>
             <button
               className="cursor-pointer rounded-full bg-[var(--color-primary-200)] px-4 py-2 transition-all hover:bg-[var(--color-primary-300)]"
               onClick={() => router.push('/diary/write')}

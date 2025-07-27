@@ -31,6 +31,7 @@ export default function NicknameInputSection({
   };
 
   const handleDuplicationCheck = async () => {
+    if (checkDuplicateMutation.isPending) return;
     const validationError = validateNickname(nickname);
     if (validationError) {
       setError(validationError);

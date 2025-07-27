@@ -3,6 +3,9 @@ import SelectBox from './SelectBox';
 
 export default function SearchBar({
   options,
+  setSearchType,
+  keyword,
+  setKeyword,
   value,
   onChange,
   onSearch,
@@ -11,6 +14,9 @@ export default function SearchBar({
     value: string;
     label: string;
   }[];
+  setSearchType?: (value: string) => void;
+  keyword?: string;
+  setKeyword?: (value: string) => void;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch?: () => void;
@@ -19,19 +25,27 @@ export default function SearchBar({
     <>
       <div className="bg-opacity-100 relative hidden h-[40px] items-center rounded-[10px] border-[3px] border-[#FFDBAB] sm:flex">
         <div className="pl-4">
-          {options && <SelectBox width={'120px'} options={options} isCenter />}
+          {options && (
+            <SelectBox
+              width={'120px'}
+              options={options}
+              isCenter
+              setValue={setSearchType}
+            />
+          )}
         </div>
         <input
           className="h-[40px] w-[250px] focus:outline-none"
           placeholder="검색어를 입력해주세요"
-          value={value}
-          onChange={onChange}
+          value={value ?? keyword ?? ''}
+          onChange={(e) => onChange?.(e) ?? setKeyword?.(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && onSearch) {
               onSearch();
             }
           }}
         />
+
         <Icon
           width="18px"
           height="18px"
