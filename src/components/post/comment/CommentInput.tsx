@@ -30,7 +30,7 @@ export default function CommentInput({ postId }: { postId: number }) {
             articleId: postId,
             userId: userInfo?.userId,
             nickname: userInfo?.nickname,
-            profileImgPath: userInfo?.userImg || user_default_image,
+            profileImgPath: userInfo?.imgUrl || user_default_image,
             content: comment,
             createdAt: new Date().toISOString(),
             updatedAt: null,
@@ -60,10 +60,12 @@ export default function CommentInput({ postId }: { postId: number }) {
         );
       }
     },
-    onSettled: (post) => {
-      queryClient.invalidateQueries({
-        queryKey: ['comment-list', post.postId],
-      });
+    onSettled: (_data, _error, variables) => {
+      if (variables) {
+        queryClient.invalidateQueries({
+          queryKey: ['comment-list', variables.postId],
+        });
+      }
     },
     onSuccess: () => {
       console.log('댓글 등록완료');

@@ -22,6 +22,7 @@ export default function CommentList({
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editedContent, setEditedContent] = useState<string>('');
   const userInfo = useAuthStore((state) => state.userInfo);
+  totalComment = totalComment + 100;
 
   const queryClient = useQueryClient();
 
