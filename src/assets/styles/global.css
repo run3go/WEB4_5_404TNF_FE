@@ -2,6 +2,7 @@
 @import '../styles/font.css';
 @import '../styles/common.css';
 @import '../styles/toggle.css';
+@import '../styles/toast.css';
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 

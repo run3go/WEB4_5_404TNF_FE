@@ -2,6 +2,7 @@ import '@/assets/styles/global.css';
 import AuthAccessControl from '@/components/common/AuthAccessControl';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/common/Sidebar';
+import { StyledToastContainer } from '@/components/common/Toast';
 import TanstackProvider from '@/providers/TanstackProvider';
 export default function MainLayout({
   children,
@@ -21,6 +22,7 @@ export default function MainLayout({
             <AuthAccessControl>{children}</AuthAccessControl>
           </div>
         </div>
+        <StyledToastContainer />
       </TanstackProvider>
     </div>
   );
