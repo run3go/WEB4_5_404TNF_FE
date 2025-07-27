@@ -1,5 +1,6 @@
 'use client';
 import Icon from '@/components/common/Icon';
+import { Toast } from '@/components/common/Toast';
 import {
   useVaccineForm,
   useVaccineMutation,
@@ -60,7 +61,9 @@ export default function VaccineModal({
     if (payload) {
       mutate({ payload: payload as VaccinePayload[], petId });
     }
-    if (isError) return;
+    if (isError) {
+      Toast.error('추가접종은 백신마다 최대 접종 횟수가 다릅니다');
+    }
   };
 
   const cancelInput = () => {

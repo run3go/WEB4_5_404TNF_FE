@@ -9,15 +9,17 @@ export default function NoteCard({ note }: { note?: DashboardNote }) {
           <h2 className="mb-[18px] text-xs text-[var(--color-grey)] sm:text-base sm:text-[var(--color-black)]">
             관찰노트
           </h2>
-          <p className="text-sm sm:p-[9px] sm:text-lg">
-            {note && note?.content.length > 0 ? (
-              note?.content
-            ) : (
-              <span className="text-[var(--color-grey)]">
-                관찰노트 기록이 없습니다
-              </span>
-            )}
-          </p>
+          <div className="scrollbar-hidden h-[80%] overflow-y-scroll sm:px-[9px]">
+            <p className="text-sm sm:text-lg">
+              {note && note?.content.length > 0 ? (
+                note?.content
+              ) : (
+                <span className="text-[var(--color-grey)]">
+                  관찰노트 기록이 없습니다
+                </span>
+              )}
+            </p>
+          </div>
         </Card>
       </div>
     </div>
