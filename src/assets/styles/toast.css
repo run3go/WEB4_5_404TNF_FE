@@ -6,6 +6,7 @@
 
 .Toastify__toast {
   @apply rounded-[12px] pr-10 pl-5 text-[15px] text-[var(--color-black)];
+  font-family: 'Paperlogy', sans-serif;
 }
 
 .Toastify__toast-icon {
