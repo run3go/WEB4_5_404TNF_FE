@@ -7,6 +7,7 @@ import {
 } from '@/assets/data/pet';
 import dog from '@/assets/images/default-dog-profile.svg';
 import Button from '@/components/common/Button';
+import Confirm from '@/components/common/Confirm';
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
 import {
@@ -35,6 +36,7 @@ export default function DogProfileEdit({
 }) {
   const userInfo = useAuthStore((state) => state.userInfo);
   const [imageUrl, setImageUrl] = useState(profileData?.imgUrl || dog);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -63,7 +65,6 @@ export default function DogProfileEdit({
 
   const handleDeletePet = async () => {
     await deletePetProfile(petId);
-
     await queryClient.invalidateQueries({
       queryKey: ['pets', String(userInfo?.userId)],
     });
@@ -72,6 +73,14 @@ export default function DogProfileEdit({
 
   return (
     <>
+      {isConfirmOpen && (
+        <Confirm
+          description="정말로 삭제하시겠습니까?"
+          confirmText="삭제하기"
+          onClose={() => setIsConfirmOpen(false)}
+          onConfirm={handleDeletePet}
+        />
+      )}
       <div
         className="fixed inset-0 z-200 bg-[var(--color-black)] opacity-50"
         onClick={closeModal}
@@ -211,7 +220,7 @@ export default function DogProfileEdit({
         {profileData && (
           <span
             className="absolute right-10 cursor-pointer text-[var(--color-grey)] hover:text-[var(--color-black)]"
-            onClick={handleDeletePet}
+            onClick={() => setIsConfirmOpen(true)}
           >
             반려동물 정보 삭제
           </span>
