@@ -32,6 +32,7 @@ export default function MobilePostCreate({
     pickedImages: (File | string)[],
   ) => {
     if (postCreateMutation.isPending) return;
+    if (title.length === 0 || content.length === 0) return;
     postCreateMutation.mutate({
       title,
       content,

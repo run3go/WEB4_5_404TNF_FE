@@ -129,7 +129,10 @@ export default function PostEditModal({
                   handleSubmit(title, content, pickedImages, Number(postId))
                 }
               >
-                <Button className="mt-15 flex h-[68px] w-[200px] cursor-pointer items-center justify-center">
+                <Button
+                  className="mt-15 flex h-[68px] w-[200px] cursor-pointer items-center justify-center disabled:bg-[#2B2926]/20 disabled:text-[#909090]"
+                  disabled={title.length === 0 || content.length === 0}
+                >
                   저장하기
                 </Button>
               </div>
