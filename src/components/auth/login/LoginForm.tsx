@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import PasswordToggleButton from '../ShowPasswordButton';
+import { getMyUserInfo } from '@/api/user';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -78,6 +79,8 @@ export default function LoginForm() {
       const res = await socialLoginMutation.mutateAsync(provider);
       console.log(res);
       window.location.href = res;
+      const user = await getMyUserInfo();
+      sessionStorage.setItem('userId', user.userId);
     } catch (err) {
       console.error(err);
     }
