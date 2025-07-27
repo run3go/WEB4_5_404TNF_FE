@@ -7,6 +7,7 @@ import {
 import { useCreateDiary } from '../api/useCreateDiary';
 import { useUpdateDiary } from '../api/useUpdateDiary';
 import { runDiaryValidation } from '@/lib/utils/diary/diaryValidation';
+import { Toast } from '@/components/common/Toast';
 
 type Props = {
   feedingList: FeedEntry[];
@@ -51,7 +52,7 @@ export function useDiarySubmit({
       });
 
       if (error) {
-        alert(error);
+        Toast.error(error);
         onSubmitting(false);
         return reject(error);
       }
@@ -84,7 +85,7 @@ export function useDiarySubmit({
       const onFinish = () => setTimeout(() => onSubmitting(false), 1500);
 
       const onSuccess = async (res: { lifeRecordId: number }) => {
-        alert(hasDiary ? '멍멍일지 수정 완료' : '멍멍일지 등록 완료');
+        Toast.success(hasDiary ? '멍멍일지 수정 완료' : '멍멍일지 등록 완료');
         if (hasDiary) {
           await queryClient.refetchQueries({
             queryKey: ['diaryDetail', res.lifeRecordId],
@@ -96,8 +97,7 @@ export function useDiarySubmit({
       };
 
       const onError = (err: unknown) => {
-        console.error(err);
-        alert(hasDiary ? '멍멍일지 수정 실패' : '멍멍일지 등록 실패');
+        Toast.error(hasDiary ? '멍멍일지 수정 실패' : '멍멍일지 등록 실패');
         onFinish();
         reject(err);
       };

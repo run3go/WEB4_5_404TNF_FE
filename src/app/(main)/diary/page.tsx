@@ -2,6 +2,7 @@
 import Icon from '@/components/common/Icon';
 import DiaryListHeader from '@/components/diary/DiaryListHeader';
 import DiaryListSection from '@/components/diary/DiaryListSection';
+import Confirm from '@/components/common/Confirm';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGetDiaryList } from '@/lib/hooks/diary/api/useGetDiaryList';
@@ -13,6 +14,7 @@ export default function Diary() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedPetId, setSelectedPetId] = useState<string>('all');
   const [isMobile, setIsMobile] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const userId =
     typeof window !== 'undefined'
@@ -65,8 +67,7 @@ export default function Diary() {
         isMobile={isMobile}
         onClickWrite={() => {
           if (pets.length === 0) {
-            alert('아직 등록된 강아지가 없어요. 먼저 강아지를 등록해 주세요!');
-            router.push(`/profile/${sessionStorage.getItem('userId')}`);
+            setShowConfirm(true);
           } else {
             router.push('/diary/write');
           }
@@ -85,8 +86,7 @@ export default function Diary() {
         className="fixed right-4 bottom-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:hidden"
         onClick={() => {
           if (pets.length === 0) {
-            alert('등록된 강아지가 없습니다. 강아지를 먼저 등록해주세요');
-            router.push(`/profile/${sessionStorage.getItem('userId')}`);
+            setShowConfirm(true);
           } else {
             router.push('/diary/write');
           }
@@ -94,6 +94,17 @@ export default function Diary() {
       >
         <Icon width="20px" height="20px" left="-266px" top="-75px" />
       </div>
+      {showConfirm && (
+        <Confirm
+          description={`아직 등록된 강아지가 없어요.\n먼저 강아지를 등록해주세요!`}
+          confirmText="확인"
+          onClose={() => setShowConfirm(false)}
+          onConfirm={() => {
+            setShowConfirm(false);
+            router.push(`/profile/${sessionStorage.getItem('userId')}`);
+          }}
+        />
+      )}
     </main>
   );
 }

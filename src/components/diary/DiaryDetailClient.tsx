@@ -8,6 +8,7 @@ import DiaryCard from './DiaryCard';
 import DiaryProfile from './DiaryProfile';
 import DiaryOptionsMenu from './DiaryOptionsMenu';
 import symbol from '@/assets/images/alternative-image.svg';
+import Confirm from '../common/Confirm';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useGetDiaryDetail } from '@/lib/hooks/diary/api/useGetDiaryDetail';
@@ -15,8 +16,8 @@ import { useDeleteDiary } from '@/lib/hooks/diary/api/useDeleteDiary';
 import { getPetsByUserId } from '@/api/diary';
 import { petBreedData, petSizeData } from '@/assets/data/pet';
 import { feedUnit, walkingPace } from '@/assets/data/diary';
-import Confirm from '../common/Confirm';
 import { formatDate, formatTime } from '@/lib/utils/diary/diaryFormat';
+import { Toast } from '../common/Toast';
 
 export default function DiaryDetailClient({ logId }: { logId: number }) {
   const router = useRouter();
@@ -60,12 +61,11 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
 
     deleteMutation.mutate(data.lifeRecordId, {
       onSuccess: () => {
-        alert('멍멍일지 삭제 완료');
+        Toast.success('멍멍일지 삭제 완료');
         router.push('/diary');
       },
-      onError: (err) => {
-        console.error(err);
-        alert('멍멍일지 삭제 실패');
+      onError: () => {
+        Toast.error('멍멍일지 삭제 실패');
       },
     });
     setShowConfirm(false);
