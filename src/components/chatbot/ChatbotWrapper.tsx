@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/authStoe';
 import { useChatbotStore } from '@/stores/chatbotStore';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import Icon from '../common/Icon';
 import ChatbotInput from './ChatbotInput';
 import ChatbotMessages from './ChatbotMessages';
 
@@ -51,12 +52,22 @@ export default function ChatbotWrapper({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="absolute right-25 bottom-5 z-300 flex h-150 w-100 flex-col rounded-[20px] border border-[var(--color-primary-500)] bg-[var(--color-background)]"
+      className="fixed inset-0 z-300 flex flex-col border border-[var(--color-primary-500)] bg-[var(--color-background)] sm:absolute sm:inset-auto sm:right-20 sm:bottom-5 sm:h-150 sm:w-100 sm:rounded-[20px]"
       ref={modalRef}
     >
-      <div className="flex items-center gap-3 rounded-t-[20px] bg-[var(--color-primary-200)] px-6 py-[14px]">
-        <Image src={dogImage} alt="챗봇 이미지" width={40} height={40} />
-        <h2 className="font-bold">멍멍이</h2>
+      <div className="flex w-full items-center justify-between bg-[var(--color-primary-200)] px-6 py-[14px] sm:rounded-t-[20px]">
+        <div className="flex items-center gap-3">
+          <Image src={dogImage} alt="챗봇 이미지" width={40} height={40} />
+          <h2 className="font-bold">멍멍이</h2>
+        </div>
+        <Icon
+          className="cursor-pointer justify-self-end sm:hidden"
+          width="16px"
+          height="10px"
+          left="-230px"
+          top="-126px"
+          onClick={onClose}
+        />
       </div>
       <form
         className="flex grow-1 flex-col justify-between text-sm"
