@@ -27,17 +27,17 @@ export default function DiaryListHeader({
   return (
     <div className="mb-5 flex w-full justify-between sm:py-2">
       <div className="flex w-full justify-between gap-5 sm:justify-start sm:gap-6 sm:pl-3">
-        <div className="flex-1 sm:w-[220px] sm:flex-none">
+        <div className="flex-[1.5] sm:w-[220px] sm:flex-none">
           <DateInput
             selected={selectedDate}
             setSelected={setSelectedDate}
             showAllDate
             disableFuture={true}
-            className="rounded-xl border-1 border-[var(--color-primary-500)] text-sm sm:text-base"
+            className="h-[34px] rounded-xl border-1 border-[var(--color-primary-500)] text-xs sm:h-[42px] sm:text-base"
             align="left"
           />
         </div>
-        <div className="flex-1 text-sm sm:w-[178px] sm:flex-none sm:text-base">
+        <div className="flex-1 text-xs sm:w-[178px] sm:flex-none sm:text-base">
           <SelectBox
             value={selectedPetId}
             setValue={setSelectedPetId}
