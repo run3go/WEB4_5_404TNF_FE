@@ -47,7 +47,6 @@ export default function DogProfileEdit({
     useRegistMutation(userInfo, closeModal);
   const { mutate: modifyMutate, isPending: isModifyPending } =
     useModifyMutation(userInfo, petId, closeModal);
-
   const onSubmit = async (data: PetFormValues) => {
     const payload = {
       ...data,

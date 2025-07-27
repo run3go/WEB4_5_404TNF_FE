@@ -31,8 +31,9 @@ export default function VaccineModal({
   const modalRef = useRef<HTMLDivElement>(null);
 
   const { methods, reset } = useVaccineForm(vaccineData);
-  const { mutate, isPending, isError } = useVaccineMutation(petId, () =>
-    setIsEditing(false),
+  const { mutate, isPending, isError, isSuccess } = useVaccineMutation(
+    petId,
+    () => setIsEditing(false),
   );
   const DHPPL = vaccineData?.find((data) => data.vaccine.name === 'DHPPL');
   const CORONAVIRUS = vaccineData?.find(
@@ -61,9 +62,6 @@ export default function VaccineModal({
     if (payload) {
       mutate({ payload: payload as VaccinePayload[], petId });
     }
-    if (isError) {
-      Toast.error('추가접종은 백신마다 최대 접종 횟수가 다릅니다');
-    }
   };
 
   const cancelInput = () => {
@@ -89,6 +87,15 @@ export default function VaccineModal({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (isSuccess) {
+      Toast.success('예방접종 정보가 수정되었습니다!');
+    }
+    if (isError) {
+      Toast.error('각 백신의 최대 차수를 확인해주세요!');
+    }
+  }, [isSuccess, isError]);
+
   return (
     <>
       <div
@@ -108,7 +115,7 @@ export default function VaccineModal({
                 onMouseLeave={() => isMobile || setIsTooltipOepn(false)}
               >
                 <Icon
-                  className={`cursor-pointer`}
+                  className={`cursor-pointer ${isError && 'animate-pulse'}`}
                   width="20px"
                   height="20px"
                   left="-373px"

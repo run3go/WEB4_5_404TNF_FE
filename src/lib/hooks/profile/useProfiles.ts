@@ -1,6 +1,7 @@
 import { getPetProfile, getPetProfiles, getVaccineData } from '@/api/pet';
-import { getMyUserInfo } from '@/api/user';
-import { useQuery } from '@tanstack/react-query';
+import { getMyUserInfo, modifyUserInfo } from '@/api/user';
+import { Toast } from '@/components/common/Toast';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const usePetProfiles = (userId: string, initialData?: PetProfile[]) => {
   return useQuery<PetProfile[]>({
@@ -36,5 +37,25 @@ export const useUserProfile = (userId: string, isMyProfile: boolean) => {
     queryKey: ['user', userId],
     enabled: isMyProfile,
     staleTime: 300000,
+  });
+};
+
+export const useModifyUserMutation = (
+  userInfo: User | null,
+  onClose: () => void,
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (formdata: UserFormdata) => modifyUserInfo(formdata),
+    onSuccess: async () => {
+      queryClient.invalidateQueries({
+        queryKey: ['user', userInfo?.userId],
+      });
+      onClose();
+      Toast.success('유저 정보가 수정되었습니다!');
+    },
+    onError: () => {
+      Toast.error('유저 정보 수정에 실패했습니다!');
+    },
   });
 };

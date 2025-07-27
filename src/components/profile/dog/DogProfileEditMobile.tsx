@@ -99,12 +99,14 @@ export default function DogProfileEditMobile() {
           <MobileTitle
             title="반려견 등록"
             onClick={() => {
-              handleSubmit(onSubmit);
+              console.log('hi');
+              handleSubmit(onSubmit, handleError);
             }}
             closePage={() => {
               toggleEditingPetProfile();
               selectPet(null);
             }}
+            isSubmit
           />
           <ImageField
             alt="강아지 프로필"

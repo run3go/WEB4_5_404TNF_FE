@@ -1,7 +1,9 @@
 import { modifyUserInfo, resignAccount } from '@/api/user';
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Button from '@/components/common/Button';
+import Confirm from '@/components/common/Confirm';
 import Icon from '@/components/common/Icon';
+import { Toast } from '@/components/common/Toast';
 import { usePassword } from '@/lib/hooks/usePassword';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -18,6 +20,8 @@ export default function UserProfileEdit({
   profile: UserProfile;
 }) {
   const router = useRouter();
+
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(profile.imgUrl);
   const [formData, setFormData] = useState<{
     image: File | null;
@@ -43,9 +47,17 @@ export default function UserProfileEdit({
       alert('새 비밀번호가 일치하지 않아요');
       return;
     }
-    await modifyUserInfo(formData);
-    await queryClient.invalidateQueries({ queryKey: ['user', profile.userId] });
-    closeModal();
+    try {
+      await modifyUserInfo(formData);
+      await queryClient.invalidateQueries({
+        queryKey: ['user', profile.userId],
+      });
+      closeModal();
+      Toast.success('유저 프로필이 수정되었습니다!');
+    } catch (err) {
+      console.error(err);
+      Toast.error('유저 프로필 수정에 실패했습니다!');
+    }
   };
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -58,16 +70,20 @@ export default function UserProfileEdit({
     }));
   };
 
-  const resetImage = () => {
-    setImageUrl(null);
-  };
-
   const handleResign = async () => {
     await resignAccount();
     router.push('/');
   };
   return (
     <>
+      {isConfirmOpen && (
+        <Confirm
+          confirmText="탈퇴"
+          description="정말 탈퇴하시겠습니까?"
+          onClose={() => setIsConfirmOpen(false)}
+          onConfirm={handleResign}
+        />
+      )}
       <div
         className="fixed inset-0 z-200 bg-[var(--color-black)] opacity-50"
         onClick={closeModal}
@@ -89,7 +105,6 @@ export default function UserProfileEdit({
             alt="유저 프로필"
             image={imageUrl || defaultProfile}
             handleImage={handleImage}
-            resetImage={resetImage}
           />
           <div className="flex w-full gap-20">
             <div className="flex basis-1/2 flex-col gap-5">
@@ -124,7 +139,7 @@ export default function UserProfileEdit({
           <button
             type="button"
             className="absolute -right-10 -bottom-10 cursor-pointer text-[var(--color-grey)] transition-colors hover:text-[var(--color-black)]"
-            onClick={handleResign}
+            onClick={() => setIsConfirmOpen(true)}
           >
             회원 탈퇴
           </button>

@@ -10,6 +10,7 @@ export default function MobileTitle({
   showOptionsMenu = false,
   onEdit,
   onDelete,
+  isSubmit,
 }: {
   title: string;
   onClick?: () => void;
@@ -17,6 +18,7 @@ export default function MobileTitle({
   showOptionsMenu?: boolean;
   onEdit?: () => void;
   onDelete?: () => void;
+  isSubmit?: boolean;
 }) {
   return (
     <>
@@ -37,8 +39,8 @@ export default function MobileTitle({
             </div>
           ) : onClick ? (
             <button
-              type="button"
-              onClick={onClick}
+              type={isSubmit ? 'submit' : `button`}
+              onClick={() => !isSubmit && onClick()}
               className="absolute right-0 cursor-pointer leading-[1.2] text-[var(--color-primary-500)]"
             >
               저장
