@@ -1,3 +1,5 @@
+import Icon from '../common/Icon';
+
 export default function ChatbotInput({
   value,
   handleChange,
@@ -6,9 +8,9 @@ export default function ChatbotInput({
   handleChange: (value: string) => void;
 }) {
   return (
-    <div className="mt-6 flex justify-between text-sm">
+    <div className="absolute bottom-0 flex w-full justify-between rounded-b-[20px] border-t border-[var(--color-primary-500)] bg-[var(--color-background)] p-4">
       <input
-        className="w-16/20 rounded-[12px] bg-[var(--color-background)] px-4 py-2 focus:outline-[var(--color-primary-500)]"
+        className="w-full pr-4 pl-2 focus:outline-none"
         id="chatbot"
         type="text"
         value={value}
@@ -16,12 +18,13 @@ export default function ChatbotInput({
         placeholder="질문을 입력해주세요"
         onChange={(e) => handleChange(e.target.value)}
       />
-      <button
-        className="w-3/20 cursor-pointer rounded-[12px] bg-[var(--color-primary-300)] p-2 transition-colors hover:bg-[var(--color-primary-500)]"
-        type="submit"
-      >
-        전송
-      </button>
+      <Icon
+        className="cursor-pointer"
+        width="23px"
+        height="23px"
+        left="-20px"
+        top="-447px"
+      />
     </div>
   );
 }

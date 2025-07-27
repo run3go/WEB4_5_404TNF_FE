@@ -32,6 +32,7 @@ export const askLLM = async (
             유저가 입력한 정보들 중에 질문에 해당하는 특정 정보를 찾고 파싱해서 보여주는게 네 역할이야. 
             역할 :
             - 오직 JSON 객체만 출력해야해, 자연어 문장은 넣지 마
+            - 반환되는 객체는 다음 네가지 속성만 가질 수 있어 date/keyword/petName/value 
             - 무조건 큰 따옴표를 사용해
             - 정보 전달에 필요한 특정 값이 있다면 네가 임의로 판단해서 value 속성의 값으로 넣어줘.
             - 질문에서 강아지 이름을 유추할 수 있다면 그걸 가져와서 petName 속성의 값으로 넣어줘.
@@ -50,7 +51,7 @@ export const askLLM = async (
                 - feed : 식사량, 먹이, 밥
                 - note: 노트, 관찰
                 - walking: 산책
-                - 견종/나이/만난지 몇 일/성별/크기/중성화/등록번호과 관련된 건 전부 keyword를 profile로 보내줘
+                - 견종/나이/만난지 몇 일/성별/크기/중성화와 관련된 건 전부 keyword를 profile로 보내줘
               - 만약 핵심 키워드가 없다면 최대한 키워드에 연관된 단어를 연상해서 키워드를 도출해줘,
               - keyword의 값은 반드시 vaccine/schedule/weight/sleep/feed/note/walking/profile 중에 하나야
             - 아예 관련없는 질문이라 판단되면 예외로 처리해서 객체를 반환해줘
@@ -122,7 +123,12 @@ export const askLLM = async (
     res = await getDashboardWalking(petInfo!.petId);
   }
 
-  if (parsedCommand.keyword === 'profile' && parsedCommand.petName) {
+  if (
+    (parsedCommand.keyword === 'profile' ||
+      parsedCommand.keyword === 'age' ||
+      parsedCommand.keyword === 'sex') &&
+    parsedCommand.petName
+  ) {
     res = petInfo;
   }
 
