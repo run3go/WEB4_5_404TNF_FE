@@ -19,14 +19,14 @@ export default function Confirm({
         <span>{description}</span>
         <div className="flex justify-between gap-6 text-[15px]">
           <button
-            className="w-[130px] cursor-pointer rounded-[50px] border border-[var(--color-grey)] text-[var(--color-grey)] transition-all hover:border-[var(--color-black)] hover:text-[var(--color-black)]"
+            className="w-[130px] cursor-pointer rounded-[50px] border border-[var(--color-grey)] py-3 text-[var(--color-grey)] transition-all hover:border-[var(--color-black)] hover:text-[var(--color-black)]"
             type="button"
             onClick={onClose}
           >
             취소
           </button>
           <button
-            className="w-[130px] cursor-pointer rounded-[50px] bg-[var(--color-primary-300)] px-4 py-2 transition-all hover:bg-[var(--color-primary-500)]"
+            className="w-[130px] cursor-pointer rounded-[50px] bg-[var(--color-primary-300)] px-4 py-3 transition-all hover:bg-[var(--color-primary-500)]"
             type="button"
             onClick={onConfirm}
           >

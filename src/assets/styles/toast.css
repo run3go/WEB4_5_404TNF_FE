@@ -1,7 +1,7 @@
 :root {
   --toastify-color-progress-success: var(--color-primary-300);
   --toastify-color-progress-info: var(--color-primary-300);
-  --toastify-color-progress-warn: var(--color-primary-300);
+  --toastify-color-progress-warning: var(--color-primary-300);
 }
 
 .Toastify__toast {
@@ -19,7 +19,7 @@
 /* progress-bar */
 .Toastify__progress-bar--success .Toastify__progress-bar--bg,
 .Toastify__progress-bar--info .Toastify__progress-bar--bg,
-.Toastify__progress-bar--warn .Toastify__progress-bar--bg {
+.Toastify__progress-bar--warning .Toastify__progress-bar--bg {
   @apply bg-[var(--color-primary-200)] opacity-100;
 }
 .Toastify__progress-bar--wrp {
