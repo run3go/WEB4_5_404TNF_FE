@@ -58,19 +58,6 @@ export default function PostStats({ comment, like, views, postId }: PostStats) {
   return (
     <>
       <div className="flex gap-2 font-medium sm:gap-4">
-        <div className="flex items-center gap-1 sm:gap-2">
-          <Icon
-            width="16px"
-            height="16px"
-            left="-105px"
-            top="-207px"
-            className="mt-0.5 scale-75 sm:scale-100"
-          />
-          <p className="pt-1 text-[10px] sm:pt-[2px] sm:text-[14px]">
-            {comment}
-          </p>
-        </div>
-
         <div
           className={`flex items-center gap-1 sm:gap-2 ${postId ? 'cursor-pointer' : ''}`}
           onClick={handleLike}
@@ -93,6 +80,18 @@ export default function PostStats({ comment, like, views, postId }: PostStats) {
             />
           )}
           <p className="pt-1 text-[10px] sm:pt-[2px] sm:text-[14px]">{likes}</p>
+        </div>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <Icon
+            width="16px"
+            height="16px"
+            left="-105px"
+            top="-207px"
+            className="mt-0.5 scale-75 sm:scale-100"
+          />
+          <p className="pt-1 text-[10px] sm:pt-[2px] sm:text-[14px]">
+            {comment}
+          </p>
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2">
