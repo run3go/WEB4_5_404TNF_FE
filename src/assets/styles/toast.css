@@ -1,0 +1,27 @@
+:root {
+  --toastify-color-progress-success: var(--color-primary-300);
+  --toastify-color-progress-info: var(--color-primary-300);
+  --toastify-color-progress-warn: var(--color-primary-300);
+}
+
+.Toastify__toast {
+  @apply rounded-[12px] pr-10 pl-5 text-[15px] text-[var(--color-black)];
+}
+
+.Toastify__toast-icon {
+  @apply mr-1;
+}
+
+.Toastify__close-button {
+  @apply absolute top-1/2 right-[20px] -translate-y-1/2;
+}
+
+/* progress-bar */
+.Toastify__progress-bar--success .Toastify__progress-bar--bg,
+.Toastify__progress-bar--info .Toastify__progress-bar--bg,
+.Toastify__progress-bar--warn .Toastify__progress-bar--bg {
+  @apply bg-[var(--color-primary-200)] opacity-100;
+}
+.Toastify__progress-bar--wrp {
+  @apply h-2;
+}
