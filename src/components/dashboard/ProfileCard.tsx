@@ -11,7 +11,6 @@ export default function ProfileCard({
   profile?: DashboardProfile;
 }) {
   if (!profile) return;
-
   const breedName = petBreedData
     .filter((breed) => breed.value === profile.breed)
     .map((breed) => breed.label);
