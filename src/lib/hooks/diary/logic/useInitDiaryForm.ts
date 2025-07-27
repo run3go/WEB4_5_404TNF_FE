@@ -23,7 +23,6 @@ export function useInitDiaryForm({
   selectedUnit,
 }: Props) {
   useEffect(() => {
-    console.log('diaryData', diaryData);
     if (hasDiary && diaryData) {
       setNote(diaryData.content || '');
       setWeight(diaryData.weight?.toString() || '');
