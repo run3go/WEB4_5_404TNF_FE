@@ -91,6 +91,11 @@ export default function CommentInput({ postId }: { postId: number }) {
             }}
             onChange={(e) => setComment(e.target.value.trim())}
             value={comment}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSubmit();
+              }
+            }}
             placeholder="댓글을 작성해주세요."
           />
         </Card>
