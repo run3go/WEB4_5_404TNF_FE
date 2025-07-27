@@ -128,7 +128,7 @@ export default function PostList({
         </div>
 
         {/* 내부 스크롤 영역 */}
-        <div className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pr-2 pb-[20px] sm:space-y-10 sm:px-[6.27vw]">
+        <div className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pt-2 pr-2 pb-[20px] sm:space-y-10 sm:px-[6.27vw]">
           {data?.pages.map((page) =>
             page.articleList.map((post: PostDetail) => (
               <PostCard

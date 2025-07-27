@@ -14,7 +14,7 @@ export default function PostCard({
   const router = useRouter();
   return (
     <>
-      <Card className="mx-1 flex h-[192px] w-full flex-col p-4 sm:h-[228px] sm:w-full sm:p-5">
+      <Card className="card__hover mx-1 flex h-[192px] w-full flex-col p-4 hover:!scale-100 sm:h-[228px] sm:w-full sm:p-5 sm:hover:!scale-102">
         <div className="relative pb-7 sm:pb-[62px]">
           <WriterInfo
             authorId={post.userId}
