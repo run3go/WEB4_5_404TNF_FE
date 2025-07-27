@@ -20,7 +20,9 @@ export default function MobilePostCreate({
   const path = pathname.split('/').slice(0, -1).join('/');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>('FREE');
+  const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>(
+    pathname.includes('free') ? 'FREE' : 'QUESTION',
+  );
 
   const postCreateMutation = useCreatePost(boardType);
 
@@ -61,7 +63,7 @@ export default function MobilePostCreate({
       <div className="flex w-full flex-col gap-6">
         <div className="flex justify-center gap-[15px] pt-5 pb-3">
           <Button
-            className="board__btn"
+            className={`board__btn ${boardType === 'QUESTION' ? '!bg-[var(--color-pink-300)]' : ''}`}
             onClick={() => setBoardType('QUESTION')}
           >
             <Icon
@@ -73,7 +75,10 @@ export default function MobilePostCreate({
             />
             <p className="text-[10px] sm:text-[18px]">질문게시판</p>
           </Button>
-          <Button className="board__btn" onClick={() => setBoardType('FREE')}>
+          <Button
+            className={`board__btn ${boardType === 'FREE' ? '!bg-[var(--color-pink-300)]' : ''}`}
+            onClick={() => setBoardType('FREE')}
+          >
             <Icon
               width="20px"
               height="20px"

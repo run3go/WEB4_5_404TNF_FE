@@ -19,7 +19,9 @@ export default function MobilePostEditModal({
   const postId = pathname.split('/').pop();
   const [title, setTitle] = useState(postDetail.title);
   const [content, setContent] = useState(postDetail.content);
-  const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>('FREE');
+  const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>(
+    pathname.includes('free') ? 'FREE' : 'QUESTION',
+  );
   const [pickedImages, setPickedImages] = useState<(File | string)[]>(
     postDetail?.images?.map((img) => img.savePath),
   );
@@ -87,7 +89,7 @@ export default function MobilePostEditModal({
           <div className="flex w-full flex-col gap-6">
             <div className="flex w-screen justify-center gap-[15px] pt-5 pb-3">
               <Button
-                className="board__btn"
+                className={`board__btn ${boardType === 'QUESTION' ? '!bg-[var(--color-pink-300)]' : ''}`}
                 onClick={() => setBoardType('QUESTION')}
               >
                 <Icon
@@ -100,7 +102,7 @@ export default function MobilePostEditModal({
                 <p className="text-[10px] sm:text-[18px]">질문게시판</p>
               </Button>
               <Button
-                className="board__btn"
+                className={`board__btn ${boardType === 'FREE' ? '!bg-[var(--color-pink-300)]' : ''}`}
                 onClick={() => setBoardType('FREE')}
               >
                 <Icon

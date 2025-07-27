@@ -60,7 +60,9 @@ export default function PostList({
         {/* 상단 버튼 영역 */}
         <div className="flex flex-none justify-center gap-3 pt-6 sm:gap-9 sm:pt-5">
           <Link href={'/post/question'}>
-            <Button className="board__btn">
+            <Button
+              className={`board__btn ${boardType === 'question' ? '!bg-[var(--color-pink-300)]' : ''}`}
+            >
               <Icon
                 width="20px"
                 height="20px"
@@ -72,7 +74,9 @@ export default function PostList({
             </Button>
           </Link>
           <Link href={'/post/free'}>
-            <Button className="board__btn">
+            <Button
+              className={`board__btn ${boardType === 'free' ? '!bg-[var(--color-pink-300)]' : ''}`}
+            >
               <div className="pt-1">
                 <Icon
                   width="20px"
