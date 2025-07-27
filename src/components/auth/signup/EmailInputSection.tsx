@@ -90,7 +90,7 @@ export default function EmailInputSection({
         <button
           type="button"
           onClick={handleSendEmailVerify}
-          className="cursor-pointer text-[14px] font-medium text-[#FF9526]"
+          className={`${sendVerificationCodeMutation.isPending ? '' : 'cursor-pointer'} text-[14px] font-medium text-[#FF9526]`}
         >
           {sendVerificationCodeMutation.isPending
             ? '이메일 전송 중'
