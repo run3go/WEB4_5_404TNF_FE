@@ -26,7 +26,7 @@ export default function DiaryListHeader({
 }: Props) {
   return (
     <div className="mb-5 flex w-full justify-between sm:py-2">
-      <div className="flex w-full justify-between gap-5 sm:justify-start sm:gap-6 sm:pl-3">
+      <div className="flex w-full justify-between gap-3 sm:justify-start sm:gap-6 sm:pl-3">
         <div className="flex-[1.5] sm:w-[220px] sm:flex-none">
           <DateInput
             selected={selectedDate}
