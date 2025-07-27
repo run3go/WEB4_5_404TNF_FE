@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 import Icon from './Icon';
 import PopupMenu from './PopupMenu';
+import { useAuthStore } from '@/stores/authStoe';
 
 interface MeatballsMenuProps {
   options: { id: string; label: string; type: 'post' | 'comment' }[];
@@ -19,6 +20,7 @@ export default function MeatballsMenu({
 }: MeatballsMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(null);
+  const userInfo = useAuthStore((state) => state.userInfo);
 
   const handleOptionClick = (label: string) => {
     if (label === '신고하기' && onReportClick) {
@@ -34,6 +36,7 @@ export default function MeatballsMenu({
 
     setIsOpen(false);
   };
+  if (!userInfo) return;
   return (
     <div className="relative" ref={buttonRef}>
       <div onClick={() => setIsOpen((prev) => !prev)}>

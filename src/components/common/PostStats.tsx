@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Icon from './Icon';
 import { cancelLike, getPostDetail, requestLike } from '@/api/post';
+import { useAuthStore } from '@/stores/authStoe';
 
 interface PostStats {
   comment: number;
@@ -13,8 +14,10 @@ export default function PostStats({ comment, like, views, postId }: PostStats) {
   const [likes, setLikes] = useState(like);
   const [liked, setLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const userInfo = useAuthStore((state) => state.userInfo);
 
   const handleLike = async () => {
+    if (!userInfo) return;
     if (!postId || isLoading) return;
     setIsLoading(true);
     const prevLiked = liked;
