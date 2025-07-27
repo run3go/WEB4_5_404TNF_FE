@@ -12,7 +12,7 @@ export default function MobilePostEditModal({
   postDetail,
   onClose,
 }: {
-  postDetail: PostDeatail;
+  postDetail: PostDetail;
   onClose: () => void;
 }) {
   const pathname = usePathname();
@@ -21,7 +21,7 @@ export default function MobilePostEditModal({
   const [content, setContent] = useState(postDetail.content);
   const [boardType, setBoardType] = useState<'FREE' | 'QUESTION'>('FREE');
   const [pickedImages, setPickedImages] = useState<(File | string)[]>(
-    postDetail.images.map((img) => img.savePath),
+    postDetail.articleImgPath.map((img) => img.savePath),
   );
 
   const postUpdateMutation = useEditPost(boardType, Number(postId), onClose);
@@ -58,7 +58,7 @@ export default function MobilePostEditModal({
   useEffect(() => {
     const convertImages = async () => {
       const files = await Promise.all(
-        postDetail.images.map(async (img, i) => {
+        postDetail.articleImgPath.map(async (img, i) => {
           const res = await fetch(img.savePath);
           const blob = await res.blob();
           return new File([blob], `image${i}.jpg`, { type: blob.type });
@@ -68,7 +68,7 @@ export default function MobilePostEditModal({
     };
 
     convertImages();
-  }, [postDetail.images]);
+  }, [postDetail.articleImgPath]);
 
   return (
     <div className="flex h-screen flex-col bg-[var(--color-background)]">

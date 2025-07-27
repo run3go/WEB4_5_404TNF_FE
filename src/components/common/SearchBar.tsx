@@ -6,6 +6,8 @@ export default function SearchBar({
   setSearchType,
   keyword,
   setKeyword,
+  value,
+  onChange,
   onSearch,
 }: {
   options?: {
@@ -15,6 +17,8 @@ export default function SearchBar({
   setSearchType?: (value: string) => void;
   keyword?: string;
   setKeyword?: (value: string) => void;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch?: () => void;
 }) {
   return (
@@ -33,10 +37,12 @@ export default function SearchBar({
         <input
           className="h-[40px] w-[250px] focus:outline-none"
           placeholder="검색어를 입력해주세요"
-          value={keyword}
-          onChange={(e) => setKeyword?.(e.target.value)}
+          value={value ?? keyword ?? ''}
+          onChange={(e) => onChange?.(e) ?? setKeyword?.(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') onSearch?.();
+            if (e.key === 'Enter' && onSearch) {
+              onSearch();
+            }
           }}
         />
 
@@ -46,7 +52,7 @@ export default function SearchBar({
           left="-263px"
           top="-124px"
           className="absolute right-3 cursor-pointer"
-          onClick={() => onSearch?.()}
+          onClick={onSearch}
         />
       </div>
     </>

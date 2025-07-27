@@ -13,35 +13,38 @@ import {
   useModifyMutation,
   usePetForm,
   useRegistMutation,
-} from '@/lib/hooks/usePetForm';
-import { usePetProfile } from '@/lib/hooks/usePetProfiles';
+} from '@/lib/hooks/profile/usePetForm';
 import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEdit({
+  profileData,
   closeModal,
   petId,
 }: {
+  profileData?: PetProfile;
   closeModal: () => void;
   petId: number;
 }) {
   const userInfo = useAuthStore((state) => state.userInfo);
+  const [imageUrl, setImageUrl] = useState(profileData?.imgUrl || dog);
 
   const queryClient = useQueryClient();
-  const { data: profile } = usePetProfile(petId);
 
-  const { handleSubmit, register, watch, control } = usePetForm(profile);
+  const { handleSubmit, register, watch, setValue, control } =
+    usePetForm(profileData);
 
   const { mutate: registMutate, isPending: isRegistPending } =
     useRegistMutation(userInfo, closeModal);
   const { mutate: modifyMutate, isPending: isModifyPending } =
-    useModifyMutation(userInfo, closeModal);
+    useModifyMutation(userInfo, petId, closeModal);
 
   const onSubmit = async (data: PetFormValues) => {
     const payload = {
@@ -50,19 +53,16 @@ export default function DogProfileEdit({
       isNeutered: data.isNeutered === 'true' ? true : false,
       weight: data.weight ? Number(data.weight) : null,
       registNumber: data.registNumber ? data.registNumber : null,
-      image: null,
     };
-    if (profile) {
-      modifyMutate({ payload, petId });
+    if (profileData) {
+      modifyMutate({ payload, image: data.image, petId });
     } else {
-      registMutate(payload);
+      registMutate({ payload, image: data.image });
     }
   };
 
   const handleDeletePet = async () => {
-    if (!profile) return;
-
-    await deletePetProfile(profile.petId);
+    await deletePetProfile(petId);
 
     await queryClient.invalidateQueries({
       queryKey: ['pets', String(userInfo?.userId)],
@@ -89,18 +89,34 @@ export default function DogProfileEdit({
           className="flex flex-col items-center"
           onSubmit={handleSubmit(onSubmit, handleError)}
         >
-          {/* 사진 선택 */}
-          <div className="mb-10 flex flex-col items-center gap-4">
+          <label
+            className="group mb-10 flex cursor-pointer flex-col items-center gap-4"
+            htmlFor="image"
+          >
             <Image
-              className="rounded-full"
-              src={dog}
+              className="h-30 w-30 rounded-full object-cover"
+              src={imageUrl}
               alt="강아지 프로필"
               width={120}
               height={120}
               priority
             />
-            <span className="text-[var(--color-grey)]">사진 선택하기</span>
-          </div>
+            <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)]">
+              사진 선택하기
+            </span>
+          </label>
+          <input
+            className="hidden"
+            id="image"
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              if (e.target.files) {
+                setValue('image', e.target.files[0]);
+                setImageUrl(window.URL.createObjectURL(e.target.files[0]));
+              }
+            }}
+          />
           <div className="flex justify-between gap-20 pb-14">
             <div className="w-full">
               <InputField
@@ -189,10 +205,10 @@ export default function DogProfileEdit({
             disabled={isModifyPending || isRegistPending}
             className="w-50"
           >
-            {profile ? '수정하기' : '등록하기'}
+            {profileData ? '수정하기' : '등록하기'}
           </Button>
         </form>
-        {profile && (
+        {profileData && (
           <span
             className="absolute right-10 cursor-pointer text-[var(--color-grey)] hover:text-[var(--color-black)]"
             onClick={handleDeletePet}

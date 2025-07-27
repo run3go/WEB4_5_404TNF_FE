@@ -15,7 +15,7 @@ import { usePathname, useRouter } from 'next/navigation';
 export default function PostDetailWrapper({
   postDetail,
 }: {
-  postDetail: PostDeatail;
+  postDetail: PostDetail;
 }) {
   const router = useRouter();
   const pathname = usePathname();

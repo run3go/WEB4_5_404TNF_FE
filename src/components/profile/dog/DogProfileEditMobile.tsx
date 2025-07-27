@@ -12,28 +12,35 @@ import {
   useModifyMutation,
   usePetForm,
   useRegistMutation,
-} from '@/lib/hooks/usePetForm';
-import { usePetProfile } from '@/lib/hooks/usePetProfiles';
+} from '@/lib/hooks/profile/usePetForm';
+import { usePetProfile } from '@/lib/hooks/profile/useProfiles';
 import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEditMobile() {
+  const params = useParams();
+  const userId = params?.userId as string;
   const userInfo = useAuthStore((state) => state.userInfo);
+  const isMyProfile = userInfo?.userId === Number(userId);
+
   const selectPet = useProfileStore((state) => state.selectPet);
   const selectedPet = useProfileStore((state) => state.selectedPet);
   const toggleEditingPetProfile = useProfileStore(
     (state) => state.toggleEditingPetProfile,
   );
-
-  const { data: profile } = usePetProfile(selectedPet ?? 0);
-  const { handleSubmit, register, watch, control } = usePetForm(profile);
+  const { data: profile } = usePetProfile(selectedPet ?? 0, isMyProfile);
+  const { handleSubmit, register, watch, setValue, control } =
+    usePetForm(profile);
+  const [imageUrl, setImageUrl] = useState(profile?.imgUrl || dog);
 
   const queryClient = useQueryClient();
   const { mutate: registMutate } = useRegistMutation(
@@ -42,6 +49,7 @@ export default function DogProfileEditMobile() {
   );
   const { mutate: modifyMutate } = useModifyMutation(
     userInfo,
+    selectedPet!,
     toggleEditingPetProfile,
   );
 
@@ -52,13 +60,12 @@ export default function DogProfileEditMobile() {
       isNeutered: data.isNeutered === 'true' ? true : false,
       weight: data.weight ? Number(data.weight) : null,
       registNumber: data.registNumber ? data.registNumber : null,
-      image: null,
     };
 
-    if (profile) {
-      modifyMutate({ payload, petId: profile.petId });
+    if (profile && selectedPet) {
+      modifyMutate({ payload, image: data.image, petId: selectedPet });
     } else {
-      registMutate(payload);
+      registMutate({ payload, image: data.image });
     }
     selectPet(null);
   };
@@ -92,18 +99,32 @@ export default function DogProfileEditMobile() {
               selectPet(null);
             }}
           />
-          {/* 사진 선택 */}
-          <div className="mb-9 flex flex-col items-center gap-4">
+          <label
+            className="mb-9 flex flex-col items-center gap-4"
+            htmlFor="image"
+          >
             <Image
-              className="rounded-full"
-              src={dog}
+              className="h-25 w-25 rounded-full object-cover"
+              src={imageUrl}
               alt="강아지 프로필"
               width={100}
               height={100}
               priority
             />
             <span className="text-[var(--color-grey)]">사진 선택하기</span>
-          </div>
+          </label>
+          <input
+            className="hidden"
+            id="image"
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              if (e.target.files) {
+                setValue('image', e.target.files[0]);
+                setImageUrl(window.URL.createObjectURL(e.target.files[0]));
+              }
+            }}
+          />
           <div className="flex flex-col justify-between gap-20 pb-3">
             <div className="w-full">
               <InputField

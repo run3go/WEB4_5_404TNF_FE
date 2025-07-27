@@ -8,7 +8,7 @@ export default function PostCard({
   post,
   boardType,
 }: {
-  post: Post;
+  post: PostDetail;
   boardType: 'free' | 'question';
 }) {
   const router = useRouter();

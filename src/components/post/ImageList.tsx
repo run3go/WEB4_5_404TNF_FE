@@ -57,7 +57,7 @@ export default function ImageList({ postImage }: { postImage: PostImage[] }) {
             }
           }}
         >
-          {postImage.map((img) => (
+          {postImage?.map((img) => (
             <SwiperSlide
               key={img.articleImgId + img.savePath}
               className="!w-[76.8vw] sm:!w-[300px]"

@@ -1,5 +1,6 @@
+import { getUserProfile } from '@/api/auth';
 import { getPetProfiles } from '@/api/pet';
-import { getUserProfile } from '@/api/user';
+
 import ProfileClient from '@/components/profile/ProfileClient';
 
 export default async function Profile({

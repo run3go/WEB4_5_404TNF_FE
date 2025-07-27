@@ -1,7 +1,9 @@
+import { getMyUserInfo } from '@/api/user';
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -22,6 +24,13 @@ export default function UserProfile({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isMyProfile = userInfo?.userId === userProfile.userId;
+
+  const { data: profile } = useQuery<UserProfile>({
+    queryFn: () => getMyUserInfo(),
+    queryKey: ['user', userInfo?.userId],
+    enabled: isMyProfile,
+    staleTime: 30000,
+  });
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -57,7 +66,7 @@ export default function UserProfile({
       <div className="mt-7 flex gap-2 sm:gap-7">
         <Image
           className="h-24 w-24 rounded-full sm:h-40 sm:w-40"
-          src={defaultProfile}
+          src={profile?.imgUrl || userProfile.imgUrl || defaultProfile}
           alt="프로필 이미지"
           width={160}
           height={160}
@@ -81,7 +90,7 @@ export default function UserProfile({
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               닉네임
             </span>
-            {userProfile.nickname}
+            {profile?.nickname || userProfile?.nickname}
           </div>
           {isMyProfile && (
             <div>
@@ -94,8 +103,9 @@ export default function UserProfile({
         </div>
       </div>
       {isModalOpen &&
+        profile &&
         createPortal(
-          <UserProfileEdit closeModal={closeModal} />,
+          <UserProfileEdit closeModal={closeModal} profile={profile} />,
           document.body,
         )}
     </div>

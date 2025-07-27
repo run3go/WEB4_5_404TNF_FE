@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import TodoList from './TodoList';
 import AddSchedule from './AddSchedule';
-import { Schedule } from '@/types/schedule';
 
 export default function DateItem({
   date,
@@ -26,6 +25,7 @@ export default function DateItem({
     // setIsModalOpen(false);
     setModalType(null);
   };
+
   return (
     <>
       <div
@@ -48,7 +48,7 @@ export default function DateItem({
               <div className="relative flex h-6 w-6 items-center justify-center">
                 {isToday && (
                   <div
-                    className={`absolute inset-0 -top-[5px] ${String(date).length === 1 ? '-left-1' : '-left-[2.5px]'} size-8 rounded-full bg-[var(--color-primary-500)]`}
+                    className={`absolute inset-0 -top-[5px] ${String(date).length === 1 || String(date)[0] !== '1' ? '-left-1' : '-left-[2.5px]'} size-8 rounded-full bg-[var(--color-primary-500)]`}
                   />
                 )}
                 <span className="z-100">{date}</span>

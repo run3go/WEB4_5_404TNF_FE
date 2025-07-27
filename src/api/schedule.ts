@@ -1,18 +1,12 @@
-import {
-  CreateSchedule,
-  DeleteSchedule,
-  UpdateSchedule,
-} from '@/types/schedule';
-
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // 월별 일정 조회
-export const getSchedules = async (userId: number, date: string) => {
-  const url = `${baseUrl}/api/v1/dashboard/${userId}/calendar?&userId=${userId}&date=${date}`;
+export const getSchedules = async (date: string) => {
+  const url = `${baseUrl}/api/dashboard/v2/calendar?date=${date}`;
   try {
     const res = await fetch(url, {
       method: 'GET',
-      // credentials: 'include'
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -26,12 +20,15 @@ export const getSchedules = async (userId: number, date: string) => {
 };
 
 // 일정 삭제
-export const deleteSchedule = async (deleteSchedule: DeleteSchedule) => {
-  const url = `${baseUrl}/api/v1/dashboard/${deleteSchedule.petId}/calendar/delete?&userId=${deleteSchedule.userId}&scheduleId=${deleteSchedule.scheduleId}&cycleLink=${deleteSchedule.cycleLink}`;
+export const deleteSchedule = async (
+  scheduleId: number,
+  cycleLink: boolean,
+) => {
+  const url = `${baseUrl}/api/dashboard/v2/calendar/delete?scheduleId=${scheduleId}&cycleLink=${cycleLink}`;
 
   try {
     const res = await fetch(url, {
-      method: 'PATCH',
+      method: 'DELETE',
       credentials: 'include',
     });
     if (!res.ok) {
@@ -46,7 +43,7 @@ export const deleteSchedule = async (deleteSchedule: DeleteSchedule) => {
 
 // 일정 수정
 export const editSchedule = async (updateSchedule: UpdateSchedule) => {
-  const url = `${baseUrl}/api/v1/dashboard/${updateSchedule.petId}/calendar`;
+  const url = `${baseUrl}/api/dashboard/v2/calendar`;
 
   try {
     const res = await fetch(url, {
@@ -57,7 +54,6 @@ export const editSchedule = async (updateSchedule: UpdateSchedule) => {
       },
       body: JSON.stringify({
         scheduleId: updateSchedule.scheduleId,
-        userId: updateSchedule.userId,
         petId: updateSchedule.petId,
         name: updateSchedule.name,
         date: updateSchedule.date,
@@ -81,7 +77,7 @@ export const editSchedule = async (updateSchedule: UpdateSchedule) => {
 
 // 일정 등록
 export const createSchedule = async (createSchedule: CreateSchedule) => {
-  const url = `${baseUrl}/api/v1/dashboard/${createSchedule.petId}/calendar`;
+  const url = `${baseUrl}/api/dashboard/v2/calendar`;
 
   try {
     const res = await fetch(url, {
@@ -91,7 +87,7 @@ export const createSchedule = async (createSchedule: CreateSchedule) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: createSchedule.userId,
+        petId: createSchedule.petId,
         name: createSchedule.name,
         date: createSchedule.date,
         cycle: createSchedule.cycle,
@@ -113,7 +109,7 @@ export const createSchedule = async (createSchedule: CreateSchedule) => {
 
 // 애완견 정보 조회
 export const getPets = async (userId: number) => {
-  const url = `${baseUrl}/api/profile/v1/pet/${userId}`;
+  const url = `${baseUrl}/api/profile/v1/users/${userId}/pet`;
 
   try {
     const res = await fetch(url, {

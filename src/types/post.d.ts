@@ -1,25 +1,48 @@
-interface Post {
+type PostType = 'WRITE' | 'LIKE' | 'COMMENT';
+
+type SortType = 'DATE' | 'LIKE' | 'VIEW';
+
+type PostPaylaod = {
+  page: string;
+  size: string;
+  sortType: SortType;
+};
+
+type Post = {
+  articles: PostDetail[];
+  pageInfo: PageInfo;
+};
+
+type PostDetail = {
   articleId: number;
   userId: number;
   nickname: string;
-  profileImgPath: string | null;
+  profileImgPath: string;
   createdAt: string;
   updatedAt: string | null;
+  name: string;
   title: string;
   content: string;
   likes: number;
   replies: number;
   views: number;
   articleImgPath: PostImage[];
-}
+};
 
-interface PageInfo {
+type PostImage = {
+  articleImgId: number;
+  articleId: number;
+  savePath: string;
+  imgType: 'THUMBNAIL';
+};
+
+type PageInfo = {
   currentPage: number;
   totalPages: number;
   totalElements: number;
   isFirst: boolean;
   isLast: boolean;
-}
+};
 
 interface GetBoardPostsResponse {
   data: {
@@ -28,21 +51,21 @@ interface GetBoardPostsResponse {
   };
 }
 
-interface PostDeatail {
-  articleId: number;
-  userId: number;
-  nickname: string;
-  profileImgPath: string | null;
-  createdAt: string;
-  updatedAt: string | null;
-  title: string;
-  content: string;
-  replies: number;
-  likes: number;
-  views: number;
-  isLiked: boolean;
-  images: PostImage[];
-}
+// interface PostDeatail {
+//   articleId: number;
+//   userId: number;
+//   nickname: string;
+//   profileImgPath: string | null;
+//   createdAt: string;
+//   updatedAt: string | null;
+//   title: string;
+//   content: string;
+//   replies: number;
+//   likes: number;
+//   views: number;
+//   isLiked: boolean;
+//   images: PostImage[];
+// }
 
 interface PostImage {
   articleImgId: number;
