@@ -61,14 +61,15 @@ export default function Header() {
               )}
             </div>
             <Link href={`/profile/${userInfo?.userId}`}>
-              <Image
-                className="cursor-pointer rounded-full"
-                src={userInfo?.imgUrl || user_default_image}
-                alt="유저 프로필"
-                width={36}
-                height={36}
-                priority
-              />
+              <div className="relative h-9 w-9">
+                <Image
+                  className="cursor-pointer rounded-full"
+                  src={userInfo?.imgUrl || user_default_image}
+                  alt="유저 프로필"
+                  fill
+                  priority
+                />
+              </div>
             </Link>
           </>
         ) : (
