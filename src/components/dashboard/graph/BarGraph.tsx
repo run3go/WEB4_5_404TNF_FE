@@ -5,6 +5,8 @@ import { useEffect, useRef } from 'react';
 
 export default function BarGraph({ walking }: { walking: DashboardWalking }) {
   const svgRef = useRef<SVGSVGElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const dataset = walking;
     const maxData = Math.max(...dataset.map((d) => d.time));
@@ -30,47 +32,24 @@ export default function BarGraph({ walking }: { walking: DashboardWalking }) {
       .attr('fill', 'var(--color-primary-300)')
       .attr('rx', 16);
 
-    const tooltipGroup = svg.append('g').style('display', 'none');
-
-    const tooltipBox = tooltipGroup
-      .append('rect')
-      .attr('rx', 6)
-      .attr('fill', 'var(--color-black)');
-
-    const tooltipText = tooltipGroup
-      .append('text')
-      .attr('x', 0)
-      .attr('y', 18)
-      .attr('font-size', 12)
-      .attr('text-anchor', 'middle')
-      .attr('fill', 'var(--color-background)');
-
     rect
       .on('mousemove', (evt, d) => {
         const [mx, my] = pointer(evt);
-        const texts = [d.date, formatMinutes(d.time)];
-        const boxWidth = String(d).length * 7;
-        const boxHeight = texts.length * 23;
+        const tooltip = tooltipRef.current;
+        if (!tooltip) return;
 
-        tooltipGroup
-          .style('display', 'block')
-          .attr('transform', `translate(${mx + 10}, ${my - 15})`);
-
-        tooltipBox.attr('width', boxWidth).attr('height', boxHeight);
-
-        tooltipText.selectAll('tspan').remove();
-
-        tooltipText
-          .selectAll('tspan')
-          .data(texts)
-          .enter()
-          .append('tspan')
-          .attr('x', boxWidth / 2)
-          .attr('dy', (_, i) => (i === 0 ? 0 : '1.5em'))
-          .text((d) => d);
+        tooltip.style.display = 'block';
+        tooltip.style.left = `${mx + 20}px`;
+        tooltip.style.top = `${my}px`;
+        tooltip.style.width = `${String(d).length * 7}px`;
+        tooltip.innerHTML = `
+          <div className="font-bold">${d.date}</div>
+          <div>${formatMinutes(d.time)}</div>
+        `;
       })
       .on('mouseleave', () => {
-        tooltipGroup.style('display', 'none');
+        const tooltip = tooltipRef.current;
+        if (tooltip) tooltip.style.display = 'none';
       })
       .transition()
       .duration(1000)
@@ -78,8 +57,12 @@ export default function BarGraph({ walking }: { walking: DashboardWalking }) {
   }, [walking]);
 
   return (
-    <div>
+    <div className="relative">
       <svg className="select-none" ref={svgRef}></svg>
+      <div
+        className="absolute z-10 hidden rounded-[6px] bg-[var(--color-black)] px-[10px] py-[6px] text-center text-xs text-[var(--color-background)]"
+        ref={tooltipRef}
+      />
     </div>
   );
 }
