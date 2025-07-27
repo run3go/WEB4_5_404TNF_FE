@@ -70,7 +70,7 @@ export default function ImageList({
             <Swiper
               spaceBetween={12}
               slidesPerView="auto"
-              className="!h-[88px] !w-[68.9vw]"
+              className="!h-[88px] !w-[68.9vw] !pr-[2.4vw]"
             >
               {pickedImages.map((preview, i) => (
                 <SwiperSlide key={i} className="!w-[80px]">
@@ -91,6 +91,7 @@ export default function ImageList({
                         height="12px"
                         left="-72px"
                         top="-126px"
+                        className="scale-80"
                       />
                     </div>
                   </div>

@@ -71,7 +71,7 @@ export default function PostCreateImages({
           <Swiper
             spaceBetween={24}
             slidesPerView="auto"
-            className={`!h-[135px] ${path.includes('create') ? '!w-[45vw]' : '!w-[36.8vw]'} `}
+            className={`!h-[135px] ${path.includes('create') ? '!w-[45vw] !pr-[1.4vw]' : '!w-[36.8vw]'} `}
           >
             {pickedImages?.map((preview, i) => (
               <SwiperSlide key={i} className="!w-[120px]">

@@ -46,7 +46,7 @@ export default function PostCreate() {
       <div className="hidden h-full w-full flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex">
         <p className="text-center text-[24px] font-bold">게시물 작성</p>
         <Card className="scrollbar-hidden mt-8 h-full w-[69vw] overflow-y-auto pt-16">
-          <div className="flex gap-7 px-[8.37vw] text-[20px] font-medium">
+          <div className="flex gap-7 px-[8.37vw] text-[20px] font-medium sm:mt-8">
             <label className="shrink-0 text-[20px] font-medium" htmlFor="title">
               제목
             </label>
@@ -63,7 +63,7 @@ export default function PostCreate() {
             </label>
             <textarea
               id="content"
-              className="scrollbar-hidden min-h-[236px] w-full resize-none placeholder:text-[#909090] focus:outline-none"
+              className="scrollbar-hidden min-h-[236px] w-full resize-none pb-8 placeholder:text-[#909090] focus:outline-none"
               onInput={(e) => {
                 e.currentTarget.style.height = 'auto';
                 e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
