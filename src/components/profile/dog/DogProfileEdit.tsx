@@ -1,9 +1,4 @@
-import {
-  deletePetProfile,
-  getPetProfiles,
-  modifyPetProfile,
-  registPetProfile,
-} from '@/api/pet';
+import { deletePetProfile } from '@/api/pet';
 import {
   petBreedData,
   petNeutering,
@@ -14,56 +9,42 @@ import dog from '@/assets/images/default-dog-profile.svg';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
+import {
+  useModifyMutation,
+  usePetForm,
+  useRegistMutation,
+} from '@/lib/hooks/profile/usePetForm';
 import { handleError } from '@/lib/utils/handleError';
-import { petProfileSchema } from '@/lib/utils/petProfile.schema';
-import { useProfileStore } from '@/stores/profileStore';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { formatDate } from 'date-fns';
+import { useAuthStore } from '@/stores/authStoe';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { RefObject } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEdit({
+  profileData,
   closeModal,
-  ref,
+  petId,
 }: {
+  profileData?: PetProfile;
   closeModal: () => void;
-  ref?: RefObject<PetProfile | null>;
+  petId: number;
 }) {
-  const profile = ref?.current;
+  const userInfo = useAuthStore((state) => state.userInfo);
+  const [imageUrl, setImageUrl] = useState(profileData?.imgUrl || dog);
 
-  const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
-  const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
-    resolver: zodResolver(petProfileSchema),
-    defaultValues: profile
-      ? {
-          image: null,
-          name: profile.name,
-          breed: profile.breed,
-          metday: profile.metday,
-          birthday: profile.birthday,
-          size: profile.size,
-          isNeutered: profile.isNeutered ? 'true' : 'false',
-          sex: profile.sex ? 'true' : 'false',
-          registNumber: profile.registNumber,
-          weight: String(profile.weight),
-        }
-      : {
-          image: null,
-          name: '',
-          breed: 'BEAGLE',
-          metday: formatDate(new Date(), 'yyyy-MM-dd'),
-          birthday: formatDate(new Date(), 'yyyy-MM-dd'),
-          size: undefined,
-          isNeutered: undefined,
-          sex: undefined,
-          registNumber: '',
-          weight: '',
-        },
-  });
+  const queryClient = useQueryClient();
+
+  const { handleSubmit, register, watch, setValue, control } =
+    usePetForm(profileData);
+
+  const { mutate: registMutate, isPending: isRegistPending } =
+    useRegistMutation(userInfo, closeModal);
+  const { mutate: modifyMutate, isPending: isModifyPending } =
+    useModifyMutation(userInfo, petId, closeModal);
 
   const onSubmit = async (data: PetFormValues) => {
     const payload = {
@@ -71,30 +52,21 @@ export default function DogProfileEdit({
       sex: data.sex === 'true' ? true : false,
       isNeutered: data.isNeutered === 'true' ? true : false,
       weight: data.weight ? Number(data.weight) : null,
-      registNumber: data.registNumber ?? null,
-      // 로그인 기능 구현 이후 자신의 userId 입력
-      userId: '10001',
-      // 이미지 입력 값 생긴 후 수정
-      image: null,
+      registNumber: data.registNumber ? data.registNumber : null,
     };
-    if (profile) {
-      await modifyPetProfile(payload, profile.petId);
+    if (profileData) {
+      modifyMutate({ payload, image: data.image, petId });
     } else {
-      await registPetProfile(payload);
+      registMutate({ payload, image: data.image });
     }
-    // 로그인 기능 구현 이후 자신의 userId 입력
-    const profiles = await getPetProfiles('10001');
-    setPetProfiles(profiles);
-    closeModal();
   };
 
   const handleDeletePet = async () => {
-    if (!profile) return;
+    await deletePetProfile(petId);
 
-    await deletePetProfile(profile.petId);
-
-    const profiles = await getPetProfiles('10001');
-    setPetProfiles(profiles);
+    await queryClient.invalidateQueries({
+      queryKey: ['pets', String(userInfo?.userId)],
+    });
     closeModal();
   };
 
@@ -117,18 +89,34 @@ export default function DogProfileEdit({
           className="flex flex-col items-center"
           onSubmit={handleSubmit(onSubmit, handleError)}
         >
-          {/* 사진 선택 */}
-          <div className="mb-10 flex flex-col items-center gap-4">
+          <label
+            className="group mb-10 flex cursor-pointer flex-col items-center gap-4"
+            htmlFor="image"
+          >
             <Image
-              className="rounded-full"
-              src={dog}
+              className="h-30 w-30 rounded-full object-cover"
+              src={imageUrl}
               alt="강아지 프로필"
               width={120}
               height={120}
               priority
             />
-            <span className="text-[var(--color-grey)]">사진 선택하기</span>
-          </div>
+            <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)]">
+              사진 선택하기
+            </span>
+          </label>
+          <input
+            className="hidden"
+            id="image"
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              if (e.target.files) {
+                setValue('image', e.target.files[0]);
+                setImageUrl(window.URL.createObjectURL(e.target.files[0]));
+              }
+            }}
+          />
           <div className="flex justify-between gap-20 pb-14">
             <div className="w-full">
               <InputField
@@ -213,9 +201,14 @@ export default function DogProfileEdit({
               />
             </div>
           </div>
-          <Button className="w-50">{profile ? '수정하기' : '등록하기'}</Button>
+          <Button
+            disabled={isModifyPending || isRegistPending}
+            className="w-50"
+          >
+            {profileData ? '수정하기' : '등록하기'}
+          </Button>
         </form>
-        {profile && (
+        {profileData && (
           <span
             className="absolute right-10 cursor-pointer text-[var(--color-grey)] hover:text-[var(--color-black)]"
             onClick={handleDeletePet}

@@ -3,6 +3,7 @@
 import { adminLogin, getUserProfile } from '@/api/auth';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -13,6 +14,15 @@ export default function AdminLoginForm() {
   const [error, setError] = useState('');
 
   const setLogin = useAuthStore((state) => state.setLogin);
+
+  const adminLoginMutation = useMutation({
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      adminLogin(email, password),
+  });
+
+  const profileMutation = useMutation({
+    mutationFn: getUserProfile,
+  });
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,9 +37,11 @@ export default function AdminLoginForm() {
     }
 
     try {
-      const { data: user } = await adminLogin(email, password);
-      const data = await getUserProfile(user.userId);
-      console.log(data);
+      const { data: user } = await adminLoginMutation.mutateAsync({
+        email,
+        password,
+      });
+      const data = await profileMutation.mutateAsync(user.userId);
 
       const userInfo: User = {
         userId: data.userId,
@@ -38,12 +50,11 @@ export default function AdminLoginForm() {
         nickname: data.nickname,
         role: data.role,
         provider: data.provider,
-        userImg: data.userImg,
+        imgUrl: data.userImg,
       };
       setLogin(userInfo);
       sessionStorage.setItem('userId', user.userId);
-      document.cookie = `userId=${user.userId}; path=/; max-age=3600`;
-
+      sessionStorage.setItem('role', data.role);
       route.push('/');
     } catch (err) {
       setError(

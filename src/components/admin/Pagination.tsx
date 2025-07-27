@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import Icon from '../common/Icon';
 
-export default function Pagenation() {
-  const [currentPage, setCurrentPage] = useState(1);
+export default function Pagenation({
+  currentPage,
+  onPageChange,
+}: {
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}) {
+  // const [currentPage, setCurrentPage] = useState(1);
   const [currentGroup, setCurrentGroup] = useState(1);
 
   const postsPerPage = 10;
@@ -36,7 +42,7 @@ export default function Pagenation() {
         {pageNumbers.map((page) => (
           <button
             key={page}
-            onClick={() => setCurrentPage(page)}
+            onClick={() => onPageChange(page)}
             className={`flex h-4 items-center justify-center align-middle ${currentPage === page ? 'font-bold text-[var(--color-primary-500)]' : ''} cursor-pointer`}
           >
             {page}

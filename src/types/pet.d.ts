@@ -8,20 +8,20 @@ type PetPayload = {
   weight: number | null;
   sex: boolean;
   isNeutered: boolean;
-  image: string | null;
+  userId?: string;
 };
 
 type PetFormValues = {
-  registNumber?: string;
+  registNumber?: string | null;
   birthday: string;
   metday: string;
   name: string;
   breed: PetBreed;
   size: PetSize;
-  weight?: string;
+  weight?: string | null;
   sex: 'true' | 'false';
   isNeutered: 'true' | 'false';
-  image: string | null;
+  image: File | null;
 };
 
 type PetProfile = {
@@ -34,13 +34,7 @@ type PetProfile = {
   size: PetSize;
   sex: boolean;
   isNeutered: boolean;
-  image: {
-    petImgId: number;
-    savePath: string;
-    type: 'THUMBNAIL' | 'PROFILE' | 'GALLERY';
-    originName: string;
-    renamedName: string;
-  };
+  imgUrl: string;
   birthday?: string;
   weight?: number;
   days?: number;
@@ -76,3 +70,52 @@ type PetBreed =
   | 'MIX';
 
 type PetSize = 'SMALL' | 'MEDIUM' | 'LARGE';
+
+type Vaccination = {
+  count: number;
+  pet: number;
+  vaccinationId: number;
+  vaccine: {
+    vaccineId: number;
+    name: VaccineName;
+    period: number;
+    additionalCycle: number;
+    boosterCount: number;
+    boosterCycle: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string;
+  };
+  vaccineAt: string;
+  vaccineType: VaccineType;
+};
+
+type VaccinePayload = {
+  name: VaccineName;
+  vaccineAt: string;
+  vaccineType: VaccineType;
+  count: number;
+};
+
+type VaccineFormValues = {
+  DHPPL: VaccineInfo;
+  CORONAVIRUS: VaccineInfo;
+  KENNEL_COUGH: VaccineInfo;
+  RABIES: VaccineInfo;
+  INFLUENZA: VaccineInfo;
+};
+
+type VaccineInfo = {
+  vaccineAt?: string;
+  vaccineType: VaccineType;
+  count?: number | null;
+};
+
+type VaccineName =
+  | 'DHPPL'
+  | 'CORONAVIRUS'
+  | 'KENNEL_COUGH'
+  | 'RABIES'
+  | 'INFLUENZA';
+
+type VaccineType = 'FIRST' | 'BOOSTER' | 'ADDITIONAL';

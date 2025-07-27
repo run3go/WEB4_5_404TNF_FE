@@ -1,9 +1,4 @@
-import {
-  deletePetProfile,
-  getPetProfiles,
-  modifyPetProfile,
-  registPetProfile,
-} from '@/api/pet';
+import { deletePetProfile } from '@/api/pet';
 import {
   petBreedData,
   petNeutering,
@@ -13,53 +8,50 @@ import {
 import dog from '@/assets/images/default-dog-profile.svg';
 import MobileTitle from '@/components/common/MobileTitle';
 import SelectBox from '@/components/common/SelectBox';
+import {
+  useModifyMutation,
+  usePetForm,
+  useRegistMutation,
+} from '@/lib/hooks/profile/usePetForm';
+import { usePetProfile } from '@/lib/hooks/profile/useProfiles';
 import { handleError } from '@/lib/utils/handleError';
-import { petProfileSchema } from '@/lib/utils/petProfile.schema';
+import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { formatDate } from 'date-fns';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { Controller, useForm } from 'react-hook-form';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
 
 export default function DogProfileEditMobile() {
+  const params = useParams();
+  const userId = params?.userId as string;
+  const userInfo = useAuthStore((state) => state.userInfo);
+  const isMyProfile = userInfo?.userId === Number(userId);
+
+  const selectPet = useProfileStore((state) => state.selectPet);
+  const selectedPet = useProfileStore((state) => state.selectedPet);
   const toggleEditingPetProfile = useProfileStore(
     (state) => state.toggleEditingPetProfile,
   );
-  const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
-  const profile = useProfileStore((state) => state.selectedProfile);
-  const selectProfile = useProfileStore((state) => state.selectProfile);
+  const { data: profile } = usePetProfile(selectedPet ?? 0, isMyProfile);
+  const { handleSubmit, register, watch, setValue, control } =
+    usePetForm(profile);
+  const [imageUrl, setImageUrl] = useState(profile?.imgUrl || dog);
 
-  const { handleSubmit, register, watch, control } = useForm<PetFormValues>({
-    resolver: zodResolver(petProfileSchema),
-    defaultValues: profile
-      ? {
-          image: null,
-          name: profile.name,
-          breed: profile.breed,
-          metday: profile.metday,
-          birthday: profile.birthday,
-          size: profile.size,
-          isNeutered: profile.isNeutered ? 'true' : 'false',
-          sex: profile.sex ? 'true' : 'false',
-          registNumber: profile.registNumber,
-          weight: String(profile.weight),
-        }
-      : {
-          image: null,
-          name: '',
-          breed: 'BEAGLE',
-          metday: formatDate(new Date(), 'yyyy-MM-dd'),
-          birthday: formatDate(new Date(), 'yyyy-MM-dd'),
-          size: undefined,
-          isNeutered: undefined,
-          sex: undefined,
-          registNumber: '',
-          weight: '',
-        },
-  });
+  const queryClient = useQueryClient();
+  const { mutate: registMutate } = useRegistMutation(
+    userInfo,
+    toggleEditingPetProfile,
+  );
+  const { mutate: modifyMutate } = useModifyMutation(
+    userInfo,
+    selectedPet!,
+    toggleEditingPetProfile,
+  );
 
   const onSubmit = async (data: PetFormValues) => {
     const payload = {
@@ -67,32 +59,26 @@ export default function DogProfileEditMobile() {
       sex: data.sex === 'true' ? true : false,
       isNeutered: data.isNeutered === 'true' ? true : false,
       weight: data.weight ? Number(data.weight) : null,
-      registNumber: data.registNumber ?? null,
-      // 로그인 기능 구현 이후 자신의 userId 입력
-      userId: '10001',
-      // 이미지 입력 값 생긴 후 수정
-      image: null,
+      registNumber: data.registNumber ? data.registNumber : null,
     };
 
-    if (profile) {
-      await modifyPetProfile(payload, profile.petId);
+    if (profile && selectedPet) {
+      modifyMutate({ payload, image: data.image, petId: selectedPet });
     } else {
-      await registPetProfile(payload);
+      registMutate({ payload, image: data.image });
     }
-
-    // 로그인 기능 구현 이후 자신의 userId 입력
-    const profiles = await getPetProfiles('10001');
-    setPetProfiles(profiles);
-    toggleEditingPetProfile();
-    selectProfile(null);
+    selectPet(null);
   };
+
   const handleDeletePet = async () => {
     if (!profile) return;
 
     await deletePetProfile(profile.petId);
 
-    const profiles = await getPetProfiles('10001');
-    setPetProfiles(profiles);
+    await queryClient.invalidateQueries({
+      queryKey: ['pets', String(userInfo?.userId)],
+    });
+    selectPet(null);
     toggleEditingPetProfile();
   };
 
@@ -110,21 +96,35 @@ export default function DogProfileEditMobile() {
             }}
             closePage={() => {
               toggleEditingPetProfile();
-              selectProfile(null);
+              selectPet(null);
             }}
           />
-          {/* 사진 선택 */}
-          <div className="mb-9 flex flex-col items-center gap-4">
+          <label
+            className="mb-9 flex flex-col items-center gap-4"
+            htmlFor="image"
+          >
             <Image
-              className="rounded-full"
-              src={dog}
+              className="h-25 w-25 rounded-full object-cover"
+              src={imageUrl}
               alt="강아지 프로필"
               width={100}
               height={100}
               priority
             />
             <span className="text-[var(--color-grey)]">사진 선택하기</span>
-          </div>
+          </label>
+          <input
+            className="hidden"
+            id="image"
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              if (e.target.files) {
+                setValue('image', e.target.files[0]);
+                setImageUrl(window.URL.createObjectURL(e.target.files[0]));
+              }
+            }}
+          />
           <div className="flex flex-col justify-between gap-20 pb-3">
             <div className="w-full">
               <InputField

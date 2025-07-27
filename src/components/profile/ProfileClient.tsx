@@ -1,12 +1,16 @@
 'use client';
+import { usePetProfiles } from '@/lib/hooks/profile/useProfiles';
+import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
+import { useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
 import DogProfileEditMobile from './dog/DogProfileEditMobile';
 import DogProfileList from './dog/DogProfileList';
-import PostList from './PostList';
+import PostWrapper from './PostWrapper';
 import UserProfile from './user/UserProfile';
 import UserProfileEditMobile from './user/UserProfileEditMobile';
 
@@ -17,62 +21,67 @@ export default function ProfileClient({
   petProfiles: PetProfile[];
   userProfile: UserProfile;
 }) {
+  const params = useParams();
+  const userId = params?.userId as string;
+  const userInfo = useAuthStore((state) => state.userInfo);
+  const isMyProfile = userInfo?.userId === Number(userId);
+
+  usePetProfiles(userId, petProfiles);
+  const queryClient = useQueryClient();
+
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
-  const [isProfile, setIsProfile] = useState(true);
 
-  const isEditingPetProfile = useProfileStore(
-    (state) => state.isEditingPetProfile,
-  );
-  const isEditingUserProfile = useProfileStore(
-    (state) => state.isEditingUserProfile,
-  );
-  const setPetProfiles = useProfileStore((state) => state.setPetProfiles);
+  const [isProfile, setIsProfile] = useState(true);
+  const isEditingPet = useProfileStore((state) => state.isEditingPet);
+  const isEditingUser = useProfileStore((state) => state.isEditingUser);
 
   useEffect(() => {
-    setPetProfiles(petProfiles);
-  }, [petProfiles, setPetProfiles]);
+    if (!isMyProfile) return;
+    petProfiles.forEach((profile) => {
+      queryClient.prefetchQuery({ queryKey: ['pet', profile.petId] });
+      queryClient.prefetchQuery({ queryKey: ['vaccine', profile.petId] });
+    });
+  }, [petProfiles, queryClient, isMyProfile]);
 
-  if (isMobile && isEditingPetProfile) {
-    return <DogProfileEditMobile />;
-  } else if (isMobile && isEditingUserProfile) {
-    return <UserProfileEditMobile />;
-  } else {
-    return (
-      <main className="scrollbar-hidden relative h-screen w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
-        <h1 className="mb-15 hidden text-center text-3xl sm:block">
-          <strong>닉네임</strong>
-          님의 페이지
-        </h1>
-        <div className="mb-8 flex justify-center gap-4 sm:hidden">
-          <Button
-            className={twMerge(
-              'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
-              isProfile && 'bg-[var(--color-pink-300)]',
-            )}
-            onClick={() => setIsProfile(true)}
-          >
-            프로필
-          </Button>
-          <Button
-            className={twMerge(
-              'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
-              !isProfile && 'bg-[var(--color-pink-300)]',
-            )}
-            onClick={() => setIsProfile(false)}
-          >
-            활동내역
-          </Button>
-        </div>
-        <div className={isProfile ? '' : 'hidden sm:block'}>
-          <UserProfile userProfile={userProfile} />
-          <DogProfileList profileData={petProfiles} />
-        </div>
-        <div className={isProfile ? 'hidden sm:block' : ''}>
-          <PostList />
-        </div>
-      </main>
-    );
+  if (isMobile) {
+    if (isEditingPet) return <DogProfileEditMobile />;
+    if (isEditingUser) return <UserProfileEditMobile />;
   }
+  return (
+    <main className="scrollbar-hidden relative h-full w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
+      <h1 className="mb-15 hidden text-center text-3xl sm:block">
+        <strong>{userProfile.nickname}</strong>
+        님의 페이지
+      </h1>
+      <div className="mb-8 flex justify-center gap-4 sm:hidden">
+        <Button
+          className={twMerge(
+            'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
+            isProfile && 'bg-[var(--color-pink-300)]',
+          )}
+          onClick={() => setIsProfile(true)}
+        >
+          프로필
+        </Button>
+        <Button
+          className={twMerge(
+            'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
+            !isProfile && 'bg-[var(--color-pink-300)]',
+          )}
+          onClick={() => setIsProfile(false)}
+        >
+          활동내역
+        </Button>
+      </div>
+      <div className={isProfile ? '' : 'hidden sm:block'}>
+        <UserProfile userProfile={userProfile} />
+        <DogProfileList />
+      </div>
+      <div className={isProfile ? 'hidden sm:block' : ''}>
+        <PostWrapper />
+      </div>
+    </main>
+  );
 }

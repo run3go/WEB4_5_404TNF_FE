@@ -1,28 +1,35 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import user_default_image from '@/assets/images/default-profile.svg';
+import { useAuthStore } from '@/stores/authStoe';
+import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import NotificationModal from '../notification/NotificationModal';
+import Button from './Button';
 import Card from './Card';
 import Icon from './Icon';
-import NotificationModal from '../notification/NotificationModal';
-import { useSidebarStore } from '@/stores/sidebarStore';
-import { useAuthStore } from '@/stores/authStoe';
-import user_default_image from '@/assets/images/default-profile.svg';
-import Button from './Button';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const { open } = useSidebarStore();
-  const { isLogin, userInfo } = useAuthStore();
+  const { userInfo, isLogin } = useAuthStore();
 
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const storedUserId = sessionStorage.getItem('userId');
+    setUserId(storedUserId);
     setIsLoading(true);
-  }, []);
+
+    if (isLogin) {
+      setUserId(null);
+    }
+  }, [isLogin]);
 
   if (!isLoading) {
     return null;
@@ -31,7 +38,7 @@ export default function Header() {
   return (
     <>
       <div className="mb-[2.6vh] hidden items-center justify-end gap-7 pr-[2.43vw] sm:flex">
-        {isLogin ? (
+        {userId || isLogin ? (
           <>
             <div className="relative">
               <div
@@ -56,7 +63,7 @@ export default function Header() {
             <Link href={`/profile/${userInfo?.userId}`}>
               <Image
                 className="cursor-pointer rounded-full"
-                src={userInfo?.userImg || user_default_image}
+                src={userInfo?.imgUrl || user_default_image}
                 alt="유저 프로필"
                 width={36}
                 height={36}
