@@ -6,7 +6,7 @@ import WriterInfo from '../common/WriterInfo';
 import ImageList from './ImageList';
 
 interface PostDetailCardProps {
-  postDetail: PostDetail;
+  postDetail: CommunityPostDeatail;
   onReportClick: () => void;
   onEditClick: () => void;
   onRemoveClick: () => void;
@@ -52,9 +52,9 @@ export default function PostDetailCard({
             {postDetail.content}
           </p>
         </div>
-        {postDetail?.articleImgPath?.length !== 0 && (
+        {postDetail?.images?.length !== 0 && (
           <div className="w-full sm:max-w-[calc(100vw-622px)]">
-            <ImageList postImage={postDetail.articleImgPath} />
+            <ImageList postImage={postDetail.images} />
           </div>
         )}
         <div className="pt-7 sm:pt-14">
