@@ -106,7 +106,7 @@ export default function WriterInfo({
         >
           <div onClick={(e) => e.stopPropagation()}>
             <ReportModal
-              reportedId={userInfo!.userId}
+              reportedId={authorId}
               contentId={postId!}
               reportedName={name}
               reportType="BOARD"
