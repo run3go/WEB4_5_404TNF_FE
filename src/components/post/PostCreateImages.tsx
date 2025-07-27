@@ -56,7 +56,7 @@ export default function PostCreateImages({
           htmlFor="inputFile"
         >
           <Icon width="22px" height="22px" left="-301px" top="-121px" />
-          <p className="text-[16px] font-medium">{`${pickedImages.length} / 5`}</p>
+          <p className="text-[16px] font-medium">{`${pickedImages?.length} / 5`}</p>
         </label>
         <input
           type="file"
@@ -67,13 +67,13 @@ export default function PostCreateImages({
           onChange={handleImageChange}
         />
 
-        {pickedImages.length > 0 && (
+        {pickedImages?.length > 0 && (
           <Swiper
             spaceBetween={24}
             slidesPerView="auto"
             className={`!h-[135px] ${path.includes('create') ? '!w-[45vw]' : '!w-[36.8vw]'} `}
           >
-            {pickedImages.map((preview, i) => (
+            {pickedImages?.map((preview, i) => (
               <SwiperSlide key={i} className="!w-[120px]">
                 <div className="relative h-[120px] w-[120px]">
                   <Image
