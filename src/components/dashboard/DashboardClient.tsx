@@ -113,7 +113,7 @@ export default function DashboardClient() {
     );
   if (!selectedPet) return <NoPets content="대시보드를 확인하려면" />;
   return (
-    <main className="relative h-full px-[26px] py-6 sm:px-12 sm:py-7">
+    <main className="relative h-full px-[26px] py-6 transition-all duration-150 sm:px-12 sm:py-7">
       <div className="flex items-center justify-between sm:mb-7">
         <h2 className="hidden text-xl font-bold sm:block">
           {recommend ?? '맞춤형 데이터가 없습니다'}
@@ -138,7 +138,7 @@ export default function DashboardClient() {
             height={98}
             priority
           />
-          <div className="absolute top-[20%] left-1/2 w-full max-w-105 -translate-x-1/2 px-14 min-[500px]:text-lg">
+          <div className="absolute top-[20%] left-1/2 w-full max-w-105 -translate-x-1/2 px-8 min-[500px]:text-lg dark:text-[var(--color-black)]">
             {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다'}
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function DashboardClient() {
               height={98}
               priority
             />
-            <div className="absolute top-1/2 left-1/2 w-full max-w-105 -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute top-1/2 left-1/2 w-full max-w-105 -translate-x-1/2 -translate-y-1/2 dark:text-[var(--color-black)]">
               {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다...'}
             </div>
           </div>

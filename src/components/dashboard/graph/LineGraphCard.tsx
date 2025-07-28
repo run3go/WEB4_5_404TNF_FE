@@ -118,14 +118,14 @@ export default function LineGraphCard({
         <Card
           className={`${dataset?.length ? 'card__hover' : 'bg-[#fafafa]'} h-40 w-full sm:h-[200px]`}
         >
-          <h2 className="mb-5 text-xs font-medium text-[var(--color-grey)] sm:text-base sm:text-[var(--color-black)]">
+          <h2 className="mb-5 text-xs font-medium text-[var(--color-grey)] sm:text-base sm:text-[var(--color-black)] dark:text-[var(--color-background)]">
             {title}
           </h2>
           <div className="h-[100px]" ref={containerRef}>
             {dataset && dataset.length ? (
               dataset.length === 1 ? (
-                <div className="flex h-full items-center justify-center">
-                  <span className="text-[var(--color-grey)]">
+                <div className="flex h-full items-center justify-center pb-8 sm:pb-0">
+                  <span className="text-xs text-[var(--color-grey)] sm:text-base">
                     데이터가 충분하지 않아 그래프를 표시할 수 없습니다
                   </span>
                 </div>
@@ -140,13 +140,13 @@ export default function LineGraphCard({
                 />
               )
             ) : (
-              <div className="flex w-full flex-col items-center gap-3">
+              <div className="flex w-full flex-col items-center gap-3 text-sm sm:text-base">
                 <span className="text-center">
                   등록된 {title}
                   {title === '몸무게' ? '가' : '이'} 없어요
                 </span>
                 <button
-                  className="cursor-pointer rounded-full bg-[var(--color-primary-200)] px-4 py-2 transition-all hover:bg-[var(--color-primary-300)]"
+                  className="cursor-pointer rounded-full bg-[var(--color-primary-200)] px-4 py-2 transition-colors hover:bg-[var(--color-primary-300)] dark:bg-[var(--color-primary-300)] dark:text-[var(--color-black)] dark:hover:bg-[var(--color-primary-500)]"
                   onClick={() => router.push('/diary/write')}
                 >
                   지금 기록하기
