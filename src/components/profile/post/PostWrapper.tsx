@@ -27,20 +27,21 @@ export default function PostWrapper() {
   }, [inView, fetchNextPage]);
 
   const allItems = data?.pages?.flat();
-
   return (
     <div className="mb-10">
-      <div className="flex w-full flex-col justify-between text-sm sm:flex-row sm:text-base">
+      <div className="mb-10 flex w-full flex-col justify-between text-sm sm:flex-row sm:text-base">
         <PostTabs handleChangeTab={handleChangeTab} type={type} />
-        <div className="mb-3 self-end text-xs sm:text-base">
-          <SelectBox
-            value={sortType}
-            setValue={(newValue: string) => setSortType(newValue as SortType)}
-            options={options}
-            width="100px"
-            isCenter
-          />
-        </div>
+        {allItems && allItems[0].articles.length > 0 && (
+          <div className="mb-3 self-end text-xs sm:text-base">
+            <SelectBox
+              value={sortType}
+              setValue={(newValue: string) => setSortType(newValue as SortType)}
+              options={options}
+              width="100px"
+              isCenter
+            />
+          </div>
+        )}
       </div>
       <div className="flex flex-col gap-10">
         {isPending ? (
@@ -49,10 +50,14 @@ export default function PostWrapper() {
             <div className="mx-1h-[192px] w-full rounded-[12px] bg-[var(--color-grey)] sm:h-[228px] sm:w-full"></div>
             <div className="mx-1h-[192px] w-full rounded-[12px] bg-[var(--color-grey)] sm:h-[228px] sm:w-full"></div>
           </>
-        ) : (
+        ) : allItems && allItems[0].articles.length ? (
           allItems?.map((page) => (
             <PostList key={page.pageInfo.currentPage} page={page} />
           ))
+        ) : (
+          <div className="self-center text-[var(--color-grey)]">
+            게시물이 존재하지 않습니다
+          </div>
         )}
         {isFetchingNextPage && (
           <>
