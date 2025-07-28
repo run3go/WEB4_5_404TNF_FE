@@ -13,6 +13,7 @@ import { useUpdateSchedule } from '@/lib/hooks/schedule/useUpdateSchedule';
 // import loading from '../../assets/images/loading-footprint.json';
 import { useAuthStore } from '@/stores/authStoe';
 import Loading from '../common/Loading';
+import { Toast } from '../common/Toast';
 
 export default function AddSchedule({
   closeModal,
@@ -70,33 +71,31 @@ export default function AddSchedule({
   const handleSubmit = () => {
     // 필수값들 확인 후 alert
     if (name.length === 0) {
-      alert('일정을 입력해주세요.');
+      Toast.error('일정을 입력해주세요.');
       return;
     }
 
     if (!date) {
-      alert('날짜를 입력해주세요.');
+      Toast.error('날짜를 입력해주세요.');
       return;
     }
 
     if (cycle !== 'NONE') {
       if (!cycleEnd) {
-        alert('반복 종료일을 입력해주세요');
+        Toast.error('반복 종료일을 입력해주세요');
         return;
       }
 
       const checkDate = isBefore(cycleEnd, date);
 
       if (checkDate) {
-        alert('반복 종료일은 일정 날짜 이후로 선택해주세요.');
+        Toast.error('반복 종료일은 일정 날짜 이후로 선택해주세요.');
         return;
       }
     }
 
     if (userInfo) {
       if (isEdit && schedule) {
-        console.log(cycle, date, addMonths(date, 3));
-
         updateSchedule({
           scheduleId: schedule.scheduleId,
           petId: Number(petId),
@@ -110,8 +109,6 @@ export default function AddSchedule({
               : format(cycleEnd!, 'yyyy-MM-dd'),
         });
       } else {
-        console.log(cycleEnd);
-
         createSchedule({
           name,
           date: format(date, 'yyyy-MM-dd'),

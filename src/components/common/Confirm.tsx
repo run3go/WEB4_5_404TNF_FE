@@ -3,16 +3,18 @@ export default function Confirm({
   confirmText,
   onClose,
   onConfirm,
+  className,
 }: {
   description: string;
   confirmText: string;
   onClose: () => void;
   onConfirm: () => void;
+  className?: string;
 }) {
   return (
     <>
       <div
-        className="fixed inset-0 z-202 bg-[var(--color-black)] opacity-50"
+        className={`fixed inset-0 z-202 bg-[var(--color-black)] opacity-50 ${className}`}
         onClick={onClose}
       />
       <div className="fixed top-[40%] left-1/2 z-1000 flex -translate-x-1/2 flex-col items-center gap-8 rounded-[20px] bg-[var(--color-background)] px-[55px] pt-11 pb-8 text-sm sm:text-lg">

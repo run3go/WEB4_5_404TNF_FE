@@ -1,4 +1,5 @@
 import { createSchedule } from '@/api/schedule';
+import { Toast } from '@/components/common/Toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useCreateSchedule = () => {
@@ -9,8 +10,8 @@ export const useCreateSchedule = () => {
       await createSchedule(createData),
 
     onSuccess: () => {
-      // toast로 변경
-      alert('일정이 추가되었습니다.');
+      Toast.success('일정이 추가되었습니다.');
+
       // 일정 다시 불러오기 (쿼리 무효화)
       queryClient.invalidateQueries({
         queryKey: ['schedules'],
@@ -18,7 +19,7 @@ export const useCreateSchedule = () => {
     },
 
     onError: () => {
-      alert('일정 추가 중 오류가 발생했습니다.');
+      Toast.error('일정 추가 중 오류가 발생했습니다.');
     },
   });
 };
