@@ -73,7 +73,7 @@ export default function Sidebar() {
           />
         )}
         <div
-          className={`fixed z-200 ${!isOpen ? 'hidden' : ''} h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[var(--color-black)] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:rounded-[50px] sm:bg-[var(--color-background)] sm:p-8 sm:dark:bg-[var(--color-black)]`}
+          className={`fixed z-200 ${!isOpen ? 'hidden' : ''} h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[var(--color-black)] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:rounded-[50px] sm:bg-[var(--color-background)] sm:p-8 dark:bg-[#343434] sm:dark:bg-[var(--color-black)]`}
         >
           <Link href="/">
             <Image
@@ -108,7 +108,7 @@ export default function Sidebar() {
                   className={`absolute ${pathname === '/dashboard' && 'opacity-0'}`}
                 >
                   <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                     width="24px"
                     height="24px"
                     left="-26px"
@@ -133,7 +133,7 @@ export default function Sidebar() {
                   className={`absolute ${pathname === '/schedule' && 'opacity-0'}`}
                 >
                   <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                     width="24px"
                     height="24px"
                     left="-66px"
@@ -157,7 +157,7 @@ export default function Sidebar() {
                   className={`absolute ${pathname === '/diary' && 'opacity-0'}`}
                 >
                   <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                     width="24px"
                     height="24px"
                     left="-108px"
@@ -181,7 +181,7 @@ export default function Sidebar() {
                   className={`absolute ${pathname.includes('/post') && 'opacity-0'}`}
                 >
                   <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                     width="28px"
                     height="16px"
                     left="-144px"
@@ -205,7 +205,7 @@ export default function Sidebar() {
                   className={`absolute ${pathname === '/guide' && 'opacity-0'}`}
                 >
                   <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                     width="25px"
                     height="26px"
                     left="-186px"
@@ -231,7 +231,7 @@ export default function Sidebar() {
                     className={`absolute ${pathname === '/admin' && 'opacity-0'}`}
                   >
                     <Icon
-                      className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                      // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                       width="24px"
                       height="26px"
                       left="-342px"
@@ -260,13 +260,13 @@ export default function Sidebar() {
                   onClick={() => setIsSettingsOpen(true)}
                 >
                   <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                     width="24px"
                     height="26px"
                     left="-297px"
                     top="-252px"
                   />
-                  <p className="sm:dark:text-[var(--color-background)]">설정</p>
+                  <p className="dark:text-[var(--color-background)]">설정</p>
                 </div>
                 {isSettingsOpen && <Settings ref={modalRef} />}
               </div>
@@ -284,7 +284,7 @@ export default function Sidebar() {
                       height={24}
                       priority
                     />
-                    <p className="sm:dark:text-[var(--color-background)]">
+                    <p className="dark:text-[var(--color-background)]">
                       마이페이지
                     </p>
                   </Link>
@@ -293,13 +293,13 @@ export default function Sidebar() {
                     onClick={handleLogout}
                   >
                     <Icon
-                      className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                      // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                       width="28px"
                       height="28px"
                       left="-264px"
                       top="-18px"
                     />
-                    <p className="sm:dark:text-[var(--color-background)]">
+                    <p className="dark:text-[var(--color-background)]">
                       로그아웃
                     </p>
                   </div>
@@ -310,15 +310,13 @@ export default function Sidebar() {
                   className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
                 >
                   <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                     width="28px"
                     height="28px"
                     left="-264px"
                     top="-18px"
                   />
-                  <p className="sm:dark:text-[var(--color-background)]">
-                    로그인
-                  </p>
+                  <p className="dark:text-[var(--color-background)]">로그인</p>
                 </Link>
               )}
             </div>
