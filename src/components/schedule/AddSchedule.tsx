@@ -1,18 +1,16 @@
-import { twMerge } from 'tailwind-merge';
-import Button from '../common/Button';
-import Icon from '../common/Icon';
-import SelectBox from '../common/SelectBox';
-import DateInput from '../common/DateInput';
-import { useEffect, useState } from 'react';
 import { cycles } from '@/assets/data/schedule';
-import { addMonths, format, isBefore, parseISO } from 'date-fns';
-import { useGetPets } from '@/lib/hooks/useGetPets';
 import { useCreateSchedule } from '@/lib/hooks/schedule/useCreateSchedule';
 import { useUpdateSchedule } from '@/lib/hooks/schedule/useUpdateSchedule';
-// import Lottie from 'lottie-react';
-// import loading from '../../assets/images/loading-footprint.json';
+import { useGetPets } from '@/lib/hooks/useGetPets';
 import { useAuthStore } from '@/stores/authStoe';
+import { addMonths, format, isBefore, parseISO } from 'date-fns';
+import { useEffect, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
+import Button from '../common/Button';
+import DateInput from '../common/DateInput';
+import Icon from '../common/Icon';
 import Loading from '../common/Loading';
+import SelectBox from '../common/SelectBox';
 
 export default function AddSchedule({
   closeModal,
@@ -134,11 +132,8 @@ export default function AddSchedule({
         onClick={closeModal}
       />
 
-      <div className="fixed top-1/2 left-1/2 z-501 h-[400px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
+      <div className="fixed top-1/2 left-1/2 z-501 h-[400px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8 dark:bg-[var(--color-dark-background)]">
         {isPending && <Loading />}
-        {/* <div className="flex h-full items-center justify-center">
-            <Lottie animationData={loading} loop={true} className="h-70 w-70" />
-          </div> */}
 
         {!isPending && (
           <form
