@@ -7,10 +7,10 @@ export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
   const router = useRouter();
   if (!feeding?.amount && !feeding?.date) {
     return (
-      <Card className="flex h-[301px] w-full max-w-[255px] flex-col items-center justify-center gap-6 bg-[#fafafa] text-sm font-medium sm:text-base">
+      <Card className="flex h-[301px] w-full flex-col items-center justify-center gap-6 bg-[#fafafa] text-center text-sm font-medium sm:text-base">
         <span>등록된 식사량 기록이 없어요</span>
         <button
-          className="cursor-pointer rounded-full bg-[var(--color-primary-200)] px-4 py-2 transition-all hover:bg-[var(--color-primary-300)]"
+          className="cursor-pointer rounded-full bg-[var(--color-primary-200)] px-4 py-2 transition-all hover:bg-[var(--color-primary-300)] dark:bg-[var(--color-primary-300)] dark:text-[var(--color-black)] dark:hover:bg-[var(--color-primary-500)]"
           onClick={() => router.push('/diary/write')}
         >
           지금 기록하기
@@ -18,17 +18,16 @@ export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
       </Card>
     );
   }
-
   const unitLabel = feedUnit
     .filter((unit) => unit.value === feeding.unit)
     .map((unit) => unit.label);
 
   return (
-    <Card className="flex w-full max-w-[255px] flex-col text-sm font-medium sm:text-base">
+    <Card className="flex w-full flex-col text-sm font-medium sm:text-base">
       <div className="mb-5 flex flex-col gap-2">
         <span className="text-xs sm:text-base">지난주 평균 식사량 (일)</span>
         <span>
-          {Math.floor(feeding.average)} {unitLabel}
+          {isNaN(feeding.average) ? 0 : Math.floor(feeding.average)} {unitLabel}
         </span>
       </div>
       <div className="mb-4 flex flex-col gap-2">
