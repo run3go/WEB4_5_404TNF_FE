@@ -27,7 +27,7 @@ export default function Calendar({
         disableNavigation={readOnly ? true : false}
         classNames={{
           month_caption:
-            'font-medium mb-2 bg-[var(--color-primary-500)] -mx-2 rounded-t-xl py-2',
+            'font-medium mb-2 bg-[var(--color-primary-500)] -mx-2 rounded-t-xl py-2 dark:text-[var(--color-black)]',
           months: 'w-full relative',
           month_grid: 'w-full',
           weekday: 'h-6 font-medium',

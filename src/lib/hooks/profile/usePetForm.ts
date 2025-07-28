@@ -1,4 +1,5 @@
 import { modifyPetProfile, registPetProfile } from '@/api/pet';
+import { Toast } from '@/components/common/Toast';
 import { petProfileSchema } from '@/lib/utils/petProfile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -57,10 +58,11 @@ export const useRegistMutation = (
       await queryClient.invalidateQueries({
         queryKey: ['pets', String(userInfo?.userId)],
       });
+      Toast.success('반려견이 등록되었습니다!');
       onClose();
     },
     onError: () => {
-      console.error('반려견 등록에 실패했습니다');
+      Toast.error('반려견 등록에 실패했습니다!');
     },
   });
 };
@@ -89,9 +91,10 @@ export const useModifyMutation = (
         queryKey: ['pet', petId],
       });
       onClose();
+      Toast.success('반려견 정보가 수정되었습니다!');
     },
-    onError: (e) => {
-      console.error('반려견 수정에 실패했습니다', e);
+    onError: () => {
+      Toast.error('반려견 수정에 실패했습니다!');
     },
   });
 };

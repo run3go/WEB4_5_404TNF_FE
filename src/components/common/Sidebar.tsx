@@ -1,5 +1,6 @@
 'use client';
 import { logout } from '@/api/auth';
+import user_default_image from '@/assets/images/default-profile.svg';
 import AuthProvider from '@/provider/AuthProvider';
 import { useAuthStore } from '@/stores/authStoe';
 import { useSidebarStore } from '@/stores/sidebarStore';
@@ -28,6 +29,10 @@ export default function Sidebar() {
       setRole(null);
       sessionStorage.removeItem('userId');
       sessionStorage.removeItem('role');
+      sessionStorage.removeItem('isNotification');
+      sessionStorage.removeItem('isNotiAll');
+      sessionStorage.removeItem('isNotiSchedule');
+      sessionStorage.removeItem('isNotiService');
       setLogout();
     } catch (error) {
       console.error(error);
@@ -102,7 +107,13 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname === '/dashboard' && 'opacity-0'}`}
                 >
-                  <Icon width="24px" height="24px" left="-26px" top="-23px" />
+                  <Icon
+                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    width="24px"
+                    height="24px"
+                    left="-26px"
+                    top="-23px"
+                  />
                 </div>
 
                 <div
@@ -121,7 +132,13 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname === '/schedule' && 'opacity-0'}`}
                 >
-                  <Icon width="24px" height="24px" left="-66px" top="-21px" />
+                  <Icon
+                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    width="24px"
+                    height="24px"
+                    left="-66px"
+                    top="-21px"
+                  />
                 </div>
 
                 <div
@@ -134,37 +151,26 @@ export default function Sidebar() {
               {/* 멍멍일지 */}
               <Link
                 href="/diary"
-                className={`sidebar__content group ${pathname.startsWith('/diary') ? 'sidebar__content-active' : ''}`}
+                className={`sidebar__content group relative ${pathname.startsWith('/diary') && 'sidebar__content-active'}`}
               >
-                <div className="flex items-center gap-3">
-                  <div className="relative h-[24px] w-[24px]">
-                    <div
-                      className={
-                        pathname.startsWith('/diary') ? 'hidden' : 'block'
-                      }
-                    >
-                      <Icon
-                        width="20px"
-                        height="24px"
-                        left="-108px"
-                        top="-21px"
-                      />
-                    </div>
-                    <div
-                      className={
-                        pathname.startsWith('/diary') ? 'block' : 'hidden'
-                      }
-                    >
-                      <Icon
-                        width="20px"
-                        height="24px"
-                        left="-110px"
-                        top="-308px"
-                      />
-                    </div>
-                  </div>
-                  <span>멍멍일지</span>
+                <div
+                  className={`absolute ${pathname === '/diary' && 'opacity-0'}`}
+                >
+                  <Icon
+                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    width="24px"
+                    height="24px"
+                    left="-108px"
+                    top="-21px"
+                  />
                 </div>
+
+                <div
+                  className={`absolute opacity-0 ${pathname === '/diary' && 'opacity-100'} `}
+                >
+                  <Icon width="24px" height="24px" left="-110px" top="-308px" />
+                </div>
+                <span className="pl-10">멍멍일지</span>
               </Link>
               {/* 게시판 */}
               <Link
@@ -174,7 +180,13 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname.includes('/post') && 'opacity-0'}`}
                 >
-                  <Icon width="28px" height="16px" left="-144px" top="-25px" />
+                  <Icon
+                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    width="28px"
+                    height="16px"
+                    left="-144px"
+                    top="-25px"
+                  />
                 </div>
 
                 <div
@@ -192,7 +204,13 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname === '/guide' && 'opacity-0'}`}
                 >
-                  <Icon width="25px" height="26px" left="-186px" top="-20px" />
+                  <Icon
+                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    width="25px"
+                    height="26px"
+                    left="-186px"
+                    top="-20px"
+                  />
                 </div>
 
                 <div
@@ -213,6 +231,7 @@ export default function Sidebar() {
                     className={`absolute ${pathname === '/admin' && 'opacity-0'}`}
                   >
                     <Icon
+                      className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                       width="24px"
                       height="26px"
                       left="-342px"
@@ -237,22 +256,70 @@ export default function Sidebar() {
             <div className="text-sm font-medium sm:text-[16px]">
               <div>
                 <div
-                  className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6 dark:text-[var(--color-background)]"
+                  className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6"
                   onClick={() => setIsSettingsOpen(true)}
                 >
-                  <Icon width="24px" height="26px" left="-297px" top="-252px" />
-                  <p>설정</p>
+                  <Icon
+                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    width="24px"
+                    height="26px"
+                    left="-297px"
+                    top="-252px"
+                  />
+                  <p className="sm:dark:text-[var(--color-background)]">설정</p>
                 </div>
                 {isSettingsOpen && <Settings ref={modalRef} />}
               </div>
-              {(userId || isLogin) && (
-                <div
-                  className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6 dark:text-[var(--color-background)]"
-                  onClick={handleLogout}
+              {userId || isLogin ? (
+                <>
+                  <Link
+                    href={`/profile/${userId}`}
+                    className="flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:hidden sm:pl-6"
+                  >
+                    <Image
+                      className="h-6 w-6 cursor-pointer rounded-full"
+                      src={userInfo?.imgUrl || user_default_image}
+                      alt="유저 프로필"
+                      width={24}
+                      height={24}
+                      priority
+                    />
+                    <p className="sm:dark:text-[var(--color-background)]">
+                      마이페이지
+                    </p>
+                  </Link>
+                  <div
+                    className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
+                    onClick={handleLogout}
+                  >
+                    <Icon
+                      className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                      width="28px"
+                      height="28px"
+                      left="-264px"
+                      top="-18px"
+                    />
+                    <p className="sm:dark:text-[var(--color-background)]">
+                      로그아웃
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <Link
+                  href={'/login'}
+                  className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
                 >
-                  <Icon width="28px" height="28px" left="-264px" top="-18px" />
-                  <p>로그아웃</p>
-                </div>
+                  <Icon
+                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
+                    width="28px"
+                    height="28px"
+                    left="-264px"
+                    top="-18px"
+                  />
+                  <p className="sm:dark:text-[var(--color-background)]">
+                    로그인
+                  </p>
+                </Link>
               )}
             </div>
           </div>

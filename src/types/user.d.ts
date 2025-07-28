@@ -25,3 +25,9 @@ type ProfileInfo = {
   nickname: string;
   password: string;
 };
+
+type UserFormdata = {
+  image: File | null;
+  nickname: string;
+  password: string;
+};

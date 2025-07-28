@@ -1,5 +1,6 @@
 'use client';
 import Icon from '@/components/common/Icon';
+import { Toast } from '@/components/common/Toast';
 import {
   useVaccineForm,
   useVaccineMutation,
@@ -30,8 +31,9 @@ export default function VaccineModal({
   const modalRef = useRef<HTMLDivElement>(null);
 
   const { methods, reset } = useVaccineForm(vaccineData);
-  const { mutate, isPending, isError } = useVaccineMutation(petId, () =>
-    setIsEditing(false),
+  const { mutate, isPending, isError, isSuccess } = useVaccineMutation(
+    petId,
+    () => setIsEditing(false),
   );
   const DHPPL = vaccineData?.find((data) => data.vaccine.name === 'DHPPL');
   const CORONAVIRUS = vaccineData?.find(
@@ -60,7 +62,6 @@ export default function VaccineModal({
     if (payload) {
       mutate({ payload: payload as VaccinePayload[], petId });
     }
-    if (isError) return;
   };
 
   const cancelInput = () => {
@@ -86,6 +87,15 @@ export default function VaccineModal({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (isSuccess) {
+      Toast.success('예방접종 정보가 수정되었습니다!');
+    }
+    if (isError) {
+      Toast.error('각 백신의 최대 차수를 확인해주세요!');
+    }
+  }, [isSuccess, isError]);
+
   return (
     <>
       <div
@@ -93,7 +103,7 @@ export default function VaccineModal({
         onClick={closeModal}
       />
       <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <div className="absolute top-1/2 left-1/2 z-201 h-115 w-9/10 -translate-x-1/2 -translate-y-1/2 rounded-[20px] bg-[var(--color-background)] px-3 py-9 sm:h-[470px] sm:w-[720px] sm:px-5">
+        <div className="absolute top-1/2 left-1/2 z-201 h-115 w-9/10 -translate-x-1/2 -translate-y-1/2 rounded-[20px] bg-[var(--color-background)] px-3 py-9 sm:h-[470px] sm:w-[720px] sm:px-5 dark:bg-[#343434]">
           <div className="flex items-center justify-between sm:mb-5">
             <div className="flex items-center gap-2">
               <h3 className="ml-3 text-lg leading-[1.2] font-extrabold sm:ml-5 sm:text-2xl">
@@ -105,7 +115,7 @@ export default function VaccineModal({
                 onMouseLeave={() => isMobile || setIsTooltipOepn(false)}
               >
                 <Icon
-                  className={`cursor-pointer`}
+                  className={`cursor-pointer ${isError && 'animate-pulse'}`}
                   width="20px"
                   height="20px"
                   left="-373px"

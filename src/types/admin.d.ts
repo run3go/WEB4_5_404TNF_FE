@@ -11,41 +11,27 @@ type Article = {
   articlesCount: number;
 };
 
-type UserStatus = '활성' | '정지';
-
 type UserInfo = {
-  id: number;
+  userId: number;
   email: string;
   nickname: string;
   postCount: number;
   commentCount: number;
-  createdAt: string;
-  lastLogin: string;
-  status: UserStatus;
-  statusChangedAt: string;
+  lastLoginDate: string;
+  joinDate: string;
+  status: string;
+  suspensionEndAt: string;
 };
 
-type ReportType = '게시물' | '댓글';
-type ReportCategory =
-  | '욕설'
-  | '성희롱'
-  | '도배'
-  | '스팸'
-  | '혐오 발언'
-  | '광고'
-  | '음란물'
-  | '개인정보 노출'
-  | '허위 정보'
-  | '기타';
-
 type ReportInfo = {
-  id: number;
+  reportId: number;
   reporter: string;
-  targetType: ReportType;
-  reportedUser: string;
-  reportDate: string;
-  reason: ReportCategory;
-  isDone: boolean;
+  type: string;
+  reported: string;
+  createdAt: string;
+  category: string;
+  reason: string;
+  status: string;
 };
 
 type ReportDetail = {
@@ -53,10 +39,16 @@ type ReportDetail = {
   type: string;
   contentId: number;
   articleId: number;
-  boardName: string;
+  boardType: string;
   category: string;
   reason: string;
   status: string;
+  reporterNickname: string;
+  reportedNickname: string;
+  adminReason: string;
+  reportedState: string;
+  reportedAt: string;
+  suspensionEndAt: string;
 };
 
 type AcceptInfo = {
@@ -68,4 +60,30 @@ type AcceptInfo = {
 type RejectInfo = {
   reportId: number;
   adminReason: string;
+};
+
+type GetListInfo = {
+  page: number;
+  search: string;
+  sort: string;
+  sortBy: string;
+  status: string;
+};
+
+type AdminTableProps = {
+  type: 'user' | 'report';
+  data: UserInfo[] | ReportInfo[];
+  sort: 'ASC' | 'DESC';
+  sortBy: string;
+  onSortChange: (newSort: 'ASC' | 'DESC') => void;
+  onSortByChange: (newSortBy: string) => void;
+  currentPage: number;
+};
+
+type AdminPageInfo = {
+  currentPage: number;
+  totalPages: number;
+  totalElements: number;
+  isFirst: boolean;
+  isLast: boolean;
 };
