@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import Icon from '../common/Icon';
-import { useQuery } from '@tanstack/react-query';
-import { getNotifications } from '@/api/notification';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getNotifications, removeNotification } from '@/api/notification';
 import { useAuthStore } from '@/stores/authStoe';
 
 interface NotificationModalProps {
@@ -20,6 +20,10 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
     enabled: isLogin,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+  });
+
+  const removeNotificationMutation = useMutation({
+    mutationFn: removeNotification,
   });
 
   useEffect(() => {
@@ -40,7 +44,10 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
     >
       <div className="flex items-center justify-between p-2">
         <p className="cursor-default text-lg font-bold">Notification</p>
-        <p className="cursor-pointer text-xs text-[var(--color-grey)]">
+        <p
+          className="cursor-pointer text-xs text-[var(--color-grey)]"
+          onClick={() => removeNotificationMutation.mutate()}
+        >
           전체삭제
         </p>
       </div>
