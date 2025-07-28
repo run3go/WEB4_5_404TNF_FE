@@ -7,6 +7,7 @@ import { report } from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
 import { useState } from 'react';
 import { REPORT_LIST } from '@/assets/data/post';
+import { Toast } from '../common/Toast';
 
 export default function ReportModal({
   reportedName,
@@ -30,7 +31,7 @@ export default function ReportModal({
     onSuccess: () => {
       onClose();
       setReason('');
-      alert('신고 성공');
+      Toast.success('신고에 성공했습니다.');
     },
   });
 

@@ -8,6 +8,7 @@ import { useAuthStore } from '@/stores/authStoe';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { report } from '@/api/post';
+import { Toast } from '../common/Toast';
 
 export default function MobileReportModal({
   reportedName,
@@ -31,7 +32,7 @@ export default function MobileReportModal({
     onSuccess: () => {
       onClose();
       setReason('');
-      alert('신고 성공');
+      Toast.success('신고에 성공했습니다.');
     },
   });
 
