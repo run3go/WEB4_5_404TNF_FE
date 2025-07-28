@@ -27,9 +27,13 @@ import { useDashboardData } from '@/lib/hooks/useDashboard';
 import { useQueryClient } from '@tanstack/react-query';
 import Lottie from 'lottie-react';
 import { useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import NoPets from '../schedule/NoPets';
 
 export default function DashboardClient() {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 767px)',
+  });
   const [petList, setPetList] = useState<PetProfile[]>([]);
   const [selectedPet, setSelectedPet] = useState(0);
 
@@ -119,12 +123,12 @@ export default function DashboardClient() {
           {recommend ?? '맞춤형 데이터가 없습니다'}
         </h2>
       </div>
-      <div className="absolute top-7 right-[65px] hidden self-end text-base sm:block">
+      <div className="relative mb-3 w-25 text-sm sm:absolute sm:top-7 sm:right-[65px] sm:mb-0 sm:block sm:self-end sm:text-base">
         <SelectBox
           value={String(selectedPet)}
           setValue={(value) => setSelectedPet(Number(value))}
           options={petOptions}
-          width="105px"
+          width={isMobile ? '82px' : '105px'}
           footstep
         />
       </div>
