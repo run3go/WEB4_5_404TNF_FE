@@ -2,6 +2,9 @@
 
 import { useEffect, useRef } from 'react';
 import Icon from '../common/Icon';
+import { useQuery } from '@tanstack/react-query';
+import { getNotifications } from '@/api/notification';
+import { useAuthStore } from '@/stores/authStoe';
 
 interface NotificationModalProps {
   onClose: () => void;
@@ -9,8 +12,18 @@ interface NotificationModalProps {
 
 export default function NotificationModal({ onClose }: NotificationModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const isLogin = useAuthStore((state) => state.isLogin);
+
+  const { data } = useQuery({
+    queryKey: ['notification-list'],
+    queryFn: () => getNotifications(),
+    enabled: isLogin,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 
   useEffect(() => {
+    sessionStorage.setItem('isNotification', 'false');
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
         onClose();
@@ -32,74 +45,28 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
         </p>
       </div>
       <ul className="scrollbar-hidden flex-1 space-y-1 overflow-y-auto">
-        <li className="relative w-full rounded-xl text-sm">
-          <div className="group flex cursor-pointer items-center rounded-xl p-2 transition-colors duration-300 ease-in-out hover:bg-[color:var(--color-primary-200)]">
-            <div className="flex w-full items-center">
-              <Icon width="16px" height="14px" left="-26px" top="-79px" />
-              <p className="h-auto w-full truncate overflow-hidden pl-2 leading-[1.4] whitespace-nowrap group-hover:pr-6">
-                DD님이 내 게시물에 댓글을 남겼습니다. 어쩌고저쩌고
-              </p>
+        {data?.map((notification: NotificationInfo) => (
+          <li
+            key={notification.notiId}
+            className="relative w-full rounded-xl text-sm"
+          >
+            <div className="group flex cursor-pointer items-center rounded-xl p-2 transition-colors duration-300 ease-in-out hover:bg-[color:var(--color-primary-200)]">
+              <div className="flex w-full items-center">
+                <Icon width="16px" height="14px" left="-26px" top="-79px" />
+                <p className="h-auto w-full truncate overflow-hidden pl-2 leading-[1.4] whitespace-nowrap group-hover:pr-6">
+                  {notification.content}
+                </p>
+              </div>
+              <Icon
+                width="14px"
+                height="14px"
+                left="-151px"
+                top="-79px"
+                className="absolute right-2 hidden group-hover:block"
+              />
             </div>
-            <Icon
-              width="14px"
-              height="14px"
-              left="-151px"
-              top="-79px"
-              className="absolute right-2 hidden group-hover:block"
-            />
-          </div>
-        </li>
-        <li className="relative w-full rounded-xl text-sm">
-          <div className="group flex cursor-pointer items-center rounded-xl p-2 transition-colors duration-300 ease-in-out hover:bg-[color:var(--color-primary-200)]">
-            <div className="flex w-full items-center">
-              <Icon width="16px" height="14px" left="-26px" top="-79px" />
-              <p className="h-auto w-full truncate overflow-hidden pl-2 leading-[1.4] whitespace-nowrap group-hover:pr-6">
-                DD님이 내 게시물에 댓글을 남겼습니다. 어쩌고저쩌고
-              </p>
-            </div>
-            <Icon
-              width="14px"
-              height="14px"
-              left="-151px"
-              top="-79px"
-              className="absolute right-2 hidden group-hover:block"
-            />
-          </div>
-        </li>
-        <li className="relative w-full rounded-xl text-sm">
-          <div className="group flex cursor-pointer items-center rounded-xl p-2 transition-colors duration-300 ease-in-out hover:bg-[color:var(--color-primary-200)]">
-            <div className="flex w-full items-center">
-              <Icon width="16px" height="14px" left="-26px" top="-79px" />
-              <p className="h-auto w-full truncate overflow-hidden pl-2 leading-[1.4] whitespace-nowrap group-hover:pr-6">
-                DD님이 내 게시물에 댓글을 남겼습니다. 어쩌고저쩌고
-              </p>
-            </div>
-            <Icon
-              width="14px"
-              height="14px"
-              left="-151px"
-              top="-79px"
-              className="absolute right-2 hidden group-hover:block"
-            />
-          </div>
-        </li>
-        <li className="relative w-full rounded-xl text-sm">
-          <div className="group flex cursor-pointer items-center rounded-xl p-2 transition-colors duration-300 ease-in-out hover:bg-[color:var(--color-primary-200)]">
-            <div className="flex w-full items-center">
-              <Icon width="16px" height="14px" left="-26px" top="-79px" />
-              <p className="h-auto w-full truncate overflow-hidden pl-2 leading-[1.4] whitespace-nowrap group-hover:pr-6">
-                DD님이 내 게시물에 댓글을 남겼습니다. 어쩌고저쩌고
-              </p>
-            </div>
-            <Icon
-              width="14px"
-              height="14px"
-              left="-151px"
-              top="-79px"
-              className="absolute right-2 hidden group-hover:block"
-            />
-          </div>
-        </li>
+          </li>
+        ))}
       </ul>
     </div>
   );

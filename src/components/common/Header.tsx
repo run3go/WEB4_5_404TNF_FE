@@ -13,6 +13,7 @@ import Icon from './Icon';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isNewNotificaton, setIsNewNotification] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -25,6 +26,9 @@ export default function Header() {
     const storedUserId = sessionStorage.getItem('userId');
     setUserId(storedUserId);
     setIsLoading(true);
+
+    const storedValue = sessionStorage.getItem('isNotification');
+    setIsNewNotification(storedValue === 'true');
 
     if (isLogin) {
       setUserId(null);
@@ -53,6 +57,11 @@ export default function Header() {
                   top="-18px"
                   className="cursor-pointer"
                 />
+                {isNewNotificaton && (
+                  <div className="absolute top-[-2px] right-[2px]">
+                    <p className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500"></p>
+                  </div>
+                )}
               </div>
               {isNotificationOpen && (
                 <NotificationModal
