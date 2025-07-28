@@ -68,9 +68,12 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
 
     if (!notification.boardType) {
       router.push('/schedule');
+      return;
     }
 
-    router.push(`/post/${notification.boardType}/${notification.targetId}`);
+    router.push(
+      `/post/${notification.boardType?.toLowerCase()}/${notification.targetId}`,
+    );
   };
 
   useEffect(() => {
