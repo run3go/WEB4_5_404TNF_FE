@@ -94,7 +94,7 @@ export default function AddSchedule({
 
     if (userInfo) {
       if (isEdit && schedule) {
-        console.log(cycle, date);
+        console.log(cycle, date, addMonths(date, 3));
 
         updateSchedule({
           scheduleId: schedule.scheduleId,
@@ -104,11 +104,13 @@ export default function AddSchedule({
           cycleLink,
           cycle,
           cycleEnd:
-            cycle !== 'NONE'
-              ? format(cycleEnd!, 'yyyy-MM-dd')
-              : format(date, 'yyyy-MM-dd'),
+            cycle === 'NONE'
+              ? format(addMonths(date, 3), 'yyyy-MM-dd')
+              : format(cycleEnd!, 'yyyy-MM-dd'),
         });
       } else {
+        console.log(cycleEnd);
+
         createSchedule({
           name,
           date: format(date, 'yyyy-MM-dd'),
