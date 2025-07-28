@@ -50,3 +50,16 @@ export const removeNotification = async ({
 
   return data;
 };
+
+export const getNotificationSetting = async () => {
+  const res = await fetch(`${baseURL}/api/notification/v1/setting`, {
+    credentials: 'include',
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '알림 세팅 가져오기 실패');
+  }
+
+  return data;
+};

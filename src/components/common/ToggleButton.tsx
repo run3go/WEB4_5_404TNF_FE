@@ -3,9 +3,11 @@ import { useThemeStore } from '@/stores/themeStore';
 export default function ToggleButton({
   id,
   darkmode = false,
+  isNoti,
 }: {
   id: string;
   darkmode?: boolean;
+  isNoti?: boolean;
 }) {
   const theme = useThemeStore((state) => state.theme);
   const toggleThemeMode = useThemeStore((state) => state.toggleThemeMode);
@@ -43,7 +45,13 @@ export default function ToggleButton({
   } else
     return (
       <>
-        <input className="toggleInput" type="checkbox" id={id} hidden />
+        <input
+          className="toggleInput"
+          type="checkbox"
+          checked={isNoti}
+          id={id}
+          hidden
+        />
         <label htmlFor={id} className="toggleSwitch">
           <span className="toggleButton" />
         </label>

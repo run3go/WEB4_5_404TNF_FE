@@ -10,7 +10,6 @@ import { useEffect, useRef, useState } from 'react';
 import Icon from './Icon';
 import Settings from './Settings';
 
-
 export default function Sidebar() {
   const pathname = usePathname();
   const { isOpen, close } = useSidebarStore();
@@ -29,6 +28,10 @@ export default function Sidebar() {
       setRole(null);
       sessionStorage.removeItem('userId');
       sessionStorage.removeItem('role');
+      sessionStorage.removeItem('isNotification');
+      sessionStorage.removeItem('isNotiAll');
+      sessionStorage.removeItem('isNotiSchedule');
+      sessionStorage.removeItem('isNotiService');
       setLogout();
     } catch (error) {
       console.error(error);
@@ -56,7 +59,7 @@ export default function Sidebar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-  
+
   if (!isLoading) return null;
 
   return (

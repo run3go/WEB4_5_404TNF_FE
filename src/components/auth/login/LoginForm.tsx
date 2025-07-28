@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import PasswordToggleButton from '../ShowPasswordButton';
+import { getNotificationSetting } from '@/api/notification';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -30,6 +31,10 @@ export default function LoginForm() {
     mutationFn: getUserProfile,
   });
 
+  const notiSettingMutation = useMutation({
+    mutationFn: getNotificationSetting,
+  });
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -51,6 +56,8 @@ export default function LoginForm() {
       });
       const data = await profileMutation.mutateAsync(user.userId);
 
+      const notiSetting = await notiSettingMutation.mutateAsync();
+
       const userInfo: User = {
         userId: data.userId,
         email: data.email,
@@ -63,6 +70,9 @@ export default function LoginForm() {
 
       setLogin(userInfo);
       sessionStorage.setItem('userId', user.userId);
+      sessionStorage.setItem('isNotiAll', notiSetting?.isNotiAll);
+      sessionStorage.setItem('isNotiSchedule', notiSetting?.isNotiSchedule);
+      sessionStorage.setItem('isNotiService', notiSetting?.isNotiService);
       router.push('/');
     } catch (err) {
       setError(
