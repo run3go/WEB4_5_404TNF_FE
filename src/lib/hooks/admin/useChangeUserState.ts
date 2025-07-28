@@ -1,4 +1,5 @@
 import { changeUserState } from '@/api/admin';
+import { Toast } from '@/components/common/Toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useChangeUserState = () => {
@@ -12,11 +13,11 @@ export const useChangeUserState = () => {
         queryKey: ['reportList'],
       });
 
-      alert('처리되었습니다.');
+      Toast.success('처리되었습니다.');
     },
 
     onError: () => {
-      alert('처리 중 오류가 발생했습니다.');
+      Toast.error('처리 중 오류가 발생했습니다.');
     },
   });
 };

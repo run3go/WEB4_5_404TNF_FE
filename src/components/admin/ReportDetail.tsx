@@ -26,7 +26,7 @@ export default function ReportDetail({ id }: { id: number }) {
         <div className="flex flex-col items-center justify-center gap-4">
           {data?.status !== 'ACCEPT' && (
             <Link
-              href={`/post/${data?.boardType}/${data?.articleId}`}
+              href={`/post/${data?.boardType.toLowerCase()}/${data?.articleId}`}
               className="flex cursor-pointer items-baseline gap-2"
             >
               해당 게시물로 이동
