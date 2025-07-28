@@ -1,5 +1,5 @@
 import { petBreedData } from '@/assets/data/pet';
-import dog from '@/assets/images/dog_img.png';
+import defaultDogProfile from '@/assets/images/default-dog-profile.svg';
 import { calculateMetDay } from '@/lib/utils/date';
 import Image from 'next/image';
 import Card from '../common/Card';
@@ -21,13 +21,23 @@ export default function ProfileCard({
         <li className="flex items-center">
           <span className="mr-3 text-[var(--color-grey)]">이름</span>
           <span>{profile.name}</span>
-          <Icon
-            className="ml-2"
-            width="12px"
-            height="19px"
-            left="-110px"
-            top="-79px"
-          />
+          {profile.sex ? (
+            <Icon
+              className="ml-2"
+              width="16px"
+              height="16px"
+              left="-71px"
+              top="-80px"
+            />
+          ) : (
+            <Icon
+              className="ml-2"
+              width="12px"
+              height="19px"
+              left="-110px"
+              top="-79px"
+            />
+          )}
         </li>
         <li>
           <span className="mr-3 text-[var(--color-grey)]">견종</span>
@@ -35,7 +45,7 @@ export default function ProfileCard({
         </li>
         <li>
           <span className="mr-3 text-[var(--color-grey)]">나이</span>
-          <span>데이터 없음</span>
+          <span>{profile.age}</span>
         </li>
         <li>
           <span>
@@ -49,7 +59,7 @@ export default function ProfileCard({
       </ul>
       <Image
         className="mr-3 h-[126px] w-[126px] rounded-xl sm:mr-0 sm:h-[150px] sm:w-[150px]"
-        src={dog}
+        src={profile.image || defaultDogProfile}
         alt="강아지 이미지"
         width={150}
         height={150}

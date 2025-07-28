@@ -2,6 +2,9 @@ type DashboardProfile = {
   name: string;
   breed: PetBreed;
   metDay: string;
+  age: number;
+  image: string;
+  sex: boolean;
   aiAnalysis: string | null;
 };
 
