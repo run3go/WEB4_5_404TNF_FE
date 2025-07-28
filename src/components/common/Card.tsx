@@ -16,7 +16,7 @@ export default function Card({
     <>
       <div
         className={twMerge(
-          'rounded-xl bg-[var(--color-background)] p-4 shadow-[0_3px_8px_rgba(0,0,0,0.24)] sm:p-6',
+          'rounded-xl bg-[var(--color-background)] p-4 shadow-[0_3px_8px_rgba(0,0,0,0.24)] sm:p-6 dark:bg-[var(--color-dark-background)]',
           className,
         )}
         onClick={onClick}
