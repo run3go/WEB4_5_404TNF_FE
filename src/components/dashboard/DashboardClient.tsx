@@ -132,7 +132,7 @@ export default function DashboardClient() {
           footstep
         />
       </div>
-      <div className="flex flex-wrap gap-5 pb-7 sm:gap-8 sm:pb-0">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-[93fr_93fr_40fr] sm:grid-rows-[auto]">
         <div className="relative w-full text-sm font-medium sm:hidden sm:text-xl">
           <Image
             className="h-auto w-full max-w-[558px]"
@@ -146,32 +146,34 @@ export default function DashboardClient() {
             {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다'}
           </div>
         </div>
-        <div className="flex w-full flex-col gap-5 sm:w-[520px] sm:gap-8">
+        <div className="flex flex-col gap-5 sm:col-span-1">
           <ProfileCard profile={profile} />
           {weightList && <LineGraphCard title="몸무게" dataset={weightList} />}
           {sleepList && <LineGraphCard title="수면시간" dataset={sleepList} />}
         </div>
-        <div className="flex w-full flex-col gap-5 sm:w-[558px] sm:gap-8">
+        <div className="flex w-full flex-col gap-5 sm:col-span-1">
           <div className="relative hidden text-xl font-medium sm:block">
             <Image
-              className="h-auto w-full max-w-[558px]"
+              className="h-[98px] w-full"
               src={speechBubble}
               alt="말풍선"
               width={558}
               height={98}
               priority
             />
-            <div className="absolute top-1/2 left-1/2 w-full max-w-105 -translate-x-1/2 -translate-y-1/2 dark:text-[var(--color-black)]">
+            <div className="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 pl-10 dark:text-[var(--color-black)]">
               {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다...'}
             </div>
           </div>
-          <div className="flex items-center justify-between gap-5 sm:gap-8">
+          <div className="flex items-center justify-between gap-5">
             <FeedCard feeding={feeding} />
             <TodoCard checklist={checklist} petId={selectedPet} />
           </div>
           {note && <NoteCard note={note} />}
         </div>
-        <WalkCard walking={walking} />
+        <div className="sm:col-span-1">
+          <WalkCard walking={walking} />
+        </div>
       </div>
     </main>
   );

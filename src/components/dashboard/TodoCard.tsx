@@ -52,7 +52,7 @@ export default function TodoCard({
 
   checklist?.sort((a, b) => a.scheduleId - b.scheduleId);
   return (
-    <Card className="flex h-full w-full max-w-[255px] flex-col">
+    <Card className="flex h-full w-full flex-col">
       <h2 className="mb-5 text-xs font-medium sm:text-base">오늘의 할 일</h2>
       <ul className="scrollbar-hidden flex grow-1 flex-col items-start gap-3 overflow-y-scroll text-sm select-none sm:text-base">
         {checklist && checklist.length ? (

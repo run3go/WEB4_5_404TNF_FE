@@ -104,7 +104,7 @@ export default function LineGraphCard({
 
   return (
     <motion.div
-      className="relative h-40 w-full max-w-[558px] sm:h-[200px]"
+      className="relative h-40 w-full sm:h-[200px]"
       animate={{ rotateY: flip ? 0 : 180 }}
       transition={{ duration: 0.7 }}
       onClick={() => dataset?.length && setFlip(!flip)}
@@ -163,7 +163,7 @@ export default function LineGraphCard({
         transition={{ duration: 0.7 }}
       >
         {/* 뒷면 */}
-        <Card className="card__hover h-40 w-full max-w-[558px] overflow-hidden py-4 sm:h-[200px]">
+        <Card className="card__hover h-40 w-full overflow-hidden py-4 sm:h-[200px]">
           <table className="w-full">
             <thead>
               <tr className="flex w-full border-b border-[var(--color-primary-300)] pb-3 text-sm sm:pb-2 sm:text-base">
