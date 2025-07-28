@@ -8,7 +8,7 @@ import Icon from '../common/Icon';
 
 export default function LandingMockup() {
   return (
-    <section className="h-auto bg-[var(--color-background)] px-5 py-10 sm:px-20 sm:py-20">
+    <section className="h-auto bg-[var(--color-background)] px-5 py-10 sm:px-20 sm:py-20 dark:bg-[var(--color-black)]">
       <motion.div
         className="flex flex-col items-end gap-3 pb-20 sm:gap-9 sm:pb-40"
         initial={{ opacity: 0, x: 100 }}
