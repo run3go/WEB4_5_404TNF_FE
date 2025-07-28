@@ -105,7 +105,7 @@ const AnimatedText = () => {
 
 export default function LandingFeature() {
   return (
-    <section className="h-auto w-full bg-[var(--color-background)] py-20 sm:py-28">
+    <section className="h-auto w-full bg-[var(--color-background)] py-20 sm:py-28 dark:bg-[var(--color-black)]">
       <AnimatedText />
 
       <div className="mx-auto flex max-w-[1240px] flex-wrap justify-center gap-x-5 gap-y-5 sm:gap-x-11 sm:gap-y-16">

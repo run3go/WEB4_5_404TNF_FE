@@ -21,7 +21,7 @@ export default function LogCard({
 }: Props) {
   const profileImg = imageUrl || defaultProfile;
   return (
-    <Card className="card__hover flex flex-col gap-3 border-1 border-[var(--color-primary-500)]">
+    <Card className="card__hover flex flex-col gap-3 border-1 border-[var(--color-primary-500)] dark:bg-[var(--color-black)]">
       <div className="mb-2 flex items-center justify-between border-b border-[var(--color-primary-500)] pb-3">
         <div className="flex items-center gap-4">
           <Image

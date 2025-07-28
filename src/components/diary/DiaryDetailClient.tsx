@@ -1,6 +1,7 @@
 'use client';
 
 import diary from '@/assets/images/diary.svg';
+import d_diary from '@/assets/images/dark-diary.svg';
 import Image from 'next/image';
 import MobileTitle from '../common/MobileTitle';
 import Calendar from './Calendar';
@@ -8,40 +9,16 @@ import DiaryCard from './DiaryCard';
 import DiaryProfile from './DiaryProfile';
 import DiaryOptionsMenu from './DiaryOptionsMenu';
 import symbol from '@/assets/images/alternative-image.svg';
+import Confirm from '../common/Confirm';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useGetDiaryDetail } from '@/lib/hooks/diary/api/useGetDiaryDetail';
 import { useDeleteDiary } from '@/lib/hooks/diary/api/useDeleteDiary';
 import { getPetsByUserId } from '@/api/diary';
 import { petBreedData, petSizeData } from '@/assets/data/pet';
-
-const feedUnitOptions = [
-  { label: 'g', value: 'GRAM' },
-  { label: '스푼', value: 'SPOON' },
-  { label: '스쿱', value: 'SCOOP' },
-  { label: '컵', value: 'CUP' },
-];
-
-const paceOptions = [
-  { value: '1', label: '가볍게' },
-  { value: '2', label: '적당히' },
-  { value: '3', label: '힘차게' },
-];
-
-const formatTime = (datetime: string) => {
-  const date = new Date(datetime);
-  const hour = date.getHours().toString().padStart(1, '0');
-  const minute = date.getMinutes().toString().padStart(2, '0');
-  return `${hour}시 ${minute}분`;
-};
-
-const formatDate = (dateStr: string) => {
-  const date = new Date(dateStr);
-  const yyyy = date.getFullYear();
-  const mm = (date.getMonth() + 1).toString().padStart(2, '0');
-  const dd = date.getDate().toString().padStart(2, '0');
-  return `${yyyy}. ${mm}. ${dd}`;
-};
+import { feedUnit, walkingPace } from '@/assets/data/diary';
+import { formatDate, formatTime } from '@/lib/utils/diary/diaryFormat';
+import { Toast } from '../common/Toast';
 
 export default function DiaryDetailClient({ logId }: { logId: number }) {
   const router = useRouter();
@@ -74,28 +51,30 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
     fetchPet();
   }, [data?.petId]);
 
-  // options menu
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-
   // delete diary
+  const [showConfirm, setShowConfirm] = useState(false);
   const deleteMutation = useDeleteDiary();
   const handleDelete = () => {
-    const confirmed = confirm('정말 삭제하시겠습니까?');
-    if (!confirmed) return;
+    setShowConfirm(true);
+  };
+  const confirmDelete = () => {
+    if (!data) return;
 
     deleteMutation.mutate(data.lifeRecordId, {
       onSuccess: () => {
-        alert('멍멍일지 삭제 완료');
+        Toast.success('멍멍일지 삭제 완료');
         router.push('/diary');
       },
-      onError: (err) => {
-        console.error(err);
-        alert('멍멍일지 삭제 실패');
+      onError: () => {
+        Toast.error('멍멍일지 삭제 실패');
       },
     });
+    setShowConfirm(false);
   };
 
+  // options menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (!menuRef.current || menuRef.current.contains(e.target as Node))
@@ -185,7 +164,16 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
         <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-10">
           <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
             <div className="hidden w-full justify-between sm:flex">
-              <Image src={diary} alt="오늘의 멍멍일지를 적어보아요!" />
+              <Image
+                src={diary}
+                alt="오늘의 멍멍일지를 적어보아요!"
+                className="block dark:hidden"
+              />
+              <Image
+                src={d_diary}
+                alt="오늘의 멍멍일지를 적어보아요!"
+                className="hidden dark:block"
+              />
               <Calendar
                 selected={new Date(recordAt)}
                 setSelected={() => {}}
@@ -222,8 +210,8 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
                 <ul className="-mt-3 px-2">
                   {(feedingList as Feeding[]).map((item, idx) => {
                     const unitLabel =
-                      feedUnitOptions.find((opt) => opt.value === item.unit)
-                        ?.label ?? item.unit;
+                      feedUnit.find((opt) => opt.value === item.unit)?.label ??
+                      item.unit;
                     return (
                       <li
                         key={idx}
@@ -257,7 +245,7 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
                           </span>
                           <span>
                             {'( 강도: '}
-                            {paceOptions.find(
+                            {walkingPace.find(
                               (opt) => opt.value === String(item.pace),
                             )?.label ?? `${item.pace}`}
                             {' )'}
@@ -280,6 +268,14 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
           </div>
         </div>
       </div>
+      {showConfirm && (
+        <Confirm
+          description="정말 삭제하시겠습니까?"
+          confirmText="삭제"
+          onClose={() => setShowConfirm(false)}
+          onConfirm={confirmDelete}
+        />
+      )}
     </main>
   );
 }
