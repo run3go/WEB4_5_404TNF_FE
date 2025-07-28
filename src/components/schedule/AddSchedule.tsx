@@ -4,15 +4,13 @@ import { useUpdateSchedule } from '@/lib/hooks/schedule/useUpdateSchedule';
 import { useGetPets } from '@/lib/hooks/useGetPets';
 import { useAuthStore } from '@/stores/authStoe';
 import { addMonths, format, isBefore, parseISO } from 'date-fns';
-import Lottie from 'lottie-react';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import loading from '../../assets/images/loading-footprint.json';
 import Button from '../common/Button';
 import DateInput from '../common/DateInput';
 import Icon from '../common/Icon';
-import SelectBox from '../common/SelectBox';
 import Loading from '../common/Loading';
+import SelectBox from '../common/SelectBox';
 
 export default function AddSchedule({
   closeModal,
