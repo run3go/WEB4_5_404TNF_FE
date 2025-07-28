@@ -113,7 +113,22 @@ export default function UserProfileEdit({
             </div>
             <div className="flex basis-1/2 flex-col gap-5">
               <span>가입유형</span>
-              <span>{profile.provider}</span>
+              <div className="flex gap-2">
+                <span>{profile.provider}</span>
+                <Icon
+                  className="scale-20"
+                  width="20px"
+                  height="20px"
+                  left={
+                    profile.provider === 'kakao'
+                      ? '-244px'
+                      : profile.provider === 'google'
+                        ? '-281px'
+                        : ''
+                  }
+                  top={profile.provider === 'local' ? '' : '-444px'}
+                />
+              </div>
             </div>
           </div>
           <div className="mt-11 flex w-full gap-20">
