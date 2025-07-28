@@ -1,7 +1,6 @@
 // get pet list
 export const getPetsByUserId = async (userId: number) => {
   const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/profile/v1/users/${userId}/pet`;
-  console.log(url);
 
   try {
     const res = await fetch(url, {
@@ -11,7 +10,7 @@ export const getPetsByUserId = async (userId: number) => {
     });
 
     const data = await res.json();
-    console.log('getPetsByUserId: ', data);
+
     return data;
   } catch (err) {
     console.error('getPetsByUserId error: ', err);
@@ -35,7 +34,6 @@ export const createDiary = async (body: DiarydPayload) => {
     );
 
     const data = await res.json();
-    console.log('createDiary: ', data);
     return data;
   } catch (err) {
     console.error('createDiary error: ', err);
@@ -60,7 +58,6 @@ export const checkDiary = async (
     if (!res.ok) throw new Error('기록 확인 실패');
 
     const json = await res.json();
-    console.log('checkDiary res:', json);
 
     if ('data' in json && 'lifeRecordId' in json.data) {
       return {
@@ -128,7 +125,6 @@ export const getDiaryDetail = async (lifeRecordId: number) => {
       },
     );
     const data = await res.json();
-    console.log('res: ', data);
     return data.data;
   } catch (err) {
     console.error('getDiaryDetail error: ', err);
@@ -168,11 +164,7 @@ export const getDiaryList = async ({
   petId,
   recordAt,
   page,
-}: {
-  petId?: number;
-  recordAt?: string;
-  page: number;
-}) => {
+}: GetDiaryListParams): Promise<DiaryListResponse> => {
   const params = new URLSearchParams({
     ...(petId ? { petId: petId.toString() } : {}),
     ...(recordAt ? { recordAt } : {}),
@@ -189,10 +181,9 @@ export const getDiaryList = async ({
     });
 
     const data = await res.json();
-    console.log('getDiaryList result:', data);
     return data;
   } catch (err) {
     console.error('getDiaryList error:', err);
-    return { data: [], pageInfo: {} };
+    return { data: [], pageInfo: {} as DiaryPageInfo };
   }
 };

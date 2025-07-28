@@ -14,7 +14,7 @@ export default function Calendar({
   readOnly?: boolean;
 }) {
   return (
-    <div className="h-55 w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)]">
+    <div className="h-55 w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] dark:bg-[var(--color-black)]">
       <DayPicker
         mode="single"
         selected={selected}

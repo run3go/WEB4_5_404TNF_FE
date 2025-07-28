@@ -63,6 +63,10 @@ body {
   -ms-overflow-style: none;
 }
 
+[data-theme='dark'] body {
+  color: var(--color-background);
+}
+
 /* common */
 .card__hover {
   @apply cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-102 hover:shadow-[0_10px_15px_rgba(0,0,0,0.3)];
@@ -112,7 +116,7 @@ body {
 
 /* sidebar */
 .sidebar__content {
-  @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:bg-[#FFDBAB] sm:w-[220px] sm:py-[1.3vh] sm:pl-6;
+  @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:bg-[#FFDBAB] sm:w-[220px] sm:py-[1.3vh] sm:pl-6 dark:text-[#fffdf7];
 }
 
 .sidebar__content-active {

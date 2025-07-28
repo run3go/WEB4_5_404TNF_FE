@@ -10,7 +10,6 @@ import { useEffect, useRef, useState } from 'react';
 import Icon from './Icon';
 import Settings from './Settings';
 
-
 export default function Sidebar() {
   const pathname = usePathname();
   const { isOpen, close } = useSidebarStore();
@@ -56,7 +55,7 @@ export default function Sidebar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-  
+
   if (!isLoading) return null;
 
   return (
@@ -69,7 +68,7 @@ export default function Sidebar() {
           />
         )}
         <div
-          className={`fixed z-200 ${!isOpen ? 'hidden' : ''} h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[#2B2926] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:rounded-[50px] sm:bg-[#FFFDF7] sm:p-8`}
+          className={`fixed z-200 ${!isOpen ? 'hidden' : ''} h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[var(--color-black)] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:rounded-[50px] sm:bg-[var(--color-background)] sm:p-8 sm:dark:bg-[var(--color-black)]`}
         >
           <Link href="/">
             <Image
@@ -238,7 +237,7 @@ export default function Sidebar() {
             <div className="text-sm font-medium sm:text-[16px]">
               <div>
                 <div
-                  className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6"
+                  className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6 dark:text-[var(--color-background)]"
                   onClick={() => setIsSettingsOpen(true)}
                 >
                   <Icon width="24px" height="26px" left="-297px" top="-252px" />
@@ -248,7 +247,7 @@ export default function Sidebar() {
               </div>
               {(userId || isLogin) && (
                 <div
-                  className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
+                  className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6 dark:text-[var(--color-background)]"
                   onClick={handleLogout}
                 >
                   <Icon width="28px" height="28px" left="-264px" top="-18px" />
