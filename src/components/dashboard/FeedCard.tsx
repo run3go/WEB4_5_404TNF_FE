@@ -18,7 +18,6 @@ export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
       </Card>
     );
   }
-
   const unitLabel = feedUnit
     .filter((unit) => unit.value === feeding.unit)
     .map((unit) => unit.label);
@@ -28,7 +27,7 @@ export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
       <div className="mb-5 flex flex-col gap-2">
         <span className="text-xs sm:text-base">지난주 평균 식사량 (일)</span>
         <span>
-          {Math.floor(feeding.average)} {unitLabel}
+          {isNaN(feeding.average) ? 0 : Math.floor(feeding.average)} {unitLabel}
         </span>
       </div>
       <div className="mb-4 flex flex-col gap-2">

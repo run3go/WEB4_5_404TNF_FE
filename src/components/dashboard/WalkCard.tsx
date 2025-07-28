@@ -7,7 +7,7 @@ export default function WalkCard({ walking }: { walking?: DashboardWalking }) {
   if (walking) {
     if (walking.length === 0) {
       return (
-        <Card className="hidden w-60 bg-[#fafafa] sm:block">
+        <Card className="hidden h-full w-60 bg-[#fafafa] sm:block">
           <h2 className="mb-8 font-medium">산책 시간</h2>
           <div className="mt-55 flex flex-col items-center gap-5">
             <span>등록된 산책 기록이 없어요</span>

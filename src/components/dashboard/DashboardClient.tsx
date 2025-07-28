@@ -61,42 +61,34 @@ export default function DashboardClient() {
       queryClient.prefetchQuery({
         queryKey: ['dashboard', 'profile', petId],
         queryFn: () => getDashboardProfile(petId),
-        staleTime: 30000,
       });
       queryClient.prefetchQuery({
         queryKey: ['dashboard', 'weight', petId],
         queryFn: () => getDashboardWeight(petId),
-        staleTime: 30000,
       });
       queryClient.prefetchQuery({
         queryKey: ['dashboard', 'sleep', petId],
         queryFn: () => getDashboardSleep(petId),
-        staleTime: 30000,
       });
       queryClient.prefetchQuery({
         queryKey: ['dashboard', 'recommend', petId],
         queryFn: () => getDashboardRecommend(petId),
-        staleTime: 30000,
       });
       queryClient.prefetchQuery({
         queryKey: ['dashboard', 'feeding', petId],
         queryFn: () => getDashboardFeeding(petId),
-        staleTime: 30000,
       });
       queryClient.prefetchQuery({
         queryKey: ['dashboard', 'note', petId],
         queryFn: () => getDashboardNote(petId),
-        staleTime: 30000,
       });
       queryClient.prefetchQuery({
         queryKey: ['dashboard', 'checklist', petId],
         queryFn: () => getDashboardChecklist(petId),
-        staleTime: 30000,
       });
       queryClient.prefetchQuery({
         queryKey: ['dashboard', 'walking', petId],
         queryFn: () => getDashboardWalking(petId),
-        staleTime: 30000,
       });
     });
   }, [selectedPet, queryClient, petList]);
@@ -118,7 +110,7 @@ export default function DashboardClient() {
   if (!selectedPet) return <NoPets content="대시보드를 확인하려면" />;
   return (
     <main className="relative h-full px-[26px] py-6 transition-all duration-150 sm:px-12 sm:py-7">
-      <div className="flex items-center justify-between sm:mb-7">
+      <div className="hidden h-8 w-[80%] justify-between overflow-hidden sm:mb-7 sm:flex">
         <h2 className="hidden text-xl font-bold sm:block">
           {recommend ?? '맞춤형 데이터가 없습니다'}
         </h2>
@@ -142,7 +134,7 @@ export default function DashboardClient() {
             height={98}
             priority
           />
-          <div className="absolute top-[20%] left-1/2 w-full max-w-105 -translate-x-1/2 px-8 min-[500px]:text-lg dark:text-[var(--color-black)]">
+          <div className="absolute top-[40%] left-1/2 w-full max-w-105 -translate-x-1/2 -translate-y-1/2 px-8 text-sm min-[500px]:text-base dark:text-[var(--color-black)]">
             {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다'}
           </div>
         </div>
@@ -161,7 +153,7 @@ export default function DashboardClient() {
               height={98}
               priority
             />
-            <div className="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 pl-10 dark:text-[var(--color-black)]">
+            <div className="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 px-10 text-lg dark:text-[var(--color-black)]">
               {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다...'}
             </div>
           </div>

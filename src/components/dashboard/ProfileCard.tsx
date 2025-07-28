@@ -1,6 +1,6 @@
 import { petBreedData } from '@/assets/data/pet';
 import defaultDogProfile from '@/assets/images/default-dog-profile.svg';
-import { calculateMetDay } from '@/lib/utils/date';
+import { calculateAge, calculateMetDay } from '@/lib/utils/date';
 import Image from 'next/image';
 import Card from '../common/Card';
 import Icon from '../common/Icon';
@@ -14,7 +14,7 @@ export default function ProfileCard({
   const breedName = petBreedData
     .filter((breed) => breed.value === profile.breed)
     .map((breed) => breed.label);
-
+  console.log(profile);
   return (
     <Card className="flex w-full flex-row-reverse justify-end sm:flex-row sm:justify-between">
       <ul className="flex flex-col gap-3 text-sm font-medium sm:gap-[12px] sm:text-lg">
@@ -45,7 +45,7 @@ export default function ProfileCard({
         </li>
         <li>
           <span className="mr-3 text-[var(--color-grey)]">나이</span>
-          <span>{profile.age}</span>
+          <span>{calculateAge(profile.age)}</span>
         </li>
         <li>
           <span>
