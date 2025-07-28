@@ -14,11 +14,34 @@ export const getNotifications = async () => {
   return data;
 };
 
-export const removeNotification = async () => {
+export const removeNotifications = async () => {
   const res = await fetch(`${baseURL}/api/notification/v1`, {
     method: 'DELETE',
     credentials: 'include',
   });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '알림 전체 삭제 실패');
+  }
+
+  return data;
+};
+
+export const removeNotification = async ({
+  notiId,
+  type,
+}: {
+  notiId: number;
+  type: NotiType;
+}) => {
+  const res = await fetch(
+    `${baseURL}/api/notification/v1/notifications/${notiId}/${type}`,
+    {
+      method: 'DELETE',
+      credentials: 'include',
+    },
+  );
 
   const data = await res.json();
   if (!res.ok) {

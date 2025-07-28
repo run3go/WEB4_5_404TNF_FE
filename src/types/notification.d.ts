@@ -12,3 +12,11 @@ interface NotificationInfo {
   isRead: boolean;
   createdAt: string;
 }
+
+type NotiType =
+  | 'REPORT_SUCCESS'
+  | 'REPORT_FAIL'
+  | 'REPORTED'
+  | 'LIKE'
+  | 'COMMENT'
+  | 'SCHEDULE';
