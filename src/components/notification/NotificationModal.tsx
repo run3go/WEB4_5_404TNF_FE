@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Icon from '../common/Icon';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getNotifications,
   readNotification,
@@ -10,6 +10,7 @@ import {
   removeNotifications,
 } from '@/api/notification';
 import { useAuthStore } from '@/stores/authStoe';
+import { useNotificationStore } from '@/stores/Notification';
 
 interface NotificationModalProps {
   onClose: () => void;
@@ -18,6 +19,10 @@ interface NotificationModalProps {
 export default function NotificationModal({ onClose }: NotificationModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const isLogin = useAuthStore((state) => state.isLogin);
+  const { isReadNotification, clearNotification, setNotifications } =
+    useNotificationStore();
+
+  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: ['notification-list'],
@@ -27,17 +32,35 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
     refetchOnReconnect: false,
   });
 
+  //전체 삭제
   const removeNotificationsMutation = useMutation({
     mutationFn: removeNotifications,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notification-list'] });
+      clearNotification();
+    },
   });
 
   const removeNotificationMutation = useMutation({
     mutationFn: removeNotification,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notification-list'] });
+    },
   });
 
   const readNotificationMutation = useMutation({
     mutationFn: readNotification,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notification-list'] });
+    },
   });
+
+  useEffect(() => {
+    if (data) {
+      setNotifications(data);
+    }
+  }, [data, setNotifications]);
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -57,7 +80,9 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
         <p className="cursor-default text-lg font-bold">Notification</p>
         <p
           className="cursor-pointer text-xs text-[var(--color-grey)]"
-          onClick={() => removeNotificationsMutation.mutate()}
+          onClick={async () => {
+            removeNotificationsMutation.mutateAsync();
+          }}
         >
           전체삭제
         </p>
@@ -71,12 +96,13 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
             <div className="group flex cursor-pointer items-center rounded-xl p-2 transition-colors duration-300 ease-in-out hover:bg-[color:var(--color-primary-200)]">
               <div
                 className="flex w-full items-center"
-                onClick={() =>
+                onClick={() => {
                   readNotificationMutation.mutate({
                     notiId: notification.notiId,
                     type: notification.type,
-                  })
-                }
+                  });
+                  isReadNotification(notification.notiId);
+                }}
               >
                 <Icon width="16px" height="14px" left="-26px" top="-79px" />
                 <p
@@ -92,7 +118,7 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
                 top="-79px"
                 className="absolute right-2 hidden group-hover:block"
                 onClick={() => {
-                  removeNotificationMutation.mutate({
+                  removeNotificationMutation.mutateAsync({
                     notiId: notification.notiId,
                     type: notification.type,
                   });

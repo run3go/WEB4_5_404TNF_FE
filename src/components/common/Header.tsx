@@ -38,9 +38,7 @@ export default function Header() {
   }, [isLogin]);
 
   useEffect(() => {
-    if (!notifications || notifications.length === 0) return;
-
-    const hasUnread = notifications.some((n) => !n.isRead);
+    const hasUnread = notifications?.some((n) => !n.isRead) ?? false;
     sessionStorage.setItem('isNotification', hasUnread.toString());
     setIsNewNotification(hasUnread);
   }, [notifications]);
@@ -68,8 +66,8 @@ export default function Header() {
                   className="cursor-pointer"
                 />
                 {isNewNotificaton && (
-                  <div className="absolute top-[-2px] right-[2px]">
-                    <p className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500"></p>
+                  <div className="absolute top-[2px] right-[8px]">
+                    <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500"></p>
                   </div>
                 )}
               </div>

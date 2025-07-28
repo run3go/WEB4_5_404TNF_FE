@@ -20,12 +20,12 @@ export const removeNotifications = async () => {
     credentials: 'include',
   });
 
-  const data = await res.json();
   if (!res.ok) {
+    const data = await res.json();
     throw new Error(data.message || '알림 전체 삭제 실패');
   }
 
-  return data;
+  return true;
 };
 
 export const removeNotification = async ({
@@ -43,12 +43,12 @@ export const removeNotification = async ({
     },
   );
 
-  const data = await res.json();
   if (!res.ok) {
+    const data = await res.json();
     throw new Error(data.message || '알림 전체 삭제 실패');
   }
 
-  return data;
+  return true;
 };
 
 export const getNotificationSetting = async () => {
@@ -96,10 +96,10 @@ export const readNotification = async ({
     },
   );
 
-  const data = await res.json();
   if (!res.ok) {
+    const data = await res.json();
     throw new Error(data.message || '알림 개별 읽기 실패');
   }
 
-  return data;
+  return true;
 };

@@ -3,17 +3,16 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 interface NotificationStore {
-  isNewNotification: boolean;
   notifications: NotificationInfo[];
   setNotifications: (notifications: NotificationInfo[]) => void;
   addNotification: (notification: NotificationInfo) => void;
-  clearNotificationFlag: () => void;
+  isReadNotification: (notiId: number) => void;
+  clearNotification: () => void;
 }
 
 export const useNotificationStore = create<NotificationStore>()(
   devtools(
     immer((set) => ({
-      isNewNotification: false,
       notifications: [],
       setNotifications: (notifications) =>
         set((state) => {
@@ -22,11 +21,17 @@ export const useNotificationStore = create<NotificationStore>()(
       addNotification: (notification) =>
         set((state) => {
           state.notifications.push(notification);
-          state.isNewNotification = true;
         }),
-      clearNotificationFlag: () =>
+      isReadNotification: (notiId) =>
         set((state) => {
-          state.isNewNotification = false;
+          const noti = state.notifications.find((n) => n.notiId === notiId);
+          if (noti) noti.isRead = true;
+        }),
+
+      clearNotification: () =>
+        set((state) => {
+          state.notifications = [];
+          sessionStorage.setItem('isNotification', 'false');
         }),
     })),
   ),
