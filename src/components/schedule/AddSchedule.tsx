@@ -9,9 +9,10 @@ import { addMonths, format, isBefore, parseISO } from 'date-fns';
 import { useGetPets } from '@/lib/hooks/useGetPets';
 import { useCreateSchedule } from '@/lib/hooks/schedule/useCreateSchedule';
 import { useUpdateSchedule } from '@/lib/hooks/schedule/useUpdateSchedule';
-import Lottie from 'lottie-react';
-import loading from '../../assets/images/loading-footprint.json';
+// import Lottie from 'lottie-react';
+// import loading from '../../assets/images/loading-footprint.json';
 import { useAuthStore } from '@/stores/authStoe';
+import Loading from '../common/Loading';
 
 export default function AddSchedule({
   closeModal,
@@ -136,11 +137,10 @@ export default function AddSchedule({
       />
 
       <div className="fixed top-1/2 left-1/2 z-501 h-[400px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
-        {isPending && (
-          <div className="flex h-full items-center justify-center">
+        {isPending && <Loading />}
+        {/* <div className="flex h-full items-center justify-center">
             <Lottie animationData={loading} loop={true} className="h-70 w-70" />
-          </div>
-        )}
+          </div> */}
 
         {!isPending && (
           <form

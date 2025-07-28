@@ -35,6 +35,10 @@
   --color-pink-100: #ffeae5;
 
   --color-green: #34a853;
+
+  /* darkmode */
+
+  --color-dark-background: #343434;
 }
 
 @font-face {

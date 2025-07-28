@@ -5,8 +5,10 @@ import { useEffect, useRef } from 'react';
 export default function DonutGraph({ feeding }: { feeding: DashboardFeeding }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
-  const diff = feeding.average - feeding.amount;
-  const percent = Math.ceil(Math.abs(diff / feeding.average) * 100);
+  const average = isNaN(feeding.average) ? 0 : feeding.average;
+
+  const diff = average - feeding.amount;
+  const percent = Math.ceil(Math.abs(diff / average) * 100);
   const mainColor = diff > 0 ? 'var(--color-red-300)' : 'var(--color-blue-300)';
   const subColor = diff > 0 ? 'var(--color-red-100)' : 'var(--color-blue-100)';
   const textColor = diff > 0 ? 'var(--color-red)' : 'var(--color-blue)';
@@ -19,7 +21,7 @@ export default function DonutGraph({ feeding }: { feeding: DashboardFeeding }) {
     const outerRadius = height / 2;
     const innerRadius = outerRadius * 0.75;
     const tau = 2 * Math.PI;
-    const percent = feeding.amount / feeding.average - 1;
+    const percent = feeding.amount / average - 1;
 
     const svg = select(svgRef.current);
     svg.selectAll('*').remove();
@@ -55,7 +57,7 @@ export default function DonutGraph({ feeding }: { feeding: DashboardFeeding }) {
           return arcGenerator(d)!;
         };
       });
-  }, [feeding, mainColor, subColor]);
+  }, [feeding, mainColor, subColor, average]);
 
   return (
     <div className="relative self-center">
@@ -63,7 +65,7 @@ export default function DonutGraph({ feeding }: { feeding: DashboardFeeding }) {
       <div
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-0 pr-1 text-xs tracking-tighter text-[${textColor}]`}
       >
-        {diff < 0 ? '▴' : '▾'} {percent} %
+        {diff < 0 ? '▴' : '▾'} {percent === Infinity ? 0 : percent} %
       </div>
     </div>
   );
