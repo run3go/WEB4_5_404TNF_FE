@@ -1,14 +1,21 @@
 'use client';
 
+import { useAuthStore } from '@/stores/authStoe';
 import { useNotificationStore } from '@/stores/Notification';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function NotificationProvider() {
+  const [userId, setUserId] = useState<string | boolean | null>(null);
+  const isLogin = useAuthStore((state) => state.isLogin);
   const addNotification = useNotificationStore(
     (state) => state.addNotification,
   );
+
   useEffect(() => {
-    const userId = sessionStorage.getItem('userId');
+    setUserId(sessionStorage.getItem('userId'));
+  }, []);
+  useEffect(() => {
+    setUserId(isLogin);
     if (!userId) return;
 
     const eventSource = new EventSource(
@@ -33,7 +40,7 @@ export default function NotificationProvider() {
     return () => {
       eventSource.close();
     };
-  }, [addNotification]);
+  }, [addNotification, userId, isLogin]);
 
   return null;
 }
