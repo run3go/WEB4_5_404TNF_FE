@@ -91,7 +91,7 @@ export default function DogProfileEdit({
         className="fixed inset-0 z-200 bg-[var(--color-black)] opacity-50"
         onClick={closeModal}
       />
-      <div className="scrollbar-hidden absolute top-1/2 left-1/2 z-201 h-9/10 w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 overflow-y-scroll rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] px-28 py-14">
+      <div className="scrollbar-hidden absolute top-1/2 left-1/2 z-201 h-9/10 w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 overflow-y-scroll rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] px-28 py-14 dark:bg-[#343434]">
         <Icon
           onClick={closeModal}
           className="absolute top-10 right-[70px] cursor-pointer"
