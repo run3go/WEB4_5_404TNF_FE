@@ -12,6 +12,7 @@ import Button from '../common/Button';
 import DateInput from '../common/DateInput';
 import Icon from '../common/Icon';
 import SelectBox from '../common/SelectBox';
+import Loading from '../common/Loading';
 
 export default function AddSchedule({
   closeModal,
@@ -134,11 +135,7 @@ export default function AddSchedule({
       />
 
       <div className="fixed top-1/2 left-1/2 z-501 h-[400px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8 dark:bg-[var(--color-dark-background)]">
-        {isPending && (
-          <div className="flex h-full items-center justify-center">
-            <Lottie animationData={loading} loop={true} className="h-70 w-70" />
-          </div>
-        )}
+        {isPending && <Loading />}
 
         {!isPending && (
           <form
