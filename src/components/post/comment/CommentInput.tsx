@@ -65,6 +65,9 @@ export default function CommentInput({ postId }: { postId: number }) {
         queryClient.invalidateQueries({
           queryKey: ['comment-list', variables.postId],
         });
+        queryClient.invalidateQueries({
+          queryKey: ['comment-count', variables.postId],
+        });
       }
     },
     onSuccess: () => {

@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import Icon from './Icon';
-import { cancelLike, getLikeCount, requestLike } from '@/api/post';
+import {
+  cancelLike,
+  getCommentCount,
+  getLikeCount,
+  requestLike,
+} from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
+import { useQuery } from '@tanstack/react-query';
 
 interface PostStats {
   comment: number;
@@ -15,6 +21,13 @@ export default function PostStats({ comment, like, views, postId }: PostStats) {
   const [liked, setLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const userInfo = useAuthStore((state) => state.userInfo);
+
+  const { data } = useQuery({
+    queryKey: ['comment-count', postId],
+    queryFn: () => getCommentCount(postId!),
+    enabled: !!postId,
+  });
+  console.log(data?.data.count);
 
   const handleLike = async () => {
     if (!userInfo || !postId || isLoading) return;
@@ -94,7 +107,7 @@ export default function PostStats({ comment, like, views, postId }: PostStats) {
             className="mt-0.5 scale-75 sm:scale-100"
           />
           <p className="pt-1 text-[10px] sm:pt-[2px] sm:text-[14px]">
-            {comment}
+            {data?.data.replies ?? comment}
           </p>
         </div>
 

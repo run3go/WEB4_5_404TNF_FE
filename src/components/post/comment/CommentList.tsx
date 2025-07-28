@@ -111,8 +111,11 @@ export default function CommentList({
         );
       }
     },
-    onSettled: () => {
+    onSettled: (_data, _error, variables) => {
       queryClient.invalidateQueries({ queryKey: ['comment-list', postId] });
+      queryClient.invalidateQueries({
+        queryKey: ['comment-count', variables.postId],
+      });
     },
   });
 
