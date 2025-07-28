@@ -84,7 +84,7 @@ type DiaryItem = {
   content: string;
 };
 
-type PageInfo = {
+type DiaryPageInfo = {
   page: number;
   size: number;
   totalPages: number;
@@ -95,7 +95,7 @@ type PageInfo = {
 
 type DiaryListResponse = {
   data: DiaryItem[];
-  pageInfo: PageInfo;
+  pageInfo: DiaryPageInfo;
 };
 
 type GetDiaryListParams = {

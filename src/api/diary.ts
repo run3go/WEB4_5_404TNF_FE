@@ -184,6 +184,6 @@ export const getDiaryList = async ({
     return data;
   } catch (err) {
     console.error('getDiaryList error:', err);
-    return { data: [], pageInfo: {} as PageInfo };
+    return { data: [], pageInfo: {} as DiaryPageInfo };
   }
 };
