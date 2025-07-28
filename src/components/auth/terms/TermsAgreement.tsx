@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import Icon from '@/components/common/Icon';
-import { useRouter } from 'next/navigation';
 import { useTermsStore } from '@/stores/termsStore';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function TermsAgreement() {
   const router = useRouter();
@@ -105,7 +105,7 @@ export default function TermsAgreement() {
 
       <div className="mx-6 sm:mx-[19.5vw]">
         <button
-          className="flex h-[40px] w-full cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-primary-200)] text-[14px] hover:bg-[var(--color-primary-300)] disabled:bg-[#2B2926]/20 disabled:text-[#909090] sm:mt-14 sm:h-[56px] sm:text-[18px]"
+          className="flex h-[40px] w-full cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-primary-200)] text-[14px] hover:bg-[var(--color-primary-300)] disabled:bg-[#2B2926]/20 disabled:text-[#909090] sm:mt-14 sm:h-[56px] sm:text-[18px] dark:text-[var(--color-black)] dark:disabled:bg-[#4f4f4f]"
           onClick={handleAgree}
           disabled={!isNextEnabled}
         >
