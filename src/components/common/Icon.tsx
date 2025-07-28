@@ -13,7 +13,7 @@ export default function Icon({
   left: string;
   top: string;
   className?: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }) {
   return (
     <div
