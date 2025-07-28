@@ -1,7 +1,7 @@
 'use client';
 import alternativeImage from '@/assets/images/alternative-image.svg';
 import Card from '@/components/common/Card';
-import { usePetProfiles } from '@/lib/hooks/usePetProfiles';
+import { usePetProfiles } from '@/lib/hooks/profile/useProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';
@@ -31,6 +31,8 @@ export default function DogProfileList() {
     query: '(max-width: 767px)',
   });
 
+  const sortedProfiles = petProfiles.sort((a, b) => a.petId - b.petId);
+
   const togglePage = useProfileStore((state) => state.toggleEditingPetProfile);
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -50,7 +52,7 @@ export default function DogProfileList() {
       {isMobile ? (
         <div className="mt-6 flex flex-col gap-6">
           {petProfiles &&
-            petProfiles.map((profile, index) => (
+            sortedProfiles.map((profile, index) => (
               <DogProfileCard
                 key={index}
                 togglePage={togglePage}
@@ -59,7 +61,7 @@ export default function DogProfileList() {
             ))}
           {isMyProfile && (
             <div onClick={togglePage}>
-              <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
+              <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px] dark:bg-[#343434]">
                 <Icon
                   className="hidden sm:block"
                   width="47px"
@@ -131,7 +133,7 @@ export default function DogProfileList() {
             >
               {petProfiles.length === 0 && (
                 <SwiperSlide className="!w-[598px]">
-                  <Card className="my-7 ml-4 flex h-20 w-full max-w-150 flex-col items-center justify-center p-0 sm:h-[308px]">
+                  <Card className="my-7 ml-4 flex h-20 w-full max-w-150 flex-col items-center justify-center p-0 sm:h-[308px] dark:bg-[#343434]">
                     <Image
                       src={alternativeImage}
                       alt="등록된 강아지가 없어요"
@@ -143,7 +145,7 @@ export default function DogProfileList() {
                 </SwiperSlide>
               )}
               {petProfiles &&
-                petProfiles.map((profile, index) => (
+                sortedProfiles.map((profile, index) => (
                   <SwiperSlide key={index} className="!w-[598px]">
                     <DogProfileCard profile={profile} />
                   </SwiperSlide>

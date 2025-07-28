@@ -13,7 +13,9 @@ export default function DateInput({
   setSelected,
   showAllDate = false,
   placeholder = '전체 날짜',
+  disabledRange,
   placeholderClassName = '',
+  align = 'right',
 }: {
   className: string;
   disableFuture?: boolean;
@@ -21,7 +23,9 @@ export default function DateInput({
   setSelected: (value: Date) => void;
   showAllDate?: boolean;
   placeholder?: string;
+  disabledRange?: { before: Date };
   placeholderClassName?: string;
+  align?: 'left' | 'right';
 }) {
   const [isDateInputOpen, setIsDateInputOpen] = useState(false);
   const inputRef = useRef<HTMLDivElement>(null);
@@ -62,7 +66,7 @@ export default function DateInput({
           formatDate(today, 'yyyy. MM. dd')
         )}
         <Icon
-          className="scale-90"
+          className="scale-70 sm:scale-90"
           width="20px"
           height="20px"
           left="-188px"
@@ -71,7 +75,10 @@ export default function DateInput({
       </div>
       {isDateInputOpen && (
         <div
-          className="absolute top-[100%] right-0 z-200 mt-1 h-55 w-full max-w-55 min-w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)]"
+          className={twMerge(
+            'absolute top-[100%] z-200 mt-1 h-55 w-full max-w-55 min-w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] dark:bg-[var(--color-black)]',
+            align === 'right' ? 'right-0' : 'left-0',
+          )}
           ref={inputRef}
         >
           <DayPicker
@@ -79,8 +86,18 @@ export default function DateInput({
             captionLayout="dropdown-years"
             selected={selected}
             startMonth={new Date(thisYear - 30, thisMonth)}
+            endMonth={
+              disableFuture ? new Date(thisYear + 10, thisMonth) : undefined
+            }
             onSelect={handleSelectDate}
-            disabled={disableFuture && { after: new Date() }}
+            disabled={
+              disableFuture
+                ? { after: new Date() }
+                : disabledRange
+                  ? disabledRange
+                  : undefined
+            }
+            defaultMonth={selected}
             locale={ko}
             showOutsideDays
             classNames={{

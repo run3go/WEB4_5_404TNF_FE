@@ -8,21 +8,7 @@ type PetPayload = {
   weight: number | null;
   sex: boolean;
   isNeutered: boolean;
-  image: string | null;
   userId?: string;
-};
-
-type PetFormValues = {
-  registNumber?: string | null;
-  birthday: string;
-  metday: string;
-  name: string;
-  breed: PetBreed;
-  size: PetSize;
-  weight?: string | null;
-  sex: 'true' | 'false';
-  isNeutered: 'true' | 'false';
-  image: string | null;
 };
 
 type PetProfile = {
@@ -35,16 +21,23 @@ type PetProfile = {
   size: PetSize;
   sex: boolean;
   isNeutered: boolean;
-  image: {
-    petImgId: number;
-    savePath: string;
-    type: 'THUMBNAIL' | 'PROFILE' | 'GALLERY';
-    originName: string;
-    renamedName: string;
-  };
+  imgUrl: string;
   birthday?: string;
   weight?: number;
   days?: number;
+};
+
+type PetFormValues = {
+  registNumber?: string | null;
+  birthday: string;
+  metday: string;
+  name: string;
+  breed: PetBreed;
+  size: PetSize;
+  weight?: string | null;
+  sex: 'true' | 'false';
+  isNeutered: 'true' | 'false';
+  image: File | null;
 };
 
 type PetBreed =
@@ -115,7 +108,7 @@ type VaccineFormValues = {
 type VaccineInfo = {
   vaccineAt?: string;
   vaccineType: VaccineType;
-  count?: number;
+  count?: number | null;
 };
 
 type VaccineName =

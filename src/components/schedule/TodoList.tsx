@@ -1,11 +1,13 @@
 'use client';
-import { useState } from 'react';
+import { format } from 'date-fns';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import alternative from '../../assets/images/alternative-image.svg';
 import Card from '../common/Card';
 import Icon from '../common/Icon';
 import AddSchedule from './AddSchedule';
 import TodoItem from './TodoItem';
-import { format } from 'date-fns';
 
 export default function TodoList({
   type,
@@ -20,31 +22,41 @@ export default function TodoList({
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    if (schedules?.length === 0) {
+      closeModal?.();
+    }
+  }, [schedules, closeModal]);
+
   const formattedDate = fullDate ? format(fullDate, 'yyyy.MM.dd') : '';
 
-  if (type === 'card') {
+  if (type === 'card' && fullDate) {
     return (
-      <Card className="mt-8 max-h-70 min-h-31 w-full text-sm sm:hidden">
+      <Card className="mt-8 max-h-70 min-h-50 w-full text-sm sm:hidden">
         <div className="mb-3 flex justify-between text-[var(--color-grey)]">
           <span>일정 목록</span>
-          <span>2025. 7. 5</span>
+          <span>{formattedDate}</span>
         </div>
-        <ul className="scrollbar-hidden flex max-h-55 flex-col items-center overflow-y-scroll">
-          {/* <Image
+        <ul className="scrollbar-hidden flex max-h-55 min-h-36 flex-col items-center overflow-y-scroll">
+          {schedules && schedules.length > 0 ? (
+            schedules?.map((s) => (
+              <TodoItem key={s.scheduleId} schedule={s} type="mobile" />
+            ))
+          ) : (
+            <>
+              <Image
                 className="mt-5"
                 src={alternative}
                 alt="대체 이미지"
                 width={40}
                 height={28}
                 priority
-                />
-                <span className="mt-2 mb-3 text-[var(--color-grey)]">
+              />
+              <span className="mt-2 mb-3 text-[var(--color-grey)]">
                 등록된 일정이 없습니다
-                </span> */}
-          <TodoItem name="할 일1" />
-          <TodoItem name="할 일2" />
-          <TodoItem name="할 일3" />
-          <TodoItem name="할 일4" />
+              </span>
+            </>
+          )}
         </ul>
       </Card>
     );
@@ -55,7 +67,7 @@ export default function TodoList({
           className="absolute inset-0 z-500 bg-[var(--color-black)] opacity-50"
           onClick={closeModal}
         />
-        <div className="absolute top-1/2 left-1/2 z-501 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
+        <div className="absolute top-1/2 left-1/2 z-501 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8 dark:bg-[var(--color-dark-background)]">
           <div className="mb-6 flex w-full items-center justify-between pr-2">
             <h2 className="cursor-default text-base font-extrabold">
               {formattedDate} 일정

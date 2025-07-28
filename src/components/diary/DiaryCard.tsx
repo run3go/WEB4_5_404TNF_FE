@@ -18,17 +18,17 @@ export default function DiaryCard({
   return (
     <Card
       className={twMerge(
-        'flex flex-col border border-[var(--color-primary-500)] text-sm sm:text-base',
+        'flex flex-col border border-[var(--color-primary-500)] text-sm sm:text-base dark:bg-[var(--color-black)]',
         className,
       )}
     >
       <div
         className={twMerge(
-          'mb-1 flex items-center justify-start border-b border-[var(--color-primary-500)] pb-3 sm:mb-3',
+          'mb-3 flex items-center justify-start border-b border-[var(--color-primary-500)] pb-3',
           hasAddBtn && 'justify-between',
         )}
       >
-        <h2 className="text-sm leading-[1.2] font-extrabold text-[var(--color-primary-500)] sm:text-base">
+        <h2 className="cursor-default text-sm leading-[1.2] font-extrabold text-[var(--color-primary-500)] sm:text-base">
           {title}
         </h2>
         {hasAddBtn && (

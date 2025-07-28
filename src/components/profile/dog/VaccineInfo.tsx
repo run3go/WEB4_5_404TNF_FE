@@ -1,39 +1,53 @@
-import { vaccineInfo } from '@/assets/data/pet';
 import Card from '@/components/common/Card';
 import { RefObject } from 'react';
 
 export default function VaccineInfo({
   ref,
-  eng,
 }: {
-  ref?: RefObject<HTMLDivElement | null>;
-  eng: VaccineName;
+  ref: RefObject<HTMLDivElement | null>;
 }) {
   return (
-    <Card
-      className="absolute z-200 mt-2 w-55 border-2 border-gray-200 bg-[var(--color-background)] px-1 py-2 text-[11px] shadow-sm sm:left-1/2 sm:w-70 sm:-translate-x-1/2 sm:px-4 sm:py-2 sm:text-xs"
-      ref={ref}
-    >
-      <ul className="flex justify-around gap-1 sm:gap-2">
-        <li className="flex flex-col items-center gap-1">
-          <span>기초 접종</span>
-          <span className="font-semibold text-[var(--color-primary-500)]">
-            1회
-          </span>
-        </li>
-        <li className="flex flex-col items-center gap-1">
-          <span>추가 접종까지</span>
-          <span className="font-semibold text-[var(--color-primary-500)]">
-            {vaccineInfo[eng].additional}회
-          </span>
-        </li>
-        <li className="flex flex-col items-center gap-1">
-          <span>보충 접종까지</span>
-          <span className="font-semibold text-[var(--color-primary-500)]">
-            {vaccineInfo[eng].booster}+n회
-          </span>
-        </li>
-      </ul>
+    <Card className="absolute top-15 left-20 z-200 mt-2 w-70 border-1 border-[var(--color-primary-300)] bg-[var(--color-background)] px-1 py-2 text-center text-[11px] shadow-sm sm:left-1/2 sm:w-80 sm:-translate-x-1/2 sm:px-4 sm:py-2 sm:text-xs dark:bg-[#343434]">
+      <div ref={ref}>
+        <div className="my-[5px] flex w-full border-b-2 border-[var(--color-primary-300)] pb-[5px] font-semibold">
+          <div className="basis-1/4" />
+          <span className="basis-1/4">기초 접종</span>
+          <span className="basis-1/4">추가 접종</span>
+          <span className="basis-1/4">보강 접종</span>
+        </div>
+        <ul className="flex flex-col">
+          <li className="flex w-full py-[6px]">
+            <span className="basis-1/4 font-semibold">종합백신</span>
+            <span className="basis-1/4">1회</span>
+            <span className="basis-1/4">5회</span>
+            <span className="basis-1/4">매년 1회</span>
+          </li>
+          <li className="flex w-full py-[6px]">
+            <span className="basis-1/4 font-semibold">코로나 장염</span>
+            <span className="basis-1/4">1회</span>
+            <span className="basis-1/4">2회</span>
+            <span className="basis-1/4">매년 1회</span>
+          </li>
+          <li className="flex w-full py-[6px]">
+            <span className="basis-1/4 font-semibold">켄넬코프</span>
+            <span className="basis-1/4">1회</span>
+            <span className="basis-1/4">2회</span>
+            <span className="basis-1/4">매년 1회</span>
+          </li>
+          <li className="flex w-full py-[6px]">
+            <span className="basis-1/4 font-semibold">인플루엔자</span>
+            <span className="basis-1/4">1회</span>
+            <span className="basis-1/4">2회</span>
+            <span className="basis-1/4">매년 1회</span>
+          </li>
+          <li className="flex w-full py-[6px]">
+            <span className="basis-1/4 font-semibold">광견병</span>
+            <span className="basis-1/4">1회</span>
+            <span className="basis-1/4">1회</span>
+            <span className="basis-1/4">매년 1회</span>
+          </li>
+        </ul>
+      </div>
     </Card>
   );
 }

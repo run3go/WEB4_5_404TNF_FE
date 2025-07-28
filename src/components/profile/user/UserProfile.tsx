@@ -1,7 +1,10 @@
+import { getMyUserInfo } from '@/api/user';
 import defaultProfile from '@/assets/images/default-profile.svg';
+import d_defaultProfile from '@/assets/images/dark-default-profile.svg';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -22,6 +25,13 @@ export default function UserProfile({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isMyProfile = userInfo?.userId === userProfile.userId;
+
+  const { data: profile } = useQuery<UserProfile>({
+    queryFn: () => getMyUserInfo(),
+    queryKey: ['user', userInfo?.userId],
+    enabled: isMyProfile,
+    staleTime: 30000,
+  });
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -54,10 +64,17 @@ export default function UserProfile({
           <span className="text-[var(--color-grey)]">수정</span>
         </button>
       )}
-      <div className="mt-7 flex gap-2 sm:gap-7">
+      <div className="mt-7 flex items-center gap-4 sm:gap-7">
         <Image
-          className="h-24 w-24 rounded-full sm:h-40 sm:w-40"
-          src={defaultProfile}
+          className="block h-20 w-20 rounded-full sm:h-40 sm:w-40 dark:hidden"
+          src={profile?.imgUrl || userProfile.imgUrl || defaultProfile}
+          alt="프로필 이미지"
+          width={160}
+          height={160}
+        />
+        <Image
+          className="hidden h-20 w-20 rounded-full sm:h-40 sm:w-40 dark:block"
+          src={profile?.imgUrl || userProfile.imgUrl || d_defaultProfile}
           alt="프로필 이미지"
           width={160}
           height={160}
@@ -81,7 +98,7 @@ export default function UserProfile({
             <span className="inline-block w-[59px] text-[var(--color-grey)] sm:w-[93px]">
               닉네임
             </span>
-            {userProfile.nickname}
+            {profile?.nickname || userProfile?.nickname}
           </div>
           {isMyProfile && (
             <div>
@@ -94,8 +111,9 @@ export default function UserProfile({
         </div>
       </div>
       {isModalOpen &&
+        profile &&
         createPortal(
-          <UserProfileEdit closeModal={closeModal} />,
+          <UserProfileEdit closeModal={closeModal} profile={profile} />,
           document.body,
         )}
     </div>

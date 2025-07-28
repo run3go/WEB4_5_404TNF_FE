@@ -50,7 +50,7 @@ export default function AdminLoginForm() {
         nickname: data.nickname,
         role: data.role,
         provider: data.provider,
-        userImg: data.userImg,
+        imgUrl: data.userImg,
       };
       setLogin(userInfo);
       sessionStorage.setItem('userId', user.userId);
@@ -106,7 +106,13 @@ export default function AdminLoginForm() {
 
         <button className="mt-4 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] sm:mt-6 sm:h-[56px]">
           <div className="flex items-center justify-center gap-2">
-            <Icon width="20px" height="18px" left="-297px" top="-312px" />
+            <Icon
+              className="dark:bg-[url('/images/sprite.svg')]"
+              width="20px"
+              height="18px"
+              left="-297px"
+              top="-312px"
+            />
             <p className="text-[14px] font-medium text-[#2B2926] sm:text-[18px]">
               멍멍일지 관리자 로그인
             </p>

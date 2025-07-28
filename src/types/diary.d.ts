@@ -1,16 +1,9 @@
-type DiaryPet = {
-  petId: number;
-  name: string;
-  breed: string;
-  age: number;
-};
-
-type LifeRecordPayload = {
+type DiarydPayload = {
   petId: number;
   recordAt: string;
   content: string;
-  sleepTime: number;
-  weight: number;
+  sleepTime?: number;
+  weight?: number;
   walkingList: {
     startTime: string;
     endTime: string;
@@ -36,4 +29,77 @@ type FeedEntry = {
   hour: string;
   minute: string;
   unit: string;
+};
+
+type DiaryCheckResponse = {
+  lifeRecordId: number;
+  content: string;
+  sleepTime: number;
+  weight: number;
+  feedingList: {
+    amount: number;
+    mealtime: string;
+    unit: string;
+  }[];
+  walkingList: {
+    startTime: string;
+    endTime: string;
+    pace: number;
+  }[];
+};
+
+type DiaryCheckCreateResult = {
+  result: string;
+  unit: string;
+};
+
+type DiaryCheckResult =
+  | { mode: 'edit'; data: DiaryCheckResponse }
+  | { mode: 'create'; data: DiaryCheckCreateResult }
+  | null;
+
+// diary detail
+type Feeding = {
+  amount: number;
+  mealtime: string;
+  unit: string;
+};
+
+type Walking = {
+  startTime: string;
+  endTime: string;
+  pace: number;
+};
+
+type DiaryItem = {
+  lifeRecordId: number;
+  pet: {
+    name: string;
+    url: string | null;
+    type: string | null;
+  };
+  recordAt: string;
+  weight: number | null;
+  walkingTime: number;
+  content: string;
+};
+
+type DiaryPageInfo = {
+  page: number;
+  size: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+};
+
+type DiaryListResponse = {
+  data: DiaryItem[];
+  pageInfo: DiaryPageInfo;
+};
+
+type GetDiaryListParams = {
+  petId?: number;
+  recordAt?: string;
+  page: number;
 };

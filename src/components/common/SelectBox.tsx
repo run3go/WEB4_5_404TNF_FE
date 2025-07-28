@@ -1,4 +1,5 @@
 'use client';
+import { useThemeStore } from '@/stores/themeStore';
 import { useEffect, useRef, useState } from 'react';
 import Select, { components } from 'react-select';
 import { twMerge } from 'tailwind-merge';
@@ -27,6 +28,7 @@ export default function SelectBox({
   hasBorder = false,
   thinBorder = false,
   borderColor = 'var(--color-primary-200)',
+  type,
 }: {
   value?: string;
   setValue?: (value: string) => void;
@@ -39,8 +41,13 @@ export default function SelectBox({
   hasBorder?: boolean;
   thinBorder?: boolean;
   borderColor?: string;
+  type?: string;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const theme = useThemeStore((state) => state.theme);
+  const isDark = theme === 'dark';
+
   const [fontSize, setFontSize] = useState('16px');
   useEffect(() => {
     if (!containerRef.current) return;
@@ -71,7 +78,17 @@ export default function SelectBox({
                 {footstep && (
                   <Icon width="16px" height="14px" left="-26px" top="-79px" />
                 )}
-                {children}
+
+                {type ? (
+                  <span
+                    className="block max-w-[80px] truncate"
+                    title={typeof children === 'string' ? children : undefined}
+                  >
+                    {children}
+                  </span>
+                ) : (
+                  children
+                )}
               </div>
             </components.Option>
           ),
@@ -123,7 +140,8 @@ export default function SelectBox({
           }),
           singleValue: (base) => ({
             ...base,
-            margin: 0,
+            color: isDark ? 'var(--color-background)' : 'var(--color-black)',
+            ...(type ? { marginRight: '15px' } : { margin: 0 }),
           }),
           valueContainer: (base) => ({
             ...base,
@@ -137,7 +155,9 @@ export default function SelectBox({
                 ? width
                 : `${Number(width.replace('px', '')) + 20}px`,
             position: 'absolute',
-            background: 'var(--color-background)',
+            background: isDark
+              ? 'var(--color-dark-background)'
+              : 'var(--color-background)',
             right: 0,
             padding: fontSize === '12px' ? 0 : '0.6em',
           }),
@@ -151,11 +171,16 @@ export default function SelectBox({
             ...base,
             cursor: 'pointer',
             fontSize: '0.9em',
-            color: 'var(--color-black)',
+            color: isDark ? 'var(--color-background)' : 'var(--color-black)',
             backgroundColor: state.isSelected ? 'none' : '',
             '&:hover': {
-              backgroundColor: 'var(--color-primary-200)',
+              backgroundColor: isDark
+                ? 'var(--color-primary-500)'
+                : 'var(--color-primary-200)',
             },
+            ...(type && {
+              display: 'flex',
+            }),
           }),
           placeholder: (base) => ({
             ...base,
