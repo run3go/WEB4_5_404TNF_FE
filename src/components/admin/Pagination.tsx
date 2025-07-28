@@ -8,7 +8,7 @@ export default function Pagenation({
 }: {
   currentPage: number;
   onPageChange: (page: number) => void;
-  pageInfo: PageInfo;
+  pageInfo: AdminPageInfo;
 }) {
   // const [currentPage, setCurrentPage] = useState(1);
   const [currentGroup, setCurrentGroup] = useState(1);

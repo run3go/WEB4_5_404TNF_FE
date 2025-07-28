@@ -175,3 +175,23 @@ export const getReportList = async (getReportListInfo: GetListInfo) => {
     console.error(err instanceof Error ? err.message : 'unknown error');
   }
 };
+
+// 유저 상태 변경(정지 -> 활성)
+export const changeUserState = async (userId: number) => {
+  const url = `${baseUrl}/api/admin/v1/users/${userId}/state`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'PATCH',
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to reject report');
+    }
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error(err instanceof Error ? err.message : 'unknown error');
+  }
+};

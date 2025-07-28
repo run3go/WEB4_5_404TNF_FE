@@ -10,7 +10,9 @@ import {
   userState,
   userStateColor,
 } from '@/assets/data/admin';
-import { format } from 'date-fns';
+import { format, isAfter } from 'date-fns';
+import Button from '../common/Button';
+import { useChangeUserState } from '@/lib/hooks/admin/useChangeUserState';
 
 export default function AdminTable({
   type,
@@ -26,6 +28,7 @@ export default function AdminTable({
   // const status = '활성';
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const { mutate: changeState } = useChangeUserState();
 
   const handleSort = (key: string) => {
     let nextOrder: 'ASC' | 'DESC' = 'DESC';
@@ -34,6 +37,14 @@ export default function AdminTable({
     }
     onSortChange(nextOrder);
     onSortByChange(key);
+  };
+
+  const handleActive = (userId: number) => {
+    const res = confirm('해당 유저를 활성상태로 변경하시겠습니까?');
+
+    if (res) {
+      changeState(userId);
+    }
   };
 
   return (
@@ -49,7 +60,7 @@ export default function AdminTable({
                   <SortArrow active={sortBy === 'EMAIL'} order={sort} />
                 </div>
               </th>
-              <th onClick={() => handleSort('NICKNAME')} className="w-55">
+              <th onClick={() => handleSort('NICKNAME')} className="w-50">
                 <div className="admin-th-div">
                   닉네임
                   <SortArrow active={sortBy === 'NICKNAME'} order={sort} />
@@ -69,7 +80,7 @@ export default function AdminTable({
               </th>
               <th
                 onClick={() => handleSort('LAST_LOGIN_DATE')}
-                className="w-46"
+                className="w-40"
               >
                 <div className="admin-th-div">
                   최근 접속일
@@ -79,7 +90,7 @@ export default function AdminTable({
                   />
                 </div>
               </th>
-              <th onClick={() => handleSort('JOIN_DATE')} className="w-46">
+              <th onClick={() => handleSort('JOIN_DATE')} className="w-40">
                 <div className="admin-th-div">
                   가입일
                   <SortArrow active={sortBy === 'JOIN_DATE'} order={sort} />
@@ -93,7 +104,7 @@ export default function AdminTable({
               </th>
               <th
                 onClick={() => handleSort('SUSPENSION_END_DATE')}
-                className="w-46"
+                className="w-40"
               >
                 <div className="admin-th-div">
                   정지 종료일
@@ -103,6 +114,7 @@ export default function AdminTable({
                   />
                 </div>
               </th>
+              <th className="w-30">상태 변경</th>
             </tr>
           ) : (
             <tr className="h-10 border-b border-[var(--color-black)]">
@@ -173,12 +185,33 @@ export default function AdminTable({
                   <td>{user.nickname}</td>
                   <td className="text-center">{user.postCount}</td>
                   <td className="text-center">{user.commentCount}</td>
-                  <td>{format(user.lastLoginDate, 'yyyy.MM.dd')}</td>
-                  <td>{format(user.joinDate, 'yyyy.MM.dd')}</td>
+                  <td>
+                    {user.lastLoginDate
+                      ? format(new Date(user.lastLoginDate), 'yyyy.MM.dd')
+                      : ''}
+                  </td>
+                  <td>{format(new Date(user.joinDate), 'yyyy.MM.dd')}</td>
                   <td className={`text-center ${userStateColor[user.status]}`}>
                     {userState[user.status]}
                   </td>
-                  <td>{user.suspensionEndDate}</td>
+                  <td>
+                    {user.suspensionEndAt &&
+                    isAfter(new Date(user.suspensionEndAt), new Date())
+                      ? format(new Date(user.suspensionEndAt), 'yyyy.MM.dd')
+                      : ''}
+                  </td>
+                  <td>
+                    <div className="flex items-center justify-center">
+                      {user.status === 'SUSPENDED' && (
+                        <Button
+                          onClick={() => handleActive(user.userId)}
+                          className="h-7 w-15 p-0 text-[14px]"
+                        >
+                          활성화
+                        </Button>
+                      )}
+                    </div>
+                  </td>
                 </tr>
               ))
             ) : (
@@ -207,7 +240,7 @@ export default function AdminTable({
                     <td>{report.reporter}</td>
                     <td>{reportType[report.type]}</td>
                     <td>{report.reported}</td>
-                    <td>{format(report.createdAt, 'yyyy.MM.dd')}</td>
+                    <td>{format(new Date(report.createdAt), 'yyyy.MM.dd')}</td>
                     <td>{reportReason[report.category]}</td>
                     <td>
                       <div

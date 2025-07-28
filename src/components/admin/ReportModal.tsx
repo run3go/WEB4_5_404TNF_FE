@@ -5,7 +5,12 @@ import { useForm } from 'react-hook-form';
 import { useAcceptReport } from '@/lib/hooks/admin/useAcceptReport';
 import { useEffect } from 'react';
 import { useRejectReport } from '@/lib/hooks/admin/useRejectReport';
-import { periodData, userState, userStateColor } from '@/assets/data/admin';
+import {
+  modalHeight,
+  periodData,
+  userState,
+  userStateColor,
+} from '@/assets/data/admin';
 
 type FormData = {
   period: string;
@@ -25,7 +30,7 @@ export default function ReportModal({
   result: 'accept' | 'reject' | 'reason';
   status: string;
   reportedUser: string;
-  user: { state: string; suspendedAt: string; offsetdatetime: string };
+  user: { state: string; reportedAt: string; suspensionEndAt: string };
   adminReason: string;
   onClose: () => void;
 }) {
@@ -73,6 +78,8 @@ export default function ReportModal({
 
   const period = watch('period');
 
+  const heightByResult = modalHeight[result] || 'h-[440px]';
+
   const reasonLable =
     status === 'ACCEPT' || result === 'accept'
       ? '제재 사유'
@@ -88,7 +95,7 @@ export default function ReportModal({
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className={`relative ${result === 'accept' ? 'h-[480px]' : 'h-[440px]'} w-[586px] cursor-default rounded-[30px] bg-[var(--color-background)] px-12 py-10 text-base`}
+          className={`relative ${heightByResult} w-[586px] cursor-default rounded-[30px] bg-[var(--color-background)] px-12 py-10 text-base`}
         >
           <button
             onClick={onClose}
@@ -107,17 +114,19 @@ export default function ReportModal({
               <h3>대상자</h3>
               <h3>{reportedUser}</h3>
             </div>
-            <div className="mb-4 flex gap-13">
-              <h3>상태</h3>
-              <div className={`${userStateColor[user.state]} flex gap-3`}>
-                <h3>{userState[user.state]}</h3>
-                {user.state === 'SUSPENDED' && (
-                  <h3>
-                    ({user.suspendedAt} ~ {user.offsetdatetime})
-                  </h3>
-                )}
+            {result !== 'reason' && (
+              <div className="mb-4 flex gap-13">
+                <h3>상태</h3>
+                <div className={`${userStateColor[user.state]} flex gap-3`}>
+                  <h3>{userState[user.state]}</h3>
+                  {user.state === 'SUSPENDED' && (
+                    <h3>
+                      ({user.reportedAt} ~ {user.suspensionEndAt})
+                    </h3>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
             {result === 'accept' && (
               <div className="mb-4 flex gap-5">

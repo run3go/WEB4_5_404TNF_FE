@@ -60,3 +60,9 @@ export const reportReason: Record<string, string> = {
   FRAUD: '사기',
   ADULT_CONTENT: '선정적 콘텐츠',
 };
+
+export const modalHeight = {
+  accept: 'h-[480px]',
+  reject: 'h-[440px]',
+  reason: 'h-[400px]',
+};

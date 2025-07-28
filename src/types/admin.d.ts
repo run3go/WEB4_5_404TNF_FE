@@ -20,7 +20,7 @@ type UserInfo = {
   lastLoginDate: string;
   joinDate: string;
   status: string;
-  suspensionEndDate: string;
+  suspensionEndAt: string;
 };
 
 type ReportInfo = {
@@ -47,8 +47,8 @@ type ReportDetail = {
   reportedNickname: string;
   adminReason: string;
   reportedState: string;
-  suspendedAt: string;
-  offsetdatetime: string;
+  reportedAt: string;
+  suspensionEndAt: string;
 };
 
 type AcceptInfo = {
@@ -80,7 +80,7 @@ type AdminTableProps = {
   currentPage: number;
 };
 
-type PageInfo = {
+type AdminPageInfo = {
   currentPage: number;
   totalPages: number;
   totalElements: number;

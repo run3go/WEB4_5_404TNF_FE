@@ -80,8 +80,8 @@ export default function ReportDetail({ id }: { id: number }) {
           reportedUser={data?.reportedNickname ?? ''}
           user={{
             state: data?.reportedState ?? '',
-            suspendedAt: data?.suspendedAt ?? '',
-            offsetdatetime: data?.offsetdatetime ?? '',
+            reportedAt: data?.reportedAt ?? '',
+            suspensionEndAt: data?.suspensionEndAt ?? '',
           }}
           adminReason={data?.adminReason ?? ''}
           onClose={() => setIsModalOpen(false)}
