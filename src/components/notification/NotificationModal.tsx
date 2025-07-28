@@ -11,12 +11,14 @@ import {
 } from '@/api/notification';
 import { useAuthStore } from '@/stores/authStoe';
 import { useNotificationStore } from '@/stores/Notification';
+import { useRouter } from 'next/navigation';
 
 interface NotificationModalProps {
   onClose: () => void;
 }
 
 export default function NotificationModal({ onClose }: NotificationModalProps) {
+  const router = useRouter();
   const modalRef = useRef<HTMLDivElement>(null);
   const isLogin = useAuthStore((state) => state.isLogin);
   const { isReadNotification, clearNotification, setNotifications } =
@@ -54,6 +56,22 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
       queryClient.invalidateQueries({ queryKey: ['notification-list'] });
     },
   });
+
+  const handleNotificationClick = (notification: NotificationInfo) => {
+    readNotificationMutation.mutate({
+      notiId: notification.notiId,
+      type: notification.type,
+    });
+    isReadNotification(notification.notiId);
+
+    if (!notification.targetId) return;
+
+    if (!notification.boardType) {
+      router.push('/schedule');
+    }
+
+    router.push(`/post/${notification.boardType}/${notification.targetId}`);
+  };
 
   useEffect(() => {
     if (data) {
@@ -97,11 +115,7 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
               <div
                 className="flex w-full items-center"
                 onClick={() => {
-                  readNotificationMutation.mutate({
-                    notiId: notification.notiId,
-                    type: notification.type,
-                  });
-                  isReadNotification(notification.notiId);
+                  handleNotificationClick(notification);
                 }}
               >
                 <Icon width="16px" height="14px" left="-26px" top="-79px" />

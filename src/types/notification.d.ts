@@ -10,6 +10,7 @@ interface NotificationInfo {
   content: string;
   targetId: number;
   isRead: boolean;
+  boardType: 'FREE' | 'QUESTION' | null;
   createdAt: string;
 }
 
