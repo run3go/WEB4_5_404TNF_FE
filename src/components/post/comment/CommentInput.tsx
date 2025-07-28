@@ -87,7 +87,7 @@ export default function CommentInput({ postId }: { postId: number }) {
       <div className="hidden flex-col items-end gap-5 sm:flex">
         <Card className="min-h-[120px] w-full p-5">
           <textarea
-            className="h-full w-full resize-none text-[18px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
+            className="h-full w-full resize-none text-[18px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none dark:text-[#FFFDF7]"
             onInput={(e) => {
               e.currentTarget.style.height = 'auto';
               e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;

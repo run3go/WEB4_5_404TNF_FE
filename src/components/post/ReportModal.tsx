@@ -47,7 +47,7 @@ export default function ReportModal({
   };
   return (
     <>
-      <div className="hidden h-[625px] w-[720px] rounded-[20px] bg-[#FFFDF7] p-8 sm:block">
+      <div className="hidden h-[625px] w-[720px] rounded-[20px] bg-[#FFFDF7] p-8 sm:block dark:bg-[#343434]">
         <div className="flex items-center justify-end gap-[275px]">
           <p className="text-[18px] font-bold">신고하기</p>
           <Icon
@@ -86,7 +86,7 @@ export default function ReportModal({
             </label>
             <textarea
               id="content"
-              className="scrollbar-hidden h-[220px] w-[523px] resize-none overflow-y-auto rounded-[12px] border border-[#2B2926]/50 p-4 pl-[18px] placeholder:text-[#909090] focus:outline-none"
+              className="scrollbar-hidden h-[220px] w-[523px] resize-none overflow-y-auto rounded-[12px] border border-[#2B2926]/50 p-4 pl-[18px] placeholder:text-[#909090] focus:outline-none dark:border-[#FFFDF7]/50"
               placeholder="내용을 입력해주세요"
               value={reason}
               onChange={(e) => setReason(e.target.value.trim())}

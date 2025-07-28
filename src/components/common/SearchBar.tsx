@@ -23,7 +23,7 @@ export default function SearchBar({
 }) {
   return (
     <>
-      <div className="bg-opacity-100 relative hidden h-[40px] items-center rounded-[10px] border-[3px] border-[#FFDBAB] sm:flex">
+      <div className="bg-opacity-100 relative hidden h-[40px] items-center rounded-[10px] border-[3px] border-[#FFDBAB] sm:flex dark:ml-[3px] dark:border-0 dark:bg-[#FCC389]">
         <div className="pl-4">
           {options && (
             <SelectBox

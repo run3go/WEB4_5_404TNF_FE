@@ -74,7 +74,7 @@ export default function MobilePostEditModal({
   }, [postDetail?.images]);
 
   return (
-    <div className="flex h-screen flex-col bg-[var(--color-background)]">
+    <div className="flex h-screen flex-col bg-[var(--color-background)] dark:bg-[#2B2926]">
       <MobileTitle
         title="게시글 수정"
         closePage={onClose}
@@ -98,7 +98,7 @@ export default function MobilePostEditModal({
                   height="20px"
                   left="-27px"
                   top="-165px"
-                  className="scale-60"
+                  className="scale-60 dark:bg-[url('/images/sprite.svg')]"
                 />
                 <p className="text-[10px] sm:text-[18px]">질문게시판</p>
               </Button>
@@ -111,7 +111,7 @@ export default function MobilePostEditModal({
                   height="20px"
                   left="-67px"
                   top="-166px"
-                  className="scale-60"
+                  className="scale-60 dark:bg-[url('/images/sprite.svg')]"
                 />
                 <p className="text-[10px]">자유게시판</p>
               </Button>

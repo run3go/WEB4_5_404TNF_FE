@@ -43,7 +43,7 @@ export default function PostCreate() {
 
   return (
     <>
-      <div className="hidden h-full w-full flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex">
+      <div className="hidden h-full w-full flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex dark:bg-[#2B2926]">
         <p className="text-center text-[24px] font-bold">게시물 작성</p>
         <Card className="scrollbar-hidden mt-8 h-full w-[69vw] overflow-y-auto pt-16">
           <div className="flex gap-7 px-[8.37vw] text-[20px] font-medium sm:mt-8">

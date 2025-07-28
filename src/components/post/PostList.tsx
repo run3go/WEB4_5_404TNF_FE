@@ -56,7 +56,7 @@ export default function PostList({
   }, [hasNextPage]);
   return (
     <>
-      <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-full sm:px-0">
+      <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-full sm:px-0 dark:bg-[#2B2926]">
         {/* 상단 버튼 영역 */}
         <div className="flex flex-none justify-center gap-3 pt-6 sm:gap-9 sm:pt-5">
           <Link href={'/post/question'}>
@@ -64,11 +64,11 @@ export default function PostList({
               className={`board__btn ${boardType === 'question' ? '!bg-[var(--color-pink-300)]' : ''}`}
             >
               <Icon
+                className="scale-60 sm:scale-100 dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
                 width="20px"
                 height="20px"
                 left="-27px"
                 top="-165px"
-                className="scale-60 sm:scale-100"
               />
               <p className="text-[10px] sm:pt-0.5 sm:text-[18px]">질문게시판</p>
             </Button>
@@ -79,11 +79,11 @@ export default function PostList({
             >
               <div className="pt-1">
                 <Icon
+                  className="scale-60 sm:scale-100 dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
                   width="20px"
                   height="20px"
                   left="-67px"
                   top="-166px"
-                  className="scale-60 sm:scale-100"
                 />
               </div>
               <p className="pt-0.5 text-[10px] sm:pt-1 sm:text-[18px]">
@@ -121,7 +121,13 @@ export default function PostList({
 
             <Link href={`/post/${boardType}/create`}>
               <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto">
-                <Icon width="20px" height="20px" left="-266px" top="-75px" />
+                <Icon
+                  width="20px"
+                  height="20px"
+                  left="-266px"
+                  top="-75px"
+                  className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
+                />
               </div>
             </Link>
           </div>
