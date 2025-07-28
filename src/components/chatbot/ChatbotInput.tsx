@@ -8,9 +8,9 @@ export default function ChatbotInput({
   handleChange: (value: string) => void;
 }) {
   return (
-    <div className="absolute bottom-0 flex w-full justify-between rounded-b-[20px] border-t border-[var(--color-primary-500)] bg-[var(--color-background)] p-4">
+    <div className="absolute bottom-0 flex w-full justify-between rounded-b-[20px] border-t border-[var(--color-primary-500)] bg-[var(--color-background)] p-4 dark:bg-[var(--color-black)]">
       <input
-        className="w-full pr-4 pl-2 focus:outline-none"
+        className="w-full pr-4 pl-2 focus:outline-none dark:text-[var(--color-background)] dark:placeholder:text-[var(--color-grey)]"
         id="chatbot"
         type="text"
         value={value}
