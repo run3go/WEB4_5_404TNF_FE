@@ -5,12 +5,13 @@ import { useAuthStore } from '@/stores/authStoe';
 import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import NotificationModal from '../notification/NotificationModal';
 import Button from './Button';
 import Card from './Card';
 import Icon from './Icon';
 import { useNotificationStore } from '@/stores/Notification';
+import { getNotifications } from '@/api/notification';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -21,8 +22,20 @@ export default function Header() {
   const { open } = useSidebarStore();
   const { userInfo, isLogin } = useAuthStore();
   const notifications = useNotificationStore((state) => state.notifications);
+  const setNotifications = useNotificationStore(
+    (state) => state.setNotifications,
+  );
 
   const modalRef = useRef<HTMLDivElement>(null);
+
+  const fetchAndSetNotifications = useCallback(async () => {
+    try {
+      const noti = await getNotifications();
+      setNotifications(noti);
+    } catch (error) {
+      console.error('알림 불러오기 실패:', error);
+    }
+  }, [setNotifications]);
 
   useEffect(() => {
     const storedUserId = sessionStorage.getItem('userId');
@@ -34,8 +47,9 @@ export default function Header() {
 
     if (isLogin) {
       setUserId(null);
+      fetchAndSetNotifications();
     }
-  }, [isLogin]);
+  }, [isLogin, fetchAndSetNotifications]);
 
   useEffect(() => {
     const hasUnread = notifications?.some((n) => !n.isRead) ?? false;
