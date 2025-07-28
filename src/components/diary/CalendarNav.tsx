@@ -14,8 +14,8 @@ export default function CalendarNav(
           className="absolute top-[12px] left-[25%] cursor-pointer"
           width="6px"
           height="10px"
-          left="-213px"
-          top="-210px"
+          left="-175px"
+          top="-451px"
         />
       </button>
       <button type="button" onClick={props.onNextClick}>
@@ -23,8 +23,8 @@ export default function CalendarNav(
           className="absolute top-[12px] right-[28%] cursor-pointer"
           width="6px"
           height="10px"
-          left="-234px"
-          top="-210px"
+          left="-196px"
+          top="-451px"
         />
       </button>
     </div>

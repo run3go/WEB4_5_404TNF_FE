@@ -202,7 +202,7 @@ export default function DogProfileEdit({
         </form>
         {profileData && (
           <span
-            className="absolute right-10 cursor-pointer text-[var(--color-grey)] hover:text-[var(--color-black)]"
+            className="absolute right-10 cursor-pointer text-[var(--color-grey)] hover:text-[var(--color-black)] dark:hover:text-[var(--color-background)]"
             onClick={() => setIsConfirmOpen(true)}
           >
             반려동물 정보 삭제

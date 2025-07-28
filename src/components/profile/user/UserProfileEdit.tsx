@@ -138,7 +138,7 @@ export default function UserProfileEdit({
           </Button>
           <button
             type="button"
-            className="absolute -right-10 -bottom-8 cursor-pointer text-[var(--color-grey)] transition-colors hover:text-[var(--color-black)]"
+            className="absolute -right-10 -bottom-8 cursor-pointer text-[var(--color-grey)] transition-colors hover:text-[var(--color-black)] dark:hover:text-[var(--color-background)]"
             onClick={() => setIsConfirmOpen(true)}
           >
             회원 탈퇴

@@ -33,7 +33,7 @@ export default function ImageField({
           height={120}
           priority
         />
-        <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)]">
+        <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)] dark:group-hover:text-[var(--color-background)]">
           사진 선택하기
         </span>
       </label>
