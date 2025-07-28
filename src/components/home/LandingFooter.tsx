@@ -24,11 +24,11 @@ export default function LandingFooter() {
             <div className="border-l border-l-[var(--color-input-border)] pl-10 dark:text-[var(--color-black)]">
               <h3 className="pb-1 font-bold">404 Team Not Found</h3>
               <div className="flex pb-[2px] text-sm">
-                <p className="mr-4 w-20">Frontend</p>
+                <p className="mr-1 w-20">Frontend</p>
                 <p>박정수 권유정 김태연 이민지</p>
               </div>
               <div className="flex text-sm">
-                <p className="mr-4 w-20">Backend</p>
+                <p className="mr-1 w-20">Backend</p>
                 <p>강대겸 김예원 박종욱 박현도 안세희</p>
               </div>
             </div>
@@ -51,16 +51,20 @@ export default function LandingFooter() {
             height={14}
             priority
           />
-          <p className="text-sm">즐거운 반려견 케어의 시작</p>
+          <p className="text-sm dark:text-[var(--color-black)]">
+            즐거운 반려견 케어의 시작
+          </p>
         </div>
         <div className="mt-3 flex cursor-pointer items-center justify-end gap-1">
           <Icon width="12px" height="12px" left="-383px" top="-163px" />
-          <p className="text-[10px]">GitHub 바로가기</p>
+          <p className="text-[10px] dark:text-[var(--color-black)]">
+            GitHub 바로가기
+          </p>
         </div>
       </div>
 
       <p className="mt-4 text-center text-[10px] sm:text-xs dark:text-[var(--color-black)]">
-        ⓒ 2025 ~ Team. All rights reserved.
+        ⓒ 2025. 404TNF all rights reserved.
       </p>
     </footer>
   );
