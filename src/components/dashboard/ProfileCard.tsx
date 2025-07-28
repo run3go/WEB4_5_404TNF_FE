@@ -50,7 +50,7 @@ export default function ProfileCard({
         <li>
           <span>
             가족이 된지{' '}
-            <strong className="font-medium text-[var(--color-primary-500)]">
+            <strong className="text-[var(--color-primary-500)]">
               {calculateMetDay(profile.metDay)}
             </strong>
             일
