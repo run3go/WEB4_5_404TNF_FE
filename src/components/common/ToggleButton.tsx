@@ -1,16 +1,39 @@
+import { changeNotificationSetting } from '@/api/notification';
 import { useThemeStore } from '@/stores/themeStore';
+import { useMutation } from '@tanstack/react-query';
+import { Dispatch, SetStateAction } from 'react';
 
 export default function ToggleButton({
   id,
   darkmode = false,
   isNoti,
+  setIsNotiAll,
+  setIsNotiSchedule,
+  setIsNotiService,
 }: {
-  id: string;
+  id: NotiTarget | 'mode';
   darkmode?: boolean;
   isNoti?: boolean;
+  setIsNotiAll?: Dispatch<SetStateAction<boolean>>;
+  setIsNotiSchedule?: Dispatch<SetStateAction<boolean>>;
+  setIsNotiService?: Dispatch<SetStateAction<boolean>>;
 }) {
   const theme = useThemeStore((state) => state.theme);
   const toggleThemeMode = useThemeStore((state) => state.toggleThemeMode);
+  const notificationSettingMutation = useMutation({
+    mutationFn: changeNotificationSetting,
+    onSuccess: (data) => {
+      setIsNotiAll?.(data.isNotiAll);
+      setIsNotiSchedule?.(data.isNotiSchedule);
+      setIsNotiService?.(data.isNotiService);
+      sessionStorage.setItem('isNotiAll', data.isNotiAll);
+      sessionStorage.setItem('isNotiSchedule', data.isNotiSchedule);
+      sessionStorage.setItem('isNotiService', data.isNotiService);
+    },
+  });
+  const toggleNotification = async () => {
+    notificationSettingMutation.mutate(id as NotiTarget);
+  };
 
   if (darkmode) {
     return (
@@ -50,6 +73,7 @@ export default function ToggleButton({
           type="checkbox"
           checked={isNoti}
           id={id}
+          onChange={toggleNotification}
           hidden
         />
         <label htmlFor={id} className="toggleSwitch">

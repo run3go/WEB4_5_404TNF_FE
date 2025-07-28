@@ -63,3 +63,20 @@ export const getNotificationSetting = async () => {
 
   return data;
 };
+
+export const changeNotificationSetting = async (target: NotiTarget) => {
+  const res = await fetch(
+    `${baseURL}/api/notification/v1/setting?target=${target}`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '알림 전체 삭제 실패');
+  }
+
+  return data;
+};

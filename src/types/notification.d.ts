@@ -20,3 +20,5 @@ type NotiType =
   | 'LIKE'
   | 'COMMENT'
   | 'SCHEDULE';
+
+type NotiTarget = 'ALL' | 'SERVICE' | 'SCHEDULE';
