@@ -6,6 +6,7 @@ import Icon from './Icon';
 export default function MobileTitle({
   title,
   onClick,
+  onSave,
   closePage,
   showOptionsMenu = false,
   onEdit,
@@ -14,6 +15,7 @@ export default function MobileTitle({
 }: {
   title: string;
   onClick?: () => void;
+  onSave?: () => void;
   closePage: () => void;
   showOptionsMenu?: boolean;
   onEdit?: () => void;
@@ -46,6 +48,15 @@ export default function MobileTitle({
               저장
             </button>
           ) : null}
+
+          {onSave && (
+            <button
+              onClick={onSave}
+              className="absolute right-0 cursor-pointer leading-[1.2] text-[var(--color-primary-500)]"
+            >
+              저장
+            </button>
+          )}
         </div>
       </Card>
     </>

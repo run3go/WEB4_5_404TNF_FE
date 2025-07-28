@@ -4,7 +4,11 @@ export default function PostList({ page }: { page: Post }) {
   return (
     <>
       {page.articles.map((article) => (
-        <PostCard key={article.articleId} />
+        <PostCard
+          key={article.articleId}
+          post={article}
+          boardType={'question'}
+        />
       ))}
     </>
   );

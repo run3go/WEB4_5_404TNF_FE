@@ -58,7 +58,7 @@ export default function LoginForm() {
         nickname: data.nickname,
         role: data.role,
         provider: data.provider,
-        imgUrl: data.userImg,
+        imgUrl: data.imgUrl,
       };
 
       setLogin(userInfo);

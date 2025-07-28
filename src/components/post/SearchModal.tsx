@@ -1,15 +1,21 @@
 import { useEffect } from 'react';
 import Icon from '../common/Icon';
 import SelectBox from '../common/SelectBox';
+import { SEARCH_LIST } from '@/assets/data/post';
 
-const SEARCH_LIST = [
-  { value: '제목 + 내용', label: '제목 + 내용' },
-  { value: '제목', label: '제목' },
-  { value: '내용', label: '내용' },
-  { value: '작성자', label: '작성자' },
-];
-
-export default function SearchModal({ onClose }: { onClose: () => void }) {
+export default function SearchModal({
+  onClose,
+  setSearchType,
+  keyword,
+  setKeyword,
+  onSearch,
+}: {
+  onClose: () => void;
+  setSearchType: (value: string) => void;
+  keyword: string;
+  setKeyword: (value: string) => void;
+  onSearch: () => void;
+}) {
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -18,6 +24,7 @@ export default function SearchModal({ onClose }: { onClose: () => void }) {
       document.body.style.overflow = originalOverflow;
     };
   }, []);
+
   return (
     <>
       <div
@@ -29,10 +36,24 @@ export default function SearchModal({ onClose }: { onClose: () => void }) {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="relative flex h-[48px] items-center rounded-[50px]">
-            <SelectBox width="125px" options={SEARCH_LIST} />
+            <SelectBox
+              width="125px"
+              options={SEARCH_LIST}
+              isCenter
+              setValue={setSearchType}
+            />
             <input
               className="h-[16px] w-full pr-6 focus:outline-none"
               placeholder="검색어를 입력해주세요"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  onClose();
+                  onSearch();
+                  setKeyword('');
+                }
+              }}
             />
             <Icon
               width="18px"
@@ -40,7 +61,11 @@ export default function SearchModal({ onClose }: { onClose: () => void }) {
               left="-263px"
               top="-124px"
               className="absolute right-0 scale-90 cursor-pointer"
-              onClick={() => onClose()}
+              onClick={() => {
+                onClose();
+                onSearch();
+                setKeyword('');
+              }}
             />
           </div>
         </div>

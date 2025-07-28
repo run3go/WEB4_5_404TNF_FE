@@ -38,6 +38,7 @@ export default function EmailInputSection({
   };
 
   const handleSendEmailVerify = async () => {
+    if (sendVerificationCodeMutation.isPending) return;
     const validationError = validateEmail(email);
     if (validationError) {
       setError(validationError);
@@ -65,6 +66,7 @@ export default function EmailInputSection({
   };
 
   const handleVerifyCode = () => {
+    if (verifyCodeMutation.isPending) return;
     resetVerificationError();
 
     verifyCodeMutation.mutate(
@@ -88,9 +90,11 @@ export default function EmailInputSection({
         <button
           type="button"
           onClick={handleSendEmailVerify}
-          className="cursor-pointer text-[14px] font-medium text-[#FF9526]"
+          className={`${sendVerificationCodeMutation.isPending ? '' : 'cursor-pointer'} text-[14px] font-medium text-[#FF9526]`}
         >
-          이메일 인증
+          {sendVerificationCodeMutation.isPending
+            ? '이메일 전송 중'
+            : '이메일 전송'}
         </button>
       </div>
       <input
