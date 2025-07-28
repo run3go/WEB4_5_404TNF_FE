@@ -33,10 +33,14 @@ export default function LandingFooter() {
               </div>
             </div>
           </div>
-          <div className="flex cursor-pointer items-center justify-end gap-1 pt-5 dark:text-[var(--color-black)]">
+          <a
+            href="https://github.com/prgrms-web-devcourse-final-project?q=404&type=all&language=&sort="
+            target="_blank"
+            className="flex cursor-pointer items-center justify-end gap-1 pt-5 dark:text-[var(--color-black)]"
+          >
             <Icon width="20px" height="20px" left="-343px" top="-164px" />
             <p>GitHub 바로가기</p>
-          </div>
+          </a>
         </div>
       </div>
 
@@ -55,12 +59,16 @@ export default function LandingFooter() {
             즐거운 반려견 케어의 시작
           </p>
         </div>
-        <div className="mt-3 flex cursor-pointer items-center justify-end gap-1">
+        <a
+          href="https://github.com/prgrms-web-devcourse-final-project?q=404&type=all&language=&sort="
+          target="_blank"
+          className="mt-3 flex cursor-pointer items-center justify-end gap-1"
+        >
           <Icon width="12px" height="12px" left="-383px" top="-163px" />
           <p className="text-[10px] dark:text-[var(--color-black)]">
             GitHub 바로가기
           </p>
-        </div>
+        </a>
       </div>
 
       <p className="mt-4 text-center text-[10px] sm:text-xs dark:text-[var(--color-black)]">
