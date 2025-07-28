@@ -107,15 +107,8 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname === '/dashboard' && 'opacity-0'}`}
                 >
-                  <Icon
-                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="24px"
-                    height="24px"
-                    left="-26px"
-                    top="-23px"
-                  />
+                  <Icon width="24px" height="24px" left="-26px" top="-23px" />
                 </div>
-
                 <div
                   className={`absolute opacity-0 ${pathname === '/dashboard' && 'opacity-100'} `}
                 >
@@ -123,8 +116,8 @@ export default function Sidebar() {
                 </div>
                 <p className="pl-10">대시보드</p>
               </Link>
-              {/* 일정 */}
 
+              {/* 일정 */}
               <Link
                 href={'/schedule'}
                 className={`sidebar__content group relative ${pathname === '/schedule' && 'sidebar__content-active'}`}
@@ -132,15 +125,8 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname === '/schedule' && 'opacity-0'}`}
                 >
-                  <Icon
-                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="24px"
-                    height="24px"
-                    left="-66px"
-                    top="-21px"
-                  />
+                  <Icon width="24px" height="24px" left="-66px" top="-21px" />
                 </div>
-
                 <div
                   className={`absolute opacity-0 ${pathname === '/schedule' && 'opacity-100'} `}
                 >
@@ -148,6 +134,7 @@ export default function Sidebar() {
                 </div>
                 <p className="pl-10">일정</p>
               </Link>
+
               {/* 멍멍일지 */}
               <Link
                 href="/diary"
@@ -156,15 +143,8 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname === '/diary' && 'opacity-0'}`}
                 >
-                  <Icon
-                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="24px"
-                    height="24px"
-                    left="-108px"
-                    top="-21px"
-                  />
+                  <Icon width="24px" height="24px" left="-108px" top="-21px" />
                 </div>
-
                 <div
                   className={`absolute opacity-0 ${pathname === '/diary' && 'opacity-100'} `}
                 >
@@ -172,6 +152,7 @@ export default function Sidebar() {
                 </div>
                 <span className="pl-10">멍멍일지</span>
               </Link>
+
               {/* 게시판 */}
               <Link
                 href={'/post/question'}
@@ -180,15 +161,8 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname.includes('/post') && 'opacity-0'}`}
                 >
-                  <Icon
-                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="28px"
-                    height="16px"
-                    left="-144px"
-                    top="-25px"
-                  />
+                  <Icon width="28px" height="16px" left="-144px" top="-25px" />
                 </div>
-
                 <div
                   className={`absolute opacity-0 ${pathname.includes('/post') && 'opacity-100'} `}
                 >
@@ -196,6 +170,7 @@ export default function Sidebar() {
                 </div>
                 <p className="pl-10">게시판</p>
               </Link>
+
               {/* 가이드 */}
               <Link
                 href={'/guide'}
@@ -204,15 +179,8 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname === '/guide' && 'opacity-0'}`}
                 >
-                  <Icon
-                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="25px"
-                    height="26px"
-                    left="-186px"
-                    top="-20px"
-                  />
+                  <Icon width="25px" height="26px" left="-186px" top="-20px" />
                 </div>
-
                 <div
                   className={`absolute opacity-0 ${pathname === '/guide' && 'opacity-100'} `}
                 >
@@ -231,14 +199,12 @@ export default function Sidebar() {
                     className={`absolute ${pathname === '/admin' && 'opacity-0'}`}
                   >
                     <Icon
-                      // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                       width="24px"
                       height="26px"
                       left="-342px"
                       top="-20px"
                     />
                   </div>
-
                   <div
                     className={`absolute opacity-0 ${pathname.startsWith('/admin') && 'opacity-100'} `}
                   >
@@ -259,13 +225,7 @@ export default function Sidebar() {
                   className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6"
                   onClick={() => setIsSettingsOpen(true)}
                 >
-                  <Icon
-                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="24px"
-                    height="26px"
-                    left="-297px"
-                    top="-252px"
-                  />
+                  <Icon width="24px" height="26px" left="-297px" top="-252px" />
                   <p className="dark:text-[var(--color-background)]">설정</p>
                 </div>
                 {isSettingsOpen && <Settings ref={modalRef} />}
@@ -293,7 +253,6 @@ export default function Sidebar() {
                     onClick={handleLogout}
                   >
                     <Icon
-                      // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                       width="28px"
                       height="28px"
                       left="-264px"
@@ -309,13 +268,7 @@ export default function Sidebar() {
                   href={'/login'}
                   className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
                 >
-                  <Icon
-                    // className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="28px"
-                    height="28px"
-                    left="-264px"
-                    top="-18px"
-                  />
+                  <Icon width="28px" height="28px" left="-264px" top="-18px" />
                   <p className="dark:text-[var(--color-background)]">로그인</p>
                 </Link>
               )}
