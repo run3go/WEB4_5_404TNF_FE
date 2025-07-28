@@ -61,7 +61,7 @@ export default function PostTabs({
     );
   } else
     return (
-      <div className="mb-6">
+      <div className="mb-8">
         <button
           type="button"
           className={twMerge(

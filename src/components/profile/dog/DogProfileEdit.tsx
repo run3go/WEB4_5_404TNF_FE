@@ -18,10 +18,10 @@ import {
 import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useQueryClient } from '@tanstack/react-query';
-import Image from 'next/image';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
+import ImageField from '../ImageField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
 
@@ -47,7 +47,6 @@ export default function DogProfileEdit({
     useRegistMutation(userInfo, closeModal);
   const { mutate: modifyMutate, isPending: isModifyPending } =
     useModifyMutation(userInfo, petId, closeModal);
-
   const onSubmit = async (data: PetFormValues) => {
     const payload = {
       ...data,
@@ -69,6 +68,13 @@ export default function DogProfileEdit({
       queryKey: ['pets', String(userInfo?.userId)],
     });
     closeModal();
+  };
+
+  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setValue('image', e.target.files[0]);
+      setImageUrl(window.URL.createObjectURL(e.target.files[0]));
+    }
   };
 
   return (
@@ -98,33 +104,10 @@ export default function DogProfileEdit({
           className="flex flex-col items-center"
           onSubmit={handleSubmit(onSubmit, handleError)}
         >
-          <label
-            className="group mb-10 flex cursor-pointer flex-col items-center gap-4"
-            htmlFor="image"
-          >
-            <Image
-              className="h-30 w-30 rounded-full object-cover"
-              src={imageUrl}
-              alt="강아지 프로필"
-              width={120}
-              height={120}
-              priority
-            />
-            <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)]">
-              사진 선택하기
-            </span>
-          </label>
-          <input
-            className="hidden"
-            id="image"
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              if (e.target.files) {
-                setValue('image', e.target.files[0]);
-                setImageUrl(window.URL.createObjectURL(e.target.files[0]));
-              }
-            }}
+          <ImageField
+            alt="강아지 프로필"
+            image={imageUrl}
+            handleImage={handleImage}
           />
           <div className="flex justify-between gap-20 pb-14">
             <div className="w-full">
