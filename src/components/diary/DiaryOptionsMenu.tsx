@@ -40,7 +40,7 @@ export default function DiaryOptionsMenu({
       {isOpen && (
         <div
           ref={menuRef}
-          className="absolute top-full right-0 z-50 mt-2 w-[155px] rounded-xl border border-[var(--color-primary-200)] bg-[var(--color-background)] shadow-lg"
+          className="absolute top-full right-0 z-50 mt-2 w-[155px] rounded-xl border border-[var(--color-primary-500)] bg-[var(--color-background)] shadow-lg dark:bg-[var(--color-black)]"
         >
           <ul className="m-2 text-sm font-medium">
             <li
@@ -48,10 +48,23 @@ export default function DiaryOptionsMenu({
                 setIsOpen(false);
                 onEdit();
               }}
-              className="cursor-pointer rounded-[8px] px-1 py-2 hover:bg-[var(--color-primary-200)]"
+              className="group cursor-pointer rounded-[8px] px-1 py-2 hover:bg-[var(--color-primary-200)] dark:hover:text-[var(--color-black)]"
             >
               <div className="flex items-center justify-center gap-2">
-                <Icon width="14px" height="14px" left="-225px" top="-168px" />
+                <Icon
+                  width="14px"
+                  height="14px"
+                  left="-225px"
+                  top="-168px"
+                  className="block group-hover:hidden dark:hover:hidden"
+                />
+                <Icon
+                  width="14px"
+                  height="14px"
+                  left="-121px"
+                  top="-449px"
+                  className="hidden group-hover:block dark:hover:block"
+                />
                 <p>멍멍일지 수정</p>
               </div>
             </li>

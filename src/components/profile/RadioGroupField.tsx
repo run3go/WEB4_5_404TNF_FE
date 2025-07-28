@@ -36,7 +36,7 @@ export default function RadioGroupField({
               htmlFor={option.label}
             >
               <span
-                className={`profile-radio-style ${watch(id) === option.value && 'bg-[var(--color-primary-300)]'}`}
+                className={`profile-radio-style ${watch(id) === option.value && 'bg-[var(--color-primary-300)] dark:text-[var(--color-black)]'}`}
               >
                 {option.label}
               </span>

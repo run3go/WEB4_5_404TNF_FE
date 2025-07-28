@@ -77,7 +77,7 @@ body {
 }
 
 .input-style {
-  @apply rounded-[12px] border border-[var(--color-input-border)] leading-[1.2] dark:border-[var(--color-grey)];
+  @apply rounded-[12px] border border-[var(--color-input-border)] leading-[1.2] dark:border-[#8F8E8B];
 }
 
 /* profile */

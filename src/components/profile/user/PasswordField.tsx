@@ -63,7 +63,7 @@ export default function PasswordField({
                   />
                   <button
                     type="button"
-                    className="ml-4 w-18 cursor-pointer rounded-[12px] bg-[var(--color-primary-300)] py-[10px] hover:bg-[var(--color-primary-500)]"
+                    className="ml-4 w-18 cursor-pointer rounded-[12px] bg-[var(--color-primary-300)] py-[10px] hover:bg-[var(--color-primary-500)] dark:text-[var(--color-black)]"
                     onClick={checkCurrentPassword}
                   >
                     확인
@@ -112,7 +112,7 @@ export default function PasswordField({
           </>
         ) : (
           <>
-            <div className="mt-8 mb-12 flex w-full items-center">
+            <div className="mt-8 mb-10 flex w-full items-center">
               <label className="basis-1/4" htmlFor="name">
                 현재 비밀번호
               </label>
@@ -127,14 +127,14 @@ export default function PasswordField({
                 />
                 <button
                   type="button"
-                  className="ml-4 w-18 cursor-pointer rounded-[12px] bg-[var(--color-primary-300)] py-[10px] hover:bg-[var(--color-primary-500)]"
+                  className="ml-4 w-18 cursor-pointer rounded-[12px] bg-[var(--color-primary-300)] py-[10px] text-[var(--color-black)] hover:bg-[var(--color-primary-500)]"
                   onClick={checkCurrentPassword}
                 >
                   확인
                 </button>
               </div>
             </div>
-            <div className="mb-12 flex w-full items-center">
+            <div className="mb-10 flex w-full items-center">
               <label className="basis-1/4" htmlFor="name">
                 새 비밀번호
               </label>

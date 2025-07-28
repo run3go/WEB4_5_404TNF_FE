@@ -61,7 +61,7 @@ export default function DogProfileList() {
             ))}
           {isMyProfile && (
             <div onClick={togglePage}>
-              <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px]">
+              <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px] dark:bg-[#343434]">
                 <Icon
                   className="hidden sm:block"
                   width="47px"
@@ -133,7 +133,7 @@ export default function DogProfileList() {
             >
               {petProfiles.length === 0 && (
                 <SwiperSlide className="!w-[598px]">
-                  <Card className="my-7 ml-4 flex h-20 w-full max-w-150 flex-col items-center justify-center p-0 sm:h-[308px]">
+                  <Card className="my-7 ml-4 flex h-20 w-full max-w-150 flex-col items-center justify-center p-0 sm:h-[308px] dark:bg-[#343434]">
                     <Image
                       src={alternativeImage}
                       alt="등록된 강아지가 없어요"
