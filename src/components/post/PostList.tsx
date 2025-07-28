@@ -135,14 +135,21 @@ export default function PostList({
 
         {/* 내부 스크롤 영역 */}
         <div className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pt-2 pr-2 pb-[20px] sm:space-y-10 sm:px-[6.27vw]">
-          {data?.pages.map((page) =>
-            page.articleList.map((post: PostDetail) => (
-              <PostCard
-                key={post.articleId}
-                post={post}
-                boardType={boardType}
-              />
-            )),
+          {data?.pages &&
+          data.pages.some((page) => page.articleList.length > 0) ? (
+            data.pages.map((page) =>
+              page.articleList.map((post: PostDetail) => (
+                <PostCard
+                  key={post.articleId}
+                  post={post}
+                  boardType={boardType}
+                />
+              )),
+            )
+          ) : (
+            <p className="mt-50 text-center text-[18px] font-medium text-[#909090]">
+              등록된 게시글이 없습니다
+            </p>
           )}
 
           {hasNextPage && <div ref={ref} className="h-[1px] w-full" />}
