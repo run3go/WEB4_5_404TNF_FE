@@ -7,7 +7,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import PasswordToggleButton from '../ShowPasswordButton';
-import { getNotificationSetting } from '@/api/notification';
+import { getNotifications, getNotificationSetting } from '@/api/notification';
+import { useNotificationStore } from '@/stores/Notification';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -17,6 +18,9 @@ export default function LoginForm() {
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const setLogin = useAuthStore((state) => state.setLogin);
+  const setNotifications = useNotificationStore(
+    (state) => state.setNotifications,
+  );
 
   const loginMutation = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
@@ -33,6 +37,10 @@ export default function LoginForm() {
 
   const notiSettingMutation = useMutation({
     mutationFn: getNotificationSetting,
+  });
+
+  const getNotiMutation = useMutation({
+    mutationFn: getNotifications,
   });
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -58,6 +66,8 @@ export default function LoginForm() {
 
       const notiSetting = await notiSettingMutation.mutateAsync();
 
+      const notiList = await getNotiMutation.mutateAsync();
+
       const userInfo: User = {
         userId: data.userId,
         email: data.email,
@@ -69,6 +79,7 @@ export default function LoginForm() {
       };
 
       setLogin(userInfo);
+      setNotifications(notiList);
       sessionStorage.setItem('userId', user.userId);
       sessionStorage.setItem('isNotiAll', notiSetting?.isNotiAll);
       sessionStorage.setItem('isNotiSchedule', notiSetting?.isNotiSchedule);

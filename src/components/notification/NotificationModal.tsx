@@ -35,7 +35,6 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
   });
 
   useEffect(() => {
-    sessionStorage.setItem('isNotification', 'false');
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
         onClose();

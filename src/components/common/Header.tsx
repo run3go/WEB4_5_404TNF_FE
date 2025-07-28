@@ -10,6 +10,7 @@ import NotificationModal from '../notification/NotificationModal';
 import Button from './Button';
 import Card from './Card';
 import Icon from './Icon';
+import { useNotificationStore } from '@/stores/Notification';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -19,6 +20,7 @@ export default function Header() {
 
   const { open } = useSidebarStore();
   const { userInfo, isLogin } = useAuthStore();
+  const notifications = useNotificationStore((state) => state.notifications);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -34,6 +36,14 @@ export default function Header() {
       setUserId(null);
     }
   }, [isLogin]);
+
+  useEffect(() => {
+    if (!notifications || notifications.length === 0) return;
+
+    const hasUnread = notifications.some((n) => !n.isRead);
+    sessionStorage.setItem('isNotification', hasUnread.toString());
+    setIsNewNotification(hasUnread);
+  }, [notifications]);
 
   if (!isLoading) {
     return null;

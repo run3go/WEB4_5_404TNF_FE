@@ -1,8 +1,12 @@
 'use client';
 
+import { useNotificationStore } from '@/stores/Notification';
 import { useEffect } from 'react';
 
 export default function NotificationProvider() {
+  const addNotification = useNotificationStore(
+    (state) => state.addNotification,
+  );
   useEffect(() => {
     const userId = sessionStorage.getItem('userId');
     if (!userId) return;
@@ -12,8 +16,10 @@ export default function NotificationProvider() {
       { withCredentials: true },
     );
 
-    eventSource.addEventListener('noti', () => {
+    eventSource.addEventListener('noti', (event) => {
       try {
+        const notification = JSON.parse(event.data);
+        addNotification(notification);
         sessionStorage.setItem('isNotification', 'true');
       } catch (e) {
         console.error('알림 파싱 실패', e);
@@ -27,7 +33,7 @@ export default function NotificationProvider() {
     return () => {
       eventSource.close();
     };
-  }, []);
+  }, [addNotification]);
 
   return null;
 }
