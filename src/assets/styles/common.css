@@ -65,6 +65,18 @@ input::-webkit-inner-spin-button {
   display: none;
 }
 
+.rdp-dropdown {
+  cursor: pointer;
+  margin-left: 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+}
+.rdp-dropdown option {
+  @apply dark:text-[var(--color-black)];
+}
+
 .calendar-circle {
   position: relative;
   z-index: 1;
@@ -74,7 +86,7 @@ input::-webkit-inner-spin-button {
   content: '';
   display: block;
   position: absolute;
-  top: 46%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 23px;

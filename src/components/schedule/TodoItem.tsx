@@ -1,11 +1,11 @@
 'use client';
+import { useDeleteSchedule } from '@/lib/hooks/schedule/useDeleteSchedule';
 import { useRef, useState } from 'react';
 import Icon from '../common/Icon';
-import AddSchedule from './AddSchedule';
 import PopupMenu from '../common/PopupMenu';
-import { useDeleteSchedule } from '@/lib/hooks/schedule/useDeleteSchedule';
 import PopupMenuPortal from '../common/PopupMenuPortal';
 import Confirm from '../common/Confirm';
+import AddSchedule from './AddSchedule';
 
 export default function TodoItem({
   name,
@@ -101,7 +101,7 @@ export default function TodoItem({
     <>
       <li className="flex w-full cursor-default items-center justify-between border-b border-[var(--color-primary-300)] p-3">
         <div className="flex items-center justify-center">
-          <div className="mr-2 max-w-[80px] truncate rounded-[8px] bg-[var(--color-primary-300)] px-2 py-1 text-sm">
+          <div className="mr-2 max-w-[80px] truncate rounded-[8px] bg-[var(--color-primary-300)] px-2 py-1 text-sm dark:text-[var(--color-black)]">
             {schedule?.petName}
           </div>
 

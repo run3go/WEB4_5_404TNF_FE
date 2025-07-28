@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { validateNickname } from '@/lib/utils/validation';
 import { useNicknameCheck } from '@/lib/hooks/useNicknameCheck';
+import { validateNickname } from '@/lib/utils/validation';
+import { useState } from 'react';
 
 export default function NicknameInputSection({
   onNicknameVerified,
@@ -67,6 +67,7 @@ export default function NicknameInputSection({
           touched && error ? '!border-[var(--color-red)]' : ''
         }`}
         value={nickname}
+        autoComplete="off"
         onChange={(e) => handleChange(e.target.value.trim())}
         onBlur={() => {
           setTouched(true);

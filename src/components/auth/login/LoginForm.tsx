@@ -132,7 +132,13 @@ export default function LoginForm() {
 
         <button className="mt-4 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] hover:bg-[var(--color-primary-300)] sm:mt-6 sm:h-[56px]">
           <div className="flex items-center justify-center gap-2">
-            <Icon width="20px" height="18px" left="-297px" top="-312px" />
+            <Icon
+              className="dark:bg-[url('/images/sprite.svg')]"
+              width="20px"
+              height="18px"
+              left="-297px"
+              top="-312px"
+            />
             <p className="text-[14px] font-medium text-[#2B2926] sm:text-[18px]">
               멍멍일지 로그인
             </p>
@@ -150,11 +156,11 @@ export default function LoginForm() {
         </div>
 
         <div className="mt-[3.5vh] flex items-center">
-          <div className="h-px flex-1 bg-[#2B2926]" />
-          <span className="px-4 text-[14px] font-medium text-[#2B2926] sm:px-10 sm:text-[18px]">
+          <div className="h-px flex-1 bg-[#2B2926] dark:bg-[var(--color-background)]" />
+          <span className="px-4 text-[14px] font-medium text-[#2B2926] sm:px-10 sm:text-[18px] dark:text-[var(--color-background)]">
             또는
           </span>
-          <div className="h-px flex-1 bg-[#2B2926]" />
+          <div className="h-px flex-1 bg-[#2B2926] dark:bg-[var(--color-background)]" />
         </div>
 
         <div className="flex items-center justify-center sm:mt-7 sm:gap-14">
