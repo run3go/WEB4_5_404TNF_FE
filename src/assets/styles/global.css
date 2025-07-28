@@ -155,9 +155,9 @@ body {
 
 /* guide */
 .guide-card {
-  @apply flex w-full cursor-pointer flex-col items-start gap-2 border border-[var(--color-primary-500)] bg-[#FFF9F0] px-5 py-3 text-sm transition-all sm:w-auto sm:basis-[calc(50%-10px)] sm:gap-[2px] sm:px-4 sm:py-2 sm:text-base;
+  @apply flex w-full cursor-pointer flex-col items-start gap-2 border border-[var(--color-primary-500)] bg-[#FFF9F0] px-5 py-3 text-sm transition-all sm:w-auto sm:basis-[calc(50%-10px)] sm:gap-[2px] sm:px-4 sm:py-2 sm:text-base dark:bg-[var(--color-dark-background)];
 }
 
 .guide-card:hover {
-  @apply -translate-y-1 bg-[#FFF5E9] shadow-[0_6px_12px_rgba(0,0,0,0.2)];
+  @apply -translate-y-1 bg-[#FFF5E9] shadow-[0_6px_12px_rgba(0,0,0,0.2)] dark:bg-[var(--color-black)];
 }
