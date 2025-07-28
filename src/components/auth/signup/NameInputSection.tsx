@@ -43,6 +43,7 @@ export default function NameInputSection({
         className={`auth__input focus:!border-[#FCC389] ${
           touched && error ? '!border-[var(--color-red)]' : ''
         }`}
+        autoComplete="off"
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
