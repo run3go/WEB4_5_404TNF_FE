@@ -10,7 +10,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen w-screen bg-[url('/images/bg.png')] bg-cover">
+    <div className="flex min-h-screen w-screen bg-[url('/images/bg.png')] bg-cover dark:bg-[url('/images/dark-bg.png')]">
       <TanstackProvider>
         <div className="h-screen">
           <Sidebar />
