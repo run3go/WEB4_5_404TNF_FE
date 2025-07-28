@@ -5,6 +5,7 @@ import user_default_image from '@/assets/images/default-profile.svg';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createComment } from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
+import { Toast } from '@/components/common/Toast';
 
 export default function CommentInput({ postId }: { postId: number }) {
   const [comment, setComment] = useState('');
@@ -59,6 +60,7 @@ export default function CommentInput({ postId }: { postId: number }) {
           context.previousData,
         );
       }
+      Toast.error('댓글 등록에 실패했습니다.');
     },
     onSettled: (_data, _error, variables) => {
       if (variables) {
