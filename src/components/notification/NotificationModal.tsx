@@ -5,6 +5,7 @@ import Icon from '../common/Icon';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   getNotifications,
+  readNotification,
   removeNotification,
   removeNotifications,
 } from '@/api/notification';
@@ -34,6 +35,9 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
     mutationFn: removeNotification,
   });
 
+  const readNotificationMutation = useMutation({
+    mutationFn: readNotification,
+  });
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -65,9 +69,19 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
             className="relative w-full rounded-xl text-sm"
           >
             <div className="group flex cursor-pointer items-center rounded-xl p-2 transition-colors duration-300 ease-in-out hover:bg-[color:var(--color-primary-200)]">
-              <div className="flex w-full items-center">
+              <div
+                className="flex w-full items-center"
+                onClick={() =>
+                  readNotificationMutation.mutate({
+                    notiId: notification.notiId,
+                    type: notification.type,
+                  })
+                }
+              >
                 <Icon width="16px" height="14px" left="-26px" top="-79px" />
-                <p className="h-auto w-full truncate overflow-hidden pl-2 leading-[1.4] whitespace-nowrap group-hover:pr-6">
+                <p
+                  className={`h-auto w-full truncate overflow-hidden pl-2 leading-[1.4] whitespace-nowrap group-hover:pr-6 ${notification.isRead ? 'text-[#909090] line-through' : ''}`}
+                >
                   {notification.content}
                 </p>
               </div>

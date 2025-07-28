@@ -80,3 +80,26 @@ export const changeNotificationSetting = async (target: NotiTarget) => {
 
   return data;
 };
+
+export const readNotification = async ({
+  notiId,
+  type,
+}: {
+  notiId: number;
+  type: NotiType;
+}) => {
+  const res = await fetch(
+    `${baseURL}/api/notification/v1/notifications/${notiId}/${type}`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '알림 개별 읽기 실패');
+  }
+
+  return data;
+};
