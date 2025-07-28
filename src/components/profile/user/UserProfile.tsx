@@ -65,7 +65,7 @@ export default function UserProfile({
       )}
       <div className="mt-7 flex items-center gap-4 sm:gap-7">
         <Image
-          className="h-20 w-20 rounded-full sm:h-40 sm:w-40"
+          className="h-20 w-20 rounded-full object-cover sm:h-40 sm:w-40"
           src={profile?.imgUrl || userProfile.imgUrl || defaultProfile}
           alt="프로필 이미지"
           width={160}
