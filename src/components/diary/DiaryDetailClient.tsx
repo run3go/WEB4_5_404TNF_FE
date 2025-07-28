@@ -1,6 +1,7 @@
 'use client';
 
 import diary from '@/assets/images/diary.svg';
+import d_diary from '@/assets/images/dark-diary.svg';
 import Image from 'next/image';
 import MobileTitle from '../common/MobileTitle';
 import Calendar from './Calendar';
@@ -163,7 +164,16 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
         <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-10">
           <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
             <div className="hidden w-full justify-between sm:flex">
-              <Image src={diary} alt="오늘의 멍멍일지를 적어보아요!" />
+              <Image
+                src={diary}
+                alt="오늘의 멍멍일지를 적어보아요!"
+                className="block dark:hidden"
+              />
+              <Image
+                src={d_diary}
+                alt="오늘의 멍멍일지를 적어보아요!"
+                className="hidden dark:block"
+              />
               <Calendar
                 selected={new Date(recordAt)}
                 setSelected={() => {}}
