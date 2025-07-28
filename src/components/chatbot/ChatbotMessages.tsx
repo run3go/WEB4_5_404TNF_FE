@@ -36,7 +36,7 @@ export default function ChatbotMessages({
 
   return (
     <ul
-      className="scrollbar-hidden flex max-h-119 flex-col gap-7 overflow-y-scroll px-5 py-6"
+      className="scrollbar-hidden flex max-h-119 flex-col gap-6 overflow-y-scroll px-5 py-6"
       ref={messagesRef}
     >
       {messages &&
