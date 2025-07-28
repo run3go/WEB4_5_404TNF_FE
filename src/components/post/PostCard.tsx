@@ -59,6 +59,7 @@ export default function PostCard({
               comment={post.replies}
               like={post.likes}
               views={post.views}
+              postId={post.articleId}
             />
           </div>
         </div>
