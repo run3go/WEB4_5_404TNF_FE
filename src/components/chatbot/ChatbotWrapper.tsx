@@ -52,7 +52,7 @@ export default function ChatbotWrapper({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-300 flex flex-col border border-[var(--color-primary-500)] bg-[var(--color-background)] sm:absolute sm:inset-auto sm:right-20 sm:bottom-5 sm:h-150 sm:w-100 sm:rounded-[20px]"
+      className="fixed inset-0 z-300 flex flex-col border border-[var(--color-primary-500)] bg-[var(--color-background)] sm:absolute sm:inset-auto sm:right-20 sm:bottom-5 sm:h-150 sm:w-100 sm:rounded-[20px] dark:bg-[var(--color-dark-background)]"
       ref={modalRef}
     >
       <div className="flex w-full items-center justify-between bg-[var(--color-primary-200)] px-6 py-[14px] sm:rounded-t-[20px]">
