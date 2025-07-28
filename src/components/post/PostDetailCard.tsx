@@ -1,70 +1,68 @@
+import { useAuthStore } from '@/stores/authStoe';
 import Card from '../common/Card';
 import MeatballsMenu from '../common/MeatballsMenu';
 import PostStats from '../common/PostStats';
 import WriterInfo from '../common/WriterInfo';
 import ImageList from './ImageList';
 
-const USER_INFO = {
-  name: '유저닉네임',
-  postedAt: '2025.06.20 12:34',
-};
-
-const POST = {
-  title: '고민이 있습니다...!!',
-  content:
-    '요즘들어 밥을 잘 안먹습니다ㅜㅜ 왜 이럴까요..? 다른 친구들도 그런가요?? 두 줄로 나온다면 어떤 느낌일까 요즘들어 밥을 잘 안먹습니다ㅜㅜ 왜 이럴까요..? 다른 친구들도 그런가요?? 두 줄로 나온다면 어떤 느낌일까요즘들어 밥을 잘 안먹습니다ㅜㅜ 왜 이럴까요..? 다른 친구들도 그런가요?? 두 줄로 나온다면 어떤 느낌일까요즘들어 밥을 잘 안먹습니다ㅜㅜ 왜 이럴까요..? 다른 친구들도 그런가요?? 두 줄로 나온다면 어떤 느낌일까',
-};
-
-const POST_STATS = {
-  comment: '3',
-  like: '10',
-  views: '34',
-};
-
 interface PostDetailCardProps {
+  postDetail: CommunityPostDeatail;
   onReportClick: () => void;
   onEditClick: () => void;
+  onRemoveClick: () => void;
 }
 
 export default function PostDetailCard({
+  postDetail,
   onReportClick,
   onEditClick,
+  onRemoveClick,
 }: PostDetailCardProps) {
+  const userInfo = useAuthStore((state) => state.userInfo);
   return (
     <>
       <Card className="m-6 w-[calc(100vw-48px)] p-4 sm:m-0 sm:w-full sm:p-8">
         <div className="flex items-center justify-between">
           <WriterInfo
-            name={USER_INFO.name}
-            postedAt={USER_INFO.postedAt}
+            authorId={postDetail.userId}
+            name={postDetail.nickname}
+            postedAt={postDetail.createdAt}
+            profileImage={postDetail.profileImgPath}
             size="big"
           />
           <MeatballsMenu
-            options={[
-              { id: '1', label: '수정', type: 'post' },
-              { id: '2', label: '삭제', type: 'post' },
-              { id: '3', label: '신고하기', type: 'post' },
-            ]}
+            options={
+              postDetail.userId === userInfo?.userId
+                ? [
+                    { id: '1', label: '수정', type: 'post' },
+                    { id: '2', label: '삭제', type: 'post' },
+                  ]
+                : [{ id: '3', label: '신고하기', type: 'post' }]
+            }
             onReportClick={onReportClick}
             onEditClick={onEditClick}
+            onRemoveClick={onRemoveClick}
           />
         </div>
         <div>
           <p className="pt-6 text-[16px] font-bold sm:pt-[34px] sm:text-[28px]">
-            {POST.title}
+            {postDetail.title}
           </p>
-          <p className="pt-4 text-[12px] font-medium sm:pt-6 sm:text-[16px]">
-            {POST.content}
+          <p className="pt-4 text-[12px] font-medium break-all whitespace-pre-wrap sm:pt-6 sm:text-[16px]">
+            {postDetail.content}
           </p>
         </div>
-        <div className="w-full sm:max-w-[calc(100vw-622px)]">
-          <ImageList />
-        </div>
+        {postDetail?.images?.length !== 0 && (
+          <div className="w-full sm:max-w-[calc(100vw-622px)]">
+            <ImageList postImage={postDetail.images} />
+          </div>
+        )}
         <div className="pt-7 sm:pt-14">
           <PostStats
-            comment={POST_STATS.comment}
-            like={POST_STATS.like}
-            views={POST_STATS.views}
+            postId={postDetail.articleId}
+            comment={postDetail.replies}
+            like={postDetail.likes}
+            views={postDetail.views}
           />
         </div>
       </Card>

@@ -26,7 +26,7 @@ export default function AuthProvider({
             role: data.role,
             nickname: data.nickname,
             provider: data.provider,
-            imgUrl: data.userImg,
+            imgUrl: data.imgUrl,
           };
 
           setLogin(userInfo);

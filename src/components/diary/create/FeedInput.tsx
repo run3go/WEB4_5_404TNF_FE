@@ -4,14 +4,9 @@ import FeedInputItem from './FeedInputItem';
 type Props = {
   feedingList: FeedEntry[];
   setFeedingList: (list: FeedEntry[]) => void;
-  feedUnitOptions: { label: string; value: string }[];
 };
 
-export default function FeedInput({
-  feedingList,
-  setFeedingList,
-  feedUnitOptions,
-}: Props) {
+export default function FeedInput({ feedingList, setFeedingList }: Props) {
   const updateField = (
     index: number,
     field: keyof FeedEntry,
@@ -52,7 +47,6 @@ export default function FeedInput({
             unit={entry.unit}
             onChange={(field, value) => updateField(i, field, value)}
             onDelete={() => handleDeleteRow(i)}
-            feedUnitOptions={feedUnitOptions}
           />
         ))}
       </div>

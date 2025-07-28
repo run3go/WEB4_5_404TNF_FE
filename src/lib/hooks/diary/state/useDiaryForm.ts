@@ -50,8 +50,6 @@ export function useDiaryForm(initPetId?: string, initRecordAt?: string) {
     !!(numericPetId && recordAt),
   );
 
-  console.log('check result: ', checkResult);
-
   const hasDiary = checkResult?.mode === 'edit';
   const diaryData = hasDiary
     ? (checkResult.data as DiaryCheckResponse)
