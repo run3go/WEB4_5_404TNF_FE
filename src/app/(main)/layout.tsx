@@ -3,6 +3,7 @@ import AuthAccessControl from '@/components/common/AuthAccessControl';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/common/Sidebar';
 import { StyledToastContainer } from '@/components/common/Toast';
+import NotificationProvider from '@/components/notification/NotificationProvider';
 import TanstackProvider from '@/providers/TanstackProvider';
 
 export default function MainLayout({
@@ -11,8 +12,9 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen w-screen bg-[url('/images/bg.png')] bg-cover">
+    <div className="flex min-h-screen w-screen bg-[url('/images/bg.png')] bg-cover dark:bg-[url('/images/dark-bg.png')]">
       <TanstackProvider>
+        <NotificationProvider />
         <div className="h-screen">
           <Sidebar />
         </div>

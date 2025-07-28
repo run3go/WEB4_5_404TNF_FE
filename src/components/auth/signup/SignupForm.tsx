@@ -1,16 +1,16 @@
 'use client';
 
-import Icon from '@/components/common/Icon';
 import { register } from '@/api/auth';
-import { useEffect, useState } from 'react';
+import Icon from '@/components/common/Icon';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import NicknameInputSection from './NicknameInputSection';
-import EmailInputSection from './EmailInputSection';
-import PasswordInputSection from './PasswordInputSection';
-import NameInputSection from './NameInputSection';
 import { useTermsStore } from '@/stores/termsStore';
 import { useMutation } from '@tanstack/react-query';
+import EmailInputSection from './EmailInputSection';
+import NameInputSection from './NameInputSection';
+import NicknameInputSection from './NicknameInputSection';
+import PasswordInputSection from './PasswordInputSection';
 
 export default function SignupForm() {
   const router = useRouter();
@@ -98,14 +98,20 @@ export default function SignupForm() {
       </div>
 
       <button
-        className="group mt-10 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] disabled:bg-[#2B2926]/20 sm:mt-5 sm:h-[56px]"
+        className="group mt-10 h-[40px] cursor-pointer rounded-[12px] bg-[#FFDBAB] py-[10px] disabled:bg-[#2B2926]/20 sm:mt-5 sm:h-[56px] dark:disabled:bg-[#4f4f4f]"
         disabled={isDisabledSubmit}
       >
         <div className="flex items-center justify-center gap-2">
           {isDisabledSubmit ? (
             <Icon width="20px" height="18px" left="-253px" top="-311px" />
           ) : (
-            <Icon width="20px" height="18px" left="-297px" top="-312px" />
+            <Icon
+              className="dark:bg-[url('/images/sprite.svg')]"
+              width="20px"
+              height="18px"
+              left="-297px"
+              top="-312px"
+            />
           )}
           <p className="text-[14px] font-medium text-[#2B2926] group-disabled:text-[#909090] sm:text-[18px]">
             멍멍일지 회원가입

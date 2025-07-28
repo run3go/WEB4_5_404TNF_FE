@@ -26,7 +26,7 @@ export default function NoPets({
         </div>
         <Link
           href={`/profile/${userInfo?.userId}`}
-          className="rounded-[50px] bg-[var(--color-pink-300)] px-7 py-5 text-[20px] shadow-[0_3px_8px_rgba(0,0,0,0.24)] hover:bg-[var(--color-pink-500)]"
+          className="rounded-[50px] bg-[var(--color-pink-300)] px-7 py-5 text-[20px] shadow-[0_3px_8px_rgba(0,0,0,0.24)] hover:bg-[var(--color-pink-500)] dark:text-[var(--color-black)]"
         >
           프로필 등록하러 가기
         </Link>

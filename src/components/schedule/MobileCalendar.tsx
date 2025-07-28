@@ -15,7 +15,7 @@ export default function MobileCalendar({
   scheduleDates: Date[];
 }) {
   return (
-    <div className="h-[350px] rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] sm:hidden">
+    <div className="h-[350px] rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] sm:hidden dark:bg-[var(--color-black)]">
       <DayPicker
         mode="single"
         selected={selectedDate}
@@ -35,13 +35,13 @@ export default function MobileCalendar({
         }}
         classNames={{
           month_caption:
-            'font-medium mb-4 bg-[var(--color-primary-500)] -mx-2 rounded-t-xl py-2 h-[30px]',
-          caption_label: 'text-black',
+            'font-medium mb-4 bg-[var(--color-primary-500)] -mx-2 rounded-t-xl py-2 h-[30px] leading-[1.2]',
+          caption_label: 'text-black dark:text-[var(--color-background)]',
           months: 'w-full relative',
           month_grid: 'w-full',
           weekday: 'h-6 font-medium',
-          root: 'h-full text-xs text-center',
-          day: 'w-1/7 sm:h-6 h-[45px] ',
+          root: 'h-full text-xs text-center ',
+          day: 'w-1/7 sm:h-6 h-[45px] leading-[1.2]',
           day_button: 'w-full h-full cursor-pointer calendar-day',
           outside: 'text-[var(--color-grey)]',
           selected: 'calendar-circle',

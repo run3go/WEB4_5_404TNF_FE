@@ -1,13 +1,12 @@
-import { rejectReport } from '@/api/admin';
+import { changeUserState } from '@/api/admin';
 import { Toast } from '@/components/common/Toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const useRejectReport = () => {
+export const useChangeUserState = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (rejectInfo: RejectInfo) =>
-      await rejectReport(rejectInfo),
+    mutationFn: async (userId: number) => await changeUserState(userId),
 
     onSuccess: () => {
       queryClient.invalidateQueries({

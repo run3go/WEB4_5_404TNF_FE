@@ -65,8 +65,8 @@ export default function DogProfileCard({
     togglePage();
   };
   return (
-    <Card className="card__hover m-0 max-w-150 p-0 sm:my-7 sm:ml-4 sm:p-0">
-      <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-[9px] text-center text-sm sm:py-[14px] sm:text-lg">
+    <Card className="card__hover m-0 max-w-150 p-0 sm:my-7 sm:ml-4 sm:p-0 dark:bg-[#343434]">
+      <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-[9px] text-center text-sm sm:py-[14px] sm:text-lg dark:text-[var(--color-black)]">
         {profile.name}
       </h3>
       <div

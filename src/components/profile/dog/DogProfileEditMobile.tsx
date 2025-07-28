@@ -91,7 +91,7 @@ export default function DogProfileEditMobile() {
 
   return (
     <main className="w-screen">
-      <div className="relative h-full bg-[var(--color-background)] px-6 py-9 text-sm">
+      <div className="relative h-full bg-[var(--color-background)] px-6 py-9 text-sm dark:bg-[var(--color-black)]">
         <form
           className="flex flex-col"
           onSubmit={handleSubmit(onSubmit, handleError)}
