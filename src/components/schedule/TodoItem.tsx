@@ -36,7 +36,7 @@ export default function TodoItem({
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setPopupPosition({
-        top: rect.top + window.scrollY + 10,
+        top: rect.top + window.scrollY + 15,
         left: rect.left + window.scrollX - 125,
       });
     }
