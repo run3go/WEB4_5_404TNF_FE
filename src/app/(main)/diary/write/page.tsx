@@ -3,6 +3,7 @@
 import FeedInput from '@/components/diary/create/FeedInput';
 import WalkingInput from '@/components/diary/create/WalkingInput';
 import diary from '@/assets/images/diary.svg';
+import d_diary from '@/assets/images/dark-diary.svg';
 import Note from '@/components/diary/create/Note';
 import SingleInput from '@/components/diary/create/SingleInput';
 import Calendar from '@/components/diary/Calendar';
@@ -112,15 +113,16 @@ export default function DiaryWrite() {
                 value={selectedPetId}
                 setValue={setSelectedPetId}
                 options={petOptions}
-                width="116px"
+                width="135px"
                 borderColor="var(--color-primary-500)"
                 footstep
                 hasBorder
+                type="diary"
               />
             </div>
             <button
               className={twMerge(
-                'hidden w-[115px] rounded-xl bg-[var(--color-primary-200)] text-base sm:block',
+                'hidden w-[115px] rounded-xl bg-[var(--color-primary-200)] text-base sm:block dark:text-[var(--color-black)]',
                 !isSubmitting &&
                   'cursor-pointer hover:bg-[var(--color-primary-500)]',
               )}
@@ -135,7 +137,16 @@ export default function DiaryWrite() {
         <div className="flex flex-col gap-6 sm:flex-row sm:gap-14 sm:pt-1">
           <div className="flex flex-col items-center gap-6 sm:min-w-105 sm:gap-7">
             <div className="hidden w-full justify-between sm:flex">
-              <Image src={diary} alt="오늘의 멍멍일지를 적어보아요!" />
+              <Image
+                src={diary}
+                alt="오늘의 멍멍일지를 적어보아요!"
+                className="block dark:hidden"
+              />
+              <Image
+                src={d_diary}
+                alt="오늘의 멍멍일지를 적어보아요!"
+                className="hidden dark:block"
+              />
               <Calendar selected={selected} setSelected={setSelected} />
             </div>
             <DiaryProfile
