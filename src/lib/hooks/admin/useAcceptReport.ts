@@ -13,6 +13,12 @@ export const useAcceptReport = () => {
       queryClient.invalidateQueries({
         queryKey: ['reportList'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['reportDetail'],
+      });
+
+      // queryClient.invalidateQueries({ queryKey: ['reportList'], exact: false });
+      // queryClient.refetchQueries({ queryKey: ['reportList'], exact: false });
 
       Toast.success('처리되었습니다.');
     },

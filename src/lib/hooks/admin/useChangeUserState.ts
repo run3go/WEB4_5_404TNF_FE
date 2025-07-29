@@ -10,9 +10,8 @@ export const useChangeUserState = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['reportList'],
+        queryKey: ['userList'],
       });
-
       Toast.success('처리되었습니다.');
     },
 
