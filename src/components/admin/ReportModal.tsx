@@ -11,6 +11,7 @@ import {
   userState,
   userStateColor,
 } from '@/assets/data/admin';
+import { format } from 'date-fns';
 
 type FormData = {
   period: string;
@@ -86,6 +87,8 @@ export default function ReportModal({
         ? '철회 사유'
         : null;
 
+  console.log(id, user);
+
   return (
     <>
       <div
@@ -120,7 +123,15 @@ export default function ReportModal({
                   <h3>{userState[user.state]}</h3>
                   {user.state === 'SUSPENDED' && (
                     <h3>
-                      ({user.reportedAt} ~ {user.suspensionEndAt})
+                      (
+                      {user.reportedAt
+                        ? format(new Date(user.reportedAt), 'yyyy.MM.dd')
+                        : ''}{' '}
+                      ~
+                      {user.suspensionEndAt
+                        ? format(new Date(user.suspensionEndAt), 'yyyy.MM.dd')
+                        : ''}
+                      )
                     </h3>
                   )}
                 </div>
