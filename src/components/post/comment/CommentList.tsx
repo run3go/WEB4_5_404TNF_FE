@@ -1,5 +1,5 @@
 'use client';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import MeatballsMenu from '../../common/MeatballsMenu';
 import WriterInfo from '../../common/WriterInfo';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -22,6 +22,8 @@ export default function CommentList({
 }) {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editedContent, setEditedContent] = useState<string>('');
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
   const userInfo = useAuthStore((state) => state.userInfo);
   totalComment = totalComment + 100;
 
@@ -149,6 +151,17 @@ export default function CommentList({
     if (removeCommentMutation.isPending) return;
     removeCommentMutation.mutate({ postId, replyId });
   };
+
+  useEffect(() => {
+    if (editingCommentId !== null && textareaRef.current) {
+      textareaRef.current.focus();
+      const textarea = textareaRef.current;
+      const length = textarea.value.length;
+      textarea.setSelectionRange(length, length);
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [editingCommentId]);
   return (
     <>
       <div
@@ -224,6 +237,7 @@ export default function CommentList({
               <div className="pt-3 pb-1 text-[12px] font-medium sm:pt-6 sm:text-[16px]">
                 {isEditing ? (
                   <textarea
+                    ref={textareaRef}
                     className="scrollbar-hidden h-full w-full resize-none rounded-[12px] border border-[#2B2926]/50 p-4 text-[16px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none dark:border-[#FFFDF7]/50 dark:text-[#FFFDF7]"
                     onChange={(e) => setEditedContent(e.target.value)}
                     onInput={(e) => {
