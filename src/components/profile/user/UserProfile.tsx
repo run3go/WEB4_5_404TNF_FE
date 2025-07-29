@@ -1,6 +1,6 @@
 import { getMyUserInfo } from '@/api/user';
-import defaultProfile from '@/assets/images/default-profile.svg';
 import d_defaultProfile from '@/assets/images/dark-default-profile.svg';
+import defaultProfile from '@/assets/images/default-profile.svg';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
@@ -66,14 +66,14 @@ export default function UserProfile({
       )}
       <div className="mt-7 flex items-center gap-4 sm:gap-7">
         <Image
-          className="block h-20 w-20 rounded-full sm:h-40 sm:w-40 dark:hidden"
+          className="h-20 w-20 rounded-full object-cover sm:h-40 sm:w-40 dark:hidden"
           src={profile?.imgUrl || userProfile.imgUrl || defaultProfile}
           alt="프로필 이미지"
           width={160}
           height={160}
         />
         <Image
-          className="hidden h-20 w-20 rounded-full sm:h-40 sm:w-40 dark:block"
+          className="hidden h-20 w-20 rounded-full object-cover sm:h-40 sm:w-40 dark:block"
           src={profile?.imgUrl || userProfile.imgUrl || d_defaultProfile}
           alt="프로필 이미지"
           width={160}

@@ -29,13 +29,13 @@ export const validatePassword = (password: string): string => {
 // 한글, 영어 대소문자,숫자로 10글자 이내
 export const validateNickname = (nickname: string): string => {
   const trimmedNickname = nickname.trim();
-
   if (!trimmedNickname) return '닉네임을 입력해주세요.';
 
   if (trimmedNickname.length > 10) return '닉네임은 10자 이내여야 합니다.';
 
   const regex = /^[가-힣a-zA-Z0-9]+$/;
   if (!regex.test(trimmedNickname)) {
+    console.log(!regex.test(trimmedNickname), nickname);
     return '닉네임은 한글, 영어 대소문자, 숫자만 가능합니다.';
   }
 
