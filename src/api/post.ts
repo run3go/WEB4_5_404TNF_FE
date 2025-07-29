@@ -105,8 +105,8 @@ export const getPostList = async ({
   page: number;
   size: number;
   boardType: 'FREE' | 'QUESTION';
-  sortType: string; //'DATE' | 'LIKE' | 'VIEW';
-  searchType: string; // 'TITLE' | 'CONTENT' | 'TITLE_CONTENT' | 'AUTHOR';
+  sortType: string;
+  searchType: string;
   keyword: string;
 }) => {
   const res = await fetch(
