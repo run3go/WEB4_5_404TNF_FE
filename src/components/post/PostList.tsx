@@ -8,6 +8,7 @@ import SelectBox from '@/components/common/SelectBox';
 import PostCard from '@/components/post/PostCard';
 import SearchButton from '@/components/post/SearchButton';
 import { usePostList } from '@/lib/hooks/usePostList';
+import { useAuthStore } from '@/stores/authStoe';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -24,6 +25,8 @@ export default function PostList({
   const [inputSearchType, setInputSearchType] = useState('TITLE_CONTENT');
   const [keyword, setKeyword] = useState('');
   const [inputKeyword, setInputKeyword] = useState('');
+
+  const userInfo = useAuthStore((state) => state.userInfo);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
     usePostList({
@@ -114,7 +117,9 @@ export default function PostList({
               />
             </div>
 
-            <Link href={`/post/${boardType}/create`}>
+            <Link
+              href={`${!!userInfo || !!sessionStorage.getItem('userId') ? `/post/${boardType}/create` : `/login`} `}
+            >
               <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto">
                 <Icon
                   width="20px"
