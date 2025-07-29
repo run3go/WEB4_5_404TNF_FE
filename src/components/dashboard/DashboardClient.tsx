@@ -20,22 +20,23 @@ import {
   getPetList,
 } from '@/api/dashboard';
 
-import loadingSpinner from '@/assets/images/loading-footprint.json';
 import speechBubbleMobile from '@/assets/images/speech-bubble-mobile.svg';
 import speechBubble from '@/assets/images/speech-bubble.png';
 import { useDashboardData } from '@/lib/hooks/useDashboard';
 import { useQueryClient } from '@tanstack/react-query';
-import Lottie from 'lottie-react';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import Loading from '../common/Loading';
 import NoPets from '../schedule/NoPets';
 
 export default function DashboardClient() {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
+
   const [petList, setPetList] = useState<PetProfile[]>([]);
   const [selectedPet, setSelectedPet] = useState(0);
+  const [hasPet, setHasPet] = useState(true);
 
   const {
     isPending,
@@ -96,18 +97,23 @@ export default function DashboardClient() {
   useEffect(() => {
     const getPets = async () => {
       const data: PetProfile[] = await getPetList();
-      setPetList(data);
-      setSelectedPet(data[0].petId);
+      if (data) {
+        setPetList(data);
+        setSelectedPet(data[0].petId);
+      } else {
+        setHasPet(false);
+      }
     };
     getPets();
   }, []);
+
   if (isPending)
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <Lottie className="h-50 w-50" animationData={loadingSpinner} />
+        <Loading className="h-50 w-50" />
       </div>
     );
-  if (!selectedPet) return <NoPets content="대시보드를 확인하려면" />;
+  if (!hasPet) return <NoPets content="대시보드를 확인하려면" />;
   return (
     <main className="relative h-full px-[26px] py-6 transition-all duration-150 sm:px-12 sm:py-7">
       <div className="hidden h-8 w-[80%] justify-between overflow-hidden sm:mb-7 sm:flex">

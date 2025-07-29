@@ -1,8 +1,5 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import Icon from '../common/Icon';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getNotifications,
   readNotification,
@@ -11,7 +8,10 @@ import {
 } from '@/api/notification';
 import { useAuthStore } from '@/stores/authStoe';
 import { useNotificationStore } from '@/stores/Notification';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { useEffect, useRef } from 'react';
+import Icon from '../common/Icon';
 import Image from 'next/image';
 import alternativeImage from '@/assets/images/alternative-image.svg';
 
@@ -91,8 +91,8 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
         onClose();
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
   }, [onClose]);
 
   return (

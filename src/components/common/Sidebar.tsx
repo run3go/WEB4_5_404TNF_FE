@@ -7,7 +7,7 @@ import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Icon from './Icon';
 import Settings from './Settings';
 
@@ -19,7 +19,6 @@ export default function Sidebar() {
   const [userId, setUserId] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
 
-  const modalRef = useRef<HTMLDivElement>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -50,16 +49,6 @@ export default function Sidebar() {
   useEffect(() => {
     close();
   }, [pathname, close]);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        setIsSettingsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   if (!isLoading) return null;
 
@@ -228,7 +217,9 @@ export default function Sidebar() {
                   <Icon width="24px" height="26px" left="-297px" top="-252px" />
                   <p className="dark:text-[var(--color-background)]">설정</p>
                 </div>
-                {isSettingsOpen && <Settings ref={modalRef} />}
+                {isSettingsOpen && (
+                  <Settings onClose={() => setIsSettingsOpen(false)} />
+                )}
               </div>
               {userId || isLogin ? (
                 <>
