@@ -27,7 +27,6 @@ export default function PostStats({ comment, like, views, postId }: PostStats) {
     queryFn: () => getCommentCount(postId!),
     enabled: !!postId,
   });
-  console.log(data?.data.count);
 
   const handleLike = async () => {
     if (!userInfo || !postId || isLoading) return;
