@@ -3,7 +3,12 @@ import AdminTableContainer from '@/components/admin/AdminTableContainer';
 import StatusGraph from '@/components/admin/StatusGraph';
 import SelectBox from '@/components/common/SelectBox';
 import { useGetTotalUsers } from '@/lib/hooks/admin/useGetTotalUsers';
+import { Metadata } from 'next';
 import { useState } from 'react';
+
+export const metadata: Metadata = {
+  title: '관리자',
+};
 
 export default function Admin() {
   const period = [

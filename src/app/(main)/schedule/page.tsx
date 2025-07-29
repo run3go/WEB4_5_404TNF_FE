@@ -1,5 +1,10 @@
 import CustomCalendar from '@/components/schedule/CustomCalendar';
 import MobileSchedule from '@/components/schedule/MobileSchedule';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '일정',
+};
 
 export default function Schedule() {
   return (
