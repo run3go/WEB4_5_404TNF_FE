@@ -104,6 +104,7 @@ export default function CommentInput({ postId }: { postId: number }) {
             value={comment}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
+                e.preventDefault();
                 handleSubmit();
               }
             }}
@@ -129,6 +130,7 @@ export default function CommentInput({ postId }: { postId: number }) {
           value={comment}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
+              e.preventDefault();
               handleSubmit();
             }
           }}
