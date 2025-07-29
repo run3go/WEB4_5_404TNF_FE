@@ -77,12 +77,12 @@ body {
 }
 
 .input-style {
-  @apply rounded-[12px] border border-[var(--color-input-border)] leading-[1.2] dark:border-[#8F8E8B];
+  @apply rounded-[12px] border border-[var(--color-input-border)] leading-[1.2] focus:border-[var(--color-primary-500)] focus:outline-none dark:border-[#8F8E8B];
 }
 
 /* profile */
 .profile-input-style {
-  @apply h-9 rounded-[10px] border-1 border-[var(--color-primary-300)] px-4 py-[11px] leading-[1.2] focus:outline-[var(--color-primary-500)] sm:h-11 sm:py-[14px];
+  @apply h-9 rounded-[10px] border-1 border-[var(--color-primary-300)] px-4 py-[11px] leading-[1.2] focus:border-[var(--color-primary-500)] focus:outline-none sm:h-11 sm:py-[14px];
 }
 
 .profile-radio-style {
