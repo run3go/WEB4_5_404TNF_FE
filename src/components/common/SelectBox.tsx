@@ -66,6 +66,9 @@ export default function SelectBox({
         options={options}
         placeholder={placeholder}
         defaultValue={options[defaultValueIndex]}
+        menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
+        menuPosition="absolute"
+        menuShouldBlockScroll={false}
         components={{
           Option: ({ children, ...rest }) => (
             <components.Option {...rest}>
@@ -181,6 +184,10 @@ export default function SelectBox({
             ...(type && {
               display: 'flex',
             }),
+          }),
+          menuPortal: (base) => ({
+            ...base,
+            zIndex: 9999,
           }),
           placeholder: (base) => ({
             ...base,
