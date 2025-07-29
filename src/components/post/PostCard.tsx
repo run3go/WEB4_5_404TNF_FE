@@ -14,15 +14,20 @@ export default function PostCard({
   const router = useRouter();
   return (
     <>
-      <Card className="card__hover mx-1 flex h-[192px] w-full flex-col p-4 hover:!scale-100 sm:h-[228px] sm:w-full sm:p-5 sm:hover:!scale-102">
+      <Card
+        className="card__hover mx-1 flex h-[192px] w-full flex-col p-4 hover:!scale-100 sm:h-[228px] sm:w-full sm:p-5 sm:hover:!scale-102"
+        onClick={() => router.push(`/post/${boardType}/${post.articleId}`)}
+      >
         <div className="relative pb-7 sm:pb-[62px]">
-          <WriterInfo
-            authorId={post.userId}
-            postId={post.articleId}
-            name={post.nickname}
-            postedAt={post.createdAt}
-            profileImage={post.profileImgPath}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <WriterInfo
+              authorId={post.userId}
+              postId={post.articleId}
+              name={post.nickname}
+              postedAt={post.createdAt}
+              profileImage={post.profileImgPath}
+            />
+          </div>
           <div className="mt-3 flex h-[80px] justify-between sm:mt-0">
             <div
               className="w-full cursor-pointer"
@@ -50,6 +55,7 @@ export default function PostCard({
                   alt="썸네일 이미지"
                   fill
                   priority
+                  sizes="(max-width: 640px) 80px, 188px"
                 />
               </div>
             )}
@@ -59,6 +65,7 @@ export default function PostCard({
               comment={post.replies}
               like={post.likes}
               views={post.views}
+              postId={post.articleId}
             />
           </div>
         </div>

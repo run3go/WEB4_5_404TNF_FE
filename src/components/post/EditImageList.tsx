@@ -50,7 +50,7 @@ export default function ImageList({
     <>
       <div className="flex w-[45vw] items-end gap-2 px-4">
         <label
-          className="mt-[8px] flex h-[80px] w-[80px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[10px] bg-[#E1E1E1]"
+          className="mt-[8px] flex h-[80px] w-[80px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[10px] bg-[#E1E1E1] dark:bg-[#4F4F4F]"
           htmlFor="inputMFile"
         >
           <Icon width="22px" height="22px" left="-301px" top="-121px" />

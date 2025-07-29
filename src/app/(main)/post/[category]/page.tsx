@@ -32,7 +32,7 @@ export default async function Board({
     searchType: 'TITLE',
     keyword: '',
   });
-  console.log(initialData + category);
+
   return (
     <>
       <PostList boardType={category} initialData={initialData.data} />

@@ -13,6 +13,9 @@ export const useRejectReport = () => {
       queryClient.invalidateQueries({
         queryKey: ['reportList'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['reportDetail'],
+      });
 
       Toast.success('처리되었습니다.');
     },

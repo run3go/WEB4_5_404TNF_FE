@@ -37,7 +37,7 @@ export default function DiaryListHeader({
             align="left"
           />
         </div>
-        <div className="flex-1 text-xs sm:w-[178px] sm:flex-none sm:text-base">
+        <div className="flex-1 text-xs sm:w-[145px] sm:flex-none sm:text-base">
           <SelectBox
             value={selectedPetId}
             setValue={setSelectedPetId}
@@ -46,6 +46,7 @@ export default function DiaryListHeader({
             borderColor="var(--color-primary-500)"
             footstep={!isMobile}
             hasBorder
+            type="diary"
           />
         </div>
         {selectedDate && (

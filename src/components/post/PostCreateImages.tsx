@@ -52,7 +52,7 @@ export default function PostCreateImages({
         className={`flex items-end gap-6 ${path.includes('create') ? 'w-[55vw] pl-[8.37vw]' : 'w-[45vw]'}`}
       >
         <label
-          className="flex h-[120px] w-[120px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-[#E1E1E1]"
+          className="flex h-[120px] w-[120px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-[#E1E1E1] dark:bg-[#4F4F4F]"
           htmlFor="inputFile"
         >
           <Icon width="22px" height="22px" left="-301px" top="-121px" />
