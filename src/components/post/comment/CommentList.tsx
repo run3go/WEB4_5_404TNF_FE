@@ -5,6 +5,7 @@ import WriterInfo from '../../common/WriterInfo';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCommentList, removeComment, updateComment } from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
+import { Toast } from '@/components/common/Toast';
 
 export default function CommentList({
   postId,
@@ -131,6 +132,10 @@ export default function CommentList({
 
   const handleUpdateComment = (replyId: number, comment: string) => {
     if (updateCommentMutation.isPending) return;
+    if (comment.trim().length === 0) {
+      Toast.error('댓글을 입력해주세요');
+      return;
+    }
     updateCommentMutation.mutate({ postId, replyId, comment });
   };
 
