@@ -103,7 +103,7 @@ export default function CommentInput({ postId }: { postId: number }) {
             onChange={(e) => setComment(e.target.value)}
             value={comment}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 handleSubmit();
               }
@@ -129,7 +129,7 @@ export default function CommentInput({ postId }: { postId: number }) {
           onChange={(e) => setComment(e.target.value)}
           value={comment}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
               handleSubmit();
             }
