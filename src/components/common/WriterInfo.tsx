@@ -58,7 +58,7 @@ export default function WriterInfo({
     (pathname.endsWith('/question') || pathname.endsWith('/free'));
 
   return (
-    <div className="relative" ref={containerRef}>
+    <div className="relative w-full" ref={containerRef}>
       <div
         className="flex w-fit cursor-pointer items-center gap-4"
         onClick={() => {
