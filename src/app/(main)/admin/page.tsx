@@ -1,4 +1,9 @@
 import AdminClient from '@/components/admin/AdminClient';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '관리자',
+};
 
 export default function Admin() {
   return (
