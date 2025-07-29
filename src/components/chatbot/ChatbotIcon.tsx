@@ -15,7 +15,7 @@ export default function ChatbotIcon() {
   if (userInfo)
     return (
       <>
-        <div className="absolute right-10 bottom-10 flex h-13 w-13 items-center justify-center rounded-full transition-colors">
+        <div className="fixed right-4 bottom-4 z-50 flex h-13 w-13 items-center justify-center rounded-full transition-colors sm:right-10 sm:bottom-10">
           <div
             className="flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] hover:bg-[var(--color-primary-500)]"
             onClick={() => {

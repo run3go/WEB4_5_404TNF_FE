@@ -11,7 +11,7 @@ export default function MessageItem({ msg }: { msg: ChatbotMessage }) {
         msg.sender === 'user' && 'justify-end',
       )}
     >
-      {msg.sender === 'chatbot' && (
+      {msg.sender !== 'user' && (
         <Image
           className="h-7 w-7 self-end"
           src={dogImage}
@@ -25,7 +25,9 @@ export default function MessageItem({ msg }: { msg: ChatbotMessage }) {
           'max-w-[70%] rounded-[12px] p-3 break-words whitespace-normal',
           msg.sender === 'chatbot'
             ? 'rounded-bl-none bg-[var(--color-primary-100)]'
-            : 'rounded-br-none bg-[var(--color-primary-200)]',
+            : msg.sender === 'user'
+              ? 'rounded-br-none bg-[var(--color-primary-200)]'
+              : 'rounded-bl-none bg-[#CDEEFF]',
         )}
       >
         {msg.message}
