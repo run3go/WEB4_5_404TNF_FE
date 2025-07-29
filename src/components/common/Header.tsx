@@ -8,12 +8,17 @@ import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import NotificationModal from '../notification/NotificationModal';
 import Button from './Button';
 import Card from './Card';
 import Icon from './Icon';
 
 export default function Header() {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 767px)',
+  });
+
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isNewNotificaton, setIsNewNotification] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -85,7 +90,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
-              {isNotificationOpen && (
+              {!isMobile && isNotificationOpen && (
                 <NotificationModal
                   onClose={() => setIsNotificationOpen(false)}
                 />
@@ -146,7 +151,7 @@ export default function Header() {
               className="cursor-pointer"
             />
           </div>
-          {isNotificationOpen && (
+          {isMobile && isNotificationOpen && (
             <NotificationModal onClose={() => setIsNotificationOpen(false)} />
           )}
         </div>
