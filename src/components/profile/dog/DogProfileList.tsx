@@ -97,24 +97,23 @@ export default function DogProfileList() {
               className="cursor-pointer"
             />
           </button>
-          {petProfiles.length > 1 && (
+
+          <div className="relative w-full max-w-[calc(598px*2+80px)] overflow-x-hidden">
             <button
-              ref={nextRef}
+              ref={prevRef}
               className={twMerge(
-                'absolute top-1/2 right-2 z-50 -translate-y-1/2',
-                currentPage === petProfiles.length - 1 ? 'hidden' : '',
+                'absolute top-1/2 -left-7 z-50 -translate-y-1/2',
+                currentPage === 0 ? 'hidden' : '',
               )}
             >
               <Icon
                 width="12px"
                 height="20px"
-                left="-152px"
+                left="-107px"
                 top="-164px"
                 className="cursor-pointer"
               />
             </button>
-          )}
-          <div className="relative w-full max-w-[calc(598px*2+80px)] overflow-x-hidden">
             <Swiper
               className="w-full overflow-x-hidden"
               modules={[Navigation, Pagination]}
@@ -132,7 +131,7 @@ export default function DogProfileList() {
               }}
             >
               {petProfiles.length === 0 && (
-                <SwiperSlide className="!w-[598px]">
+                <SwiperSlide className="!w-[590px]">
                   <Card className="my-7 ml-4 flex h-20 w-full max-w-150 flex-col items-center justify-center p-0 sm:h-[308px] dark:bg-[#343434]">
                     <Image
                       src={alternativeImage}
@@ -146,16 +145,33 @@ export default function DogProfileList() {
               )}
               {petProfiles &&
                 sortedProfiles.map((profile, index) => (
-                  <SwiperSlide key={index} className="!w-[598px]">
+                  <SwiperSlide key={index} className="!w-[590px]">
                     <DogProfileCard profile={profile} />
                   </SwiperSlide>
                 ))}
               {isMyProfile && (
-                <SwiperSlide className="!w-[598px]">
+                <SwiperSlide className="!w-[590px]">
                   <RegistCard openModal={toggleProfileModal} />
                 </SwiperSlide>
               )}
             </Swiper>
+            {petProfiles.length > 1 && (
+              <button
+                ref={nextRef}
+                className={twMerge(
+                  'absolute top-1/2 right-[6px] z-50 -translate-y-1/2',
+                  currentPage === petProfiles.length - 1 ? 'hidden' : '',
+                )}
+              >
+                <Icon
+                  width="12px"
+                  height="20px"
+                  left="-152px"
+                  top="-164px"
+                  className="cursor-pointer"
+                />
+              </button>
+            )}
           </div>
           {isProfileModalOpen &&
             isMyProfile &&

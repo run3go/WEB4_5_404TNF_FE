@@ -110,3 +110,18 @@ export const modifyVaccineData = async (
     throw new Error(errorText || '백신 정보 저장 실패');
   }
 };
+
+export const createVaccineSchedule = async (petId: number) => {
+  const res = await fetch(
+    `${baseURL}/api/mypage/v1/pets/${petId}/vaccination-schedule`,
+    {
+      method: 'post',
+      credentials: 'include',
+    },
+  );
+  console.log(res);
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '백신 일정 생성 실패');
+  }
+};
