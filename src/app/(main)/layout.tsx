@@ -1,4 +1,5 @@
 import '@/assets/styles/global.css';
+import ChatbotIcon from '@/components/chatbot/ChatbotIcon';
 import AuthAccessControl from '@/components/common/AuthAccessControl';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/common/Sidebar';
@@ -26,6 +27,7 @@ export default function MainLayout({
           </div>
         </div>
         <StyledToastContainer />
+        <ChatbotIcon />
       </TanstackProvider>
     </div>
   );
