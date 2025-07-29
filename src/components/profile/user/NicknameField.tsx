@@ -20,9 +20,9 @@ export default function NicknameField({
     resetNickNameState,
   } = useNicknameCheck();
 
-  const handleChange = (value: string) => {
-    setValue(value);
-    setError(validateNickname(value));
+  const handleChange = (currentValue: string) => {
+    setValue(currentValue);
+    setError(validateNickname(currentValue));
     resetNickNameState();
     setTouched(true);
   };
@@ -63,7 +63,7 @@ export default function NicknameField({
         onChange={(e) => handleChange(e.target.value.trim())}
         onBlur={() => {
           setTouched(true);
-          setError(validateNickname(nickname || ''));
+          setError(validateNickname(value || ''));
         }}
       />
       {touched && error && <p className="auth__error absolute">{error}</p>}
