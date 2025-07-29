@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import PostCreateImages from './PostCreateImages';
 import { usePathname } from 'next/navigation';
 import { useEditPost } from '@/lib/hooks/post/useEditPost';
+import LoadingUI from '@/components/common/Loading';
 
 export default function PostEditModal({
   postDetail,
@@ -78,7 +79,9 @@ export default function PostEditModal({
     <>
       <div className="hidden h-[73.6vh] w-[57.53vw] flex-col rounded-[20px] border-[3px] border-[#FCC389] bg-[#FFFDF7] px-8 pt-8 pr-15 sm:flex dark:bg-[#343434]">
         {postUpdateMutation.isPending ? (
-          <p className="h-100 w-100">로딩중...</p>
+          <>
+            <LoadingUI />
+          </>
         ) : (
           <>
             <div className="flex shrink-0 items-center justify-end gap-[21.55vw]">

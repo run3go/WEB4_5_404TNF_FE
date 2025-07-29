@@ -7,6 +7,7 @@ import EditImageList from './EditImageList';
 import MobileTitle from '@/components/common/MobileTitle';
 import { useEffect, useRef, useState } from 'react';
 import { useEditPost } from '@/lib/hooks/post/useEditPost';
+import LoadingUI from '@/components/common/Loading';
 
 export default function MobilePostEditModal({
   postDetail,
@@ -92,7 +93,11 @@ export default function MobilePostEditModal({
       />
 
       {postUpdateMutation.isPending ? (
-        <p className="h-100 w-100">로딩중</p>
+        <>
+          <div className="flex h-full w-screen items-center justify-center px-5">
+            <LoadingUI className="bg-red-200" />
+          </div>
+        </>
       ) : (
         <>
           <div className="scrollbar-hidden flex w-full flex-col gap-6 overflow-y-auto pb-25">
