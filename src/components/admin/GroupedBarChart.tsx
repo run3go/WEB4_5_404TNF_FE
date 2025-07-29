@@ -33,6 +33,8 @@ export default function GroupedBarChart({
       .append('div')
       .attr('class', 'tooltip')
       .style('position', 'absolute')
+      .style('left', '-9999px')
+      .style('top', '-9999px')
       .style('background', '#fff')
       .style('border', '1px solid #ccc')
       .style('padding', '6px 8px')
