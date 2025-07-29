@@ -83,7 +83,7 @@ export default function DiaryClient() {
       </div>
       {/* mobile: post button */}
       <div
-        className="fixed right-4 bottom-19 flex h-13 w-13 items-center justify-center rounded-full bg-[var(--color-primary-200)] sm:hidden"
+        className="fixed right-4 bottom-19 z-50 flex h-13 w-13 items-center justify-center rounded-full bg-[var(--color-primary-200)] sm:hidden"
         onClick={() => {
           if (pets.length === 0) {
             setShowConfirm(true);
