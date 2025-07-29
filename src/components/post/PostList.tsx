@@ -102,12 +102,14 @@ export default function PostList({
           />
           <div className="flex w-full items-center gap-6 pl-1 sm:w-auto sm:pr-[6.27vw] sm:pl-0">
             <div className="flex w-full items-center justify-between sm:w-auto">
-              <SelectBox
-                width={'90px'}
-                options={SORT}
-                isCenter
-                setValue={setSortType}
-              />
+              <div className="rounded-[12px] border border-[#FCC389] py-2 pl-4">
+                <SelectBox
+                  width={'90px'}
+                  options={SORT}
+                  isCenter
+                  setValue={setSortType}
+                />
+              </div>
 
               <SearchButton
                 setSearchType={setInputSearchType}

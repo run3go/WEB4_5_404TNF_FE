@@ -162,6 +162,7 @@ export default function SelectBox({
               ? 'var(--color-dark-background)'
               : 'var(--color-background)',
             right: 0,
+
             padding: fontSize === '12px' ? 0 : '0.6em',
           }),
           menuList: (base) => ({
