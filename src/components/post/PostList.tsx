@@ -9,7 +9,7 @@ import PostCard from '@/components/post/PostCard';
 import SearchButton from '@/components/post/SearchButton';
 import { usePostList } from '@/lib/hooks/usePostList';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 export default function PostList({
@@ -49,11 +49,6 @@ export default function PostList({
     refetch();
   };
 
-  useEffect(() => {
-    if (!hasNextPage) {
-      console.log('더 이상 게시글이 없습니다.');
-    }
-  }, [hasNextPage]);
   return (
     <>
       <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-full sm:px-0 dark:bg-[#2B2926]">
