@@ -130,12 +130,12 @@ export default function Sidebar() {
                 className={`sidebar__content group relative ${pathname.startsWith('/diary') && 'sidebar__content-active'}`}
               >
                 <div
-                  className={`absolute ${pathname === '/diary' && 'opacity-0'}`}
+                  className={`absolute ${pathname.startsWith('/diary') && 'opacity-0'}`}
                 >
                   <Icon width="24px" height="24px" left="-108px" top="-21px" />
                 </div>
                 <div
-                  className={`absolute opacity-0 ${pathname === '/diary' && 'opacity-100'} `}
+                  className={`absolute opacity-0 ${pathname.startsWith('/diary') && 'opacity-100'} `}
                 >
                   <Icon width="24px" height="24px" left="-110px" top="-308px" />
                 </div>

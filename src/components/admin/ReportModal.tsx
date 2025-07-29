@@ -1,7 +1,7 @@
 import Button from '../common/Button';
 import Icon from '../common/Icon';
 import SelectBox from '../common/SelectBox';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useAcceptReport } from '@/lib/hooks/admin/useAcceptReport';
 import { useEffect } from 'react';
 import { useRejectReport } from '@/lib/hooks/admin/useRejectReport';
@@ -11,6 +11,7 @@ import {
   userState,
   userStateColor,
 } from '@/assets/data/admin';
+import { format } from 'date-fns';
 
 type FormData = {
   period: string;
@@ -41,7 +42,8 @@ export default function ReportModal({
     register,
     handleSubmit,
     setValue,
-    watch,
+    // watch,
+    control,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -71,12 +73,10 @@ export default function ReportModal({
       });
     }
 
-    // console.log(data.period, data.reason);
-
     onClose();
   };
 
-  const period = watch('period');
+  // const period = watch('period');
 
   const heightByResult = modalHeight[result] || 'h-[440px]';
 
@@ -86,6 +86,8 @@ export default function ReportModal({
       : status === 'REJECT' || result === 'reject'
         ? '철회 사유'
         : null;
+
+  console.log(id, user);
 
   return (
     <>
@@ -121,7 +123,15 @@ export default function ReportModal({
                   <h3>{userState[user.state]}</h3>
                   {user.state === 'SUSPENDED' && (
                     <h3>
-                      ({user.reportedAt} ~ {user.suspensionEndAt})
+                      (
+                      {user.reportedAt
+                        ? format(new Date(user.reportedAt), 'yyyy.MM.dd')
+                        : ''}{' '}
+                      ~
+                      {user.suspensionEndAt
+                        ? format(new Date(user.suspensionEndAt), 'yyyy.MM.dd')
+                        : ''}
+                      )
                     </h3>
                   )}
                 </div>
@@ -131,12 +141,18 @@ export default function ReportModal({
             {result === 'accept' && (
               <div className="mb-4 flex gap-5">
                 <h3>제재 기간</h3>
-                <SelectBox
-                  options={periodData}
-                  width="70px"
-                  isCenter
-                  value={period}
-                  setValue={(val) => setValue('period', val)}
+                <Controller
+                  control={control}
+                  name="period"
+                  render={({ field }) => (
+                    <SelectBox
+                      options={periodData}
+                      width="70px"
+                      isCenter
+                      value={field.value}
+                      setValue={field.onChange}
+                    />
+                  )}
                 />
               </div>
             )}

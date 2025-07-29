@@ -3,6 +3,8 @@ import { Dispatch, SetStateAction } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import CalendarNav from './CalendarNav';
+import { twMerge } from 'tailwind-merge';
+import { isSameDay } from 'date-fns';
 
 export default function Calendar({
   selected,
@@ -18,12 +20,16 @@ export default function Calendar({
       <DayPicker
         mode="single"
         selected={selected}
-        onSelect={setSelected}
+        onSelect={readOnly ? undefined : setSelected}
         locale={ko}
         showOutsideDays
         captionLayout={readOnly ? undefined : 'dropdown-years'}
         // diary detail
-        disabled={readOnly ? () => true : { after: new Date() }}
+        disabled={
+          readOnly
+            ? (date) => !(selected && isSameDay(date, selected))
+            : { after: new Date() }
+        }
         disableNavigation={readOnly ? true : false}
         classNames={{
           month_caption:
@@ -33,9 +39,13 @@ export default function Calendar({
           weekday: 'h-6 font-medium',
           root: 'h-full text-xs text-center',
           day: 'w-1/7 h-6',
-          day_button: `w-full h-full ${readOnly ? 'cursor-default' : 'cursor-pointer'}`,
+          day_button: twMerge(
+            'w-full h-full',
+            readOnly ? 'cursor-default' : 'cursor-pointer',
+          ),
           outside: 'text-[var(--color-grey)]',
-          selected: 'calendar-circle',
+          selected:
+            'calendar-circle text-[var(--color-black)] dark:text-[var(--color-background)]',
           disabled: 'text-[var(--color-grey)] pointer-events-none',
         }}
         components={{

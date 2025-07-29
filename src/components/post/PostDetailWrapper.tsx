@@ -40,7 +40,7 @@ export default function PostDetailWrapper({
 
   return (
     <div
-      className={`scrollbar-hidden relative flex w-screen flex-col bg-[var(--color-background)] sm:mt-5 sm:w-full sm:rounded-[50px] sm:px-[6.28vw] ${
+      className={`scrollbar-hidden relative flex w-screen flex-col bg-[var(--color-background)] sm:mt-5 sm:w-full sm:rounded-[50px] sm:px-[6.28vw] dark:bg-[#2B2926] ${
         isReportModalOpen ? 'overflow-hidden' : 'overflow-y-auto'
       }`}
     >

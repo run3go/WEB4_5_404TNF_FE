@@ -1,4 +1,9 @@
 import Roadmap from '@/components/guide/Roadmap';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '멍초보 가이드',
+};
 
 export default function Guide() {
   return (

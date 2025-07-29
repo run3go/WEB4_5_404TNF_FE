@@ -1,6 +1,21 @@
 import { getPostDetail } from '@/api/post';
 import PostDetailWrapper from '@/components/post/PostDetailWrapper';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ category: string; postId: string }>;
+}): Promise<Metadata> => {
+  const { postId } = await params;
+  const { data }: { data: CommunityPostDeatail } = await getPostDetail(
+    Number(postId),
+  );
+  return {
+    title: data.title,
+  };
+};
 
 export default async function PostDetail({
   params,

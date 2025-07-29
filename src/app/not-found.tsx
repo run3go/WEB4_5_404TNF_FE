@@ -1,5 +1,10 @@
 import Button from '@/components/common/Button';
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: '404',
+};
 
 export default function NotFound() {
   return (

@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import PasswordToggleButton from '../ShowPasswordButton';
+import { getMyUserInfo } from '@/api/user';
 import { getNotifications, getNotificationSetting } from '@/api/notification';
 import { useNotificationStore } from '@/stores/Notification';
 
@@ -99,6 +100,8 @@ export default function LoginForm() {
       const res = await socialLoginMutation.mutateAsync(provider);
       console.log(res);
       window.location.href = res;
+      const user = await getMyUserInfo();
+      sessionStorage.setItem('userId', user.userId);
     } catch (err) {
       console.error(err);
     }
@@ -167,7 +170,7 @@ export default function LoginForm() {
         </button>
 
         <div className="-mt-1 flex justify-end gap-1.5 text-[14px] font-medium sm:text-[16px]">
-          <p>계졍이 없으신가요? </p>
+          <p>계정이 없으신가요? </p>
           <p
             className="cursor-pointer border-b text-[#FF9526]"
             onClick={() => router.push('/terms')}

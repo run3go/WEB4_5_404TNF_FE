@@ -93,3 +93,11 @@ interface CommentListResponse {
     };
   };
 }
+
+interface CommentCountResponse {
+  code: string;
+  message: string;
+  data: {
+    replies: number;
+  };
+}
