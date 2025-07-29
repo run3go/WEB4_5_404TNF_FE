@@ -35,6 +35,7 @@ export default function WriterInfo({
   const pathname = usePathname();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [imgSrc, setImgSrc] = useState(profileImage || user_default_image);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -72,11 +73,14 @@ export default function WriterInfo({
       >
         <div className={`relative h-9 w-9 rounded-full ${avatarSize}`}>
           <Image
-            src={profileImage || user_default_image}
+            src={imgSrc}
             alt="유저 프로필 이미지"
             fill
             className={`rounded-full`}
             sizes="(max-width: 640px) 42px, 52px"
+            onError={() => {
+              setImgSrc(user_default_image);
+            }}
           />
         </div>
         <div className={`font-medium sm:space-y-1`}>
