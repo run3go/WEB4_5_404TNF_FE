@@ -1,5 +1,8 @@
+import d_defaultProfile from '@/assets/images/dark-default-profile.svg';
+import defaultProfile from '@/assets/images/default-profile.svg';
+import { useThemeStore } from '@/stores/themeStore';
 import Image from 'next/image';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export default function ImageField({
@@ -13,6 +16,15 @@ export default function ImageField({
   isMobile?: boolean;
   handleImage: (e: ChangeEvent<HTMLInputElement>) => void;
 }) {
+  const theme = useThemeStore((state) => state.theme);
+  const [error, setError] = useState(false);
+  const fallbackImage = theme === 'dark' ? d_defaultProfile : defaultProfile;
+
+  const getImageSrc = () => {
+    if (error) return fallbackImage;
+    if (image) return image;
+    return fallbackImage;
+  };
   return (
     <div className="relative">
       <label
@@ -27,24 +39,17 @@ export default function ImageField({
             'h-30 w-30 rounded-full object-cover',
             isMobile && 'h-25 w-25',
           )}
-          src={image}
+          src={getImageSrc()}
           alt={alt}
           width={120}
           height={120}
           priority
+          onError={() => setError(true)}
         />
         <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)] dark:group-hover:text-[var(--color-background)]">
           사진 선택하기
         </span>
       </label>
-      {/* <Icon
-        className="absolute top-0 right-1 cursor-pointer"
-        width="28px"
-        height="28px"
-        left="-414px"
-        top="-375px"
-        onClick={resetImage}
-      /> */}
       <input
         hidden
         id={alt}
