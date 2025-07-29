@@ -29,7 +29,7 @@ export default function TermsAgreement() {
   return (
     <>
       <div className="mt-[1.4vh] ml-9 flex flex-col gap-[9px] sm:mt-6 sm:ml-[19.5vw]">
-        <label className="flex h-[20px] w-fit cursor-pointer items-center gap-[0.87vh]">
+        <label className="flex h-[20px] w-fit cursor-pointer items-center gap-2">
           <input
             type="checkbox"
             className="peer hidden"
