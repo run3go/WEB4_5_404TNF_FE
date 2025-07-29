@@ -19,7 +19,7 @@ export default function FeedInputItem({
     <div className="flex h-9 w-full shrink-0 items-center justify-between text-xs sm:text-sm">
       <div className="flex w-full items-center">
         <input
-          className="input-style mr-1 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)]"
+          className="input-style mr-1 w-11 py-1 text-center leading-[1.2]"
           type="text"
           placeholder="시"
           maxLength={2}
@@ -27,7 +27,6 @@ export default function FeedInputItem({
           onChange={(e) => onChange('hour', e.target.value)}
         />
         <span className="mr-2">시</span>
-        {/* <span className="mx-1">:</span> */}
         <input
           className="input-style mr-1 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)]"
           type="text"
