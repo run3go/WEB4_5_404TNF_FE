@@ -170,7 +170,7 @@ export default function LoginForm() {
         </button>
 
         <div className="-mt-1 flex justify-end gap-1.5 text-[14px] font-medium sm:text-[16px]">
-          <p>계졍이 없으신가요? </p>
+          <p>계정이 없으신가요? </p>
           <p
             className="cursor-pointer border-b text-[#FF9526]"
             onClick={() => router.push('/terms')}

@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import Icon from './Icon';
 import PopupMenu from './PopupMenu';
 import { useAuthStore } from '@/stores/authStoe';
+import Confirm from './Confirm';
 
 interface MeatballsMenuProps {
   options: { id: string; label: string; type: 'post' | 'comment' }[];
@@ -19,6 +20,7 @@ export default function MeatballsMenu({
   onRemoveClick,
 }: MeatballsMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const buttonRef = useRef(null);
   const userInfo = useAuthStore((state) => state.userInfo);
 
@@ -31,7 +33,7 @@ export default function MeatballsMenu({
       onEditClick();
     }
     if (label === '삭제' && onRemoveClick) {
-      onRemoveClick();
+      setShowConfirm(true);
     }
 
     setIsOpen(false);
@@ -53,6 +55,18 @@ export default function MeatballsMenu({
           options={options}
           onSelect={handleOptionClick}
           onClose={() => setIsOpen(false)}
+        />
+      )}
+
+      {showConfirm && (
+        <Confirm
+          description={`정말 삭제하시겠습니까?`}
+          confirmText="확인"
+          onClose={() => setShowConfirm(false)}
+          onConfirm={() => {
+            setShowConfirm(false);
+            onRemoveClick?.();
+          }}
         />
       )}
     </div>
