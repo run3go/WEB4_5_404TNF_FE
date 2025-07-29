@@ -5,8 +5,9 @@ import Button from '../common/Button';
 import Icon from '../common/Icon';
 import EditImageList from './EditImageList';
 import MobileTitle from '@/components/common/MobileTitle';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useEditPost } from '@/lib/hooks/post/useEditPost';
+import LoadingUI from '@/components/common/Loading';
 
 export default function MobilePostEditModal({
   postDetail,
@@ -25,6 +26,7 @@ export default function MobilePostEditModal({
   const [pickedImages, setPickedImages] = useState<(File | string)[]>(
     postDetail?.images?.map((img) => img.savePath),
   );
+  const contentRef = useRef<HTMLTextAreaElement>(null);
 
   const postUpdateMutation = useEditPost(boardType, Number(postId), onClose);
 
@@ -73,8 +75,15 @@ export default function MobilePostEditModal({
     convertImages();
   }, [postDetail?.images]);
 
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.style.height = 'auto';
+      contentRef.current.style.height = `${contentRef.current.scrollHeight}px`;
+    }
+  }, [content]);
+
   return (
-    <div className="flex h-screen flex-col bg-[var(--color-background)]">
+    <div className="flex h-screen flex-col bg-[var(--color-background)] dark:bg-[#2B2926]">
       <MobileTitle
         title="게시글 수정"
         closePage={onClose}
@@ -84,10 +93,14 @@ export default function MobilePostEditModal({
       />
 
       {postUpdateMutation.isPending ? (
-        <p className="h-100 w-100">로딩중</p>
+        <>
+          <div className="flex h-full w-screen items-center justify-center px-5">
+            <LoadingUI className="bg-red-200" />
+          </div>
+        </>
       ) : (
         <>
-          <div className="flex w-full flex-col gap-6">
+          <div className="scrollbar-hidden flex w-full flex-col gap-6 overflow-y-auto pb-25">
             <div className="flex w-screen justify-center gap-[15px] pt-5 pb-3">
               <Button
                 className={`board__btn ${boardType === 'QUESTION' ? '!bg-[var(--color-pink-300)]' : ''}`}
@@ -98,7 +111,7 @@ export default function MobilePostEditModal({
                   height="20px"
                   left="-27px"
                   top="-165px"
-                  className="scale-60"
+                  className="scale-60 dark:bg-[url('/images/sprite.svg')]"
                 />
                 <p className="text-[10px] sm:text-[18px]">질문게시판</p>
               </Button>
@@ -111,7 +124,7 @@ export default function MobilePostEditModal({
                   height="20px"
                   left="-67px"
                   top="-166px"
-                  className="scale-60"
+                  className="scale-60 dark:bg-[url('/images/sprite.svg')]"
                 />
                 <p className="text-[10px]">자유게시판</p>
               </Button>
@@ -125,13 +138,14 @@ export default function MobilePostEditModal({
                 value={title}
               />
               <textarea
+                ref={contentRef}
                 className="min-h-[300px] w-full resize-none overflow-hidden border-b border-b-[#2B2926]/50 p-4 text-[12px] font-medium focus:outline-none"
                 placeholder="내용 입력"
                 onInput={(e) => {
                   e.currentTarget.style.height = 'auto';
                   e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
                 }}
-                onChange={(e) => setContent(e.target.value.trim())}
+                onChange={(e) => setContent(e.target.value)}
                 value={content}
               />
             </div>

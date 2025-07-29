@@ -83,7 +83,7 @@ export default function EmailInputSection({
   };
   return (
     <div className="flex flex-col">
-      <div className="flex max-w-[720px] justify-between">
+      <div className="flex w-full justify-between">
         <label className="text-[14px] font-medium text-[#909090] sm:text-[15px]">
           이메일
         </label>

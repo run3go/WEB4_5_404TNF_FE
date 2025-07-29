@@ -27,11 +27,27 @@ export default function PopupMenu({
 
   const getIcon = (label: string) => {
     if (label === '수정') {
-      return <Icon width="14px" height="14px" left="-225px" top="-168px" />;
+      return (
+        <Icon
+          width="14px"
+          height="14px"
+          left="-225px"
+          top="-168px"
+          className="mt-1"
+        />
+      );
     }
 
     if (label === '삭제') {
-      return <Icon width="14px" height="14px" left="-266px" top="-167px" />;
+      return (
+        <Icon
+          width="14px"
+          height="14px"
+          left="-266px"
+          top="-167px"
+          className="mt-0.5"
+        />
+      );
     }
 
     if (label === '신고하기') {
@@ -67,7 +83,7 @@ export default function PopupMenu({
   return (
     <div
       ref={ref}
-      className={`absolute ${isProfile ? 'top-[-55px] left-[150px] sm:top-[-70px] sm:left-[200px]' : 'top-full right-[-3px]'} z-50 mt-2 flex flex-col space-y-2.5 rounded-[20px] border-[3px] border-[var(--color-primary-200)] bg-[#FFFDF7] px-[12px] py-[14px] ${options[0].type === 'delete' ? 'w-[155px]' : 'max-w-[140px]'}`}
+      className={`absolute ${isProfile ? 'top-[-55px] left-[150px] sm:top-[-70px] sm:left-[200px]' : 'top-full right-[-3px]'} z-50 mt-2 flex flex-col space-y-2.5 rounded-[20px] border-[3px] border-[var(--color-primary-200)] bg-[#FFFDF7] px-[12px] py-[14px] dark:border dark:border-[#FFDBAB] dark:bg-[#2B2926] ${options[0].type === 'delete' ? 'w-[155px]' : 'max-w-[140px]'}`}
     >
       {options.map((option) => (
         <div
@@ -82,7 +98,7 @@ export default function PopupMenu({
                   : option.type === 'delete'
                     ? 'w-[125px]'
                     : 'w-[98px]'
-          } cursor-pointer items-center justify-start gap-2 rounded-[8px] pl-2 hover:bg-[#FFCD8C]`}
+          } cursor-pointer items-center justify-start gap-2 rounded-[8px] pl-2 hover:bg-[#FFCD8C] hover:dark:bg-[#FFCD8C]/50`}
           onClick={() => onSelect(option.label)}
         >
           {getIcon(option.label)}

@@ -5,6 +5,7 @@ import WriterInfo from '../../common/WriterInfo';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCommentList, removeComment, updateComment } from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
+import { Toast } from '@/components/common/Toast';
 
 export default function CommentList({
   postId,
@@ -111,8 +112,11 @@ export default function CommentList({
         );
       }
     },
-    onSettled: () => {
+    onSettled: (_data, _error, variables) => {
       queryClient.invalidateQueries({ queryKey: ['comment-list', postId] });
+      queryClient.invalidateQueries({
+        queryKey: ['comment-count', variables.postId],
+      });
     },
   });
 
@@ -128,6 +132,10 @@ export default function CommentList({
 
   const handleUpdateComment = (replyId: number, comment: string) => {
     if (updateCommentMutation.isPending) return;
+    if (comment.trim().length === 0) {
+      Toast.error('댓글을 입력해주세요');
+      return;
+    }
     updateCommentMutation.mutate({ postId, replyId, comment });
   };
 
@@ -153,7 +161,7 @@ export default function CommentList({
           return (
             <div
               key={comment.replyId}
-              className="mx-6 border-b border-b-[#FCC389] p-2 pb-3 sm:mx-0 sm:min-h-[128px] sm:w-full sm:border-b-[#2B2926]/50 sm:p-5"
+              className="mx-6 border-b border-b-[#FCC389] p-2 pb-3 sm:mx-0 sm:min-h-[128px] sm:w-full sm:border-b-[#2B2926]/50 sm:p-5 dark:border-b-[#FFFDF7]"
             >
               <div className="flex items-center justify-between">
                 <WriterInfo
@@ -210,7 +218,7 @@ export default function CommentList({
               <div className="pt-3 pb-1 text-[12px] font-medium sm:pt-6 sm:text-[16px]">
                 {isEditing ? (
                   <textarea
-                    className="scrollbar-hidden h-full w-full resize-none rounded-[12px] border border-[#2B2926]/50 p-4 text-[16px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
+                    className="scrollbar-hidden h-full w-full resize-none rounded-[12px] border border-[#2B2926]/50 p-4 text-[16px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none dark:border-[#FFFDF7]/50 dark:text-[#FFFDF7]"
                     onChange={(e) => setEditedContent(e.target.value)}
                     onInput={(e) => {
                       e.currentTarget.style.height = 'auto';
@@ -220,7 +228,7 @@ export default function CommentList({
                     placeholder="댓글을 작성해주세요."
                   />
                 ) : (
-                  <div className="break-all whitespace-pre-wrap">
+                  <div className="break-all whitespace-pre-wrap dark:text-[#FFFDF7]">
                     {comment.content}
                   </div>
                 )}
