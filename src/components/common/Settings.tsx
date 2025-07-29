@@ -1,11 +1,9 @@
-import { RefObject, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ToggleButton from './ToggleButton';
 
-export default function Settings({
-  ref,
-}: {
-  ref: RefObject<HTMLDivElement | null>;
-}) {
+export default function Settings({ onClose }: { onClose: () => void }) {
+  const modalRef = useRef<HTMLDivElement>(null);
+
   const [isNotiAll, setIsNotiAll] = useState(
     sessionStorage.getItem('isNotiAll') === 'true',
   );
@@ -16,10 +14,20 @@ export default function Settings({
     sessionStorage.getItem('isNotiService') === 'true',
   );
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [onClose]);
+
   return (
     <div
       className="fixed bottom-[20%] left-[10%] flex w-58 flex-col items-center gap-2 rounded-[20px] border border-[var(--color-primary-200)] bg-[var(--color-background)] p-4 shadow-md dark:bg-[#343434] dark:text-[var(--color-background)]"
-      ref={ref}
+      ref={modalRef}
     >
       <div className="w-full">
         <div className="flex items-center justify-between p-4">
