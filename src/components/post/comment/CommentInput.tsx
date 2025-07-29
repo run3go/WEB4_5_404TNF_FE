@@ -115,7 +115,7 @@ export default function CommentInput({ postId }: { postId: number }) {
 
       <div className="sm:hidden">
         <textarea
-          className="h-[52px] w-full resize-none rounded-t-[20px] bg-[#FFECD2] px-5 py-[14px] text-[12px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
+          className="fixed bottom-0 z-1 h-[52px] w-full resize-none rounded-t-[20px] bg-[#FFECD2] px-5 py-[14px] text-[12px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
           onInput={(e) => {
             e.currentTarget.style.height = 'auto';
             e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
