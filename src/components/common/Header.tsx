@@ -31,6 +31,8 @@ export default function Header() {
     (state) => state.setNotifications,
   );
 
+  const [profileImage, setProfileImage] = useState(userInfo?.imgUrl);
+
   const modalRef = useRef<HTMLDivElement>(null);
 
   const fetchAndSetNotifications = useCallback(async () => {
@@ -100,10 +102,11 @@ export default function Header() {
               <div className="relative h-9 w-9">
                 <Image
                   className="cursor-pointer rounded-full"
-                  src={userInfo?.imgUrl || user_default_image}
+                  src={userInfo?.imgUrl || profileImage || user_default_image}
                   alt="유저 프로필"
                   fill
                   priority
+                  onError={() => setProfileImage(user_default_image)}
                   sizes="36px"
                 />
               </div>
@@ -117,7 +120,7 @@ export default function Header() {
           </Link>
         )}
       </div>
-      <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-between rounded-none bg-[var(--color-background)] px-6 sm:hidden dark:bg-[var(--color-black)]">
+      <Card className="fixed top-0 right-0 left-0 z-50 flex h-18 w-screen items-center justify-between rounded-none bg-[var(--color-background)] px-6 sm:hidden dark:bg-[var(--color-black)]">
         <Icon
           className="cursor-pointer"
           onClick={open}

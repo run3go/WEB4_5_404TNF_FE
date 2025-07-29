@@ -66,7 +66,7 @@ export default function AdminTable({
       <table>
         <thead>
           {type === 'user' ? (
-            <tr className="h-10 border-b border-[var(--color-black)]">
+            <tr className="h-10 border-b border-[var(--color-black)] dark:border-[var(--color-background)]">
               <th className="w-15 cursor-default">No</th>
               <th onClick={() => handleSort('EMAIL')} className="w-80">
                 <div className="admin-th-div">
@@ -131,7 +131,7 @@ export default function AdminTable({
               <th className="w-30">상태 변경</th>
             </tr>
           ) : (
-            <tr className="h-10 border-b border-[var(--color-black)]">
+            <tr className="h-10 border-b border-[var(--color-black)] dark:border-[var(--color-background)]">
               <th className="w-15 cursor-default">No</th>
               <th
                 onClick={() => handleSort('REPORTER_NICKNAME')}
@@ -190,7 +190,7 @@ export default function AdminTable({
               (data as UserInfo[]).map((user, i) => (
                 <tr
                   key={user.userId}
-                  className="h-10 cursor-default border-b border-[var(--color-black)]"
+                  className="h-10 cursor-default border-b border-[var(--color-black)] dark:border-[var(--color-background)]"
                 >
                   <td className="text-center">
                     {i + 1 + (currentPage - 1) * 10}
@@ -245,7 +245,7 @@ export default function AdminTable({
                   <tr
                     // key={report.id}
                     onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                    className="h-10 cursor-pointer border-b border-[var(--color-black)]"
+                    className="h-10 cursor-pointer border-b border-[var(--color-black)] dark:border-[var(--color-background)]"
                   >
                     <td className="text-center">
                       {i + 1 + (currentPage - 1) * 10}
