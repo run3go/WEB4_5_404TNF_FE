@@ -22,18 +22,23 @@ export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
     .filter((unit) => unit.value === feeding.unit)
     .map((unit) => unit.label);
 
+  const formatNumber = (number: number) => {
+    return number === Math.floor(number) ? number : number.toFixed(1);
+  };
+
   return (
     <Card className="flex w-full flex-col text-sm font-medium sm:text-base">
       <div className="mb-5 flex flex-col gap-2">
         <span className="text-xs sm:text-base">지난주 평균 식사량 (일)</span>
         <span>
-          {isNaN(feeding.average) ? 0 : Math.floor(feeding.average)} {unitLabel}
+          {isNaN(feeding.average) ? 0 : formatNumber(feeding.average)}{' '}
+          {unitLabel}
         </span>
       </div>
       <div className="mb-4 flex flex-col gap-2">
         <span className="text-xs sm:text-base">오늘의 식사기록</span>
         <div className="h-6">
-          {Math.floor(feeding.amount) ?? 0} {unitLabel}
+          {formatNumber(feeding.amount) ?? 0} {unitLabel}
         </div>
       </div>
       <DonutGraph feeding={feeding} />

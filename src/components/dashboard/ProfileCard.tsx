@@ -2,6 +2,7 @@ import { petBreedData } from '@/assets/data/pet';
 import defaultDogProfile from '@/assets/images/default-dog-profile.svg';
 import { calculateAge, calculateMetDay } from '@/lib/utils/date';
 import Image from 'next/image';
+import { useState } from 'react';
 import Card from '../common/Card';
 import Icon from '../common/Icon';
 
@@ -10,6 +11,7 @@ export default function ProfileCard({
 }: {
   profile?: DashboardProfile;
 }) {
+  const [profileImage, setProfileImage] = useState(profile?.imgUrl);
   if (!profile) return;
   const breedName = petBreedData
     .filter((breed) => breed.value === profile.breed)
@@ -58,12 +60,12 @@ export default function ProfileCard({
       </ul>
       <Image
         className="mr-3 h-[120px] w-[120px] rounded-xl sm:mr-0 md:h-[135px] md:w-[135px] xl:h-[150px] xl:w-[150px]"
-        src={profile.image || defaultDogProfile}
+        src={profile.imgUrl || profileImage || defaultDogProfile}
         alt="강아지 이미지"
         width={150}
         height={150}
         priority
-        onError={defaultDogProfile}
+        onError={() => setProfileImage(defaultDogProfile)}
       />
     </Card>
   );
