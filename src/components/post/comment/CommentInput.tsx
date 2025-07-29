@@ -62,7 +62,7 @@ export default function CommentInput({ postId }: { postId: number }) {
       }
 
       if (err instanceof Error) {
-        Toast.error(err.message);
+        Toast.error(err.message, true);
       } else {
         Toast.error('댓글 등록에 실패했습니다.');
       }

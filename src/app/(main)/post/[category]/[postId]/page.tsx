@@ -1,4 +1,4 @@
-import { getPostDetail } from '@/api/post';
+import { getLikeCount, getPostDetail } from '@/api/post';
 import PostDetailWrapper from '@/components/post/PostDetailWrapper';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -27,6 +27,9 @@ export default async function PostDetail({
     notFound();
   }
   const data = await getPostDetail(Number(postId));
+  const like = await getLikeCount(Number(postId));
+
+  console.log(like);
 
   return (
     <>
