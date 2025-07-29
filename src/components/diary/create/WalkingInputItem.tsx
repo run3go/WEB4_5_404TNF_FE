@@ -21,7 +21,7 @@ export default function WalkingInputItem({
       {/* start time */}
       <div className="flex flex-nowrap items-center gap-1 sm:gap-0">
         <input
-          className="input-style mr-0 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)] sm:mr-1"
+          className="input-style mr-0 w-11 py-1 text-center leading-[1.2] sm:mr-1"
           type="text"
           placeholder="시"
           maxLength={2}
@@ -31,7 +31,7 @@ export default function WalkingInputItem({
         <span className="hidden sm:mr-2 sm:block">시</span>
         <span className="mx-[2px] block sm:mx-1 sm:hidden">:</span>
         <input
-          className="input-style mr-0 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)] sm:mr-1"
+          className="input-style mr-0 w-11 py-1 text-center leading-[1.2] sm:mr-1"
           type="text"
           placeholder="분"
           maxLength={2}
@@ -46,7 +46,7 @@ export default function WalkingInputItem({
       {/* end time */}
       <div className="flex items-center gap-1 sm:gap-0">
         <input
-          className="input-style mr-0 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)] sm:mr-1"
+          className="input-style mr-0 w-11 py-1 text-center leading-[1.2] sm:mr-1"
           type="text"
           placeholder="시"
           maxLength={2}
@@ -56,7 +56,7 @@ export default function WalkingInputItem({
         <span className="hidden sm:mr-2 sm:block">시</span>
         <span className="mx-[2px] block sm:mx-1 sm:hidden">:</span>
         <input
-          className="input-style mr-1 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)]"
+          className="input-style mr-1 w-11 py-1 text-center leading-[1.2]"
           type="text"
           placeholder="분"
           maxLength={2}

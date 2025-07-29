@@ -10,9 +10,10 @@ import {
   userState,
   userStateColor,
 } from '@/assets/data/admin';
-import { format, isAfter } from 'date-fns';
+import { format } from 'date-fns';
 import Button from '../common/Button';
 import { useChangeUserState } from '@/lib/hooks/admin/useChangeUserState';
+import Confirm from '../common/Confirm';
 
 export default function AdminTable({
   type,
@@ -28,6 +29,12 @@ export default function AdminTable({
   // const status = '활성';
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [confirmOptions, setConfirmOptions] = useState<{
+    description: string;
+    confirmText: string;
+    onConfirm: () => void;
+  } | null>(null);
   const { mutate: changeState } = useChangeUserState();
 
   const handleSort = (key: string) => {
@@ -40,11 +47,18 @@ export default function AdminTable({
   };
 
   const handleActive = (userId: number) => {
-    const res = confirm('해당 유저를 활성상태로 변경하시겠습니까?');
+    setConfirmOptions({
+      description: '해당 유저를 활성상태로 변경하시겠습니까?',
+      confirmText: '확인',
+      onConfirm: () => changeState(userId),
+    });
+    setShowConfirm(true);
 
-    if (res) {
-      changeState(userId);
-    }
+    // const res = confirm('해당 유저를 활성상태로 변경하시겠습니까?');
+
+    // if (res) {
+    //   changeState(userId);
+    // }
   };
 
   return (
@@ -52,7 +66,7 @@ export default function AdminTable({
       <table>
         <thead>
           {type === 'user' ? (
-            <tr className="h-10 border-b border-[var(--color-black)]">
+            <tr className="h-10 border-b border-[var(--color-black)] dark:border-[var(--color-background)]">
               <th className="w-15 cursor-default">No</th>
               <th onClick={() => handleSort('EMAIL')} className="w-80">
                 <div className="admin-th-div">
@@ -117,7 +131,7 @@ export default function AdminTable({
               <th className="w-30">상태 변경</th>
             </tr>
           ) : (
-            <tr className="h-10 border-b border-[var(--color-black)]">
+            <tr className="h-10 border-b border-[var(--color-black)] dark:border-[var(--color-background)]">
               <th className="w-15 cursor-default">No</th>
               <th
                 onClick={() => handleSort('REPORTER_NICKNAME')}
@@ -176,7 +190,7 @@ export default function AdminTable({
               (data as UserInfo[]).map((user, i) => (
                 <tr
                   key={user.userId}
-                  className="h-10 cursor-default border-b border-[var(--color-black)]"
+                  className="h-10 cursor-default border-b border-[var(--color-black)] dark:border-[var(--color-background)]"
                 >
                   <td className="text-center">
                     {i + 1 + (currentPage - 1) * 10}
@@ -195,8 +209,7 @@ export default function AdminTable({
                     {userState[user.status]}
                   </td>
                   <td>
-                    {user.suspensionEndAt &&
-                    isAfter(new Date(user.suspensionEndAt), new Date())
+                    {user.suspensionEndAt
                       ? format(new Date(user.suspensionEndAt), 'yyyy.MM.dd')
                       : ''}
                   </td>
@@ -232,7 +245,7 @@ export default function AdminTable({
                   <tr
                     // key={report.id}
                     onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                    className="h-10 cursor-pointer border-b border-[var(--color-black)]"
+                    className="h-10 cursor-pointer border-b border-[var(--color-black)] dark:border-[var(--color-background)]"
                   >
                     <td className="text-center">
                       {i + 1 + (currentPage - 1) * 10}
@@ -280,6 +293,18 @@ export default function AdminTable({
             ))}
         </tbody>
       </table>
+
+      {showConfirm && confirmOptions && (
+        <Confirm
+          description={confirmOptions.description}
+          confirmText="확인"
+          onClose={() => setShowConfirm(false)}
+          onConfirm={() => {
+            confirmOptions.onConfirm();
+            setShowConfirm(false);
+          }}
+        />
+      )}
     </>
   );
 }

@@ -1,4 +1,5 @@
 import { acceptReport } from '@/api/admin';
+import { Toast } from '@/components/common/Toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useAcceptReport = () => {
@@ -12,12 +13,18 @@ export const useAcceptReport = () => {
       queryClient.invalidateQueries({
         queryKey: ['reportList'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['reportDetail'],
+      });
 
-      alert('처리되었습니다.');
+      // queryClient.invalidateQueries({ queryKey: ['reportList'], exact: false });
+      // queryClient.refetchQueries({ queryKey: ['reportList'], exact: false });
+
+      Toast.success('처리되었습니다.');
     },
 
     onError: () => {
-      alert('처리 중 오류가 발생했습니다.');
+      Toast.error('처리 중 오류가 발생했습니다.');
     },
   });
 };

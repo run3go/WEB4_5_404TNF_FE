@@ -76,6 +76,7 @@ export default function WriterInfo({
             alt="유저 프로필 이미지"
             fill
             className={`rounded-full`}
+            sizes="(max-width: 640px) 42px, 52px"
           />
         </div>
         <div className={`font-medium sm:space-y-1`}>

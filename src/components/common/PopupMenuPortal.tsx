@@ -37,18 +37,18 @@ export default function PopupMenuPortal({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [onClose]);
+  }, [onClose, triggerRef]);
 
   return createPortal(
     <div
       ref={ref}
       style={{ top: position.top, left: position.left }}
-      className={`absolute top-full right-[-3px] z-50 mt-2 flex w-[155px] flex-col space-y-2.5 rounded-[20px] border-[1px] border-[var(--color-primary-200)] bg-[#FFFDF7] px-[12px] py-[14px]`}
+      className={`absolute top-full right-[-3px] z-50 mt-2 flex w-[150px] flex-col space-y-2.5 rounded-[20px] border-[1px] border-[var(--color-primary-200)] bg-[var(--color-background)] px-[12px] py-[14px] dark:bg-[var(--color-dark-background)]`}
     >
       {options.map((option) => (
         <div
           key={option.label}
-          className={`flex h-[28px] w-[125px] cursor-pointer items-center justify-start gap-2 rounded-[8px] pl-2 hover:bg-[#FFCD8C]`}
+          className={`flex h-[28px] w-[125px] cursor-pointer items-center justify-start gap-2 rounded-[8px] pl-2 hover:bg-[#FFCD8C] dark:hover:text-[var(--color-black)]`}
           onClick={() => onSelect(option.label)}
         >
           <p className="pt-[3px] text-left text-[14px] font-medium">

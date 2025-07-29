@@ -121,4 +121,18 @@ export const getVaccineSchedule = async (petId: number) => {
   }
   const data = await res.json();
   return data.data;
+}
+export const createVaccineSchedule = async (petId: number) => {
+  const res = await fetch(
+    `${baseURL}/api/mypage/v1/pets/${petId}/vaccination-schedule`,
+    {
+      method: 'post',
+      credentials: 'include',
+    },
+  );
+  console.log(res);
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '백신 일정 생성 실패');
+  }
 };

@@ -68,7 +68,7 @@ export default function DiaryListSection({
   }
 
   return (
-    <ul className="scrollbar-hidden mb-10 flex flex-col gap-5 pt-2 pb-4 sm:mb-0 sm:h-[625px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:overflow-y-scroll sm:px-3 sm:pt-5">
+    <ul className="scrollbar-hidden mb-10 flex flex-col gap-5 pt-2 pb-4 sm:mb-0 sm:h-[690px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:overflow-y-scroll sm:px-3 sm:pt-5">
       {diaryList.map((item) => (
         <li
           key={item.lifeRecordId}

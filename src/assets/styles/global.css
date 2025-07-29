@@ -77,12 +77,12 @@ body {
 }
 
 .input-style {
-  @apply rounded-[12px] border border-[var(--color-input-border)] leading-[1.2] dark:border-[#8F8E8B];
+  @apply rounded-[12px] border border-[var(--color-input-border)] leading-[1.2] focus:border-[var(--color-primary-500)] focus:outline-none dark:border-[#8F8E8B];
 }
 
 /* profile */
 .profile-input-style {
-  @apply h-9 rounded-[10px] border-1 border-[var(--color-primary-300)] px-4 py-[11px] leading-[1.2] focus:outline-[var(--color-primary-500)] sm:h-11 sm:py-[14px];
+  @apply h-9 rounded-[10px] border-1 border-[var(--color-primary-300)] px-4 py-[11px] leading-[1.2] focus:border-[var(--color-primary-500)] focus:outline-none sm:h-11 sm:py-[14px];
 }
 
 .profile-radio-style {
@@ -120,11 +120,11 @@ body {
 
 /* sidebar */
 .sidebar__content {
-  @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:bg-[#FFDBAB] sm:w-[220px] sm:py-[1.3vh] sm:pl-6 dark:text-[var(--color-black)] dark:sm:text-[#fffdf7];
+  @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:bg-[#FFDBAB] sm:w-[220px] sm:py-[1.3vh] sm:pl-6 dark:text-[#fffdf7];
 }
 
 .sidebar__content-active {
-  @apply border-r-8 bg-[#FFDBAB] text-[#FF8200];
+  @apply border-r-8 bg-[#FFDBAB] text-[#FF8200] dark:text-[#FF8200];
 }
 
 .toggleSwitch {

@@ -1,5 +1,10 @@
 import SignupForm from '@/components/auth/signup/SignupForm';
 import SignupAccessControl from '@/components/common/TermsAccessControl';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '회원가입',
+};
 
 export default async function Signup() {
   return (
