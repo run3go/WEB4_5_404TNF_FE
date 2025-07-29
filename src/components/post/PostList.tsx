@@ -10,7 +10,7 @@ import SearchButton from '@/components/post/SearchButton';
 import { usePostList } from '@/lib/hooks/usePostList';
 import { useAuthStore } from '@/stores/authStoe';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 export default function PostList({
@@ -20,6 +20,7 @@ export default function PostList({
   boardType: 'free' | 'question';
   initialData: GetBoardPostsResponse;
 }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [sortType, setSortType] = useState('DATE');
   const [searchType, setSearchType] = useState('TITLE_CONTENT');
   const [inputSearchType, setInputSearchType] = useState('TITLE_CONTENT');
@@ -51,6 +52,14 @@ export default function PostList({
     setKeyword(inputKeyword);
     refetch();
   };
+
+  useEffect(() => {
+    const savedY = sessionStorage.getItem(`scrollY-${boardType}`);
+    if (savedY && scrollRef.current) {
+      scrollRef.current.scrollTo(0, parseInt(savedY));
+      sessionStorage.removeItem(`scrollY-${boardType}`);
+    }
+  }, [boardType]);
 
   return (
     <>
@@ -139,7 +148,10 @@ export default function PostList({
         </div>
 
         {/* 내부 스크롤 영역 */}
-        <div className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pt-2 pr-2 pb-[20px] sm:space-y-10 sm:px-[6.27vw]">
+        <div
+          ref={scrollRef}
+          className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pt-2 pr-2 pb-[20px] sm:space-y-10 sm:px-[6.27vw]"
+        >
           {data?.pages &&
           data.pages.some((page) => page.articleList.length > 0) ? (
             data.pages.map((page) =>
@@ -148,6 +160,7 @@ export default function PostList({
                   key={post.articleId}
                   post={post}
                   boardType={boardType}
+                  scrollRef={scrollRef}
                 />
               )),
             )
