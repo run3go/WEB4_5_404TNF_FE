@@ -11,12 +11,12 @@ export default function PostCard({
 }: {
   post: PostDetail;
   boardType: 'free' | 'question';
-  scrollRef: React.RefObject<HTMLDivElement | null>;
+  scrollRef?: React.RefObject<HTMLDivElement | null>;
 }) {
   const router = useRouter();
 
   const handleNavigate = () => {
-    const scrollY = scrollRef.current?.scrollTop ?? 0;
+    const scrollY = scrollRef?.current?.scrollTop ?? 0;
     sessionStorage.setItem(`scrollY-${boardType}`, scrollY.toString());
   };
   return (
@@ -29,7 +29,10 @@ export default function PostCard({
         }}
       >
         <div className="relative pb-7 sm:pb-[62px]">
-          <div onClick={(e) => e.stopPropagation()}>
+          <div
+            className="w-[110px] sm:w-[140px]"
+            onClick={(e) => e.stopPropagation()}
+          >
             <WriterInfo
               authorId={post.userId}
               postId={post.articleId}
