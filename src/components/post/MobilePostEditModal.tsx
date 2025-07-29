@@ -5,7 +5,7 @@ import Button from '../common/Button';
 import Icon from '../common/Icon';
 import EditImageList from './EditImageList';
 import MobileTitle from '@/components/common/MobileTitle';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useEditPost } from '@/lib/hooks/post/useEditPost';
 
 export default function MobilePostEditModal({
@@ -25,6 +25,7 @@ export default function MobilePostEditModal({
   const [pickedImages, setPickedImages] = useState<(File | string)[]>(
     postDetail?.images?.map((img) => img.savePath),
   );
+  const contentRef = useRef<HTMLTextAreaElement>(null);
 
   const postUpdateMutation = useEditPost(boardType, Number(postId), onClose);
 
@@ -73,6 +74,13 @@ export default function MobilePostEditModal({
     convertImages();
   }, [postDetail?.images]);
 
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.style.height = 'auto';
+      contentRef.current.style.height = `${contentRef.current.scrollHeight}px`;
+    }
+  }, [content]);
+
   return (
     <div className="flex h-screen flex-col bg-[var(--color-background)] dark:bg-[#2B2926]">
       <MobileTitle
@@ -87,7 +95,7 @@ export default function MobilePostEditModal({
         <p className="h-100 w-100">로딩중</p>
       ) : (
         <>
-          <div className="flex w-full flex-col gap-6">
+          <div className="scrollbar-hidden flex w-full flex-col gap-6 overflow-y-auto pb-25">
             <div className="flex w-screen justify-center gap-[15px] pt-5 pb-3">
               <Button
                 className={`board__btn ${boardType === 'QUESTION' ? '!bg-[var(--color-pink-300)]' : ''}`}
@@ -125,6 +133,7 @@ export default function MobilePostEditModal({
                 value={title}
               />
               <textarea
+                ref={contentRef}
                 className="min-h-[300px] w-full resize-none overflow-hidden border-b border-b-[#2B2926]/50 p-4 text-[12px] font-medium focus:outline-none"
                 placeholder="내용 입력"
                 onInput={(e) => {
