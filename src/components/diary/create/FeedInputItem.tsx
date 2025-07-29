@@ -1,10 +1,10 @@
 import SelectBox from '@/components/common/SelectBox';
 import Icon from '@/components/common/Icon';
+import { feedUnit } from '@/assets/data/diary';
 
 type Props = FeedEntry & {
   onChange: (field: keyof FeedEntry, value: string) => void;
   onDelete: () => void;
-  feedUnitOptions: { label: string; value: string }[];
 };
 
 export default function FeedInputItem({
@@ -14,7 +14,6 @@ export default function FeedInputItem({
   unit,
   onChange,
   onDelete,
-  feedUnitOptions,
 }: Props) {
   return (
     <div className="flex h-9 w-full shrink-0 items-center justify-between text-xs sm:text-sm">
@@ -50,7 +49,7 @@ export default function FeedInputItem({
           <SelectBox
             value={unit}
             setValue={(val) => onChange('unit', val)}
-            options={feedUnitOptions}
+            options={feedUnit}
             width="65px"
             borderColor="var(--color-primary-500)"
             isCenter

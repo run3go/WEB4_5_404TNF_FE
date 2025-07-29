@@ -3,7 +3,7 @@ import Roadmap from '@/components/guide/Roadmap';
 export default function Guide() {
   return (
     <main className="relative h-full pt-6 text-center sm:w-full sm:pt-0 md:text-sm lg:text-base xl:text-lg 2xl:text-xl">
-      <h2 className="mb-4 rounded-t-[12px] font-bold sm:mb-6 sm:bg-[var(--color-primary-200)] sm:py-5 sm:text-2xl">
+      <h2 className="mb-4 rounded-t-[12px] font-bold sm:mb-6 sm:bg-[var(--color-primary-200)] sm:py-5 sm:text-2xl dark:text-[var(--color-black)]">
         멍초보 가이드
       </h2>
       <p className="mb-4 text-xs sm:text-lg">

@@ -1,4 +1,5 @@
 import Button from '@/components/common/Button';
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
@@ -9,9 +10,11 @@ export default function NotFound() {
           <h1>냄새를 따라왔는데... 여긴 아닌가봐요.</h1>
           <h1>다시 발자국을 따라가볼까요?</h1>
         </div>
-        <Button className="w-50 bg-[var(--color-primary-300)] pb-4 text-base hover:bg-[var(--color-primary-500)] sm:h-20 sm:w-70 sm:text-2xl">
-          메인으로 가기
-        </Button>
+        <Link href={'/'}>
+          <Button className="w-50 bg-[var(--color-primary-300)] pb-4 text-base hover:bg-[var(--color-primary-500)] sm:h-20 sm:w-70 sm:text-2xl">
+            메인으로 가기
+          </Button>
+        </Link>
       </div>
     </>
   );

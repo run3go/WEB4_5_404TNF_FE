@@ -1,4 +1,5 @@
 import { getMyUserInfo } from '@/api/user';
+import d_defaultProfile from '@/assets/images/dark-default-profile.svg';
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
@@ -67,6 +68,13 @@ export default function UserProfile({
         <Image
           className="h-20 w-20 rounded-full object-cover sm:h-40 sm:w-40"
           src={profile?.imgUrl || userProfile.imgUrl || defaultProfile}
+          alt="프로필 이미지"
+          width={160}
+          height={160}
+        />
+        <Image
+          className="hidden h-20 w-20 rounded-full sm:h-40 sm:w-40 dark:block"
+          src={profile?.imgUrl || userProfile.imgUrl || d_defaultProfile}
           alt="프로필 이미지"
           width={160}
           height={160}

@@ -23,8 +23,8 @@ export default function DiaryProfile({
 }: Props) {
   const profileImg = imageUrl || defaultProfile;
   return (
-    <Card className="m-0 w-full p-0 sm:p-0">
-      <h3 className="cursor-default rounded-t-[12px] bg-[var(--color-primary-300)] py-2 text-center text-base sm:text-lg">
+    <Card className="m-0 w-full p-0 sm:p-0 dark:bg-[var(--color-black)]">
+      <h3 className="cursor-default rounded-t-[12px] bg-[var(--color-primary-500)] py-2 text-center text-base sm:text-lg">
         {name}
       </h3>
       <div className="flex gap-8 px-6 py-4">

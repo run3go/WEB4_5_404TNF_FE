@@ -1,13 +1,13 @@
 'use client';
+import { format } from 'date-fns';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import alternative from '../../assets/images/alternative-image.svg';
 import Card from '../common/Card';
 import Icon from '../common/Icon';
 import AddSchedule from './AddSchedule';
 import TodoItem from './TodoItem';
-import { format } from 'date-fns';
-import Image from 'next/image';
-import alternative from '../../assets/images/alternative-image.svg';
 
 export default function TodoList({
   type,
@@ -67,7 +67,7 @@ export default function TodoList({
           className="absolute inset-0 z-500 bg-[var(--color-black)] opacity-50"
           onClick={closeModal}
         />
-        <div className="absolute top-1/2 left-1/2 z-501 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8">
+        <div className="absolute top-1/2 left-1/2 z-501 h-[348px] w-4/5 max-w-250 -translate-x-1/2 -translate-y-1/2 rounded-[30px] border-4 border-[var(--color-primary-200)] bg-[var(--color-background)] p-5 sm:h-[472px] sm:w-[570px] sm:p-8 dark:bg-[var(--color-dark-background)]">
           <div className="mb-6 flex w-full items-center justify-between pr-2">
             <h2 className="cursor-default text-base font-extrabold">
               {formattedDate} 일정

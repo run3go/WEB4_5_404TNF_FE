@@ -19,6 +19,7 @@ export const login = async (email: string, password: string) => {
 export const adminLogin = async (email: string, password: string) => {
   const res = await fetch(`${baseURL}/api/auth/v1/admin/login`, {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });

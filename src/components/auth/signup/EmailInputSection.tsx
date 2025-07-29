@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { validateEmail } from '@/lib/utils/validation';
 import { useEmailCheck } from '@/lib/hooks/useEmailCheck';
+import { validateEmail } from '@/lib/utils/validation';
+import { useState } from 'react';
 import CountdownTimer from './CountdownTimer';
 
 export default function EmailInputSection({
@@ -105,6 +105,7 @@ export default function EmailInputSection({
         }`}
         placeholder="example@example.com"
         value={email}
+        autoComplete="off"
         onChange={(e) => handleChange(e.target.value.trim())}
         onBlur={() => {
           setTouched(true);
@@ -137,7 +138,7 @@ export default function EmailInputSection({
               type="button"
               disabled={!verificationCode || isTimerExpired}
               onClick={handleVerifyCode}
-              className="mt-2 flex h-[40px] w-[86px] shrink-0 cursor-pointer items-center justify-center rounded-[12px] bg-[#FFDBAB] px-7 py-4 text-[14px] text-[#2B2926] disabled:bg-[#2B2926]/20 disabled:text-[#909090] sm:h-[52px]"
+              className="mt-2 flex h-[40px] w-[86px] shrink-0 cursor-pointer items-center justify-center rounded-[12px] bg-[#FFDBAB] px-7 py-4 text-[14px] text-[#2B2926] disabled:bg-[#2B2926]/20 disabled:text-[#909090] sm:h-[52px] dark:disabled:bg-[#4f4f4f]"
             >
               확인
             </button>
