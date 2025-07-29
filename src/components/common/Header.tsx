@@ -1,7 +1,9 @@
 'use client';
 
+import { getNotifications } from '@/api/notification';
 import user_default_image from '@/assets/images/default-profile.svg';
 import { useAuthStore } from '@/stores/authStoe';
+import { useNotificationStore } from '@/stores/Notification';
 import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,8 +12,6 @@ import NotificationModal from '../notification/NotificationModal';
 import Button from './Button';
 import Card from './Card';
 import Icon from './Icon';
-import { useNotificationStore } from '@/stores/Notification';
-import { getNotifications } from '@/api/notification';
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -111,7 +111,7 @@ export default function Header() {
           </Link>
         )}
       </div>
-      <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-center rounded-none bg-[var(--color-background)] px-4 sm:hidden dark:bg-[var(--color-black)]">
+      <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-between rounded-none bg-[var(--color-background)] px-6 sm:hidden dark:bg-[var(--color-black)]">
         <Icon
           className="cursor-pointer"
           onClick={open}
