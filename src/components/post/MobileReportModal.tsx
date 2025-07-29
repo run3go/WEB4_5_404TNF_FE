@@ -34,10 +34,19 @@ export default function MobileReportModal({
       setReason('');
       Toast.success('신고에 성공했습니다.');
     },
+    onError: (error) => {
+      onClose();
+      if (error instanceof Error) {
+        Toast.error(error.message);
+      } else {
+        Toast.error('신고 중 오류가 발생했습니다.');
+      }
+    },
   });
 
   const handleReport = () => {
     if (reportMutation.isPending) return;
+    if (reason.trim() === '') return;
     reportMutation.mutate({
       reporterId: userInfo!.userId,
       reportedId,
@@ -86,7 +95,7 @@ export default function MobileReportModal({
             className="scrollbar-hidden min-h-[200px] w-full resize-none overflow-y-auto rounded-[12px] border border-[#2B2926]/50 p-3 placeholder:text-[#909090] focus:outline-none dark:border-[#FFFDF7]/50"
             placeholder="내용을 입력해주세요"
             value={reason}
-            onChange={(e) => setReason(e.target.value.trim())}
+            onChange={(e) => setReason(e.target.value)}
           />
         </div>
       </div>
@@ -94,7 +103,7 @@ export default function MobileReportModal({
       <div className="mt-8 flex justify-center" onClick={handleReport}>
         <Button
           className="h-[48px] w-[140px] text-[14px] disabled:bg-[#2B2926]/20 disabled:text-[#909090]"
-          disabled={reason.length === 0}
+          disabled={reason.trim().length === 0}
         >
           신고하기
         </Button>
