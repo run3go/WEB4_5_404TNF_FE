@@ -10,6 +10,7 @@ import DiaryProfile from './DiaryProfile';
 import DiaryOptionsMenu from './DiaryOptionsMenu';
 import symbol from '@/assets/images/alternative-image.svg';
 import Confirm from '../common/Confirm';
+import Loading from '../common/Loading';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useGetDiaryDetail } from '@/lib/hooks/diary/api/useGetDiaryDetail';
@@ -90,16 +91,7 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
     };
   }, [isMenuOpen]);
 
-  if (isLoading)
-    // temporary loading spinner
-    return (
-      <div className="flex h-full flex-col items-center justify-center gap-1">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--color-primary-500)] border-t-transparent" />
-        <span className="text-sm text-[var(--color-grey)]">
-          잠시만 기다려주세요.
-        </span>
-      </div>
-    );
+  if (isLoading) return <Loading className="size-[320px] sm:size-[500px]" />;
   if (error || !data) {
     return (
       <div className="flex h-full w-full flex-col items-center justify-center gap-2 py-64 sm:gap-3 sm:py-0">
