@@ -86,7 +86,6 @@ export default function TodoItem({
 
   // 일정 삭제
   const deleteTodo = (cycleLink: boolean) => {
-    console.log(schedule?.scheduleId, cycleLink);
     if (schedule?.scheduleId) {
       deleteSchedule({
         scheduleId: schedule?.scheduleId,
