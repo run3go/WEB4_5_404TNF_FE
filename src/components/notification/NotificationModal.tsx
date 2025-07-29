@@ -69,10 +69,11 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
     if (!notification.targetId) return;
 
     if (!notification.boardType) {
+      onClose();
       router.push('/schedule');
       return;
     }
-
+    onClose();
     router.push(
       `/post/${notification.boardType?.toLowerCase()}/${notification.targetId}`,
     );
@@ -97,12 +98,12 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
   return (
     <div
       ref={modalRef}
-      className="absolute top-full right-0 z-50 mt-2 flex h-[360px] w-[360px] flex-col rounded-lg border border-[var(--color-primary-200)] bg-[var(--color-background)] p-4 shadow-lg"
+      className="absolute top-full right-0 z-50 mt-2 flex h-[360px] w-[360px] flex-col rounded-lg border border-[var(--color-primary-200)] bg-[var(--color-background)] p-4 shadow-lg dark:border-[3px] dark:bg-[#343434]"
     >
       <div className="flex items-center justify-between p-2">
         <p className="cursor-default text-lg font-bold">Notification</p>
         <p
-          className="cursor-pointer text-xs text-[var(--color-grey)]"
+          className="cursor-pointer text-xs text-[var(--color-grey)] dark:text-[#FFFDF7]/70"
           onClick={async () => {
             removeNotificationsMutation.mutateAsync();
           }}
@@ -127,14 +128,20 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
               key={notification.notiId}
               className="relative w-full rounded-xl text-sm"
             >
-              <div className="group flex cursor-pointer items-center rounded-xl p-2 transition-colors duration-300 ease-in-out hover:bg-[color:var(--color-primary-200)]">
+              <div className="group flex cursor-pointer items-center rounded-xl p-2 transition-colors duration-300 ease-in-out hover:bg-[color:var(--color-primary-200)] hover:dark:text-[#2B2926]">
                 <div
                   className="flex w-full items-center"
                   onClick={() => {
                     handleNotificationClick(notification);
                   }}
                 >
-                  <Icon width="16px" height="14px" left="-26px" top="-79px" />
+                  <Icon
+                    width="16px"
+                    height="14px"
+                    left="-26px"
+                    top="-79px"
+                    className="group-hover:dark:bg-[url('/images/sprite.svg')]"
+                  />
                   <p
                     className={`h-auto w-full truncate overflow-hidden pl-2 leading-[1.4] whitespace-nowrap group-hover:pr-6 ${notification.isRead ? 'text-[#909090] line-through' : ''}`}
                   >
@@ -146,7 +153,7 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
                   height="14px"
                   left="-151px"
                   top="-79px"
-                  className="absolute right-2 hidden group-hover:block"
+                  className="absolute right-2 hidden group-hover:block dark:bg-[url('/images/sprite.svg')]"
                   onClick={() => {
                     removeNotificationMutation.mutateAsync({
                       notiId: notification.notiId,
