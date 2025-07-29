@@ -115,7 +115,7 @@ export default function CommentList({
       }
 
       if (err instanceof Error) {
-        Toast.error(err.message);
+        Toast.error(err.message, true);
       } else {
         Toast.error('댓글 수정에 실패했습니다.');
       }
