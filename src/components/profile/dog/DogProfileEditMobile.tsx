@@ -18,11 +18,11 @@ import { handleError } from '@/lib/utils/handleError';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useQueryClient } from '@tanstack/react-query';
-import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import DateField from '../DateField';
+import ImageField from '../ImageField';
 import InputField from '../InputField';
 import RadioGroupField from '../RadioGroupField';
 
@@ -82,9 +82,16 @@ export default function DogProfileEditMobile() {
     toggleEditingPetProfile();
   };
 
+  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setValue('image', e.target.files[0]);
+      setImageUrl(window.URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
   return (
     <main className="w-screen">
-      <div className="relative h-full bg-[var(--color-background)] px-6 py-9 text-sm">
+      <div className="relative h-full bg-[var(--color-background)] px-6 py-9 text-sm dark:bg-[var(--color-black)]">
         <form
           className="flex flex-col"
           onSubmit={handleSubmit(onSubmit, handleError)}
@@ -92,38 +99,20 @@ export default function DogProfileEditMobile() {
           <MobileTitle
             title="반려견 등록"
             onClick={() => {
-              handleSubmit(onSubmit);
+              console.log('hi');
+              handleSubmit(onSubmit, handleError);
             }}
             closePage={() => {
               toggleEditingPetProfile();
               selectPet(null);
             }}
+            isSubmit
           />
-          <label
-            className="mb-9 flex flex-col items-center gap-4"
-            htmlFor="image"
-          >
-            <Image
-              className="h-25 w-25 rounded-full object-cover"
-              src={imageUrl}
-              alt="강아지 프로필"
-              width={100}
-              height={100}
-              priority
-            />
-            <span className="text-[var(--color-grey)]">사진 선택하기</span>
-          </label>
-          <input
-            className="hidden"
-            id="image"
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              if (e.target.files) {
-                setValue('image', e.target.files[0]);
-                setImageUrl(window.URL.createObjectURL(e.target.files[0]));
-              }
-            }}
+          <ImageField
+            alt="강아지 프로필"
+            image={imageUrl}
+            handleImage={handleImage}
+            isMobile
           />
           <div className="flex flex-col justify-between gap-20 pb-3">
             <div className="w-full">

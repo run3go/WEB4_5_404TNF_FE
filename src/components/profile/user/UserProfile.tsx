@@ -1,4 +1,5 @@
 import { getMyUserInfo } from '@/api/user';
+import d_defaultProfile from '@/assets/images/dark-default-profile.svg';
 import defaultProfile from '@/assets/images/default-profile.svg';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
@@ -63,10 +64,17 @@ export default function UserProfile({
           <span className="text-[var(--color-grey)]">수정</span>
         </button>
       )}
-      <div className="mt-7 flex gap-2 sm:gap-7">
+      <div className="mt-7 flex items-center gap-4 sm:gap-7">
         <Image
-          className="h-24 w-24 rounded-full sm:h-40 sm:w-40"
+          className="h-20 w-20 rounded-full object-cover sm:h-40 sm:w-40 dark:hidden"
           src={profile?.imgUrl || userProfile.imgUrl || defaultProfile}
+          alt="프로필 이미지"
+          width={160}
+          height={160}
+        />
+        <Image
+          className="hidden h-20 w-20 rounded-full object-cover sm:h-40 sm:w-40 dark:block"
+          src={profile?.imgUrl || userProfile.imgUrl || d_defaultProfile}
           alt="프로필 이미지"
           width={160}
           height={160}

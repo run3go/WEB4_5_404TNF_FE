@@ -1,52 +1,56 @@
-import { modifyUserInfo, resignAccount } from '@/api/user';
+import { resignAccount } from '@/api/user';
 import defaultProfile from '@/assets/images/default-profile.svg';
-import { useUserProfile } from '@/lib/hooks/profile/useProfiles';
+import Confirm from '@/components/common/Confirm';
+import { Toast } from '@/components/common/Toast';
+import {
+  useModifyUserMutation,
+  useUserProfile,
+} from '@/lib/hooks/profile/useProfiles';
 import { usePassword } from '@/lib/hooks/usePassword';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
-import { useQueryClient } from '@tanstack/react-query';
-import Image from 'next/image';
+
+import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 import Icon from '../../common/Icon';
 import MobileTitle from '../../common/MobileTitle';
+import ImageField from '../ImageField';
 import NicknameField from './NicknameField';
 import PasswordField from './PasswordField';
 
 export default function UserProfileEditMobile() {
+  const router = useRouter();
+
   const profileStore = useProfileStore();
   const userInfo = useAuthStore((state) => state.userInfo);
   const { data: profile } = useUserProfile(String(userInfo?.userId), true);
+
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState(profile?.imgUrl);
-  const [formData, setFormData] = useState<{
-    image: File | null;
-    nickname: string;
-    password: string;
-  }>({
+  const [formData, setFormData] = useState<UserFormdata>({
     image: null,
     nickname: userInfo!.nickname,
     password: '',
   });
 
+  const { mutate: modifyMutate } = useModifyUserMutation(
+    userInfo,
+    profileStore.toggleEditingUserProfile,
+  );
   const passwordHook = usePassword((value) =>
     setFormData((prev) => ({ ...prev, password: value })),
   );
-  const queryClient = useQueryClient();
 
   const onSubmit = async () => {
     if (passwordHook.password && !passwordHook.isMatched) {
       alert('현재 비밀번호가 일치하는지 확인해주세요');
       return;
     }
-    console.log(passwordHook.password, passwordHook.confirmPassword);
     if (!passwordHook.isConfirmMatched) {
       alert('새 비밀번호가 일치하지 않아요');
       return;
     }
-    await modifyUserInfo(formData);
-    await queryClient.invalidateQueries({
-      queryKey: ['user', userInfo?.userId],
-    });
-    profileStore.toggleEditingUserProfile();
+    modifyMutate(formData);
   };
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,13 +64,29 @@ export default function UserProfileEditMobile() {
   };
 
   const handleResign = async () => {
-    await resignAccount();
+    try {
+      await resignAccount();
+      router.push('/');
+    } catch (err) {
+      console.error(err);
+      Toast.error('회원 탈퇴에 실패했습니다!');
+    } finally {
+      Toast.success('회원 탈퇴에 성공했습니다!');
+    }
   };
 
   if (!profile) return;
   return (
     <div className="w-screen">
-      <div className="relative h-full bg-[var(--color-background)] px-6 py-9 text-sm">
+      {isConfirmOpen && (
+        <Confirm
+          confirmText="탈퇴"
+          description="정말 탈퇴하시겠습니까?"
+          onClose={() => setIsConfirmOpen(false)}
+          onConfirm={handleResign}
+        />
+      )}
+      <div className="relative h-full bg-[var(--color-background)] px-6 py-9 text-sm dark:bg-[var(--color-black)]">
         <form className="flex flex-col" onSubmit={onSubmit}>
           <MobileTitle
             title="프로필 수정"
@@ -77,27 +97,11 @@ export default function UserProfileEditMobile() {
               profileStore.toggleEditingUserProfile();
             }}
           />
-          <label
-            className="group mb-9 flex cursor-pointer flex-col items-center gap-4 self-center"
-            htmlFor="userImage"
-          >
-            <Image
-              className="h-25 w-25 rounded-full object-cover"
-              src={imageUrl || profile.imgUrl || defaultProfile}
-              alt="유저 프로필"
-              width={100}
-              height={100}
-              priority
-            />
-            <span className="text-[var(--color-grey)] group-hover:text-[var(--color-black)]">
-              사진 선택하기
-            </span>
-          </label>
-          <input
-            className="hidden"
-            id="userImage"
-            type="file"
-            onChange={handleImage}
+          <ImageField
+            alt="유저 프로필"
+            image={imageUrl || profile.imgUrl || defaultProfile}
+            isMobile
+            handleImage={handleImage}
           />
           <div className="mb-8 flex basis-1/2 flex-col gap-5">
             <span>이메일</span>
@@ -125,8 +129,8 @@ export default function UserProfileEditMobile() {
           <PasswordField passwordHook={passwordHook} />
           <button
             type="button"
-            className="mt-20 mb-6 self-end text-[var(--color-grey)]"
-            onClick={handleResign}
+            className="mt-20 mb-6 cursor-pointer self-end text-[var(--color-grey)] hover:text-[var(--color-black)]"
+            onClick={() => setIsConfirmOpen(true)}
           >
             회원 탈퇴
           </button>

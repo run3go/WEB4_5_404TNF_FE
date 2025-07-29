@@ -10,7 +10,7 @@ import { twMerge } from 'tailwind-merge';
 import Button from '../common/Button';
 import DogProfileEditMobile from './dog/DogProfileEditMobile';
 import DogProfileList from './dog/DogProfileList';
-import PostWrapper from './PostWrapper';
+import PostWrapper from './post/PostWrapper';
 import UserProfile from './user/UserProfile';
 import UserProfileEditMobile from './user/UserProfileEditMobile';
 
@@ -50,7 +50,7 @@ export default function ProfileClient({
     if (isEditingUser) return <UserProfileEditMobile />;
   }
   return (
-    <main className="scrollbar-hidden relative h-full w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17">
+    <main className="scrollbar-hidden relative h-full w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17 dark:bg-[var(--color-black)]">
       <h1 className="mb-15 hidden text-center text-3xl sm:block">
         <strong>{userProfile.nickname}</strong>
         님의 페이지

@@ -11,7 +11,7 @@ export default function BarGraph({ walking }: { walking: DashboardWalking }) {
     const dataset = walking;
     const maxData = Math.max(...dataset.map((d) => d.time));
     const width = 175;
-    const height = 560;
+    const height = 535;
     const barHeight = 46;
     const barSpacing = 16;
 
