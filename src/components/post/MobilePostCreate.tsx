@@ -104,7 +104,7 @@ export default function MobilePostCreate({
               e.currentTarget.style.height = 'auto';
               e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
             }}
-            onChange={(e) => setContent(e.target.value.trim())}
+            onChange={(e) => setContent(e.target.value)}
           />
         </div>
 
