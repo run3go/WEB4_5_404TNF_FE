@@ -101,7 +101,7 @@ export const acceptReport = async (acceptInfo: AcceptInfo) => {
     if (!res.ok) {
       throw new Error('Failed to accept report');
     }
-    const data = await res.json();
+    const data = res;
     return data;
   } catch (err) {
     console.log(err);
@@ -129,7 +129,7 @@ export const rejectReport = async (rejectInfo: RejectInfo) => {
     if (!res.ok) {
       throw new Error('Failed to reject report');
     }
-    const data = await res.json();
+    const data = res;
     return data;
   } catch (err) {
     console.error(err instanceof Error ? err.message : 'unknown error');
@@ -189,7 +189,7 @@ export const changeUserState = async (userId: number) => {
     if (!res.ok) {
       throw new Error('Failed to reject report');
     }
-    const data = await res.json();
+    const data = res;
     return data;
   } catch (err) {
     console.error(err instanceof Error ? err.message : 'unknown error');

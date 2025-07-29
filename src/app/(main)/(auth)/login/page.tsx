@@ -1,4 +1,9 @@
 import LoginForm from '@/components/auth/login/LoginForm';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '로그인',
+};
 
 export default async function Login() {
   return (

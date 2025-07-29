@@ -52,7 +52,7 @@ export default function ChatbotWrapper({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-300 flex flex-col border border-[var(--color-primary-500)] bg-[var(--color-background)] sm:absolute sm:inset-auto sm:right-20 sm:bottom-5 sm:h-150 sm:w-100 sm:rounded-[20px]"
+      className="fixed inset-0 z-300 flex flex-col border-[var(--color-primary-500)] bg-[var(--color-background)] sm:absolute sm:inset-auto sm:right-20 sm:bottom-5 sm:h-150 sm:w-100 sm:rounded-[22px] sm:border dark:bg-[var(--color-black)] dark:text-[var(--color-black)]"
       ref={modalRef}
     >
       <div className="flex w-full items-center justify-between bg-[var(--color-primary-200)] px-6 py-[14px] sm:rounded-t-[20px]">
@@ -61,10 +61,10 @@ export default function ChatbotWrapper({ onClose }: { onClose: () => void }) {
           <h2 className="font-bold">멍멍이</h2>
         </div>
         <Icon
-          className="cursor-pointer justify-self-end sm:hidden"
-          width="16px"
-          height="10px"
-          left="-230px"
+          className="cursor-pointer justify-self-end dark:bg-[url('/images/sprite.svg')]"
+          width="12px"
+          height="12px"
+          left="-72px"
           top="-126px"
           onClick={onClose}
         />

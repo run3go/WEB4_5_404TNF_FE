@@ -5,6 +5,7 @@ import user_default_image from '@/assets/images/default-profile.svg';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createComment } from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
+import { Toast } from '@/components/common/Toast';
 
 export default function CommentInput({ postId }: { postId: number }) {
   const [comment, setComment] = useState('');
@@ -59,21 +60,26 @@ export default function CommentInput({ postId }: { postId: number }) {
           context.previousData,
         );
       }
+      Toast.error('댓글 등록에 실패했습니다.');
     },
     onSettled: (_data, _error, variables) => {
       if (variables) {
         queryClient.invalidateQueries({
           queryKey: ['comment-list', variables.postId],
         });
+        queryClient.invalidateQueries({
+          queryKey: ['comment-count', variables.postId],
+        });
       }
-    },
-    onSuccess: () => {
-      console.log('댓글 등록완료');
     },
   });
 
   const handleSubmit = () => {
-    if (createCommentMutation.isPending || !comment) return;
+    if (createCommentMutation.isPending) return;
+    if (comment.trim().length === 0) {
+      Toast.error('댓글을 입력해주세요');
+      return;
+    }
     setComment('');
     createCommentMutation.mutate({ postId, comment });
   };
@@ -84,12 +90,12 @@ export default function CommentInput({ postId }: { postId: number }) {
       <div className="hidden flex-col items-end gap-5 sm:flex">
         <Card className="min-h-[120px] w-full p-5">
           <textarea
-            className="h-full w-full resize-none text-[18px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
+            className="h-full w-full resize-none text-[18px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none dark:text-[#FFFDF7]"
             onInput={(e) => {
               e.currentTarget.style.height = 'auto';
               e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
             }}
-            onChange={(e) => setComment(e.target.value.trim())}
+            onChange={(e) => setComment(e.target.value)}
             value={comment}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
@@ -114,7 +120,7 @@ export default function CommentInput({ postId }: { postId: number }) {
             e.currentTarget.style.height = 'auto';
             e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
           }}
-          onChange={(e) => setComment(e.target.value.trim())}
+          onChange={(e) => setComment(e.target.value)}
           value={comment}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {

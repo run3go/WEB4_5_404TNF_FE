@@ -10,14 +10,6 @@ export default function BarChart({
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    // const dataset = [
-    //   { label: '3월', value: 100 },
-    //   { label: '4월', value: 80 },
-    //   { label: '5월', value: 90 },
-    //   { label: '6월', value: 60 },
-    //   { label: '7월', value: 70 },
-    // ];
-
     if (!data || data.length === 0) {
       select(svgRef.current).selectAll('*').remove();
       return;
@@ -39,6 +31,8 @@ export default function BarChart({
       .append('div')
       .attr('class', 'tooltip')
       .style('position', 'absolute')
+      .style('left', '-9999px')
+      .style('top', '-9999px')
       .style('background', '#fff')
       .style('border', '1px solid #ccc')
       .style('padding', '6px 8px')
@@ -89,8 +83,11 @@ export default function BarChart({
       .on('mouseout', handleMouseOut)
       .transition()
       .duration(1000)
-      .attr('y', (d) => y(d.value))
-      .attr('height', (d) => y(0) - y(d.value));
+      .attr('y', (d) => {
+        const barHeight = Math.max(2, y(0) - y(d.value));
+        return y(0) - barHeight;
+      })
+      .attr('height', (d) => Math.max(2, y(0) - y(d.value)));
 
     return () => {
       tooltip.remove();

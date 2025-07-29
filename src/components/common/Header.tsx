@@ -1,19 +1,24 @@
 'use client';
 
+import { getNotifications } from '@/api/notification';
 import user_default_image from '@/assets/images/default-profile.svg';
 import { useAuthStore } from '@/stores/authStoe';
+import { useNotificationStore } from '@/stores/Notification';
 import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import NotificationModal from '../notification/NotificationModal';
 import Button from './Button';
 import Card from './Card';
 import Icon from './Icon';
-import { useNotificationStore } from '@/stores/Notification';
-import { getNotifications } from '@/api/notification';
 
 export default function Header() {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 767px)',
+  });
+
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isNewNotificaton, setIsNewNotification] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -81,11 +86,11 @@ export default function Header() {
                 />
                 {isNewNotificaton && (
                   <div className="absolute top-[2px] right-[8px]">
-                    <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500"></p>
+                    <p className="flex h-2 w-2 items-center justify-center rounded-full bg-[var(--color-red)]"></p>
                   </div>
                 )}
               </div>
-              {isNotificationOpen && (
+              {!isMobile && isNotificationOpen && (
                 <NotificationModal
                   onClose={() => setIsNotificationOpen(false)}
                 />
@@ -99,6 +104,7 @@ export default function Header() {
                   alt="유저 프로필"
                   fill
                   priority
+                  sizes="36px"
                 />
               </div>
             </Link>
@@ -111,7 +117,7 @@ export default function Header() {
           </Link>
         )}
       </div>
-      <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-center rounded-none bg-[var(--color-background)] px-4 sm:hidden dark:bg-[var(--color-black)]">
+      <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-between rounded-none bg-[var(--color-background)] px-6 sm:hidden dark:bg-[var(--color-black)]">
         <Icon
           className="cursor-pointer"
           onClick={open}
@@ -146,7 +152,7 @@ export default function Header() {
               className="cursor-pointer"
             />
           </div>
-          {isNotificationOpen && (
+          {isMobile && isNotificationOpen && (
             <NotificationModal onClose={() => setIsNotificationOpen(false)} />
           )}
         </div>

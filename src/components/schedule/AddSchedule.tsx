@@ -10,6 +10,7 @@ import Button from '../common/Button';
 import DateInput from '../common/DateInput';
 import Icon from '../common/Icon';
 import Loading from '../common/Loading';
+import { Toast } from '../common/Toast';
 import SelectBox from '../common/SelectBox';
 
 export default function AddSchedule({
@@ -68,33 +69,31 @@ export default function AddSchedule({
   const handleSubmit = () => {
     // 필수값들 확인 후 alert
     if (name.length === 0) {
-      alert('일정을 입력해주세요.');
+      Toast.error('일정을 입력해주세요.');
       return;
     }
 
     if (!date) {
-      alert('날짜를 입력해주세요.');
+      Toast.error('날짜를 입력해주세요.');
       return;
     }
 
     if (cycle !== 'NONE') {
       if (!cycleEnd) {
-        alert('반복 종료일을 입력해주세요');
+        Toast.error('반복 종료일을 입력해주세요');
         return;
       }
 
       const checkDate = isBefore(cycleEnd, date);
 
       if (checkDate) {
-        alert('반복 종료일은 일정 날짜 이후로 선택해주세요.');
+        Toast.error('반복 종료일은 일정 날짜 이후로 선택해주세요.');
         return;
       }
     }
 
     if (userInfo) {
       if (isEdit && schedule) {
-        console.log(cycle, date);
-
         updateSchedule({
           scheduleId: schedule.scheduleId,
           petId: Number(petId),
@@ -103,9 +102,9 @@ export default function AddSchedule({
           cycleLink,
           cycle,
           cycleEnd:
-            cycle !== 'NONE'
-              ? format(cycleEnd!, 'yyyy-MM-dd')
-              : format(date, 'yyyy-MM-dd'),
+            cycle === 'NONE'
+              ? format(addMonths(date, 3), 'yyyy-MM-dd')
+              : format(cycleEnd!, 'yyyy-MM-dd'),
         });
       } else {
         createSchedule({

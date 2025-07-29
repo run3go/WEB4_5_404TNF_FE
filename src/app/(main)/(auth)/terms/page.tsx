@@ -1,5 +1,10 @@
 import { TERMS } from '@/assets/data/terms';
 import TermsAgreement from '@/components/auth/terms/TermsAgreement';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '이용약관 동의',
+};
 
 export default async function Terms() {
   return (
