@@ -83,7 +83,7 @@ export default function DiaryClient() {
       </div>
       {/* mobile: post button */}
       <div
-        className="fixed right-4 bottom-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:hidden"
+        className="fixed right-4 bottom-19 flex h-13 w-13 items-center justify-center rounded-full bg-[var(--color-primary-200)] sm:hidden"
         onClick={() => {
           if (pets.length === 0) {
             setShowConfirm(true);
@@ -92,7 +92,7 @@ export default function DiaryClient() {
           }
         }}
       >
-        <Icon width="20px" height="20px" left="-266px" top="-75px" />
+        <Icon width="22px" height="22px" left="-401px" top="-445px" />
       </div>
       {showConfirm && (
         <Confirm

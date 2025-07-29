@@ -15,14 +15,14 @@ export default function ChatbotIcon() {
   if (userInfo)
     return (
       <>
-        <div className="absolute right-10 bottom-10 flex h-13 w-13 items-center justify-center rounded-full transition-colors">
+        <div className="absolute right-4 bottom-4 flex h-13 w-13 items-center justify-center rounded-full transition-colors sm:right-10 sm:bottom-10">
           <div
-            className="flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] hover:bg-[var(--color-primary-500)]"
+            className="flex h-13 w-13 cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-200)] hover:bg-[var(--color-primary-300)]"
             onClick={() => {
               setIsModalOpen(true);
             }}
           >
-            <Icon width="24px" height="21px" left="-66px" top="-447px" />
+            <Icon width="27px" height="27px" left="-324px" top="-444px" />
           </div>
           {isModalOpen && <ChatbotWrapper onClose={handleClose} />}
         </div>
