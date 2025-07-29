@@ -1,10 +1,20 @@
+'use client';
 import { SEARCH_LIST, SORT } from '@/assets/data/post';
 import Icon from '@/components/common/Icon';
+import LoadingUI from '@/components/common/Loading';
 import SelectBox from '@/components/common/SelectBox';
 import LoadingButton from '@/components/post/LoadingButton';
 import PostCardSkeleton from '@/components/post/PostCardSkeleton';
+import { usePathname } from 'next/navigation';
 
 export default function Loading() {
+  const pathname = usePathname();
+  if (pathname !== '/post/question' && pathname !== '/post/free')
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <LoadingUI />
+      </div>
+    );
   return (
     <>
       <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-full sm:px-0 dark:bg-[#2B2926]">
