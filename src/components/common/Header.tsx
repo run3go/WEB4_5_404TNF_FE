@@ -81,7 +81,7 @@ export default function Header() {
                 />
                 {isNewNotificaton && (
                   <div className="absolute top-[2px] right-[8px]">
-                    <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500"></p>
+                    <p className="flex h-2 w-2 items-center justify-center rounded-full bg-[var(--color-red)]"></p>
                   </div>
                 )}
               </div>
