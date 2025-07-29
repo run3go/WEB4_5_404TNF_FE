@@ -72,13 +72,14 @@ export default function CommentInput({ postId }: { postId: number }) {
         });
       }
     },
-    onSuccess: () => {
-      console.log('댓글 등록완료');
-    },
   });
 
   const handleSubmit = () => {
-    if (createCommentMutation.isPending || !comment) return;
+    if (createCommentMutation.isPending) return;
+    if (comment.trim().length === 0) {
+      Toast.error('댓글을 입력해주세요');
+      return;
+    }
     setComment('');
     createCommentMutation.mutate({ postId, comment });
   };
@@ -94,7 +95,7 @@ export default function CommentInput({ postId }: { postId: number }) {
               e.currentTarget.style.height = 'auto';
               e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
             }}
-            onChange={(e) => setComment(e.target.value.trim())}
+            onChange={(e) => setComment(e.target.value)}
             value={comment}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
@@ -119,7 +120,7 @@ export default function CommentInput({ postId }: { postId: number }) {
             e.currentTarget.style.height = 'auto';
             e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
           }}
-          onChange={(e) => setComment(e.target.value.trim())}
+          onChange={(e) => setComment(e.target.value)}
           value={comment}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
