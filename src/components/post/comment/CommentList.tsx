@@ -104,12 +104,18 @@ export default function CommentList({
 
       return { previousData };
     },
-    onError: (_err, post, context) => {
+    onError: (err, post, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(
           ['comment-list', post.postId],
           context.previousData,
         );
+      }
+
+      if (err instanceof Error) {
+        Toast.error(err.message);
+      } else {
+        Toast.error('댓글 수정에 실패했습니다.');
       }
     },
     onSettled: (_data, _error, variables) => {

@@ -53,14 +53,19 @@ export default function CommentInput({ postId }: { postId: number }) {
 
       return { previousData };
     },
-    onError: (_err, post, context) => {
+    onError: (err, post, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(
           ['comment-list', post.postId],
           context.previousData,
         );
       }
-      Toast.error('댓글 등록에 실패했습니다.');
+
+      if (err instanceof Error) {
+        Toast.error(err.message);
+      } else {
+        Toast.error('댓글 등록에 실패했습니다.');
+      }
     },
     onSettled: (_data, _error, variables) => {
       if (variables) {
