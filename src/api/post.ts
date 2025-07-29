@@ -291,3 +291,37 @@ export const cancelLike = async (postId: number) => {
 
   return data;
 };
+
+export const getLikeCount = async (postId: number) => {
+  const res = await fetch(
+    `${baseURL}/api/community/articles/v1/${postId}/like`,
+    {
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '좋아요 요청 실패');
+  }
+
+  return data;
+};
+
+export const getCommentCount = async (postId: number) => {
+  const res = await fetch(
+    `${baseURL}/api/community/articles/v1/${postId}/reply`,
+    {
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    },
+  );
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || '좋아요 요청 실패');
+  }
+
+  return data;
+};

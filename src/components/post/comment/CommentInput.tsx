@@ -5,6 +5,7 @@ import user_default_image from '@/assets/images/default-profile.svg';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createComment } from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
+import { Toast } from '@/components/common/Toast';
 
 export default function CommentInput({ postId }: { postId: number }) {
   const [comment, setComment] = useState('');
@@ -59,11 +60,15 @@ export default function CommentInput({ postId }: { postId: number }) {
           context.previousData,
         );
       }
+      Toast.error('댓글 등록에 실패했습니다.');
     },
     onSettled: (_data, _error, variables) => {
       if (variables) {
         queryClient.invalidateQueries({
           queryKey: ['comment-list', variables.postId],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['comment-count', variables.postId],
         });
       }
     },
@@ -84,7 +89,7 @@ export default function CommentInput({ postId }: { postId: number }) {
       <div className="hidden flex-col items-end gap-5 sm:flex">
         <Card className="min-h-[120px] w-full p-5">
           <textarea
-            className="h-full w-full resize-none text-[18px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
+            className="h-full w-full resize-none text-[18px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none dark:text-[#FFFDF7]"
             onInput={(e) => {
               e.currentTarget.style.height = 'auto';
               e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;

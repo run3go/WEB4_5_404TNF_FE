@@ -1,9 +1,10 @@
 import Button from '../common/Button';
 import Icon from '../common/Icon';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PostCreateImages from './PostCreateImages';
 import { usePathname } from 'next/navigation';
 import { useEditPost } from '@/lib/hooks/post/useEditPost';
+import LoadingUI from '@/components/common/Loading';
 
 export default function PostEditModal({
   postDetail,
@@ -20,7 +21,7 @@ export default function PostEditModal({
   const [pickedImages, setPickedImages] = useState<(File | string)[]>(
     postDetail?.images?.map((img) => img.savePath),
   );
-
+  const contentRef = useRef<HTMLTextAreaElement>(null);
   const postUpdateMutation = useEditPost(boardType, Number(postId), onClose);
 
   const handleSubmit = (
@@ -67,11 +68,20 @@ export default function PostEditModal({
     convertImages();
   }, [postDetail.images]);
 
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.style.height = 'auto';
+      contentRef.current.style.height = `${contentRef.current.scrollHeight}px`;
+    }
+  }, [content]);
+
   return (
     <>
-      <div className="hidden h-[73.6vh] w-[57.53vw] flex-col rounded-[20px] border-[3px] border-[#FCC389] bg-[#FFFDF7] px-8 pt-8 pr-15 sm:flex">
+      <div className="hidden h-[73.6vh] w-[57.53vw] flex-col rounded-[20px] border-[3px] border-[#FCC389] bg-[#FFFDF7] px-8 pt-8 pr-15 sm:flex dark:bg-[#343434]">
         {postUpdateMutation.isPending ? (
-          <p className="h-100 w-100">로딩중...</p>
+          <>
+            <LoadingUI />
+          </>
         ) : (
           <>
             <div className="flex shrink-0 items-center justify-end gap-[21.55vw]">
@@ -105,12 +115,13 @@ export default function PostEditModal({
                 </label>
                 <textarea
                   id="content"
+                  ref={contentRef}
                   className="min-h-[160px] w-full resize-none placeholder:text-[#909090] focus:outline-none"
                   onInput={(e) => {
                     e.currentTarget.style.height = 'auto';
                     e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
                   }}
-                  onChange={(e) => setContent(e.target.value.trim())}
+                  onChange={(e) => setContent(e.target.value)}
                   value={content}
                   placeholder="내용을 입력해주세요"
                 />
