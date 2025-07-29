@@ -55,6 +55,7 @@ export default function PostCard({
                   alt="썸네일 이미지"
                   fill
                   priority
+                  sizes="(max-width: 640px) 80px, 188px"
                 />
               </div>
             )}

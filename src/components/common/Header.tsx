@@ -99,6 +99,7 @@ export default function Header() {
                   alt="유저 프로필"
                   fill
                   priority
+                  sizes="36px"
                 />
               </div>
             </Link>
