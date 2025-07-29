@@ -97,7 +97,7 @@ export default function ReportModal({
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className={`relative ${heightByResult} w-[586px] cursor-default rounded-[30px] bg-[var(--color-background)] px-12 py-10 text-base`}
+          className={`relative ${heightByResult} w-[586px] cursor-default rounded-[30px] bg-[var(--color-background)] px-12 py-10 text-base dark:border-1 dark:border-[var(--color-primary-200)] dark:bg-[var(--color-black)]`}
         >
           <button
             onClick={onClose}
@@ -112,7 +112,7 @@ export default function ReportModal({
                 ? '처리 내역 확인'
                 : `신고 내역 처리 - ${result === 'accept' ? '제재' : '철회'}`}
             </h1>
-            <div className="mb-4 flex gap-9">
+            <div className="mb-4 flex gap-9.5">
               <h3>대상자</h3>
               <h3>{reportedUser}</h3>
             </div>
