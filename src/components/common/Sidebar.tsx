@@ -27,12 +27,7 @@ export default function Sidebar() {
       await logout();
       setUserId(null);
       setRole(null);
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('role');
-      sessionStorage.removeItem('isNotification');
-      sessionStorage.removeItem('isNotiAll');
-      sessionStorage.removeItem('isNotiSchedule');
-      sessionStorage.removeItem('isNotiService');
+      sessionStorage.clear();
       setLogout();
     } catch (error) {
       console.error(error);
