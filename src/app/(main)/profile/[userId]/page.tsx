@@ -7,9 +7,10 @@ import { Metadata } from 'next';
 export const generateMetadata = async ({
   params,
 }: {
-  params: { userId: string };
+  params: Promise<{ userId: string }>;
 }): Promise<Metadata> => {
-  const userProfile: UserProfile = await getUserProfile(params.userId);
+  const { userId } = await params;
+  const userProfile: UserProfile = await getUserProfile(userId);
   return {
     title: `${userProfile.nickname}님의 프로필`,
   };

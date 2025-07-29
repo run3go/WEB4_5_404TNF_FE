@@ -6,10 +6,11 @@ import { notFound } from 'next/navigation';
 export const generateMetadata = async ({
   params,
 }: {
-  params: { category: string; postId: string };
+  params: Promise<{ category: string; postId: string }>;
 }): Promise<Metadata> => {
+  const { postId } = await params;
   const { data }: { data: CommunityPostDeatail } = await getPostDetail(
-    Number(params.postId),
+    Number(postId),
   );
   return {
     title: data.title,

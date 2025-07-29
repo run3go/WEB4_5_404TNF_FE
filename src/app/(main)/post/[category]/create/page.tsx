@@ -5,9 +5,9 @@ import { notFound } from 'next/navigation';
 export const generateMetadata = async ({
   params,
 }: {
-  params: { category: string };
+  params: Promise<{ category: string }>;
 }): Promise<Metadata> => {
-  const category = decodeURIComponent(params.category);
+  const { category } = await params;
   return {
     title: category === 'question' ? '질문게시판' : '자유게시판',
   };
