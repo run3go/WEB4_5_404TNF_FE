@@ -7,6 +7,7 @@ interface AuthStore {
   userInfo: User | null;
   setLogin: (userInfo: User) => void;
   setLogout: () => void;
+  setImage: (imgUrl: string) => void;
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -23,6 +24,12 @@ export const useAuthStore = create<AuthStore>()(
         set((state) => {
           state.isLogin = false;
           state.userInfo = null;
+        }),
+      setImage: (imgUrl) =>
+        set((state) => {
+          if (state.userInfo) {
+            state.userInfo.imgUrl = imgUrl;
+          }
         }),
     })),
   ),
