@@ -129,7 +129,7 @@ export const createComment = async ({
   comment: string;
 }) => {
   const res = await fetch(
-    `${baseURL}/api/community/articles/${postId}/replies/v1?content=${comment}`,
+    `${baseURL}/api/community/articles/${postId}/replies/v1?content=${encodeURIComponent(comment)}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -179,7 +179,7 @@ export const updateComment = async ({
   comment: string;
 }) => {
   const res = await fetch(
-    `${baseURL}/api/community/articles/${postId}/replies/v1/${replyId}?content=${comment}`,
+    `${baseURL}/api/community/articles/${postId}/replies/v1/${replyId}?content=${encodeURIComponent(comment)}`,
     {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },

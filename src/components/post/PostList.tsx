@@ -8,6 +8,7 @@ import SelectBox from '@/components/common/SelectBox';
 import PostCard from '@/components/post/PostCard';
 import SearchButton from '@/components/post/SearchButton';
 import { usePostList } from '@/lib/hooks/usePostList';
+import { useAuthStore } from '@/stores/authStoe';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -24,6 +25,8 @@ export default function PostList({
   const [inputSearchType, setInputSearchType] = useState('TITLE_CONTENT');
   const [keyword, setKeyword] = useState('');
   const [inputKeyword, setInputKeyword] = useState('');
+
+  const userInfo = useAuthStore((state) => state.userInfo);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
     usePostList({
@@ -99,12 +102,14 @@ export default function PostList({
           />
           <div className="flex w-full items-center gap-6 pl-1 sm:w-auto sm:pr-[6.27vw] sm:pl-0">
             <div className="flex w-full items-center justify-between sm:w-auto">
-              <SelectBox
-                width={'90px'}
-                options={SORT}
-                isCenter
-                setValue={setSortType}
-              />
+              <div className="h-[42px] rounded-[12px] border border-[#FCC389] py-1.5 pl-4 text-[18px]">
+                <SelectBox
+                  width={'90px'}
+                  options={SORT}
+                  isCenter
+                  setValue={setSortType}
+                />
+              </div>
 
               <SearchButton
                 setSearchType={setInputSearchType}
@@ -114,15 +119,20 @@ export default function PostList({
               />
             </div>
 
-            <Link href={`/post/${boardType}/create`}>
-              <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto">
+            <Link
+              href={`${!!userInfo || !!sessionStorage.getItem('userId') ? `/post/${boardType}/create` : `/login`} `}
+            >
+              <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] hover:bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto sm:h-[42px] sm:w-[116px] sm:rounded-[12px] sm:bg-[#FFDBAB]">
                 <Icon
                   width="20px"
                   height="20px"
                   left="-266px"
                   top="-75px"
-                  className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
+                  className="sm:hidden dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
                 />
+                <p className="hidden text-[18px] font-medium sm:block">
+                  작성하기
+                </p>
               </div>
             </Link>
           </div>

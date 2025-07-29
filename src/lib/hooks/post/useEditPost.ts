@@ -15,8 +15,12 @@ export const useEditPost = (
       onClose();
       router.push(`/post/${boardType.toLowerCase()}/${postId}`);
     },
-    onError: () => {
-      Toast.error('게시글 수정에 실패했습니다.');
+    onError: (error) => {
+      if (error instanceof Error) {
+        Toast.error(error.message);
+      } else {
+        Toast.error('게시글 수정에 실패했습니다.');
+      }
     },
   });
 };
