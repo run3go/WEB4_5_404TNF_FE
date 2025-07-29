@@ -28,6 +28,7 @@ export default function NicknameField({
   };
 
   const handleDuplicationCheck = async () => {
+    if (nickname === value) return;
     const validationError = validateNickname(value);
     if (validationError) {
       setError(validationError);
