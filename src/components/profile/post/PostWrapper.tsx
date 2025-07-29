@@ -20,7 +20,7 @@ export default function PostWrapper() {
   const [ref, inView] = useInView();
 
   const { data, isFetchingNextPage, hasNextPage, isPending, fetchNextPage } =
-    useMyPosts(parmas.userId as number, type, sortType);
+    useMyPosts(parmas.userId as string, type, sortType);
   const handleChangeTab = (type: PostType) => {
     setType(type);
   };
