@@ -35,7 +35,7 @@ export default function SearchBar({
           )}
         </div>
         <input
-          className="h-[40px] w-[250px] focus:outline-none"
+          className="h-[40px] w-[250px] focus:outline-none dark:text-[#2B2926]"
           placeholder="검색어를 입력해주세요"
           value={value ?? keyword ?? ''}
           onChange={(e) => onChange?.(e) ?? setKeyword?.(e.target.value)}
