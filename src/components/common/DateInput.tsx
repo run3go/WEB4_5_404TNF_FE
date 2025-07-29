@@ -76,7 +76,7 @@ export default function DateInput({
       {isDateInputOpen && (
         <div
           className={twMerge(
-            'absolute top-[100%] z-200 mt-1 h-55 w-full max-w-55 min-w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)]',
+            'absolute top-[100%] z-200 mt-1 h-55 w-full max-w-55 min-w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] dark:bg-[var(--color-black)]',
             align === 'right' ? 'right-0' : 'left-0',
           )}
           ref={inputRef}

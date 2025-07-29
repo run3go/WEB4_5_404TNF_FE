@@ -20,7 +20,7 @@ export default function LineGraphCard({
   dataset,
 }: {
   title: string;
-  dataset?: { date: string; weight?: number; sleep?: number }[];
+  dataset: { date: string; weight?: number; sleep?: number }[];
 }) {
   const router = useRouter();
 
@@ -104,7 +104,7 @@ export default function LineGraphCard({
 
   return (
     <motion.div
-      className="relative h-40 w-full max-w-[558px] sm:h-[200px]"
+      className="relative h-40 w-full sm:h-[200px]"
       animate={{ rotateY: flip ? 0 : 180 }}
       transition={{ duration: 0.7 }}
       onClick={() => dataset?.length && setFlip(!flip)}
@@ -118,26 +118,35 @@ export default function LineGraphCard({
         <Card
           className={`${dataset?.length ? 'card__hover' : 'bg-[#fafafa]'} h-40 w-full sm:h-[200px]`}
         >
-          <h2 className="mb-5 text-xs font-medium text-[var(--color-grey)] sm:text-base sm:text-[var(--color-black)]">
+          <h2 className="mb-5 text-xs font-medium text-[var(--color-grey)] sm:text-base sm:text-[var(--color-black)] dark:text-[var(--color-background)]">
             {title}
           </h2>
           <div className="h-[100px]" ref={containerRef}>
-            {dataset?.length ? (
-              <svg
-                ref={svgRef}
-                width="100%"
-                height="100%"
-                viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-                preserveAspectRatio="none"
-              />
+            {dataset && dataset.length ? (
+              dataset.length === 1 ? (
+                <div className="flex h-full items-center justify-center pb-8 sm:pb-0">
+                  <span className="text-xs text-[var(--color-grey)] sm:text-base">
+                    데이터가 충분하지 않아 그래프를 표시할 수 없습니다
+                  </span>
+                </div>
+              ) : (
+                <svg
+                  className="mt-12"
+                  ref={svgRef}
+                  width="100%"
+                  height="100%"
+                  viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+                  preserveAspectRatio="none"
+                />
+              )
             ) : (
-              <div className="flex w-full flex-col items-center gap-3">
+              <div className="flex w-full flex-col items-center gap-3 text-sm sm:text-base">
                 <span className="text-center">
                   등록된 {title}
                   {title === '몸무게' ? '가' : '이'} 없어요
                 </span>
                 <button
-                  className="cursor-pointer rounded-full bg-[var(--color-primary-200)] px-4 py-2 transition-all hover:bg-[var(--color-primary-300)]"
+                  className="cursor-pointer rounded-full bg-[var(--color-primary-200)] px-4 py-2 transition-colors hover:bg-[var(--color-primary-300)] dark:bg-[var(--color-primary-300)] dark:text-[var(--color-black)] dark:hover:bg-[var(--color-primary-500)]"
                   onClick={() => router.push('/diary/write')}
                 >
                   지금 기록하기
@@ -154,7 +163,7 @@ export default function LineGraphCard({
         transition={{ duration: 0.7 }}
       >
         {/* 뒷면 */}
-        <Card className="card__hover h-40 w-full max-w-[558px] overflow-hidden py-4 sm:h-[200px]">
+        <Card className="card__hover h-40 w-full overflow-hidden py-4 sm:h-[200px]">
           <table className="w-full">
             <thead>
               <tr className="flex w-full border-b border-[var(--color-primary-300)] pb-3 text-sm sm:pb-2 sm:text-base">

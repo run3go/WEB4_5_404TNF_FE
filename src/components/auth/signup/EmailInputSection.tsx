@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { validateEmail } from '@/lib/utils/validation';
 import { useEmailCheck } from '@/lib/hooks/useEmailCheck';
+import { validateEmail } from '@/lib/utils/validation';
+import { useState } from 'react';
 import CountdownTimer from './CountdownTimer';
 
 export default function EmailInputSection({
@@ -38,6 +38,7 @@ export default function EmailInputSection({
   };
 
   const handleSendEmailVerify = async () => {
+    if (sendVerificationCodeMutation.isPending) return;
     const validationError = validateEmail(email);
     if (validationError) {
       setError(validationError);
@@ -65,6 +66,7 @@ export default function EmailInputSection({
   };
 
   const handleVerifyCode = () => {
+    if (verifyCodeMutation.isPending) return;
     resetVerificationError();
 
     verifyCodeMutation.mutate(
@@ -88,9 +90,11 @@ export default function EmailInputSection({
         <button
           type="button"
           onClick={handleSendEmailVerify}
-          className="cursor-pointer text-[14px] font-medium text-[#FF9526]"
+          className={`${sendVerificationCodeMutation.isPending ? '' : 'cursor-pointer'} text-[14px] font-medium text-[#FF9526]`}
         >
-          이메일 인증
+          {sendVerificationCodeMutation.isPending
+            ? '이메일 전송 중'
+            : '이메일 전송'}
         </button>
       </div>
       <input
@@ -101,6 +105,7 @@ export default function EmailInputSection({
         }`}
         placeholder="example@example.com"
         value={email}
+        autoComplete="off"
         onChange={(e) => handleChange(e.target.value.trim())}
         onBlur={() => {
           setTouched(true);
@@ -133,7 +138,7 @@ export default function EmailInputSection({
               type="button"
               disabled={!verificationCode || isTimerExpired}
               onClick={handleVerifyCode}
-              className="mt-2 flex h-[40px] w-[86px] shrink-0 cursor-pointer items-center justify-center rounded-[12px] bg-[#FFDBAB] px-7 py-4 text-[14px] text-[#2B2926] disabled:bg-[#2B2926]/20 disabled:text-[#909090] sm:h-[52px]"
+              className="mt-2 flex h-[40px] w-[86px] shrink-0 cursor-pointer items-center justify-center rounded-[12px] bg-[#FFDBAB] px-7 py-4 text-[14px] text-[#2B2926] disabled:bg-[#2B2926]/20 disabled:text-[#909090] sm:h-[52px] dark:disabled:bg-[#4f4f4f]"
             >
               확인
             </button>

@@ -1,10 +1,11 @@
 'use client';
+import { useDeleteSchedule } from '@/lib/hooks/schedule/useDeleteSchedule';
 import { useRef, useState } from 'react';
 import Icon from '../common/Icon';
-import AddSchedule from './AddSchedule';
 import PopupMenu from '../common/PopupMenu';
-import { useDeleteSchedule } from '@/lib/hooks/schedule/useDeleteSchedule';
 import PopupMenuPortal from '../common/PopupMenuPortal';
+import Confirm from '../common/Confirm';
+import AddSchedule from './AddSchedule';
 
 export default function TodoItem({
   name,
@@ -17,6 +18,12 @@ export default function TodoItem({
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [confirmOptions, setConfirmOptions] = useState<{
+    description: string;
+    confirmText: string;
+    onConfirm: () => void;
+  } | null>(null);
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -29,7 +36,7 @@ export default function TodoItem({
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setPopupPosition({
-        top: rect.top + window.scrollY + 10,
+        top: rect.top + window.scrollY + 15,
         left: rect.left + window.scrollX - 125,
       });
     }
@@ -37,27 +44,41 @@ export default function TodoItem({
     setIsMenuOpen((prev) => !prev);
   };
 
+  const openConfirm = (
+    description: string,
+    confirmText: string,
+    onConfirm: () => void,
+  ) => {
+    setConfirmOptions({ description, confirmText, onConfirm });
+    setShowConfirm(true);
+  };
+
   const handleSelect = (label: string) => {
     if (label === '기본일정') {
-      const res = confirm('일정을 삭제하시겠습니까?');
+      openConfirm('일정을 삭제하시겠습니까?', '확인', () => deleteTodo(true));
+      // const res = confirm('일정을 삭제하시겠습니까?');
 
-      if (res) {
-        deleteTodo(true);
-      }
+      // if (res) {
+      //   deleteTodo(true);
+      // }
     } else if (label === '이 일정만 삭제') {
-      // console.log('이 일정만 삭제');
-      const res = confirm('일정을 삭제하시겠습니까?');
+      openConfirm('일정을 삭제하시겠습니까?', '확인', () => deleteTodo(false));
 
-      if (res) {
-        deleteTodo(false);
-      }
+      // const res = confirm('일정을 삭제하시겠습니까?');
+
+      // if (res) {
+      //   deleteTodo(false);
+      // }
     } else {
-      // console.log('반복 일정 전체 삭제');
-      const res = confirm('모든 반복 일정을 삭제하시겠습니까?');
+      openConfirm('모든 반복 일정을 삭제하시겠습니까?', '확인', () =>
+        deleteTodo(true),
+      );
 
-      if (res) {
-        deleteTodo(true);
-      }
+      // const res = confirm('모든 반복 일정을 삭제하시겠습니까?');
+
+      // if (res) {
+      //   deleteTodo(true);
+      // }
     }
 
     setIsMenuOpen(false);
@@ -80,7 +101,7 @@ export default function TodoItem({
     <>
       <li className="flex w-full cursor-default items-center justify-between border-b border-[var(--color-primary-300)] p-3">
         <div className="flex items-center justify-center">
-          <div className="mr-2 max-w-[80px] truncate rounded-[8px] bg-[var(--color-primary-300)] px-2 py-1 text-sm">
+          <div className="mr-2 max-w-[80px] truncate rounded-[8px] bg-[var(--color-primary-300)] px-2 py-1 text-sm dark:text-[var(--color-black)]">
             {schedule?.petName}
           </div>
 
@@ -158,12 +179,26 @@ export default function TodoItem({
             ))}
         </div>
       </li>
+
       {isModalOpen && (
         <AddSchedule
           closeModal={closeModal}
           isStart={false}
           isEdit={true}
           schedule={schedule}
+        />
+      )}
+
+      {confirmOptions && showConfirm && (
+        <Confirm
+          description={confirmOptions.description}
+          confirmText="확인"
+          onClose={() => setShowConfirm(false)}
+          onConfirm={() => {
+            confirmOptions.onConfirm();
+            setShowConfirm(false);
+          }}
+          className="sm:-top-1 sm:-left-1 sm:h-[472px] sm:w-[570px] sm:rounded-[30px]"
         />
       )}
     </>

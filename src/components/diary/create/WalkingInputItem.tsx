@@ -1,5 +1,6 @@
 import Icon from '@/components/common/Icon';
 import SelectBox from '@/components/common/SelectBox';
+import { walkingPace } from '@/assets/data/diary';
 
 type Props = WalkEntry & {
   onChange: (field: keyof WalkEntry, value: string) => void;
@@ -15,12 +16,6 @@ export default function WalkingInputItem({
   onChange,
   onDelete,
 }: Props) {
-  const paceOptions = [
-    { value: '1', label: '가볍게' },
-    { value: '2', label: '적당히' },
-    { value: '3', label: '힘차게' },
-  ];
-
   return (
     <div className="flex h-9 w-full shrink-0 items-center gap-1 text-xs sm:justify-between sm:text-sm">
       {/* start time */}
@@ -28,7 +23,7 @@ export default function WalkingInputItem({
         <input
           className="input-style mr-0 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)] sm:mr-1"
           type="text"
-          placeholder="시간"
+          placeholder="시"
           maxLength={2}
           value={startHour}
           onChange={(e) => onChange('startHour', e.target.value)}
@@ -53,7 +48,7 @@ export default function WalkingInputItem({
         <input
           className="input-style mr-0 w-11 py-1 text-center leading-[1.2] focus:outline-[var(--color-primary-500)] sm:mr-1"
           type="text"
-          placeholder="시간"
+          placeholder="시"
           maxLength={2}
           value={endHour}
           onChange={(e) => onChange('endHour', e.target.value)}
@@ -75,7 +70,7 @@ export default function WalkingInputItem({
       <SelectBox
         value={pace}
         setValue={(val) => onChange('pace', val)}
-        options={paceOptions}
+        options={walkingPace}
         width="70px"
         borderColor="var(--color-primary-500)"
         isCenter

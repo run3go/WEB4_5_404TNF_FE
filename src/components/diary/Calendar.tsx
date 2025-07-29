@@ -14,7 +14,7 @@ export default function Calendar({
   readOnly?: boolean;
 }) {
   return (
-    <div className="h-55 w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)]">
+    <div className="h-55 w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] dark:bg-[var(--color-black)]">
       <DayPicker
         mode="single"
         selected={selected}
@@ -27,7 +27,7 @@ export default function Calendar({
         disableNavigation={readOnly ? true : false}
         classNames={{
           month_caption:
-            'font-medium mb-2 bg-[var(--color-primary-500)] -mx-2 rounded-t-xl py-2',
+            'font-medium mb-2 bg-[var(--color-primary-500)] -mx-2 rounded-t-xl py-2 dark:text-[var(--color-black)]',
           months: 'w-full relative',
           month_grid: 'w-full',
           weekday: 'h-6 font-medium',

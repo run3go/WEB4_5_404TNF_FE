@@ -1,36 +1,29 @@
 'use client';
 import Icon from '@/components/common/Icon';
-import SelectBox from '@/components/common/SelectBox';
-import LogCard from '@/components/diary/LogCard';
-import DateInput from '@/components/common/DateInput';
-import Link from 'next/link';
+import DiaryListHeader from '@/components/diary/DiaryListHeader';
+import DiaryListSection from '@/components/diary/DiaryListSection';
+import Confirm from '@/components/common/Confirm';
 import { useEffect, useState } from 'react';
-import { getPetsByUserId } from '@/api/diary';
 import { useRouter } from 'next/navigation';
-
-type Option = { value: string; label: string };
+import { useGetDiaryList } from '@/lib/hooks/diary/api/useGetDiaryList';
+import { useGetPets } from '@/lib/hooks/diary/api/useGetPets';
 
 export default function Diary() {
   const router = useRouter();
+
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [pets, setPets] = useState<PetProfile[]>([]);
   const [selectedPetId, setSelectedPetId] = useState<string>('all');
+  const [isMobile, setIsMobile] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  useEffect(() => {
-    const fetchPets = async () => {
-      try {
-        // test userId
-        const res = await getPetsByUserId(10002);
-        setPets(res);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  const userId =
+    typeof window !== 'undefined'
+      ? Number(sessionStorage.getItem('userId'))
+      : null;
 
-    fetchPets();
-  }, []);
+  const { data: pets = [] } = useGetPets(userId);
 
-  const petOptions: Option[] = [
+  const petOptions: { value: string; label: string }[] = [
     { value: 'all', label: '모든 강아지' },
     ...pets.map((pet) => ({
       value: pet.petId.toString(),
@@ -38,55 +31,80 @@ export default function Diary() {
     })),
   ];
 
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const { data, fetchNextPage, hasNextPage, isLoading } = useGetDiaryList({
+    petId: selectedPetId !== 'all' ? Number(selectedPetId) : undefined,
+    recordAt: selectedDate ? formatDate(selectedDate) : undefined,
+  });
+
+  const diaryList = data?.pages.flatMap((page) => page.data) ?? [];
+
+  useEffect(() => {
+    const checkViewport = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    checkViewport();
+    window.addEventListener('resize', checkViewport);
+    return () => window.removeEventListener('resize', checkViewport);
+  }, []);
+
   return (
-    <main className="flex h-full flex-col items-center p-6 sm:block sm:p-0 sm:px-12 sm:py-7">
-      <div className="mb-3 flex w-full justify-between">
-        <div className="flex w-full justify-between gap-5 sm:justify-start sm:gap-6 sm:pl-3">
-          <div className="flex-1 sm:w-[220px] sm:flex-none">
-            <DateInput
-              selected={selectedDate}
-              setSelected={setSelectedDate}
-              showAllDate
-              disableFuture={true}
-              className="rounded-xl border-1 border-[var(--color-primary-500)]"
-              align="left"
-            />
-          </div>
-          <div className="flex-1 sm:w-[178px] sm:flex-none">
-            <SelectBox
-              value={selectedPetId}
-              setValue={setSelectedPetId}
-              options={petOptions}
-              width="100%"
-              borderColor="var(--color-primary-500)"
-              footstep
-              hasBorder
-            />
-          </div>
-        </div>
-        <Link
-          className="hidden items-center gap-2 sm:flex"
-          href={'/diary/write'}
-        >
-          <Icon width="14px" height="14px" left="-231px" top="-79px" />
-          <span className="inline-block w-20 font-medium">기록하기</span>
-        </Link>
+    <main className="scrollbar-hidden flex h-full flex-col items-center overflow-y-auto p-6 sm:block sm:p-0 sm:px-12 sm:py-7">
+      <DiaryListHeader
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+        selectedPetId={selectedPetId}
+        setSelectedPetId={setSelectedPetId}
+        petOptions={petOptions}
+        petsLength={pets.length}
+        isMobile={isMobile}
+        onClickWrite={() => {
+          if (pets.length === 0) {
+            setShowConfirm(true);
+          } else {
+            router.push('/diary/write');
+          }
+        }}
+      />
+      <div className="w-full">
+        <DiaryListSection
+          isLoading={isLoading}
+          diaryList={diaryList}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+        />
       </div>
-      <ul className="scrollbar-hidden flex flex-col gap-5 pt-2 pb-4 sm:h-[700px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:overflow-y-scroll sm:px-3 sm:pt-10">
-        {Array(9)
-          .fill(0)
-          .map((item, i) => (
-            <li key={i} className="basis-[calc(33%-31px)]">
-              <LogCard />
-            </li>
-          ))}
-      </ul>
+      {/* mobile: post button */}
       <div
         className="fixed right-4 bottom-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:hidden"
-        onClick={() => router.push('/diary/write')}
+        onClick={() => {
+          if (pets.length === 0) {
+            setShowConfirm(true);
+          } else {
+            router.push('/diary/write');
+          }
+        }}
       >
         <Icon width="20px" height="20px" left="-266px" top="-75px" />
       </div>
+      {showConfirm && (
+        <Confirm
+          description={`아직 등록된 강아지가 없어요.\n먼저 강아지를 등록해주세요!`}
+          confirmText="확인"
+          onClose={() => setShowConfirm(false)}
+          onConfirm={() => {
+            setShowConfirm(false);
+            router.push(`/profile/${sessionStorage.getItem('userId')}`);
+          }}
+        />
+      )}
     </main>
   );
 }

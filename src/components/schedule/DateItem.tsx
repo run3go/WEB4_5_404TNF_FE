@@ -2,8 +2,8 @@
 import { getDaysInMonth } from 'date-fns';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import TodoList from './TodoList';
 import AddSchedule from './AddSchedule';
+import TodoList from './TodoList';
 
 export default function DateItem({
   date,
@@ -40,7 +40,7 @@ export default function DateItem({
             // setIsModalOpen(true);
           }
         }}
-        className={`h-24 basis-1/7 border-b border-[var(--color-primary-200)] p-3 ${date > 0 && date <= endOfMonth ? 'cursor-pointer transition-colors duration-200 ease-in hover:bg-[var(--color-primary-100)]' : ''}`}
+        className={`h-24 basis-1/7 border-b border-[var(--color-primary-200)] p-3 ${date > 0 && date <= endOfMonth ? 'cursor-pointer transition-colors duration-200 ease-in hover:bg-[var(--color-primary-100)] dark:hover:bg-[#444444]' : ''}`}
       >
         {date > 0 && date <= endOfMonth && (
           <>
