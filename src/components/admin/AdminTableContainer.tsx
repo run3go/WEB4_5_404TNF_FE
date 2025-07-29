@@ -55,8 +55,6 @@ export default function AdminTableContainer() {
       : (reportData?.pageInfo ?? {});
 
   const handleSearch = () => {
-    console.log('검색어: ', searchTerm);
-
     setSearch(searchTerm.trim());
   };
 

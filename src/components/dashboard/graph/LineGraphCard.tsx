@@ -116,7 +116,7 @@ export default function LineGraphCard({
       >
         {/* 앞면 */}
         <Card
-          className={`${dataset?.length ? 'card__hover' : 'bg-[#fafafa]'} h-40 w-full sm:h-[200px]`}
+          className={`${dataset?.length && 'card__hover'} h-40 w-full sm:h-[200px]`}
         >
           <h2 className="mb-5 text-xs font-medium text-[var(--color-grey)] sm:text-base sm:text-[var(--color-black)] dark:text-[var(--color-background)]">
             {title}

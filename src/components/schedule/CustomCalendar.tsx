@@ -48,7 +48,11 @@ export default function CustomCalendar() {
     useGetSchedules(currentDate);
 
   if (!petOptions || petOptions?.length === 0) {
-    return <NoPets />;
+    return (
+      <div className="hidden h-full w-full items-center justify-center sm:flex">
+        <NoPets />
+      </div>
+    );
   }
 
   return (
