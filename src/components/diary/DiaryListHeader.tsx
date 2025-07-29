@@ -21,7 +21,6 @@ export default function DiaryListHeader({
   selectedPetId,
   setSelectedPetId,
   petOptions,
-  isMobile,
   onClickWrite,
 }: Props) {
   return (
@@ -44,7 +43,7 @@ export default function DiaryListHeader({
             options={petOptions}
             width="100%"
             borderColor="var(--color-primary-500)"
-            footstep={!isMobile}
+            footstep
             hasBorder
             type="diary"
           />
