@@ -2,7 +2,7 @@ const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // 월별 일정 조회
 export const getSchedules = async (date: string) => {
-  const url = `${baseUrl}/api/dashboard/v2/calendar?date=${date}`;
+  const url = `${baseUrl}/api/schedule/v2/calendar?date=${date}`;
   try {
     const res = await fetch(url, {
       method: 'GET',
@@ -24,7 +24,7 @@ export const deleteSchedule = async (
   scheduleId: number,
   cycleLink: boolean,
 ) => {
-  const url = `${baseUrl}/api/dashboard/v2/calendar/delete?scheduleId=${scheduleId}&cycleLink=${cycleLink}`;
+  const url = `${baseUrl}/api/schedule/v2/calendar/delete?scheduleId=${scheduleId}&cycleLink=${cycleLink}`;
 
   try {
     const res = await fetch(url, {
@@ -43,7 +43,7 @@ export const deleteSchedule = async (
 
 // 일정 수정
 export const editSchedule = async (updateSchedule: UpdateSchedule) => {
-  const url = `${baseUrl}/api/dashboard/v2/calendar`;
+  const url = `${baseUrl}/api/schedule/v2/calendar`;
 
   try {
     const res = await fetch(url, {
@@ -77,7 +77,7 @@ export const editSchedule = async (updateSchedule: UpdateSchedule) => {
 
 // 일정 등록
 export const createSchedule = async (createSchedule: CreateSchedule) => {
-  const url = `${baseUrl}/api/dashboard/v2/calendar`;
+  const url = `${baseUrl}/api/schedule/v2/calendar`;
 
   try {
     const res = await fetch(url, {

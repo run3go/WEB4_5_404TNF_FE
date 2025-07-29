@@ -1,4 +1,5 @@
-import { modifyVaccineData } from '@/api/pet';
+import { createVaccineSchedule, modifyVaccineData } from '@/api/pet';
+import { Toast } from '@/components/common/Toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -76,6 +77,12 @@ export const useVaccineMutation = (petId: number, onClose: () => void) => {
     }) => modifyVaccineData(payload, petId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['vaccine', petId] });
+      try {
+        await createVaccineSchedule(petId);
+      } catch (err) {
+        Toast.error('백신 일정 생성에 실패했습니다');
+        console.error(err);
+      }
       onClose();
     },
     onError: (err) => {
