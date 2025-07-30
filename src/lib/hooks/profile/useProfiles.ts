@@ -49,7 +49,7 @@ export const useModifyUserMutation = (
     mutationFn: (formdata: UserFormdata) => modifyUserInfo(formdata),
     onSuccess: async () => {
       queryClient.invalidateQueries({
-        queryKey: ['user', userInfo?.userId],
+        queryKey: ['user', String(userInfo?.userId)],
       });
       onClose();
       Toast.success('유저 정보가 수정되었습니다!');

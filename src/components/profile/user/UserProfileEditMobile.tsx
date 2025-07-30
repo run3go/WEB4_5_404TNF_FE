@@ -26,6 +26,7 @@ export default function UserProfileEditMobile() {
   const { data: profile } = useUserProfile(String(userInfo?.userId), true);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [imageUrl, setImageUrl] = useState(profile?.imgUrl);
   const [formData, setFormData] = useState<UserFormdata>({
     image: null,
@@ -94,7 +95,11 @@ export default function UserProfileEditMobile() {
           <MobileTitle
             title="프로필 수정"
             onClick={() => {
-              onSubmit();
+              if (isDisabled) {
+                Toast.error('닉네임 중복 확인을 진행해주세요');
+              } else {
+                onSubmit();
+              }
             }}
             closePage={() => {
               profileStore.toggleEditingUserProfile();
@@ -128,6 +133,9 @@ export default function UserProfileEditMobile() {
             onNicknameVerified={(value) =>
               setFormData((prev) => ({ ...prev, nickname: value }))
             }
+            setAble={() => setIsDisabled(false)}
+            setDisable={() => setIsDisabled(true)}
+            isDisabled={isDisabled}
           />
           <PasswordField passwordHook={passwordHook} />
           <button

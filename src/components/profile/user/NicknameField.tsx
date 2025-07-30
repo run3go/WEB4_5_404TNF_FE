@@ -4,10 +4,16 @@ import { useState } from 'react';
 
 export default function NicknameField({
   nickname,
+  isDisabled,
   onNicknameVerified,
+  setAble,
+  setDisable,
 }: {
   nickname: string;
+  isDisabled: boolean;
   onNicknameVerified: (nickname: string) => void;
+  setAble: () => void;
+  setDisable: () => void;
 }) {
   const [value, setValue] = useState(nickname);
   const [error, setError] = useState('');
@@ -25,6 +31,11 @@ export default function NicknameField({
     setError(validateNickname(currentValue));
     resetNickNameState();
     setTouched(true);
+    if (currentValue === nickname) {
+      setAble();
+    } else {
+      setDisable();
+    }
   };
 
   const handleDuplicationCheck = async () => {
@@ -38,6 +49,7 @@ export default function NicknameField({
     checkDuplicateMutation.mutate(value, {
       onSuccess: () => {
         onNicknameVerified(value);
+        setAble();
       },
     });
   };
@@ -49,7 +61,7 @@ export default function NicknameField({
         </div>
         <button
           type="button"
-          className="cursor-pointer text-[14px] font-medium text-[#FF9526]"
+          className={`cursor-pointer text-[14px] font-medium text-[#FF9526] ${isDisabled && 'animate-pulse'}`}
           onClick={handleDuplicationCheck}
         >
           중복확인
