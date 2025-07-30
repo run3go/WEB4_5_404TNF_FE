@@ -44,11 +44,11 @@ export default function UserProfileEditMobile() {
 
   const onSubmit = async () => {
     if (passwordHook.password && !passwordHook.isMatched) {
-      alert('현재 비밀번호가 일치하는지 확인해주세요');
+      Toast.error('현재 비밀번호가 일치하는지 확인해주세요');
       return;
     }
     if (!passwordHook.isConfirmMatched) {
-      alert('새 비밀번호가 일치하지 않아요');
+      Toast.error('새 비밀번호가 일치하지 않아요');
       return;
     }
     modifyMutate(formData);
