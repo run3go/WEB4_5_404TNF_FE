@@ -83,7 +83,7 @@ export default function PopupMenu({
   return (
     <div
       ref={ref}
-      className={`absolute ${isProfile ? 'top-[-55px] left-[150px] sm:top-[-70px] sm:left-[200px]' : 'top-full right-[-3px]'} z-50 mt-2 flex flex-col space-y-2.5 rounded-[20px] border-[3px] border-[var(--color-primary-200)] bg-[#FFFDF7] px-[12px] py-[14px] dark:border dark:border-[#FFDBAB] dark:bg-[#2B2926] ${options[0].type === 'delete' ? 'w-[155px]' : 'max-w-[140px]'}`}
+      className={`absolute ${isProfile ? 'top-[-55px] left-[100px] sm:top-[-70px] sm:left-[100px]' : 'top-full right-[-3px]'} z-50 mt-2 flex flex-col space-y-2.5 rounded-[20px] border-[3px] border-[var(--color-primary-200)] bg-[#FFFDF7] px-[12px] py-[14px] dark:border dark:border-[#FFDBAB] dark:bg-[#2B2926] ${options[0].type === 'delete' ? 'w-[155px]' : 'max-w-[140px]'}`}
     >
       {options.map((option) => (
         <div
