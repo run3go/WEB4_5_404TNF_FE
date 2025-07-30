@@ -59,7 +59,7 @@ export default function ProfileCard({
         </li>
       </ul>
       <Image
-        className="mr-3 h-[120px] w-[120px] rounded-xl sm:mr-0 md:h-[135px] md:w-[135px] xl:h-[150px] xl:w-[150px]"
+        className="mr-3 h-[120px] w-[120px] rounded-xl object-cover sm:mr-0 md:h-[135px] md:w-[135px] xl:h-[150px] xl:w-[150px]"
         src={profile.imgUrl || profileImage || defaultDogProfile}
         alt="강아지 이미지"
         width={150}
