@@ -57,7 +57,7 @@ export default function Sidebar() {
           />
         )}
         <div
-          className={`fixed top-0 left-0 z-200 transition-transform duration-300 ease-in-out ${!isOpen ? '-translate-x-full' : 'sm:-translate-x-0'} h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[var(--color-black)] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:translate-x-0 sm:rounded-[50px] sm:bg-[var(--color-background)] sm:p-8 dark:bg-[#343434] sm:dark:bg-[var(--color-black)]`}
+          className={`fixed top-0 left-0 z-200 transition-transform duration-300 ease-in-out ${!isOpen ? '-translate-x-full' : 'sm:-translate-x-0'} h-[100svh] w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[var(--color-black)] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:translate-x-0 sm:rounded-[50px] sm:bg-[var(--color-background)] sm:p-8 dark:bg-[#343434] sm:dark:bg-[var(--color-black)]`}
         >
           <Link href="/">
             <Image
@@ -81,7 +81,7 @@ export default function Sidebar() {
             />
           </Link>
 
-          <div className="flex h-[calc(89.4vh-50px)] flex-col justify-between sm:h-[calc(89.4vh-122.5px)]">
+          <div className="flex h-[calc(89.4svh-50px)] flex-col justify-between sm:h-[calc(89.4vh-122.5px)]">
             <div className="mt-[34px] text-sm font-medium sm:mt-12 sm:text-[16px]">
               {/* 대시보드 */}
               <Link
