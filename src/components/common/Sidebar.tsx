@@ -52,7 +52,7 @@ export default function Sidebar() {
       <AuthProvider>
         {isOpen && (
           <div
-            className="fixed inset-0 z-[170] bg-[#2B2926]/50 sm:hidden"
+            className="fixed top-0 left-0 z-[170] h-[100svh] w-full bg-[#2B2926]/50 sm:hidden"
             onClick={close}
           />
         )}
