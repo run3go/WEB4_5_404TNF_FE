@@ -13,12 +13,14 @@ import NotificationModal from '../notification/NotificationModal';
 import Button from './Button';
 import Card from './Card';
 import Icon from './Icon';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
 
+  const pathname = usePathname();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isNewNotificaton, setIsNewNotification] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +32,8 @@ export default function Header() {
   const setNotifications = useNotificationStore(
     (state) => state.setNotifications,
   );
+
+  const [profileImage, setProfileImage] = useState(userInfo?.imgUrl);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -61,6 +65,15 @@ export default function Header() {
     sessionStorage.setItem('isNotification', hasUnread.toString());
     setIsNewNotification(hasUnread);
   }, [notifications]);
+
+  useEffect(() => {
+    if (!pathname.includes('/post/free')) {
+      sessionStorage.removeItem('scrollY-free');
+    }
+    if (!pathname.includes('/post/question')) {
+      sessionStorage.removeItem('scrollY-question');
+    }
+  }, [pathname]);
 
   if (!isLoading) {
     return null;
@@ -100,10 +113,11 @@ export default function Header() {
               <div className="relative h-9 w-9">
                 <Image
                   className="cursor-pointer rounded-full"
-                  src={userInfo?.imgUrl || user_default_image}
+                  src={userInfo?.imgUrl || profileImage || user_default_image}
                   alt="유저 프로필"
                   fill
                   priority
+                  onError={() => setProfileImage(user_default_image)}
                   sizes="36px"
                 />
               </div>

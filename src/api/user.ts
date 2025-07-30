@@ -83,3 +83,20 @@ export const getMyPosts = async (type: PostType, payload: PostPaylaod) => {
   const data = await res.json();
   return data;
 };
+
+export const getUserPosts = async (userId: string, payload: PostPaylaod) => {
+  const queryString = new URLSearchParams(payload).toString();
+  const res = await fetch(
+    `${baseURL}/api/profile/v1/users/${userId}/board?${queryString}`,
+    {
+      credentials: 'include',
+    },
+  );
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '유저 게시글 조회 실패');
+  }
+  const data = await res.json();
+  return data;
+};

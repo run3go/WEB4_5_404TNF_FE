@@ -20,6 +20,6 @@ export const useGetDiaryList = ({ petId, recordAt }: Params) => {
     getNextPageParam: (lastPage) =>
       lastPage.pageInfo.hasNext ? lastPage.pageInfo.page + 1 : undefined,
     initialPageParam: 1,
-    staleTime: 1000 * 30,
+    staleTime: 1000,
   });
 };
