@@ -55,8 +55,11 @@ export default function UserProfileEdit({
       closeModal();
       Toast.success('유저 프로필이 수정되었습니다!');
     } catch (err) {
-      console.error(err);
-      Toast.error('유저 프로필 수정에 실패했습니다!');
+      if (err instanceof Error) {
+        Toast.error(err.message);
+      } else {
+        Toast.error('유저 프로필 수정에 실패했습니다');
+      }
     }
   };
 
