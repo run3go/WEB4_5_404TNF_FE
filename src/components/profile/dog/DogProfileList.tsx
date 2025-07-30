@@ -6,9 +6,10 @@ import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMediaQuery } from 'react-responsive';
+import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -39,10 +40,25 @@ export default function DogProfileList() {
   const [currentPage, setCurrentPage] = useState(0);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const swiperRef = useRef<SwiperType | null>(null);
 
   const toggleProfileModal = () => {
     setIsProfileModalOpen((state) => !state);
   };
+
+  useEffect(() => {
+    if (
+      swiperRef.current &&
+      prevRef.current &&
+      nextRef.current &&
+      typeof swiperRef.current.params.navigation === 'object' &&
+      swiperRef.current.params.navigation !== null
+    ) {
+      swiperRef.current.params.navigation.prevEl = prevRef.current;
+      swiperRef.current.params.navigation.nextEl = nextRef.current;
+      swiperRef.current.navigation.init();
+    }
+  }, [petProfiles.length]);
 
   return (
     <div className="mb-20 w-full">
@@ -98,37 +114,16 @@ export default function DogProfileList() {
             />
           </button>
 
-          <div className="relative w-full max-w-[calc(598px*2+80px)] overflow-x-hidden">
-            <button
-              ref={prevRef}
-              className={twMerge(
-                'absolute top-1/2 -left-7 z-50 -translate-y-1/2',
-                currentPage === 0 ? 'hidden' : '',
-              )}
-            >
-              <Icon
-                width="12px"
-                height="20px"
-                left="-107px"
-                top="-164px"
-                className="cursor-pointer"
-              />
-            </button>
+          <div className="relative w-full max-w-[calc(598px*2+80px)]">
             <Swiper
-              className="w-full overflow-x-hidden"
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              className="w-full"
               modules={[Navigation, Pagination]}
               slidesPerView="auto"
               spaceBetween={50}
               onSlideChange={(swiper) => setCurrentPage(swiper.realIndex)}
-              onBeforeInit={(swiper) => {
-                if (
-                  typeof swiper.params.navigation === 'object' &&
-                  swiper.params.navigation !== null
-                ) {
-                  swiper.params.navigation.prevEl = prevRef.current;
-                  swiper.params.navigation.nextEl = nextRef.current;
-                }
-              }}
             >
               {petProfiles.length === 0 && (
                 <SwiperSlide className="!w-[590px]">
@@ -154,24 +149,26 @@ export default function DogProfileList() {
                   <RegistCard openModal={toggleProfileModal} />
                 </SwiperSlide>
               )}
+              <SwiperSlide></SwiperSlide>
             </Swiper>
-            {petProfiles.length > 1 && (
-              <button
-                ref={nextRef}
-                className={twMerge(
-                  'absolute top-1/2 right-[6px] z-50 -translate-y-1/2',
-                  currentPage === petProfiles.length - 1 ? 'hidden' : '',
-                )}
-              >
-                <Icon
-                  width="12px"
-                  height="20px"
-                  left="-152px"
-                  top="-164px"
-                  className="cursor-pointer"
-                />
-              </button>
-            )}
+            <button
+              ref={nextRef}
+              className={twMerge(
+                'absolute top-1/2 right-0 z-50 -translate-y-1/2',
+                petProfiles.length <= 1 ||
+                  currentPage === petProfiles.length - 1
+                  ? 'hidden'
+                  : '',
+              )}
+            >
+              <Icon
+                width="12px"
+                height="20px"
+                left="-152px"
+                top="-164px"
+                className="cursor-pointer"
+              />
+            </button>
           </div>
           {isProfileModalOpen &&
             isMyProfile &&
