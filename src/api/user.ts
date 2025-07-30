@@ -1,5 +1,3 @@
-import { Toast } from '@/components/common/Toast';
-
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const getMyUserInfo = async () => {
@@ -44,8 +42,7 @@ export const modifyUserInfo = async (payload: ProfileInfo) => {
 
   if (payload.image) {
     if (payload.image.size > MAX_FILE_SIZE) {
-      Toast.error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
-      return;
+      throw new Error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
     }
     formdata.append('image', payload.image);
   }

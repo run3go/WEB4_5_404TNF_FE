@@ -68,8 +68,11 @@ export default function UserProfileEditMobile() {
       await resignAccount();
       router.push('/');
     } catch (err) {
-      console.error(err);
-      Toast.error('회원 탈퇴에 실패했습니다!');
+      if (err instanceof Error) {
+        Toast.error(err.message);
+      } else {
+        Toast.error('유저 프로필 수정에 실패했습니다');
+      }
     } finally {
       Toast.success('회원 탈퇴에 성공했습니다!');
     }

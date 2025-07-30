@@ -61,8 +61,12 @@ export const useRegistMutation = (
       Toast.success('반려견이 등록되었습니다!');
       onClose();
     },
-    onError: () => {
-      Toast.error('반려견 등록에 실패했습니다!');
+    onError: (err) => {
+      if (err instanceof Error) {
+        Toast.error(err.message);
+      } else {
+        Toast.error('반려견 등록에 실패했습니다');
+      }
     },
   });
 };
@@ -93,8 +97,12 @@ export const useModifyMutation = (
       onClose();
       Toast.success('반려견 정보가 수정되었습니다!');
     },
-    onError: () => {
-      Toast.error('반려견 수정에 실패했습니다!');
+    onError: (err) => {
+      if (err instanceof Error) {
+        Toast.error(err.message);
+      } else {
+        Toast.error('반려견 정보 수정에 실패했습니다');
+      }
     },
   });
 };

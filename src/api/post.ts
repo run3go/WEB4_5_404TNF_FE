@@ -1,5 +1,3 @@
-import { Toast } from '@/components/common/Toast';
-
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const createPost = async ({
@@ -20,8 +18,7 @@ export const createPost = async ({
 
   images.forEach((image) => {
     if (image instanceof File && image.size > MAX_FILE_SIZE) {
-      Toast.error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
-      return;
+      throw new Error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
     }
     formData.append('images', image);
   });
