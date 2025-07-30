@@ -35,6 +35,7 @@ export const adminLogin = async (email: string, password: string) => {
 export const logout = async () => {
   const res = await fetch(`${baseURL}/api/auth/v1/logout`, {
     method: 'POST',
+    credentials: 'include',
   });
 
   const data = await res.json();
