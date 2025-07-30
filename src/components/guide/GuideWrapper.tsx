@@ -38,7 +38,7 @@ export default function GuideWrapper() {
       <div
         className={twMerge(
           'fixed left-[52%] z-201 flex -translate-x-1/2 flex-col gap-3 pt-6 pb-13 text-base sm:absolute sm:w-[780px] sm:flex-row sm:flex-wrap',
-          isMoreThanNine ? 'bottom-[6%]' : 'top-[13%]',
+          isMoreThanNine ? 'bottom-[8%]' : 'top-[33%]',
         )}
         onMouseEnter={() => setMonth(selectedMonth)}
         onMouseLeave={() => setMonth(0)}

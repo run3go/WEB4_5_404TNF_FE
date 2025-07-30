@@ -6,11 +6,8 @@ import RoadmapItem from './RoadmapItem';
 
 export default function Roadmap() {
   return (
-    <div
-      className="absolute top-[55%] left-1/2 flex w-full -translate-x-1/2 -translate-y-2/5 justify-center sm:top-1/2 sm:-translate-y-1/3"
-      id="guide-container"
-    >
-      <div className="relative flex w-full justify-center select-none">
+    <div className="flex w-full justify-center" id="guide-container">
+      <div className="relative flex h-[40%] w-full justify-center select-none">
         <Image
           className="block sm:hidden"
           src={roadmapMobile}
@@ -26,31 +23,31 @@ export default function Roadmap() {
         />
         <ol className="text-center text-sm sm:text-base">
           <RoadmapItem
-            className="bottom-[95%] left-[27%] sm:bottom-[89%] sm:left-[28%]"
+            className="bottom-[95%] left-[30%] sm:bottom-[89%] sm:left-[28%]"
             month={1}
           />
           <RoadmapItem
-            className="bottom-[95%] left-[45%] sm:bottom-[89%] sm:left-[39%]"
+            className="bottom-[95%] left-[48%] sm:bottom-[89%] sm:left-[39%]"
             month={2}
           />
           <RoadmapItem
-            className="bottom-[95%] left-[63%] sm:bottom-[89%] sm:left-[50%]"
+            className="bottom-[95%] left-[66%] sm:bottom-[89%] sm:left-[50%]"
             month={3}
           />
           <RoadmapItem
-            className="bottom-[64%] left-[69%] sm:bottom-[89%] sm:left-[61%]"
+            className="bottom-[64%] left-[62%] sm:bottom-[89%] sm:left-[61%]"
             month={4}
           />
           <RoadmapItem
-            className="bottom-[64%] left-[53%] sm:bottom-[89%] sm:left-[72%]"
+            className="bottom-[64%] left-[50%] sm:bottom-[89%] sm:left-[72%]"
             month={5}
           />
           <RoadmapItem
-            className="bottom-[64%] left-[37%] sm:bottom-[46.6%] sm:left-[69%]"
+            className="bottom-[64%] left-[38%] sm:bottom-[46.6%] sm:left-[69%]"
             month={6}
           />
           <RoadmapItem
-            className="bottom-[64%] left-[21%] sm:bottom-[46.6%] sm:left-[57%]"
+            className="bottom-[64%] left-[26%] sm:bottom-[46.6%] sm:left-[57%]"
             month={7}
           />
           <RoadmapItem
