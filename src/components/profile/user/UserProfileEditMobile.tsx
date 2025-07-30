@@ -26,6 +26,7 @@ export default function UserProfileEditMobile() {
   const { data: profile } = useUserProfile(String(userInfo?.userId), true);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [imageUrl, setImageUrl] = useState(profile?.imgUrl);
   const [formData, setFormData] = useState<UserFormdata>({
     image: null,
@@ -43,11 +44,11 @@ export default function UserProfileEditMobile() {
 
   const onSubmit = async () => {
     if (passwordHook.password && !passwordHook.isMatched) {
-      alert('현재 비밀번호가 일치하는지 확인해주세요');
+      Toast.error('현재 비밀번호가 일치하는지 확인해주세요');
       return;
     }
     if (!passwordHook.isConfirmMatched) {
-      alert('새 비밀번호가 일치하지 않아요');
+      Toast.error('새 비밀번호가 일치하지 않아요');
       return;
     }
     modifyMutate(formData);
@@ -94,7 +95,11 @@ export default function UserProfileEditMobile() {
           <MobileTitle
             title="프로필 수정"
             onClick={() => {
-              onSubmit();
+              if (isDisabled) {
+                Toast.error('닉네임 중복 확인을 진행해주세요');
+              } else {
+                onSubmit();
+              }
             }}
             closePage={() => {
               profileStore.toggleEditingUserProfile();
@@ -128,6 +133,9 @@ export default function UserProfileEditMobile() {
             onNicknameVerified={(value) =>
               setFormData((prev) => ({ ...prev, nickname: value }))
             }
+            setAble={() => setIsDisabled(false)}
+            setDisable={() => setIsDisabled(true)}
+            isDisabled={isDisabled}
           />
           <PasswordField passwordHook={passwordHook} />
           <button

@@ -22,6 +22,7 @@ export default function UserProfileEdit({
   const router = useRouter();
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(profile.imgUrl);
   const [formData, setFormData] = useState<{
     image: File | null;
@@ -40,17 +41,17 @@ export default function UserProfileEdit({
 
   const onSubmit = async () => {
     if (passwordHook.password && !passwordHook.isMatched) {
-      alert('현재 비밀번호가 일치하는지 확인해주세요');
+      Toast.error('현재 비밀번호가 일치하는지 확인해주세요');
       return;
     }
     if (!passwordHook.isConfirmMatched) {
-      alert('새 비밀번호가 일치하지 않아요');
+      Toast.error('새 비밀번호가 일치하지 않아요');
       return;
     }
     try {
       await modifyUserInfo(formData);
       await queryClient.invalidateQueries({
-        queryKey: ['user', profile.userId],
+        queryKey: ['user', String(profile.userId)],
       });
       closeModal();
       Toast.success('유저 프로필이 수정되었습니다!');
@@ -143,15 +144,23 @@ export default function UserProfileEdit({
             </div>
             <NicknameField
               nickname={profile.nickname}
-              onNicknameVerified={(value) =>
-                setFormData((prev) => ({ ...prev, nickname: value }))
-              }
+              onNicknameVerified={(value) => {
+                setFormData((prev) => ({ ...prev, nickname: value }));
+              }}
+              setAble={() => setIsDisabled(false)}
+              setDisable={() => setIsDisabled(true)}
+              isDisabled={isDisabled}
             />
           </div>
           {profile.provider === 'local' && (
             <PasswordField passwordHook={passwordHook} />
           )}
-          <Button className="mt-15 w-50" type="button" onClick={onSubmit}>
+          <Button
+            disabled={isDisabled}
+            className="mt-15 w-50"
+            type="button"
+            onClick={onSubmit}
+          >
             수정하기
           </Button>
           <button
