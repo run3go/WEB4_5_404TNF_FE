@@ -1,3 +1,5 @@
+import { Toast } from '@/components/common/Toast';
+
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const createPost = async ({
@@ -11,11 +13,16 @@ export const createPost = async ({
   boardType: 'FREE' | 'QUESTION';
   images: (File | string)[];
 }) => {
+  const MAX_FILE_SIZE = 3 * 1024 * 1024;
   const formData = new FormData();
 
   formData.append('request', JSON.stringify({ title, content, boardType }));
 
   images.forEach((image) => {
+    if (image instanceof File && image.size > MAX_FILE_SIZE) {
+      Toast.error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
+      return;
+    }
     formData.append('images', image);
   });
 

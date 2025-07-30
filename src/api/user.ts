@@ -1,3 +1,5 @@
+import { Toast } from '@/components/common/Toast';
+
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const getMyUserInfo = async () => {
@@ -31,15 +33,23 @@ export const checkPassword = async (password: { password: string }) => {
 };
 
 export const modifyUserInfo = async (payload: ProfileInfo) => {
+  const MAX_FILE_SIZE = 3 * 1024 * 1024;
+
   const formdata = new FormData();
   const requestPayload = {
     nickname: payload.nickname,
     password: payload.password,
   };
   formdata.append('request', JSON.stringify(requestPayload));
+
   if (payload.image) {
+    if (payload.image.size > MAX_FILE_SIZE) {
+      Toast.error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
+      return;
+    }
     formdata.append('image', payload.image);
   }
+
   const res = await fetch(`${baseURL}/api/mypage/v1/me`, {
     method: 'PATCH',
     body: formdata,

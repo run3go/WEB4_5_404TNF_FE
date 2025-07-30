@@ -1,3 +1,5 @@
+import { Toast } from '@/components/common/Toast';
+
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const getPetProfiles = async (userId: string): Promise<PetProfile[]> => {
@@ -27,6 +29,11 @@ export const registPetProfile = async (
   payload: PetPayload,
   image: File | null,
 ) => {
+  const MAX_FILE_SIZE = 3 * 1024 * 1024;
+  if (image && image.size > MAX_FILE_SIZE) {
+    Toast.error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
+    return;
+  }
   const formdata = new FormData();
   formdata.append('request', JSON.stringify(payload));
   if (image) {
@@ -49,6 +56,11 @@ export const modifyPetProfile = async (
   image: File | null,
   petId: number,
 ) => {
+  const MAX_FILE_SIZE = 3 * 1024 * 1024;
+  if (image && image.size > MAX_FILE_SIZE) {
+    Toast.error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
+    return;
+  }
   const formdata = new FormData();
   formdata.append('request', JSON.stringify(payload));
   if (image) {
