@@ -7,19 +7,32 @@ import Image from 'next/image';
 export default function PostCard({
   post,
   boardType,
+  scrollRef,
 }: {
   post: PostDetail;
   boardType: 'free' | 'question';
+  scrollRef?: React.RefObject<HTMLDivElement | null>;
 }) {
   const router = useRouter();
+
+  const handleNavigate = () => {
+    const scrollY = scrollRef?.current?.scrollTop ?? 0;
+    sessionStorage.setItem(`scrollY-${boardType}`, scrollY.toString());
+  };
   return (
     <>
       <Card
         className="card__hover mx-1 flex h-[192px] w-full flex-col p-4 hover:!scale-100 sm:h-[228px] sm:w-full sm:p-5 sm:hover:!scale-102"
-        onClick={() => router.push(`/post/${boardType}/${post.articleId}`)}
+        onClick={() => {
+          router.push(`/post/${boardType}/${post.articleId}`);
+          handleNavigate();
+        }}
       >
         <div className="relative pb-7 sm:pb-[62px]">
-          <div onClick={(e) => e.stopPropagation()}>
+          <div
+            className="w-[110px] sm:w-[140px]"
+            onClick={(e) => e.stopPropagation()}
+          >
             <WriterInfo
               authorId={post.userId}
               postId={post.articleId}

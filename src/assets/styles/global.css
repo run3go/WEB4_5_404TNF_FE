@@ -164,7 +164,7 @@ body {
 
 /* chatbot */
 .chatbot-btn {
-  @apply cursor-pointer rounded-[20px] border border-[var(--color-primary-300)] px-3 py-2 leading-[1.2] transition-all;
+  @apply cursor-pointer rounded-[20px] border border-[var(--color-primary-300)] px-3 py-2 leading-[1.2] transition-all dark:bg-[var(--color-background)];
 }
 
 .chatbot-btn:hover {

@@ -39,22 +39,81 @@ export default function NotificationModal({ onClose }: NotificationModalProps) {
   //전체 삭제
   const removeNotificationsMutation = useMutation({
     mutationFn: removeNotifications,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notification-list'] });
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['notification-list'] });
+
+      const previousData = queryClient.getQueryData<NotificationInfo[]>([
+        'notification-list',
+      ]);
+      queryClient.setQueryData(['notification-list'], []);
+
       clearNotification();
+
+      return { previousData };
+    },
+    onError: (_err, _noti, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(['notification-list'], context.previousData);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['notification-list'] });
     },
   });
 
   const removeNotificationMutation = useMutation({
     mutationFn: removeNotification,
-    onSuccess: () => {
+    onMutate: async ({ notiId }) => {
+      await queryClient.cancelQueries({ queryKey: ['notification-list'] });
+
+      const previousData = queryClient.getQueryData<NotificationInfo[]>([
+        'notification-list',
+      ]);
+
+      queryClient.setQueryData(
+        ['notification-list'],
+        (old: NotificationInfo[] | undefined) =>
+          old ? old.filter((n) => n.notiId !== notiId) : [],
+      );
+
+      return { previousData };
+    },
+    onError: (_err, _noti, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(['notification-list'], context.previousData);
+      }
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['notification-list'] });
     },
   });
 
   const readNotificationMutation = useMutation({
     mutationFn: readNotification,
-    onSuccess: () => {
+    onMutate: async ({ notiId }) => {
+      await queryClient.cancelQueries({ queryKey: ['notification-list'] });
+
+      const previousData = queryClient.getQueryData<NotificationInfo[]>([
+        'notification-list',
+      ]);
+
+      queryClient.setQueryData(
+        ['notification-list'],
+        (old: NotificationInfo[] | undefined) =>
+          old
+            ? old.map((n) => (n.notiId === notiId ? { ...n, isRead: true } : n))
+            : [],
+      );
+      isReadNotification(notiId);
+
+      return { previousData };
+    },
+    onError: (_err, _noti, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(['notification-list'], context.previousData);
+      }
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['notification-list'] });
     },
   });

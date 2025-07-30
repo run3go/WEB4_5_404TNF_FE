@@ -53,14 +53,19 @@ export default function CommentInput({ postId }: { postId: number }) {
 
       return { previousData };
     },
-    onError: (_err, post, context) => {
+    onError: (err, post, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(
           ['comment-list', post.postId],
           context.previousData,
         );
       }
-      Toast.error('댓글 등록에 실패했습니다.');
+
+      if (err instanceof Error) {
+        Toast.error(err.message, true);
+      } else {
+        Toast.error('댓글 등록에 실패했습니다.');
+      }
     },
     onSettled: (_data, _error, variables) => {
       if (variables) {
@@ -98,7 +103,8 @@ export default function CommentInput({ postId }: { postId: number }) {
             onChange={(e) => setComment(e.target.value)}
             value={comment}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
                 handleSubmit();
               }
             }}
@@ -115,7 +121,7 @@ export default function CommentInput({ postId }: { postId: number }) {
 
       <div className="sm:hidden">
         <textarea
-          className="h-[52px] w-full resize-none rounded-t-[20px] bg-[#FFECD2] px-5 py-[14px] text-[12px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
+          className="fixed bottom-0 z-1 h-[52px] w-full resize-none rounded-t-[20px] bg-[#FFECD2] px-5 py-[14px] text-[12px] font-medium text-[#2B2926] placeholder-[#909090] focus:outline-none"
           onInput={(e) => {
             e.currentTarget.style.height = 'auto';
             e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
@@ -123,7 +129,8 @@ export default function CommentInput({ postId }: { postId: number }) {
           onChange={(e) => setComment(e.target.value)}
           value={comment}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
               handleSubmit();
             }
           }}

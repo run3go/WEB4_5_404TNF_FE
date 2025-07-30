@@ -4,6 +4,7 @@ import Card from '../common/Card';
 import DonutGraph from './graph/DonutGraph';
 
 export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
+  console.log(feeding);
   const router = useRouter();
   if (!feeding?.amount && !feeding?.date) {
     return (
@@ -23,7 +24,8 @@ export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
     .map((unit) => unit.label);
 
   const formatNumber = (number: number) => {
-    return number === Math.floor(number) ? number : number.toFixed(1);
+    if (number === null) return;
+    return number === Math.floor(number) ? String(number) : number.toFixed(1);
   };
 
   return (

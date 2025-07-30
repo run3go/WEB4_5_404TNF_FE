@@ -10,8 +10,12 @@ export const useCreatePost = (boardType: 'FREE' | 'QUESTION') => {
     onSuccess: (data) => {
       router.push(`/post/${boardType.toLowerCase()}/${data.data.articleId}`);
     },
-    onError: () => {
-      Toast.error('게시글 등록에 실패했습니다.');
+    onError: (error) => {
+      if (error instanceof Error) {
+        Toast.error(error.message);
+      } else {
+        Toast.error('게시글 등록에 실패했습니다.');
+      }
     },
   });
 };
