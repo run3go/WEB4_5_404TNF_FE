@@ -8,6 +8,7 @@ import Image from 'next/image';
 import user_default_image from '@/assets/images/default-profile.svg';
 import { useAuthStore } from '@/stores/authStoe';
 import getElapsedTime from '@/lib/utils/format-time';
+import ReactDOM from 'react-dom';
 
 interface WriterInfoProps {
   authorId: number;
@@ -105,22 +106,24 @@ export default function WriterInfo({
         </div>
       )}
 
-      {isReportModalOpen && (
-        <div
-          className="fixed inset-0 z-[250] flex items-center justify-center bg-[#2B2926]/50"
-          onClick={() => setIsReportModalOpen(false)}
-        >
-          <div onClick={(e) => e.stopPropagation()}>
-            <ReportModal
-              reportedId={authorId}
-              contentId={postId!}
-              reportedName={name}
-              reportType="BOARD"
-              onClose={() => setIsReportModalOpen(false)}
-            />
-          </div>
-        </div>
-      )}
+      {isReportModalOpen &&
+        ReactDOM.createPortal(
+          <div
+            className="fixed inset-0 z-[250] flex items-center justify-center bg-[#2B2926]/50"
+            onClick={() => setIsReportModalOpen(false)}
+          >
+            <div onClick={(e) => e.stopPropagation()}>
+              <ReportModal
+                reportedId={authorId}
+                contentId={postId!}
+                reportedName={name}
+                reportType="BOARD"
+                onClose={() => setIsReportModalOpen(false)}
+              />
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
