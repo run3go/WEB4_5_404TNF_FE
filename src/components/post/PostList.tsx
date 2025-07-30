@@ -139,7 +139,7 @@ export default function PostList({
                   top="-75px"
                   className="sm:hidden dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
                 />
-                <p className="hidden text-[18px] font-medium sm:block dark:text-[#2b2926]">
+                <p className="hidden text-[18px] font-medium sm:block">
                   작성하기
                 </p>
               </div>
