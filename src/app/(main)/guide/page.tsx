@@ -23,9 +23,9 @@ export default function Guide() {
         가
         <br className="sm:hidden" /> 성장 주차별 맞춤 정보를 안내해 드려요
       </p>
-      <span className="text-[10px] text-[var(--color-grey)] sm:text-base">
+      <div className="mb-30 text-[10px] text-[var(--color-grey)] sm:text-base lg:mb-10 2xl:mb-0">
         ※ 카드를 클릭 시, 멍냥보감의 케어가이드 블로그로 이동합니다
-      </span>
+      </div>
 
       <Roadmap />
     </main>
