@@ -34,18 +34,6 @@ export default function Sidebar() {
   };
 
   useEffect(() => {
-    const setVh = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-    };
-    setVh();
-    window.addEventListener('resize', setVh);
-    return () => {
-      window.removeEventListener('resize', setVh);
-    };
-  });
-
-  useEffect(() => {
     const storedUserId = sessionStorage.getItem('userId');
     setUserId(storedUserId);
     const storedRole = sessionStorage.getItem('role');
@@ -69,7 +57,7 @@ export default function Sidebar() {
           />
         )}
         <div
-          className={`fixed top-0 left-0 z-200 transition-transform duration-300 ease-in-out ${!isOpen ? '-translate-x-full' : 'sm:-translate-x-0'} h-[calc(var(--vh, 1vh)*100)] w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[var(--color-black)] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:translate-x-0 sm:rounded-[50px] sm:bg-[var(--color-background)] sm:p-8 dark:bg-[#343434] sm:dark:bg-[var(--color-black)]`}
+          className={`fixed top-0 left-0 z-200 transition-transform duration-300 ease-in-out ${!isOpen ? '-translate-x-full' : 'sm:-translate-x-0'} h-[100svh] w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[var(--color-black)] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:translate-x-0 sm:rounded-[50px] sm:bg-[var(--color-background)] sm:p-8 dark:bg-[#343434] sm:dark:bg-[var(--color-black)]`}
         >
           <Link href="/">
             <Image
