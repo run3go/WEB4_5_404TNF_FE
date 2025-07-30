@@ -29,10 +29,7 @@ export default function PostCard({
         }}
       >
         <div className="relative pb-7 sm:pb-[62px]">
-          <div
-            className="w-[110px] sm:w-[140px]"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="w-fit" onClick={(e) => e.stopPropagation()}>
             <WriterInfo
               authorId={post.userId}
               postId={post.articleId}
