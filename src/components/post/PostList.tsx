@@ -113,7 +113,7 @@ export default function PostList({
             <div className="flex w-full items-center justify-between sm:w-auto">
               <div className="h-[36px] rounded-[12px] border border-[#FCC389] py-1.5 pl-4 text-[14px] sm:h-[42px] sm:text-[18px]">
                 <SelectBox
-                  width={'90px'}
+                  width={'100px'}
                   options={SORT}
                   isCenter
                   setValue={setSortType}
