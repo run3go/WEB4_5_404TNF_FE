@@ -34,7 +34,11 @@ export default function MobileSchedule() {
 
   if (!isPending && petOptions) {
     if (petOptions?.length === 0) {
-      return <NoPets />;
+      return (
+        <div className="flex h-full w-full items-center justify-center sm:hidden">
+          <NoPets />
+        </div>
+      );
     } else {
       return (
         <>

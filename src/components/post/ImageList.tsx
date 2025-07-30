@@ -69,6 +69,7 @@ export default function ImageList({ postImage }: { postImage: PostImage[] }) {
                   alt="포스트 이미지"
                   fill
                   priority
+                  sizes="(max-width: 640px) 76.8vw, 300px"
                 />
               </div>
             </SwiperSlide>

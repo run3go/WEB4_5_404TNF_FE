@@ -66,6 +66,9 @@ export default function SelectBox({
         options={options}
         placeholder={placeholder}
         defaultValue={options[defaultValueIndex]}
+        menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
+        menuPosition="absolute"
+        menuShouldBlockScroll={false}
         components={{
           Option: ({ children, ...rest }) => (
             <components.Option {...rest}>
@@ -159,6 +162,7 @@ export default function SelectBox({
               ? 'var(--color-dark-background)'
               : 'var(--color-background)',
             right: 0,
+
             padding: fontSize === '12px' ? 0 : '0.6em',
           }),
           menuList: (base) => ({
@@ -182,6 +186,10 @@ export default function SelectBox({
               display: 'flex',
             }),
           }),
+          menuPortal: (base) => ({
+            ...base,
+            zIndex: 9999,
+          }),
           placeholder: (base) => ({
             ...base,
             color: 'var(--color-grey)',
@@ -191,7 +199,7 @@ export default function SelectBox({
           indicatorSeparator: () => 'hidden',
           menu: () =>
             thinBorder
-              ? 'border border-[rgba(43,41,38,0.5)]'
+              ? 'border border-[rgba(43,41,38,0.5)] w-full'
               : `border border-[${borderColor}] w-full`,
           option: () => 'rounded-[8px] font-medium',
         }}
