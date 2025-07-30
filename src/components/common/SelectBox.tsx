@@ -199,7 +199,7 @@ export default function SelectBox({
           indicatorSeparator: () => 'hidden',
           menu: () =>
             thinBorder
-              ? 'border border-[rgba(43,41,38,0.5)]'
+              ? 'border border-[rgba(43,41,38,0.5)] w-full'
               : `border border-[${borderColor}] w-full`,
           option: () => 'rounded-[8px] font-medium',
         }}
