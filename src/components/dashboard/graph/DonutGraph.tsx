@@ -6,7 +6,6 @@ export default function DonutGraph({ feeding }: { feeding: DashboardFeeding }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   const average = isNaN(feeding.average) ? 0 : feeding.average;
-
   const diff = average - feeding.amount;
   const percent = Math.ceil(Math.abs(diff / average) * 100);
   const mainColor = diff > 0 ? 'var(--color-red-300)' : 'var(--color-blue-300)';

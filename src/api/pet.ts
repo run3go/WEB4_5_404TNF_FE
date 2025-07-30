@@ -123,6 +123,17 @@ export const modifyVaccineData = async (
   }
 };
 
+export const getVaccineSchedule = async (petId: number) => {
+  const res = await fetch(`${baseURL}/api/schedule/v2/vaccination/${petId}`, {
+    credentials: 'include',
+  });
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '백신 일정 조회 실패');
+  }
+  const data = await res.json();
+  return data.data;
+}
 export const createVaccineSchedule = async (petId: number) => {
   const res = await fetch(
     `${baseURL}/api/mypage/v1/pets/${petId}/vaccination-schedule`,

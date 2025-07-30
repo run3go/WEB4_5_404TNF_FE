@@ -31,6 +31,8 @@ export default function BarChart({
       .append('div')
       .attr('class', 'tooltip')
       .style('position', 'absolute')
+      .style('left', '-9999px')
+      .style('top', '-9999px')
       .style('background', '#fff')
       .style('border', '1px solid #ccc')
       .style('padding', '6px 8px')
@@ -38,7 +40,8 @@ export default function BarChart({
       .style('box-shadow', '0 2px 6px rgba(0,0,0,0.15)')
       .style('font-size', '14px')
       .style('pointer-events', 'none')
-      .style('opacity', 0);
+      .style('opacity', 0)
+      .style('color', 'var(--color-black)');
 
     // 툴팁 이벤트 핸들러
     const handleMouseOver = () => {

@@ -1,4 +1,5 @@
 import { updatePost } from '@/api/post';
+import { Toast } from '@/components/common/Toast';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
@@ -13,6 +14,13 @@ export const useEditPost = (
     onSuccess: () => {
       onClose();
       router.push(`/post/${boardType.toLowerCase()}/${postId}`);
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        Toast.error(error.message);
+      } else {
+        Toast.error('게시글 수정에 실패했습니다.');
+      }
     },
   });
 };

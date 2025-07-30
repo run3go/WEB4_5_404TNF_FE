@@ -51,7 +51,7 @@ export default function DateItem({
                     className={`absolute inset-0 -top-[5px] ${String(date).length === 1 || String(date)[0] !== '1' ? '-left-1' : '-left-[2.5px]'} size-8 rounded-full bg-[var(--color-primary-500)]`}
                   />
                 )}
-                <span className="z-10">{date}</span>
+                <span className="z-1">{date}</span>
               </div>
               {schedules && schedules.length > 2 && (
                 <span className="text-sm text-[var(--color-grey)]">+ more</span>

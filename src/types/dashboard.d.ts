@@ -3,7 +3,7 @@ type DashboardProfile = {
   breed: PetBreed;
   metDay: string;
   age: number;
-  image: string;
+  imgUrl: string;
   sex: boolean;
   aiAnalysis: string | null;
 };

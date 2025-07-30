@@ -23,7 +23,7 @@ export default function SearchBar({
 }) {
   return (
     <>
-      <div className="bg-opacity-100 relative hidden h-[40px] items-center rounded-[10px] border-[3px] border-[#FFDBAB] sm:flex">
+      <div className="bg-opacity-100 relative hidden h-[42px] items-center rounded-[10px] border-[1px] border-[#FFDBAB] sm:flex dark:ml-[3px] dark:border-0 dark:bg-[#FCC389]">
         <div className="pl-4">
           {options && (
             <SelectBox
@@ -35,7 +35,7 @@ export default function SearchBar({
           )}
         </div>
         <input
-          className="h-[40px] w-[250px] focus:outline-none"
+          className="h-[40px] w-[250px] focus:outline-none dark:text-[#2B2926]"
           placeholder="검색어를 입력해주세요"
           value={value ?? keyword ?? ''}
           onChange={(e) => onChange?.(e) ?? setKeyword?.(e.target.value)}

@@ -7,7 +7,7 @@ import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Icon from './Icon';
 import Settings from './Settings';
 
@@ -19,7 +19,6 @@ export default function Sidebar() {
   const [userId, setUserId] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
 
-  const modalRef = useRef<HTMLDivElement>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -27,12 +26,7 @@ export default function Sidebar() {
       await logout();
       setUserId(null);
       setRole(null);
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('role');
-      sessionStorage.removeItem('isNotification');
-      sessionStorage.removeItem('isNotiAll');
-      sessionStorage.removeItem('isNotiSchedule');
-      sessionStorage.removeItem('isNotiService');
+      sessionStorage.clear();
       setLogout();
     } catch (error) {
       console.error(error);
@@ -51,16 +45,6 @@ export default function Sidebar() {
     close();
   }, [pathname, close]);
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        setIsSettingsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   if (!isLoading) return null;
 
   return (
@@ -73,7 +57,7 @@ export default function Sidebar() {
           />
         )}
         <div
-          className={`fixed z-200 ${!isOpen ? 'hidden' : ''} h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[var(--color-black)] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:rounded-[50px] sm:bg-[var(--color-background)] sm:p-8 sm:dark:bg-[var(--color-black)]`}
+          className={`fixed z-200 ${!isOpen ? 'hidden' : ''} h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[var(--color-black)] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:rounded-[50px] sm:bg-[var(--color-background)] sm:p-8 dark:bg-[#343434] sm:dark:bg-[var(--color-black)]`}
         >
           <Link href="/">
             <Image
@@ -107,15 +91,8 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname === '/dashboard' && 'opacity-0'}`}
                 >
-                  <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="24px"
-                    height="24px"
-                    left="-26px"
-                    top="-23px"
-                  />
+                  <Icon width="24px" height="24px" left="-26px" top="-23px" />
                 </div>
-
                 <div
                   className={`absolute opacity-0 ${pathname === '/dashboard' && 'opacity-100'} `}
                 >
@@ -123,8 +100,8 @@ export default function Sidebar() {
                 </div>
                 <p className="pl-10">대시보드</p>
               </Link>
-              {/* 일정 */}
 
+              {/* 일정 */}
               <Link
                 href={'/schedule'}
                 className={`sidebar__content group relative ${pathname === '/schedule' && 'sidebar__content-active'}`}
@@ -132,15 +109,8 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname === '/schedule' && 'opacity-0'}`}
                 >
-                  <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="24px"
-                    height="24px"
-                    left="-66px"
-                    top="-21px"
-                  />
+                  <Icon width="24px" height="24px" left="-66px" top="-21px" />
                 </div>
-
                 <div
                   className={`absolute opacity-0 ${pathname === '/schedule' && 'opacity-100'} `}
                 >
@@ -148,30 +118,25 @@ export default function Sidebar() {
                 </div>
                 <p className="pl-10">일정</p>
               </Link>
+
               {/* 멍멍일지 */}
               <Link
                 href="/diary"
                 className={`sidebar__content group relative ${pathname.startsWith('/diary') && 'sidebar__content-active'}`}
               >
                 <div
-                  className={`absolute ${pathname === '/diary' && 'opacity-0'}`}
+                  className={`absolute ${pathname.startsWith('/diary') && 'opacity-0'}`}
                 >
-                  <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="24px"
-                    height="24px"
-                    left="-108px"
-                    top="-21px"
-                  />
+                  <Icon width="24px" height="24px" left="-108px" top="-21px" />
                 </div>
-
                 <div
-                  className={`absolute opacity-0 ${pathname === '/diary' && 'opacity-100'} `}
+                  className={`absolute opacity-0 ${pathname.startsWith('/diary') && 'opacity-100'} `}
                 >
                   <Icon width="24px" height="24px" left="-110px" top="-308px" />
                 </div>
                 <span className="pl-10">멍멍일지</span>
               </Link>
+
               {/* 게시판 */}
               <Link
                 href={'/post/question'}
@@ -180,15 +145,8 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname.includes('/post') && 'opacity-0'}`}
                 >
-                  <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="28px"
-                    height="16px"
-                    left="-144px"
-                    top="-25px"
-                  />
+                  <Icon width="28px" height="16px" left="-144px" top="-25px" />
                 </div>
-
                 <div
                   className={`absolute opacity-0 ${pathname.includes('/post') && 'opacity-100'} `}
                 >
@@ -196,6 +154,7 @@ export default function Sidebar() {
                 </div>
                 <p className="pl-10">게시판</p>
               </Link>
+
               {/* 가이드 */}
               <Link
                 href={'/guide'}
@@ -204,15 +163,8 @@ export default function Sidebar() {
                 <div
                   className={`absolute ${pathname === '/guide' && 'opacity-0'}`}
                 >
-                  <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="25px"
-                    height="26px"
-                    left="-186px"
-                    top="-20px"
-                  />
+                  <Icon width="25px" height="26px" left="-186px" top="-20px" />
                 </div>
-
                 <div
                   className={`absolute opacity-0 ${pathname === '/guide' && 'opacity-100'} `}
                 >
@@ -231,14 +183,12 @@ export default function Sidebar() {
                     className={`absolute ${pathname === '/admin' && 'opacity-0'}`}
                   >
                     <Icon
-                      className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                       width="24px"
                       height="26px"
                       left="-342px"
                       top="-20px"
                     />
                   </div>
-
                   <div
                     className={`absolute opacity-0 ${pathname.startsWith('/admin') && 'opacity-100'} `}
                   >
@@ -259,16 +209,12 @@ export default function Sidebar() {
                   className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6"
                   onClick={() => setIsSettingsOpen(true)}
                 >
-                  <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="24px"
-                    height="26px"
-                    left="-297px"
-                    top="-252px"
-                  />
-                  <p className="sm:dark:text-[var(--color-background)]">설정</p>
+                  <Icon width="24px" height="26px" left="-297px" top="-252px" />
+                  <p className="dark:text-[var(--color-background)]">설정</p>
                 </div>
-                {isSettingsOpen && <Settings ref={modalRef} />}
+                {isSettingsOpen && (
+                  <Settings onClose={() => setIsSettingsOpen(false)} />
+                )}
               </div>
               {userId || isLogin ? (
                 <>
@@ -284,7 +230,7 @@ export default function Sidebar() {
                       height={24}
                       priority
                     />
-                    <p className="sm:dark:text-[var(--color-background)]">
+                    <p className="dark:text-[var(--color-background)]">
                       마이페이지
                     </p>
                   </Link>
@@ -293,13 +239,12 @@ export default function Sidebar() {
                     onClick={handleLogout}
                   >
                     <Icon
-                      className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
                       width="28px"
                       height="28px"
                       left="-264px"
                       top="-18px"
                     />
-                    <p className="sm:dark:text-[var(--color-background)]">
+                    <p className="dark:text-[var(--color-background)]">
                       로그아웃
                     </p>
                   </div>
@@ -309,16 +254,8 @@ export default function Sidebar() {
                   href={'/login'}
                   className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
                 >
-                  <Icon
-                    className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/dark-sprite.svg')]"
-                    width="28px"
-                    height="28px"
-                    left="-264px"
-                    top="-18px"
-                  />
-                  <p className="sm:dark:text-[var(--color-background)]">
-                    로그인
-                  </p>
+                  <Icon width="28px" height="28px" left="-264px" top="-18px" />
+                  <p className="dark:text-[var(--color-background)]">로그인</p>
                 </Link>
               )}
             </div>

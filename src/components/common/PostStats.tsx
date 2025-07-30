@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import Icon from './Icon';
-import { cancelLike, getPostDetail, requestLike } from '@/api/post';
+import {
+  cancelLike,
+  getCommentCount,
+  getLikeCount,
+  requestLike,
+} from '@/api/post';
 import { useAuthStore } from '@/stores/authStoe';
+import { useQuery } from '@tanstack/react-query';
 
 interface PostStats {
   comment: number;
@@ -16,48 +22,55 @@ export default function PostStats({ comment, like, views, postId }: PostStats) {
   const [isLoading, setIsLoading] = useState(false);
   const userInfo = useAuthStore((state) => state.userInfo);
 
-  const handleLike = async () => {
-    if (!userInfo) return;
-    if (!postId || isLoading) return;
-    setIsLoading(true);
-    const prevLiked = liked;
-    const prevLike = like;
+  const { data } = useQuery({
+    queryKey: ['comment-count', postId],
+    queryFn: () => getCommentCount(postId!),
+    enabled: !!postId,
+  });
 
-    setLiked(!prevLiked);
-    setLikes(prevLiked ? prevLike - 1 : prevLike + 1);
+  const handleLike = async () => {
+    if (!userInfo || !postId || isLoading) return;
+    setIsLoading(true);
+
+    const prevLiked = liked;
+    const prevLikes = likes;
+
+    const nextLiked = !prevLiked;
+    const nextLikes = prevLiked ? prevLikes - 1 : prevLikes + 1;
+
+    setLiked(nextLiked);
+    setLikes(nextLikes);
 
     try {
-      if (!prevLiked) {
-        await requestLike(postId);
-      } else {
-        await cancelLike(postId);
-      }
-    } catch (err) {
-      console.error(err);
+      const res = nextLiked
+        ? await requestLike(postId)
+        : await cancelLike(postId);
+
+      setLiked(res.data.isLiked);
+      setLikes(res.data.like);
+    } catch (error) {
+      console.error('좋아요 처리 실패:', error);
       setLiked(prevLiked);
-      setLikes(prevLike);
-      alert('좋아요 실패');
+      setLikes(prevLikes);
+      alert('좋아요 처리 중 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
-    const fetchPostDetail = async () => {
+    const fetchLikeStatus = async () => {
       try {
-        const data = await getPostDetail(postId!);
-        console.log(data.data);
-        setLiked(data.data.isLiked);
-        setLikes(data.data.like ?? like);
+        if (!postId) return;
+        const res = await getLikeCount(postId);
+        setLiked(res.data.isLiked);
+        setLikes(res.data.like);
       } catch (error) {
-        console.error('게시글 불러오기 실패:', error);
+        console.error('좋아요 상태 불러오기 실패:', error);
       }
     };
 
-    if (postId) {
-      fetchPostDetail();
-    }
-  }, [postId, like]);
+    fetchLikeStatus();
+  }, [postId]);
   return (
     <>
       <div className="flex gap-2 font-medium sm:gap-4">
@@ -93,7 +106,7 @@ export default function PostStats({ comment, like, views, postId }: PostStats) {
             className="mt-0.5 scale-75 sm:scale-100"
           />
           <p className="pt-1 text-[10px] sm:pt-[2px] sm:text-[14px]">
-            {comment}
+            {data?.data.replies ?? comment}
           </p>
         </div>
 

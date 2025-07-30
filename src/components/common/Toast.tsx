@@ -27,9 +27,10 @@ export const Toast = {
       icon: <Icon width="16px" height="14px" left="-340px" top="-122px" />,
     });
   },
-  error: (message: ReactNode) => {
+  error: (message: ReactNode, isWide?: boolean) => {
     toast.error(message, {
       icon: <Icon width="14px" height="14px" left="-415px" top="-122px" />,
+      style: isWide ? { width: '400px' } : undefined,
     });
   },
   warn: (message: ReactNode) => {
