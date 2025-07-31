@@ -98,29 +98,10 @@ export default function LoginForm() {
 
     try {
       const res = await socialLoginMutation.mutateAsync(provider);
+      console.log(res);
       window.location.href = res;
       const user = await getMyUserInfo();
-
-      const notiSetting = await notiSettingMutation.mutateAsync();
-
-      const notiList = await getNotiMutation.mutateAsync();
-
-      const userInfo: User = {
-        userId: user.userId,
-        email: user.email,
-        name: user.name,
-        nickname: user.nickname,
-        role: user.role,
-        provider: user.provider,
-        imgUrl: user.imgUrl,
-      };
-
-      setLogin(userInfo);
-      setNotifications(notiList);
       sessionStorage.setItem('userId', user.userId);
-      sessionStorage.setItem('isNotiAll', notiSetting?.isNotiAll);
-      sessionStorage.setItem('isNotiSchedule', notiSetting?.isNotiSchedule);
-      sessionStorage.setItem('isNotiService', notiSetting?.isNotiService);
     } catch (err) {
       console.error(err);
     }
@@ -163,7 +144,6 @@ export default function LoginForm() {
             className="auth__input focus:!border-[#FCC389]"
             value={password}
             onChange={(e) => handleChange(e, 'password')}
-            autoComplete="current-password"
           />
           {password.length > 0 && (
             <PasswordToggleButton
