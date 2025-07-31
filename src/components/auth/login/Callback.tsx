@@ -25,30 +25,35 @@ export default function Callback() {
   });
   useEffect(() => {
     const socialLogin = async () => {
-      const user = await getMyUserInfo();
+      try {
+        const user = await getMyUserInfo();
 
-      const notiSetting = await notiSettingMutation.mutateAsync();
+        const notiSetting = await notiSettingMutation.mutateAsync();
 
-      const notiList = await getNotiMutation.mutateAsync();
+        const notiList = await getNotiMutation.mutateAsync();
 
-      const userInfo: User = {
-        userId: user.userId,
-        email: user.email,
-        name: user.name,
-        nickname: user.nickname,
-        role: user.role,
-        provider: user.provider,
-        imgUrl: user.imgUrl,
-      };
+        const userInfo: User = {
+          userId: user.userId,
+          email: user.email,
+          name: user.name,
+          nickname: user.nickname,
+          role: user.role,
+          provider: user.provider,
+          imgUrl: user.imgUrl,
+        };
 
-      setLogin(userInfo);
-      setNotifications(notiList);
-      sessionStorage.setItem('userId', user.userId);
-      sessionStorage.setItem('isNotiAll', notiSetting?.isNotiAll);
-      sessionStorage.setItem('isNotiSchedule', notiSetting?.isNotiSchedule);
-      sessionStorage.setItem('isNotiService', notiSetting?.isNotiService);
+        setLogin(userInfo);
+        setNotifications(notiList);
+        sessionStorage.setItem('userId', user.userId);
+        sessionStorage.setItem('isNotiAll', notiSetting?.isNotiAll);
+        sessionStorage.setItem('isNotiSchedule', notiSetting?.isNotiSchedule);
+        sessionStorage.setItem('isNotiService', notiSetting?.isNotiService);
 
-      router.replace('/');
+        router.replace('/');
+      } catch (err) {
+        console.error(err);
+        router.replace('/login?error=social');
+      }
     };
 
     socialLogin();

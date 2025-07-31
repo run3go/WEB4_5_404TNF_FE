@@ -4,14 +4,16 @@ import { getUserProfile, login, socialLogin } from '@/api/auth';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import PasswordToggleButton from '../ShowPasswordButton';
 import { getNotifications, getNotificationSetting } from '@/api/notification';
 import { useNotificationStore } from '@/stores/Notification';
+import { Toast } from '@/components/common/Toast';
 
 export default function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,6 +23,8 @@ export default function LoginForm() {
   const setNotifications = useNotificationStore(
     (state) => state.setNotifications,
   );
+
+  const loginError = searchParams.get('error');
 
   const loginMutation = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
@@ -116,6 +120,12 @@ export default function LoginForm() {
 
     setError('');
   };
+
+  useEffect(() => {
+    if (loginError) {
+      Toast.error(decodeURIComponent(loginError));
+    }
+  }, [loginError]);
 
   return (
     <>
