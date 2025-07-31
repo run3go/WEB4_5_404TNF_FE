@@ -123,7 +123,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (loginError) {
-      Toast.error(decodeURIComponent(loginError));
+      Toast.error(decodeURIComponent(loginError), true);
     }
   }, [loginError]);
 

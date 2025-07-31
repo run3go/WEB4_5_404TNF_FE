@@ -52,7 +52,9 @@ export default function Callback() {
         router.replace('/');
       } catch (err) {
         console.error(err);
-        router.replace('/login?error=social');
+        router.replace(
+          '/login?error=정보 불러오기 실패. 다시 로그인 해주세요.',
+        );
       }
     };
 
