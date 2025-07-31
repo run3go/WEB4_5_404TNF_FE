@@ -126,6 +126,7 @@ export default function PasswordInputSection({
           value={password}
           onChange={(e) => handlePasswordChange(e.target.value.trim())}
           onBlur={() => handleBlur('password')}
+          autoComplete="new-password"
         />
         {password.length > 0 && (
           <PasswordToggleButton
@@ -148,6 +149,7 @@ export default function PasswordInputSection({
           value={confirmPassword}
           onChange={(e) => handleConfirmPasswordChange(e.target.value.trim())}
           onBlur={() => handleBlur('confirmPassword')}
+          autoComplete="new-password"
         />
         {confirmPassword.length > 0 && (
           <PasswordToggleButton
