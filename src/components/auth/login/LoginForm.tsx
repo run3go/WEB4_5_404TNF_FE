@@ -4,15 +4,16 @@ import { getUserProfile, login, socialLogin } from '@/api/auth';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import PasswordToggleButton from '../ShowPasswordButton';
-import { getMyUserInfo } from '@/api/user';
 import { getNotifications, getNotificationSetting } from '@/api/notification';
 import { useNotificationStore } from '@/stores/Notification';
+import { Toast } from '@/components/common/Toast';
 
 export default function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,6 +23,8 @@ export default function LoginForm() {
   const setNotifications = useNotificationStore(
     (state) => state.setNotifications,
   );
+
+  const loginError = searchParams.get('error');
 
   const loginMutation = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
@@ -99,28 +102,6 @@ export default function LoginForm() {
     try {
       const res = await socialLoginMutation.mutateAsync(provider);
       window.location.href = res;
-      const user = await getMyUserInfo();
-
-      const notiSetting = await notiSettingMutation.mutateAsync();
-
-      const notiList = await getNotiMutation.mutateAsync();
-
-      const userInfo: User = {
-        userId: user.userId,
-        email: user.email,
-        name: user.name,
-        nickname: user.nickname,
-        role: user.role,
-        provider: user.provider,
-        imgUrl: user.imgUrl,
-      };
-
-      setLogin(userInfo);
-      setNotifications(notiList);
-      sessionStorage.setItem('userId', user.userId);
-      sessionStorage.setItem('isNotiAll', notiSetting?.isNotiAll);
-      sessionStorage.setItem('isNotiSchedule', notiSetting?.isNotiSchedule);
-      sessionStorage.setItem('isNotiService', notiSetting?.isNotiService);
     } catch (err) {
       console.error(err);
     }
@@ -139,6 +120,12 @@ export default function LoginForm() {
 
     setError('');
   };
+
+  useEffect(() => {
+    if (loginError) {
+      Toast.error(decodeURIComponent(loginError), true);
+    }
+  }, [loginError]);
 
   return (
     <>
