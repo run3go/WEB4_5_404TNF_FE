@@ -2,7 +2,6 @@
 
 import DateInput from '@/components/common/DateInput';
 import SelectBox from '@/components/common/SelectBox';
-import Icon from '@/components/common/Icon';
 
 type Props = {
   selectedDate: Date | undefined;
@@ -21,7 +20,6 @@ export default function DiaryListHeader({
   selectedPetId,
   setSelectedPetId,
   petOptions,
-  isMobile,
   onClickWrite,
 }: Props) {
   return (
@@ -44,7 +42,7 @@ export default function DiaryListHeader({
             options={petOptions}
             width="100%"
             borderColor="var(--color-primary-500)"
-            footstep={!isMobile}
+            footstep
             hasBorder
             type="diary"
           />
@@ -59,11 +57,13 @@ export default function DiaryListHeader({
         )}
       </div>
       <button
-        className="hidden cursor-pointer items-center gap-1 sm:flex"
+        className="mr-3 hidden h-[42px] w-[116px] cursor-pointer items-center rounded-xl bg-[var(--color-primary-200)] hover:bg-[var(--color-primary-300)] sm:flex"
         onClick={onClickWrite}
       >
-        <Icon width="14px" height="14px" left="-231px" top="-79px" />
-        <span className="inline-block w-16 font-medium">기록하기</span>
+        {/* <Icon width="14px" height="14px" left="-231px" top="-79px" /> */}
+        <span className="w-full text-center font-medium dark:text-[var(--color-black)]">
+          기록하기
+        </span>
       </button>
     </div>
   );

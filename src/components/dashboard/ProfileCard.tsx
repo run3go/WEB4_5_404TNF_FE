@@ -2,6 +2,7 @@ import { petBreedData } from '@/assets/data/pet';
 import defaultDogProfile from '@/assets/images/default-dog-profile.svg';
 import { calculateAge, calculateMetDay } from '@/lib/utils/date';
 import Image from 'next/image';
+import { useState } from 'react';
 import Card from '../common/Card';
 import Icon from '../common/Icon';
 
@@ -10,14 +11,14 @@ export default function ProfileCard({
 }: {
   profile?: DashboardProfile;
 }) {
+  const [profileImage, setProfileImage] = useState(profile?.imgUrl);
   if (!profile) return;
   const breedName = petBreedData
     .filter((breed) => breed.value === profile.breed)
     .map((breed) => breed.label);
-  console.log(profile);
   return (
     <Card className="flex w-full flex-row-reverse justify-end sm:flex-row sm:justify-between">
-      <ul className="flex flex-col gap-3 text-sm font-medium sm:gap-[12px] sm:text-lg">
+      <ul className="flex flex-col gap-3 text-sm font-medium sm:text-base xl:gap-[12px] xl:text-lg">
         <li className="flex items-center">
           <span className="mr-3 text-[var(--color-grey)]">이름</span>
           <span>{profile.name}</span>
@@ -58,13 +59,14 @@ export default function ProfileCard({
         </li>
       </ul>
       <Image
-        className="mr-3 h-[126px] w-[126px] rounded-xl sm:mr-0 sm:h-[150px] sm:w-[150px]"
-        src={profile.image || defaultDogProfile}
+        className="mr-3 h-[120px] w-[120px] rounded-xl object-cover sm:mr-0 md:h-[135px] md:w-[135px] xl:h-[150px] xl:w-[150px]"
+        src={profile.imgUrl || profileImage || defaultDogProfile}
         alt="강아지 이미지"
         width={150}
         height={150}
         priority
-      ></Image>
+        onError={() => setProfileImage(defaultDogProfile)}
+      />
     </Card>
   );
 }

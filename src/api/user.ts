@@ -31,15 +31,22 @@ export const checkPassword = async (password: { password: string }) => {
 };
 
 export const modifyUserInfo = async (payload: ProfileInfo) => {
+  const MAX_FILE_SIZE = 3 * 1024 * 1024;
+
   const formdata = new FormData();
   const requestPayload = {
     nickname: payload.nickname,
     password: payload.password,
   };
   formdata.append('request', JSON.stringify(requestPayload));
+
   if (payload.image) {
+    if (payload.image.size > MAX_FILE_SIZE) {
+      throw new Error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
+    }
     formdata.append('image', payload.image);
   }
+
   const res = await fetch(`${baseURL}/api/mypage/v1/me`, {
     method: 'PATCH',
     body: formdata,
@@ -79,6 +86,23 @@ export const getMyPosts = async (type: PostType, payload: PostPaylaod) => {
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText || '내 게시글 조회 실패');
+  }
+  const data = await res.json();
+  return data;
+};
+
+export const getUserPosts = async (userId: string, payload: PostPaylaod) => {
+  const queryString = new URLSearchParams(payload).toString();
+  const res = await fetch(
+    `${baseURL}/api/profile/v1/users/${userId}/board?${queryString}`,
+    {
+      credentials: 'include',
+    },
+  );
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '유저 게시글 조회 실패');
   }
   const data = await res.json();
   return data;

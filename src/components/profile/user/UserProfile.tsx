@@ -4,9 +4,10 @@ import defaultProfile from '@/assets/images/default-profile.svg';
 import Icon from '@/components/common/Icon';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
+import { useThemeStore } from '@/stores/themeStore';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMediaQuery } from 'react-responsive';
 import UserProfileEdit from './UserProfileEdit';
@@ -19,23 +20,40 @@ export default function UserProfile({
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)',
   });
-
+  const theme = useThemeStore((state) => state.theme);
   const userInfo = useAuthStore((state) => state.userInfo);
+  const setImage = useAuthStore((state) => state.setImage);
   const togglePage = useProfileStore((state) => state.toggleEditingUserProfile);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [error, setError] = useState(false);
 
   const isMyProfile = userInfo?.userId === userProfile.userId;
 
   const { data: profile } = useQuery<UserProfile>({
     queryFn: () => getMyUserInfo(),
-    queryKey: ['user', userInfo?.userId],
+    queryKey: ['user', String(userProfile.userId)],
     enabled: isMyProfile,
-    staleTime: 30000,
+    staleTime: 300000,
   });
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const fallbackImage = theme === 'dark' ? d_defaultProfile : defaultProfile;
+
+  const getImageSrc = () => {
+    if (error) return fallbackImage;
+    if (profile?.imgUrl) return profile?.imgUrl;
+    if (userProfile.imgUrl) return userProfile.imgUrl;
+    return fallbackImage;
+  };
+
+  useEffect(() => {
+    if (profile && profile.imgUrl) {
+      setImage(profile.imgUrl);
+    }
+  }, [setImage, profile]);
 
   return (
     <div className="mb-18 sm:mb-20">
@@ -66,18 +84,12 @@ export default function UserProfile({
       )}
       <div className="mt-7 flex items-center gap-4 sm:gap-7">
         <Image
-          className="h-20 w-20 rounded-full object-cover sm:h-40 sm:w-40 dark:hidden"
-          src={profile?.imgUrl || userProfile.imgUrl || defaultProfile}
+          className="h-20 w-20 rounded-full object-cover sm:h-40 sm:w-40"
+          src={getImageSrc()}
           alt="프로필 이미지"
           width={160}
           height={160}
-        />
-        <Image
-          className="hidden h-20 w-20 rounded-full object-cover sm:h-40 sm:w-40 dark:block"
-          src={profile?.imgUrl || userProfile.imgUrl || d_defaultProfile}
-          alt="프로필 이미지"
-          width={160}
-          height={160}
+          onError={() => setError(true)}
         />
         <div className="flex flex-col gap-3 text-xs sm:text-base">
           <div>

@@ -161,3 +161,20 @@ body {
 .guide-card:hover {
   @apply -translate-y-1 bg-[#FFF5E9] shadow-[0_6px_12px_rgba(0,0,0,0.2)] dark:bg-[var(--color-black)];
 }
+
+/* chatbot */
+.chatbot-btn {
+  @apply cursor-pointer rounded-[20px] border border-[var(--color-primary-300)] px-3 py-2 leading-[1.2] transition-all dark:bg-[var(--color-background)];
+}
+
+.chatbot-btn:hover {
+  @apply -translate-y-[2px] border-[var(--color-primary-500)] bg-[var(--color-primary-100)] text-[var(--color-primary-500)] shadow-[0_2px_8px_rgba(0,0,0,0.1)];
+}
+
+.chatbot-btn.active {
+  @apply cursor-default border-[var(--color-primary-500)] bg-[var(--color-primary-100)] text-[var(--color-primary-500)];
+}
+
+.chatbot-btn.active:hover {
+  @apply translate-0 shadow-none;
+}

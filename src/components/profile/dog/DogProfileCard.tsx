@@ -38,6 +38,7 @@ export default function DogProfileCard({
   const selectPet = useProfileStore((state) => state.selectPet);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isVaccineModalOpen, setIsVaccineModalOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState(profile.imgUrl);
 
   const breed = petBreedData.find(
     (data) => data.value === profile.breed,
@@ -77,13 +78,15 @@ export default function DogProfileCard({
         </h3>
         <div className="flex gap-8 px-6 py-4">
           <Image
+            key={profileImage}
             className="h-31 w-31 rounded-[12px] object-cover sm:h-55 sm:w-55"
-            src={profile.imgUrl || defaultDogImage}
+            src={profile.imgUrl || profileImage || defaultDogImage}
             width={220}
             height={220}
             alt="강아지 프로필"
             quality={100}
             priority
+            onError={() => setProfileImage(defaultDogImage)}
           />
           <div
             className={twMerge(

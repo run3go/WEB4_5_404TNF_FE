@@ -27,6 +27,10 @@ export const registPetProfile = async (
   payload: PetPayload,
   image: File | null,
 ) => {
+  const MAX_FILE_SIZE = 3 * 1024 * 1024;
+  if (image && image.size > MAX_FILE_SIZE) {
+    throw new Error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
+  }
   const formdata = new FormData();
   formdata.append('request', JSON.stringify(payload));
   if (image) {
@@ -49,6 +53,10 @@ export const modifyPetProfile = async (
   image: File | null,
   petId: number,
 ) => {
+  const MAX_FILE_SIZE = 3 * 1024 * 1024;
+  if (image && image.size > MAX_FILE_SIZE) {
+    throw new Error('이미지 파일은 3MB 이하만 업로드할 수 있습니다.');
+  }
   const formdata = new FormData();
   formdata.append('request', JSON.stringify(payload));
   if (image) {
@@ -111,6 +119,17 @@ export const modifyVaccineData = async (
   }
 };
 
+export const getVaccineSchedule = async (petId: number) => {
+  const res = await fetch(`${baseURL}/api/schedule/v2/vaccination/${petId}`, {
+    credentials: 'include',
+  });
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || '백신 일정 조회 실패');
+  }
+  const data = await res.json();
+  return data.data;
+};
 export const createVaccineSchedule = async (petId: number) => {
   const res = await fetch(
     `${baseURL}/api/mypage/v1/pets/${petId}/vaccination-schedule`,

@@ -40,7 +40,8 @@ export default function BarChart({
       .style('box-shadow', '0 2px 6px rgba(0,0,0,0.15)')
       .style('font-size', '14px')
       .style('pointer-events', 'none')
-      .style('opacity', 0);
+      .style('opacity', 0)
+      .style('color', 'var(--color-black)');
 
     // 툴팁 이벤트 핸들러
     const handleMouseOver = () => {

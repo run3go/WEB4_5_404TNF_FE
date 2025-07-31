@@ -6,9 +6,8 @@ import { useEffect, useRef } from 'react';
 export default function BarGraph({ walking }: { walking: DashboardWalking }) {
   const svgRef = useRef<SVGSVGElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    const dataset = walking;
+    const dataset = walking.slice(0, 7);
     const maxData = Math.max(...dataset.map((d) => d.time));
     const width = 175;
     const height = 535;

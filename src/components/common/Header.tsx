@@ -7,6 +7,7 @@ import { useNotificationStore } from '@/stores/Notification';
 import { useSidebarStore } from '@/stores/sidebarStore';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import NotificationModal from '../notification/NotificationModal';
@@ -19,6 +20,7 @@ export default function Header() {
     query: '(max-width: 767px)',
   });
 
+  const pathname = usePathname();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isNewNotificaton, setIsNewNotification] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +32,8 @@ export default function Header() {
   const setNotifications = useNotificationStore(
     (state) => state.setNotifications,
   );
+
+  const [profileImage, setProfileImage] = useState(userInfo?.imgUrl);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -61,6 +65,15 @@ export default function Header() {
     sessionStorage.setItem('isNotification', hasUnread.toString());
     setIsNewNotification(hasUnread);
   }, [notifications]);
+
+  useEffect(() => {
+    if (!pathname.includes('/post/free')) {
+      sessionStorage.removeItem('scrollY-free');
+    }
+    if (!pathname.includes('/post/question')) {
+      sessionStorage.removeItem('scrollY-question');
+    }
+  }, [pathname]);
 
   if (!isLoading) {
     return null;
@@ -100,10 +113,11 @@ export default function Header() {
               <div className="relative h-9 w-9">
                 <Image
                   className="cursor-pointer rounded-full"
-                  src={userInfo?.imgUrl || user_default_image}
+                  src={userInfo?.imgUrl || profileImage || user_default_image}
                   alt="유저 프로필"
                   fill
                   priority
+                  onError={() => setProfileImage(user_default_image)}
                   sizes="36px"
                 />
               </div>
@@ -117,7 +131,7 @@ export default function Header() {
           </Link>
         )}
       </div>
-      <Card className="fixed top-0 right-0 left-0 z-100 flex h-18 w-screen items-center justify-between rounded-none bg-[var(--color-background)] px-6 sm:hidden dark:bg-[var(--color-black)]">
+      <Card className="fixed top-0 right-0 left-0 z-50 flex h-18 w-screen items-center justify-between rounded-none bg-[var(--color-background)] px-6 sm:hidden dark:bg-[var(--color-black)]">
         <Icon
           className="cursor-pointer"
           onClick={open}
@@ -138,24 +152,28 @@ export default function Header() {
           />
         </Link>
 
-        <div className="relative">
-          <div
-            ref={modalRef}
-            className="cursor-pointer"
-            onClick={() => setIsNotificationOpen((prev) => !prev)}
-          >
-            <Icon
-              width="28px"
-              height="28px"
-              left="-304px"
-              top="-18px"
+        {isLogin ? (
+          <div className="relative">
+            <div
+              ref={modalRef}
               className="cursor-pointer"
-            />
+              onClick={() => setIsNotificationOpen((prev) => !prev)}
+            >
+              <Icon
+                width="28px"
+                height="28px"
+                left="-304px"
+                top="-18px"
+                className="cursor-pointer"
+              />
+            </div>
+            {isMobile && isNotificationOpen && (
+              <NotificationModal onClose={() => setIsNotificationOpen(false)} />
+            )}
           </div>
-          {isMobile && isNotificationOpen && (
-            <NotificationModal onClose={() => setIsNotificationOpen(false)} />
-          )}
-        </div>
+        ) : (
+          <div />
+        )}
       </Card>
       {/* 헤더 아래 공간 */}
       <div className="h-18 w-screen sm:hidden" />

@@ -75,7 +75,7 @@ export default function DiaryWriteClient() {
       <div className="relative flex w-full flex-col gap-3 px-4 sm:gap-6 sm:px-19">
         {/* mobile */}
         <div className="flex w-full justify-between gap-5 sm:hidden sm:justify-start sm:pl-3">
-          <div className="flex-1 sm:w-[220px]">
+          <div className="flex-[1.5] sm:w-[220px]">
             <DateInput
               selected={selected}
               setSelected={setSelected}
@@ -93,6 +93,7 @@ export default function DiaryWriteClient() {
               borderColor="var(--color-primary-500)"
               footstep
               hasBorder
+              type="diary"
             />
           </div>
         </div>

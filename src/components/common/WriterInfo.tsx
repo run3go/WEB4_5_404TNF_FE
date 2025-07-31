@@ -8,6 +8,7 @@ import Image from 'next/image';
 import user_default_image from '@/assets/images/default-profile.svg';
 import { useAuthStore } from '@/stores/authStoe';
 import getElapsedTime from '@/lib/utils/format-time';
+import ReactDOM from 'react-dom';
 
 interface WriterInfoProps {
   authorId: number;
@@ -35,6 +36,7 @@ export default function WriterInfo({
   const pathname = usePathname();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [imgSrc, setImgSrc] = useState(profileImage || user_default_image);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -57,9 +59,9 @@ export default function WriterInfo({
     (pathname.endsWith('/question') || pathname.endsWith('/free'));
 
   return (
-    <div className="relative" ref={containerRef}>
+    <div className="relative w-full" ref={containerRef}>
       <div
-        className="flex w-fit cursor-pointer items-center gap-4"
+        className="flex w-full cursor-pointer items-center gap-4"
         onClick={() => {
           if (!userInfo) return;
           if (authorId === userInfo?.userId) return;
@@ -72,15 +74,18 @@ export default function WriterInfo({
       >
         <div className={`relative h-9 w-9 rounded-full ${avatarSize}`}>
           <Image
-            src={profileImage || user_default_image}
+            src={imgSrc}
             alt="유저 프로필 이미지"
             fill
             className={`rounded-full`}
             sizes="(max-width: 640px) 42px, 52px"
+            onError={() => {
+              setImgSrc(user_default_image);
+            }}
           />
         </div>
-        <div className={`font-medium sm:space-y-1`}>
-          <p className={`text-[12px] ${textSize}`}>{name}</p>
+        <div className={`w-fit font-medium sm:space-y-1`}>
+          <p className={`w-fit text-[12px] ${textSize}`}>{name}</p>
           <p className={`text-[10px] text-[#909090] ${textSize}`}>
             {getElapsedTime(postedAt)}
           </p>
@@ -88,7 +93,7 @@ export default function WriterInfo({
       </div>
 
       {isMenuOpen && (
-        <div className="absolute top-full left-0 z-50 mt-2">
+        <div className="absolute top-full right-[90px] z-50 mt-2">
           <PopupMenu
             options={[
               { id: '1', label: '프로필 이동', type: 'link' },
@@ -101,22 +106,24 @@ export default function WriterInfo({
         </div>
       )}
 
-      {isReportModalOpen && (
-        <div
-          className="fixed inset-0 z-[250] flex items-center justify-center bg-[#2B2926]/50"
-          onClick={() => setIsReportModalOpen(false)}
-        >
-          <div onClick={(e) => e.stopPropagation()}>
-            <ReportModal
-              reportedId={authorId}
-              contentId={postId!}
-              reportedName={name}
-              reportType="BOARD"
-              onClose={() => setIsReportModalOpen(false)}
-            />
-          </div>
-        </div>
-      )}
+      {isReportModalOpen &&
+        ReactDOM.createPortal(
+          <div
+            className="fixed inset-0 z-[250] flex items-center justify-center bg-[#2B2926]/50"
+            onClick={() => setIsReportModalOpen(false)}
+          >
+            <div onClick={(e) => e.stopPropagation()}>
+              <ReportModal
+                reportedId={authorId}
+                contentId={postId!}
+                reportedName={name}
+                reportType="BOARD"
+                onClose={() => setIsReportModalOpen(false)}
+              />
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

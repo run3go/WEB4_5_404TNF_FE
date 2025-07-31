@@ -1,5 +1,8 @@
 'use client';
-import { usePetProfiles } from '@/lib/hooks/profile/useProfiles';
+import {
+  usePetProfiles,
+  useUserProfile,
+} from '@/lib/hooks/profile/useProfiles';
 import { useAuthStore } from '@/stores/authStoe';
 import { useProfileStore } from '@/stores/profileStore';
 import { useQueryClient } from '@tanstack/react-query';
@@ -37,6 +40,8 @@ export default function ProfileClient({
   const isEditingPet = useProfileStore((state) => state.isEditingPet);
   const isEditingUser = useProfileStore((state) => state.isEditingUser);
 
+  const { data } = useUserProfile(userId, isMyProfile);
+
   useEffect(() => {
     if (!isMyProfile) return;
     petProfiles.forEach((profile) => {
@@ -52,7 +57,7 @@ export default function ProfileClient({
   return (
     <main className="scrollbar-hidden relative h-full w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17 dark:bg-[var(--color-black)]">
       <h1 className="mb-15 hidden text-center text-3xl sm:block">
-        <strong>{userProfile.nickname}</strong>
+        <strong>{data?.nickname || userProfile.nickname}</strong>
         님의 페이지
       </h1>
       <div className="mb-8 flex justify-center gap-4 sm:hidden">

@@ -1,5 +1,6 @@
 import PostCardSkeleton from '@/components/post/PostCardSkeleton';
 import { useMyPosts } from '@/lib/hooks/profile/usePostList';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import SelectBox from '../../common/SelectBox';
@@ -7,6 +8,7 @@ import PostList from './PostList';
 import PostTabs from './PostTabs';
 
 export default function PostWrapper() {
+  const parmas = useParams();
   const options = [
     { value: 'DATE', label: '최신순' },
     { value: 'LIKE', label: '좋아요순' },
@@ -18,7 +20,7 @@ export default function PostWrapper() {
   const [ref, inView] = useInView();
 
   const { data, isFetchingNextPage, hasNextPage, isPending, fetchNextPage } =
-    useMyPosts(type, sortType);
+    useMyPosts(parmas.userId as string, type, sortType);
   const handleChangeTab = (type: PostType) => {
     setType(type);
   };

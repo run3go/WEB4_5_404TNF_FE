@@ -5,11 +5,13 @@ import Button from '@/components/common/Button';
 import MobilePostCreate from '@/components/post/MobilePostCreate';
 import PostCreateImages from '@/components/post/PostCreateImages';
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { useCreatePost } from '@/lib/hooks/post/useCreatePost';
+import { useAuthStore } from '@/stores/authStoe';
 
 export default function PostCreate() {
+  const router = useRouter();
   const pathname = usePathname();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -17,6 +19,7 @@ export default function PostCreate() {
   const [pickedImages, setPickedImages] = useState<(File | string)[]>([]);
 
   const postCreateMutation = useCreatePost(boardType);
+  const userInfo = useAuthStore((state) => state.userInfo);
 
   const handleSubmit = (
     title: string,
@@ -41,6 +44,14 @@ export default function PostCreate() {
     }
   }, [pathname]);
 
+  useEffect(() => {
+    const hasUserInfo = !!userInfo;
+    const hasSessionUserId = !!sessionStorage.getItem('userId');
+
+    if (!hasUserInfo && !hasSessionUserId) {
+      router.replace('/login');
+    }
+  }, [userInfo, router]);
   return (
     <>
       <div className="hidden h-full w-full flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex dark:bg-[#2B2926]">

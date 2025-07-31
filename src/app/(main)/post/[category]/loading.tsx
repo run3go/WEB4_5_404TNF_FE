@@ -23,7 +23,7 @@ export default function Loading() {
 
         {/* 검색 및 정렬 영역 */}
         <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[6.27vw]">
-          <div className="bg-opacity-100 relative hidden h-[40px] items-center rounded-[10px] border-[3px] border-[#FFDBAB] sm:flex dark:ml-[3px] dark:border-0 dark:bg-[#FCC389]">
+          <div className="bg-opacity-100 relative hidden h-[40px] items-center rounded-[10px] border-[1px] border-[#FFDBAB] sm:flex sm:h-[42px] dark:ml-[3px] dark:border-0 dark:bg-[#FCC389]">
             <div className="pl-4">
               <SelectBox width={'120px'} options={SEARCH_LIST} isCenter />
             </div>
@@ -42,7 +42,9 @@ export default function Loading() {
           </div>
           <div className="flex w-full items-center gap-6 pl-1 sm:w-auto sm:pr-[6.27vw] sm:pl-0">
             <div className="flex w-full items-center justify-between sm:w-auto">
-              <SelectBox width={'90px'} options={SORT} isCenter />
+              <div className="h-[36px] rounded-[12px] border border-[#FCC389] py-1.5 pl-4 text-[14px] sm:h-[42px] sm:text-[18px]">
+                <SelectBox width={'100px'} options={SORT} isCenter />
+              </div>
 
               <Icon
                 width="18px"
@@ -53,14 +55,17 @@ export default function Loading() {
               />
             </div>
 
-            <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto">
+            <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] hover:bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto sm:h-[42px] sm:w-[116px] sm:rounded-[12px] sm:bg-[#FFDBAB]">
               <Icon
                 width="20px"
                 height="20px"
                 left="-266px"
                 top="-75px"
-                className="dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
+                className="sm:hidden dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
               />
+              <p className="hidden text-[18px] font-medium sm:block">
+                작성하기
+              </p>
             </div>
           </div>
         </div>
