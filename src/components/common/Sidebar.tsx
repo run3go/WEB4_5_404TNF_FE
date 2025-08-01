@@ -52,16 +52,16 @@ export default function Sidebar() {
       <AuthProvider>
         {isOpen && (
           <div
-            className="fixed inset-0 z-[170] bg-[#2B2926]/50 sm:hidden"
+            className="fixed inset-0 z-[170] bg-[#2B2926]/50 md:hidden"
             onClick={close}
           />
         )}
         <div
-          className={`fixed top-0 left-0 z-200 transition-transform duration-300 ease-in-out ${!isOpen ? '-translate-x-full' : 'sm:-translate-x-0'} h-full w-60 flex-col items-center bg-[var(--color-primary-100)] text-[var(--color-black)] sm:relative sm:my-[5.2vh] sm:ml-14 sm:flex sm:h-[calc(89.4vh)] sm:w-[220px] sm:translate-x-0 sm:rounded-[50px] sm:bg-[var(--color-background)] sm:p-8 dark:bg-[#343434] sm:dark:bg-[var(--color-black)]`}
+          className={`fixed top-0 left-0 z-200 transition-transform duration-300 ease-in-out ${!isOpen ? '-translate-x-full' : 'sm:-translate-x-0'} h-full w-60 flex-col items-center bg-[var(--color-primary-100)] text-[var(--color-black)] md:relative md:my-[5.2vh] md:ml-14 md:flex md:h-[calc(89.4vh)] md:w-[220px] md:translate-x-0 md:rounded-[50px] md:bg-[var(--color-background)] md:p-8 dark:bg-[#343434] md:dark:bg-[var(--color-black)]`}
         >
           <Link href="/">
             <Image
-              className="hidden sm:block"
+              className="hidden md:block"
               src="/images/logo.svg"
               alt="멍멍일지 로고"
               width={156}
@@ -72,7 +72,7 @@ export default function Sidebar() {
 
           <Link href="/">
             <Image
-              className="mx-auto block pt-8 sm:hidden"
+              className="mx-auto block pt-8 md:hidden"
               src="/images/logo.svg"
               alt="멍멍일지 로고"
               width={100}
@@ -81,8 +81,8 @@ export default function Sidebar() {
             />
           </Link>
 
-          <div className="flex h-[calc(89.4vh-50px)] flex-col justify-between sm:h-[calc(89.4vh-122.5px)]">
-            <div className="mt-[34px] text-sm font-medium sm:mt-12 sm:text-[16px]">
+          <div className="flex h-[calc(89.4vh-50px)] flex-col justify-between md:h-[calc(89.4vh-122.5px)]">
+            <div className="mt-[34px] text-sm font-medium md:mt-12 md:text-[16px]">
               {/* 대시보드 */}
               <Link
                 href={'/dashboard'}
@@ -203,10 +203,10 @@ export default function Sidebar() {
                 </Link>
               )}
             </div>
-            <div className="text-sm font-medium sm:text-[16px]">
+            <div className="text-sm font-medium md:text-[16px]">
               <div>
                 <div
-                  className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:pl-6"
+                  className="relative flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 md:pl-6"
                   onClick={() => setIsSettingsOpen(true)}
                 >
                   <Icon width="24px" height="26px" left="-297px" top="-252px" />
@@ -220,7 +220,7 @@ export default function Sidebar() {
                 <>
                   <Link
                     href={`/profile/${userId}`}
-                    className="flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 sm:hidden sm:pl-6"
+                    className="flex h-[52px] w-[220px] cursor-pointer items-center gap-3 py-3 pl-8 md:hidden md:pl-6"
                   >
                     <Image
                       className="h-6 w-6 cursor-pointer rounded-full"
@@ -235,7 +235,7 @@ export default function Sidebar() {
                     </p>
                   </Link>
                   <div
-                    className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
+                    className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 md:pl-6"
                     onClick={handleLogout}
                   >
                     <Icon
@@ -252,7 +252,7 @@ export default function Sidebar() {
               ) : (
                 <Link
                   href={'/login'}
-                  className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 sm:pl-6"
+                  className="flex h-[52px] w-[220px] cursor-pointer items-center gap-2 py-3 pl-8 md:pl-6"
                 >
                   <Icon width="28px" height="28px" left="-264px" top="-18px" />
                   <p className="dark:text-[var(--color-background)]">로그인</p>

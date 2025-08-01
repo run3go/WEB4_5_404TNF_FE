@@ -13,16 +13,16 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen w-screen bg-[url('/images/bg.png')] bg-cover dark:bg-[url('/images/dark-bg.png')]">
+    <div className="scrollbar-hidden flex min-h-screen w-full bg-[url('/images/bg.png')] bg-cover dark:bg-[url('/images/dark-bg.png')]">
       <TanstackProvider>
         <NotificationProvider />
         <div className="h-screen">
           <Sidebar />
         </div>
 
-        <div className="h-full sm:mt-[5.2vh] sm:mr-[3vw] sm:mb-0 sm:h-[calc(89.4vh)] sm:grow-1 sm:pl-[2vw]">
+        <div className="h-full w-full md:mt-[5.2vh] md:mr-[3vw] md:mb-0 md:h-[calc(89.4vh)] md:grow-1 md:pl-[2vw]">
           <Header />
-          <div className="scrollbar-hidden h-[calc(100vh-72px)] w-full overflow-y-auto bg-[var(--color-background)] sm:h-[calc(86.8vh-36px)] sm:rounded-[50px] dark:bg-[var(--color-black)]">
+          <div className="scrollbar-hidden h-[calc(100vh-72px)] w-full overflow-y-auto bg-[var(--color-background)] sm:h-[100vh] md:h-[calc(86.8vh-36px)] md:rounded-[50px] dark:bg-[var(--color-black)]">
             <AuthAccessControl>{children}</AuthAccessControl>
           </div>
         </div>

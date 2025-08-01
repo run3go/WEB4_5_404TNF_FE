@@ -120,7 +120,7 @@ body {
 
 /* sidebar */
 .sidebar__content {
-  @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:bg-[#FFDBAB] sm:w-[220px] sm:py-[1.3vh] sm:pl-6 dark:text-[#fffdf7];
+  @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:bg-[#FFDBAB] md:w-[220px] md:py-[1.3vh] md:pl-6 dark:text-[#fffdf7];
 }
 
 .sidebar__content-active {
