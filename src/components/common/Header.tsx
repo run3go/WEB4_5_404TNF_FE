@@ -152,24 +152,28 @@ export default function Header() {
           />
         </Link>
 
-        <div className="relative">
-          <div
-            ref={modalRef}
-            className="cursor-pointer"
-            onClick={() => setIsNotificationOpen((prev) => !prev)}
-          >
-            <Icon
-              width="28px"
-              height="28px"
-              left="-304px"
-              top="-18px"
+        {isLogin ? (
+          <div className="relative">
+            <div
+              ref={modalRef}
               className="cursor-pointer"
-            />
+              onClick={() => setIsNotificationOpen((prev) => !prev)}
+            >
+              <Icon
+                width="28px"
+                height="28px"
+                left="-304px"
+                top="-18px"
+                className="cursor-pointer"
+              />
+            </div>
+            {isMobile && isNotificationOpen && (
+              <NotificationModal onClose={() => setIsNotificationOpen(false)} />
+            )}
           </div>
-          {isMobile && isNotificationOpen && (
-            <NotificationModal onClose={() => setIsNotificationOpen(false)} />
-          )}
-        </div>
+        ) : (
+          <div />
+        )}
       </Card>
       {/* 헤더 아래 공간 */}
       <div className="h-18 w-full md:hidden" />

@@ -35,6 +35,7 @@ export const adminLogin = async (email: string, password: string) => {
 export const logout = async () => {
   const res = await fetch(`${baseURL}/api/auth/v1/logout`, {
     method: 'POST',
+    credentials: 'include',
   });
 
   const data = await res.json();
@@ -137,6 +138,7 @@ export const register = async (formData: {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formData),
+    credentials: 'include',
   });
 
   if (!res.ok) {
@@ -150,7 +152,9 @@ export const socialLogin = async (provider: string) => {
     throw new Error('지원하지 않는 소셜 로그인 방식입니다.');
   }
 
-  const res = await fetch(`${baseURL}/api/auth/v1/social-auth/${provider}`);
+  const res = await fetch(`${baseURL}/api/auth/v1/social-auth/${provider}`, {
+    credentials: 'include',
+  });
 
   if (!res.ok) {
     const data = await res.json();

@@ -26,7 +26,7 @@ export default function Settings({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed bottom-[20%] left-[10%] flex w-58 flex-col items-center gap-2 rounded-[20px] border border-[var(--color-primary-200)] bg-[var(--color-background)] p-4 shadow-md dark:bg-[#343434] dark:text-[var(--color-background)]"
+      className="fixed bottom-[12%] left-[120px] flex w-58 flex-col items-center gap-2 rounded-[20px] border border-[var(--color-primary-200)] bg-[var(--color-background)] p-4 shadow-md sm:bottom-[17%] sm:left-[160px] dark:bg-[#343434] dark:text-[var(--color-background)]"
       ref={modalRef}
     >
       <div className="w-full">

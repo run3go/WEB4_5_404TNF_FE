@@ -70,7 +70,7 @@ export default function ProfileCard({
         </li>
       </ul>
       <Image
-        className="mr-3 aspect-square h-[120px] w-30 rounded-xl sm:mr-0 sm:h-[150px] sm:w-auto md:h-[135px] md:max-[820px]:h-30 md:max-[820px]:w-30 xl:h-[138px] 2xl:h-[150px]"
+        className="mr-3 aspect-square h-[120px] w-30 rounded-xl object-cover sm:mr-0 sm:h-[150px] sm:w-auto md:h-[135px] md:max-[820px]:h-30 md:max-[820px]:w-30 xl:h-[138px] 2xl:h-[150px]"
         src={profile.imgUrl || profileImage || defaultDogProfile}
         alt="강아지 이미지"
         width={0}

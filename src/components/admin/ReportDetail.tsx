@@ -4,6 +4,7 @@ import Icon from '../common/Icon';
 import ReportModal from './ReportModal';
 import { useGetReportDetail } from '@/lib/hooks/admin/useGetReportDetail';
 import Link from 'next/link';
+import ReportDetailSkeleton from './ReportDetailSkeleton';
 
 export default function ReportDetail({ id }: { id: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,7 +14,11 @@ export default function ReportDetail({ id }: { id: number }) {
   const { data, isPending } = useGetReportDetail(id);
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center">
+        <ReportDetailSkeleton />
+      </div>
+    );
   }
 
   return (

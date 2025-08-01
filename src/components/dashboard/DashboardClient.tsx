@@ -111,7 +111,7 @@ export default function DashboardClient() {
   if (isPending)
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <Loading className="h-50 w-50" />
+        <Loading className="h-100 w-100" />
       </div>
     );
   return (

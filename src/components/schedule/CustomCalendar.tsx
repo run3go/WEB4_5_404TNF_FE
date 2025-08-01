@@ -15,6 +15,7 @@ import { useGetSchedules } from '@/lib/hooks/schedule/useGetSchedules';
 import { useGetPets } from '@/lib/hooks/useGetPets';
 import NoPets from './NoPets';
 import { useAuthStore } from '@/stores/authStoe';
+import Loading from '../common/Loading';
 
 export default function CustomCalendar() {
   const { userInfo } = useAuthStore();
@@ -41,11 +42,23 @@ export default function CustomCalendar() {
   };
 
   // 애완견 리스트 불러오기
-  const { data: petOptions } = useGetPets(userInfo?.userId);
+  const { data: petOptions, isPending: petLoading } = useGetPets(
+    userInfo?.userId,
+  );
 
   // 월 바뀔 때마다 api 호출
-  const { data: schedules }: { data?: Schedule[] } =
-    useGetSchedules(currentDate);
+  const {
+    data: schedules,
+    isPending: scheduleLoading,
+  }: { data?: Schedule[]; isPending: boolean } = useGetSchedules(currentDate);
+
+  if (petLoading || scheduleLoading) {
+    return (
+      <div className="hidden h-full w-full items-center justify-center sm:flex">
+        <Loading className="h-100 w-100" />
+      </div>
+    );
+  }
 
   if (!petOptions || petOptions?.length === 0) {
     return (

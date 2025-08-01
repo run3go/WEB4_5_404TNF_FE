@@ -8,6 +8,7 @@ import Image from 'next/image';
 import user_default_image from '@/assets/images/default-profile.svg';
 import { useAuthStore } from '@/stores/authStoe';
 import getElapsedTime from '@/lib/utils/format-time';
+import ReactDOM from 'react-dom';
 
 interface WriterInfoProps {
   authorId: number;
@@ -60,7 +61,7 @@ export default function WriterInfo({
   return (
     <div className="relative w-full" ref={containerRef}>
       <div
-        className="flex w-fit cursor-pointer items-center gap-4"
+        className="flex w-full cursor-pointer items-center gap-4"
         onClick={() => {
           if (!userInfo) return;
           if (authorId === userInfo?.userId) return;
@@ -83,8 +84,8 @@ export default function WriterInfo({
             }}
           />
         </div>
-        <div className={`font-medium sm:space-y-1`}>
-          <p className={`text-[12px] ${textSize}`}>{name}</p>
+        <div className={`w-fit font-medium sm:space-y-1`}>
+          <p className={`w-fit text-[12px] ${textSize}`}>{name}</p>
           <p className={`text-[10px] text-[#909090] ${textSize}`}>
             {getElapsedTime(postedAt)}
           </p>
@@ -92,7 +93,7 @@ export default function WriterInfo({
       </div>
 
       {isMenuOpen && (
-        <div className="absolute top-full left-0 z-50 mt-2">
+        <div className="absolute top-full right-[90px] z-50 mt-2">
           <PopupMenu
             options={[
               { id: '1', label: '프로필 이동', type: 'link' },
@@ -105,22 +106,24 @@ export default function WriterInfo({
         </div>
       )}
 
-      {isReportModalOpen && (
-        <div
-          className="fixed inset-0 z-[250] flex items-center justify-center bg-[#2B2926]/50"
-          onClick={() => setIsReportModalOpen(false)}
-        >
-          <div onClick={(e) => e.stopPropagation()}>
-            <ReportModal
-              reportedId={authorId}
-              contentId={postId!}
-              reportedName={name}
-              reportType="BOARD"
-              onClose={() => setIsReportModalOpen(false)}
-            />
-          </div>
-        </div>
-      )}
+      {isReportModalOpen &&
+        ReactDOM.createPortal(
+          <div
+            className="fixed inset-0 z-[250] flex items-center justify-center bg-[#2B2926]/50"
+            onClick={() => setIsReportModalOpen(false)}
+          >
+            <div onClick={(e) => e.stopPropagation()}>
+              <ReportModal
+                reportedId={authorId}
+                contentId={postId!}
+                reportedName={name}
+                reportType="BOARD"
+                onClose={() => setIsReportModalOpen(false)}
+              />
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

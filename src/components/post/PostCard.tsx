@@ -29,10 +29,7 @@ export default function PostCard({
         }}
       >
         <div className="relative pb-7 sm:pb-[62px]">
-          <div
-            className="w-[110px] sm:w-[140px]"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="w-fit" onClick={(e) => e.stopPropagation()}>
             <WriterInfo
               authorId={post.userId}
               postId={post.articleId}
@@ -42,12 +39,7 @@ export default function PostCard({
             />
           </div>
           <div className="mt-3 flex h-[80px] justify-between sm:mt-0">
-            <div
-              className="w-full cursor-pointer"
-              onClick={() =>
-                router.push(`/post/${boardType}/${post.articleId}`)
-              }
-            >
+            <div className="w-full cursor-pointer">
               <p className="text-[14px] font-bold sm:pt-4 sm:text-[20px]">
                 {post.title}
               </p>

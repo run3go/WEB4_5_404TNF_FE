@@ -31,9 +31,9 @@ export default function UserProfile({
 
   const { data: profile } = useQuery<UserProfile>({
     queryFn: () => getMyUserInfo(),
-    queryKey: ['user', userInfo?.userId],
+    queryKey: ['user', String(userProfile.userId)],
     enabled: isMyProfile,
-    staleTime: 30000,
+    staleTime: 300000,
   });
 
   const closeModal = () => {

@@ -57,7 +57,7 @@ export default function Sidebar() {
           />
         )}
         <div
-          className={`fixed z-200 ${!isOpen ? 'hidden' : ''} h-full w-60 flex-col items-center overflow-x-hidden overflow-y-auto bg-[var(--color-primary-100)] text-[var(--color-black)] md:relative md:my-[5.2vh] md:ml-14 md:flex md:h-[calc(89.4vh)] md:w-[220px] md:rounded-[50px] md:bg-[var(--color-background)] md:p-8 dark:bg-[#343434] md:dark:bg-[var(--color-black)]`}
+          className={`fixed top-0 left-0 z-200 transition-transform duration-300 ease-in-out ${!isOpen ? '-translate-x-full' : 'sm:-translate-x-0'} h-full w-60 flex-col items-center bg-[var(--color-primary-100)] text-[var(--color-black)] md:relative md:my-[5.2vh] md:ml-14 md:flex md:h-[calc(89.4vh)] md:w-[220px] md:translate-x-0 md:rounded-[50px] md:bg-[var(--color-background)] md:p-8 dark:bg-[#343434] md:dark:bg-[var(--color-black)]`}
         >
           <Link href="/">
             <Image
