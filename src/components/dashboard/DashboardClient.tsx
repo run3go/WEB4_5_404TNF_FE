@@ -133,7 +133,7 @@ export default function DashboardClient() {
           />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-5 min-[1240px]:grid-cols-[1fr_1fr] md:grid-rows-[auto] 2xl:grid-cols-[93fr_93fr_40fr]">
+      <div className="grid grid-cols-1 gap-5 md:grid-rows-[auto] xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[93fr_93fr_40fr]">
         <div className="relative mx-auto w-full max-w-[558px] text-sm font-medium md:hidden">
           <Image
             className="h-auto w-full"
@@ -147,15 +147,15 @@ export default function DashboardClient() {
             {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다'}
           </div>
         </div>
-        <div className="flex flex-col gap-[28px] md:col-span-1 xl:gap-5">
+        <div className="flex h-full flex-col justify-between gap-[28px] md:col-span-1 xl:gap-5">
           <ProfileCard profile={profile} />
           {weightList && <LineGraphCard title="몸무게" dataset={weightList} />}
           {sleepList && <LineGraphCard title="수면시간" dataset={sleepList} />}
         </div>
         <div className="flex w-full flex-col gap-5 md:col-span-1">
-          <div className="relative hidden font-medium min-[1240px]:block">
+          <div className="relative hidden font-medium xl:block">
             <Image
-              className="h-full w-auto"
+              className="h-[98px] w-auto"
               src={speechBubble}
               alt="말풍선"
               width={558}
@@ -166,13 +166,13 @@ export default function DashboardClient() {
               {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다...'}
             </div>
           </div>
-          <div className="flex items-center justify-between gap-5">
+          <div className="flex grow-1 justify-between gap-5">
             <FeedCard feeding={feeding} />
             <TodoCard checklist={checklist} petId={selectedPet} />
           </div>
           {note && <NoteCard note={note} />}
         </div>
-        <div className="md:col-span-1">
+        <div className="mb-10 xl:col-span-2 2xl:col-span-1 2xl:mb-0">
           <WalkCard walking={walking} />
         </div>
       </div>

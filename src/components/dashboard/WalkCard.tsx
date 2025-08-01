@@ -1,15 +1,19 @@
 import { useRouter } from 'next/navigation';
+import { useMediaQuery } from 'react-responsive';
 import Card from '../common/Card';
 import BarGraph from './graph/BarGraph';
 
 export default function WalkCard({ walking }: { walking?: DashboardWalking }) {
+  const isLaptop = useMediaQuery({
+    query: '(max-width: 1537px)',
+  });
   const router = useRouter();
   if (walking) {
     if (walking.length === 0) {
       return (
-        <Card className="hidden h-full w-60 md:block">
-          <h2 className="mb-8 font-medium">산책 시간</h2>
-          <div className="mt-55 flex flex-col items-center gap-5">
+        <Card className={`h-full ${isLaptop ? 'w-full' : 'w-60'}`}>
+          <h2 className="font-medium">산책 시간</h2>
+          <div className="relative top-[calc(50%-24px)] flex -translate-y-1/2 flex-col items-center gap-5">
             <span>등록된 산책 기록이 없어요</span>
             <button
               className="cursor-pointer rounded-full bg-[var(--color-primary-200)] px-4 py-2 transition-all hover:bg-[var(--color-primary-300)] dark:bg-[var(--color-primary-300)] dark:text-[var(--color-black)] dark:hover:bg-[var(--color-primary-500)]"
@@ -22,7 +26,9 @@ export default function WalkCard({ walking }: { walking?: DashboardWalking }) {
       );
     } else {
       return (
-        <Card className="hidden w-60 md:block">
+        <Card
+          className={`flex flex-col ${isLaptop ? 'h-80 w-full' : 'h-full w-60'}`}
+        >
           <h2 className="mb-8 font-medium">산책 시간</h2>
           <BarGraph walking={walking} />
         </Card>
