@@ -84,7 +84,7 @@ export default function SelectBox({
 
                 {type ? (
                   <span
-                    className="block max-w-[80px] truncate"
+                    className={`block max-w-[80px] truncate`}
                     title={typeof children === 'string' ? children : undefined}
                   >
                     {children}

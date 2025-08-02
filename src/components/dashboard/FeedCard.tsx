@@ -4,11 +4,10 @@ import Card from '../common/Card';
 import DonutGraph from './graph/DonutGraph';
 
 export default function FeedCard({ feeding }: { feeding?: DashboardFeeding }) {
-  console.log(feeding);
   const router = useRouter();
   if (!feeding?.amount && !feeding?.date) {
     return (
-      <Card className="flex h-[301px] w-full flex-col items-center justify-center gap-6 text-center text-sm font-medium sm:text-base">
+      <Card className="flex h-full w-full flex-col items-center justify-center gap-6 text-center text-sm font-medium sm:text-base">
         <span>등록된 식사량 기록이 없어요</span>
         <button
           className="cursor-pointer rounded-full bg-[var(--color-primary-200)] px-4 py-2 transition-all hover:bg-[var(--color-primary-300)] dark:bg-[var(--color-primary-300)] dark:text-[var(--color-black)] dark:hover:bg-[var(--color-primary-500)]"

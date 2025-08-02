@@ -30,7 +30,7 @@ export const Toast = {
   error: (message: ReactNode, isWide?: boolean) => {
     toast.error(message, {
       icon: <Icon width="14px" height="14px" left="-415px" top="-122px" />,
-      style: isWide ? { width: '400px' } : undefined,
+      style: isWide ? { width: '103%' } : undefined,
     });
   },
   warn: (message: ReactNode) => {

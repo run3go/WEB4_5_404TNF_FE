@@ -81,7 +81,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="mb-[2.6vh] hidden items-center justify-end gap-7 sm:flex sm:pr-[2.43vw]">
+      <div className="mb-[2.6vh] hidden items-center justify-end gap-7 md:flex md:pr-[2.43vw]">
         {userId || isLogin ? (
           <>
             <div className="relative">
@@ -131,7 +131,7 @@ export default function Header() {
           </Link>
         )}
       </div>
-      <Card className="fixed top-0 right-0 left-0 z-50 flex h-18 w-screen items-center justify-between rounded-none bg-[var(--color-background)] px-6 sm:hidden dark:bg-[var(--color-black)]">
+      <Card className="fixed top-0 right-0 left-0 z-50 flex h-18 w-full items-center justify-between rounded-none bg-[var(--color-background)] px-6 md:hidden dark:bg-[var(--color-black)]">
         <Icon
           className="cursor-pointer"
           onClick={open}
@@ -176,7 +176,7 @@ export default function Header() {
         )}
       </Card>
       {/* 헤더 아래 공간 */}
-      <div className="h-18 w-screen sm:hidden" />
+      <div className="h-18 w-full md:hidden" />
     </>
   );
 }
