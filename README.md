@@ -16,7 +16,14 @@
 
 2025.06.26(목) ~ 07.31(목)
 
+
 <br>
+
+## 개발 스택
+- Next.js v15 (App Router)
+- TailwindCSS
+- TanStack Query
+- Zustand
 
 ## 팀원 구성
 
@@ -24,8 +31,8 @@
 
 |박정수|권유정|김태연|이민지|
 | :------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------: |
-|[@run3go](https://github.com/run3go)|[@best106yj](https://github.com/best106yj)|[@COMPOSEDKIM](https://github.com/COMPOSEDKIM)|[@mjlee38](https://github.com/mjlee38)|
 | <img src="https://avatars.githubusercontent.com/u/68907573?v=4" width="120px;" alt="박정수"/> | <img src="https://avatars.githubusercontent.com/u/67456002?v=4" width="120px;" alt="권유정"/> | <img src="https://avatars.githubusercontent.com/u/146106094?v=4" width="120px;" alt="김태연"/> | <img src="https://avatars.githubusercontent.com/u/175625606?v=4" width="120px;" alt="이민지"/> |
+|[@run3go](https://github.com/run3go)|[@best106yj](https://github.com/best106yj)|[@COMPOSEDKIM](https://github.com/COMPOSEDKIM)|[@mjlee38](https://github.com/mjlee38)|
 
 </div>
 
@@ -81,23 +88,46 @@
 
 <br>
 
-## 역할 분담
+# 역할 분담
 
+## :fire: 박정수
 
-### :fire: 박정수
+### FE 팀장
+### 대시보드 페이지
+- 반려견 정보 조회
+ - 선택한 반려견의 생활 기록 데이터를 `d3.js` 라이브러리로 시각화
+ - `Tanstack Query`를 통한 데이터 캐싱 및 `prefetch`로 사용자 경험 향상
+- 몸무게/수면 시간 카드를 뒤집어(`framerMotion`) 상세 수치 리스트를 조회
+- 산책 기록 막대 그래프에 hover할 경우, 툴팁으로 수치 조회 가능
+- 데스크탑~모바일까지 완전한 반응형 UI 구현
+- 오늘의 할 일 카드를 통해 todo 로직 구현
 
-- **FE 팀장**
-- **퍼블리싱**
-    - 프로필/마이페이지
-    - 대시보드 
-    - 생활 기록 
-    - 일정 
-- **기능 구현**
-    - 프로필/마이페이지
-    - 대시보드
-    - 챗봇
+### 프로필 페이지
+- **유저 프로필**
+  - api를 통해 닉네임 중복 확인 후, 중복되는 닉네임이 없을 경우 수정 가능
+  - 현재 비밀번호 확인 후, 새로운 비밀번호로 변경
+  - 프로필 이미지 변경
+- **반려견 프로필**
+  - `react-hook-form`을 활용한 반려견 등록/수정/삭제
+  - 반려견 등록/수정 시 `zod`를 통한 검증
+- **백신**
+  - 반려견의 백신 접종 일자를 등록
+  - 백신 종류의 따른 입력값 제한 및 검증
+  - `Tanstack Query`의 isPending을 통한 api 중복 호출 방지
+- **게시글**
+  - 해당 유저가 작성한 게시글 조회
+  - 마이 페이지일 경우, "댓글을 작선한 글/좋아요한 글"까지 표시
+  - `Tanstack Query`를 통한 무한 스크롤 구현
+  - 조회수/인기/최신순 필터링
+  - 게시글 로딩 시, 스켈레톤 UI 구현
 
-### 🌛 권유정
+### 챗봇
+- `open-router API`를 활용해 다중 LLM 모델 활용
+1. 사용자의 입력을 받아 자연어를 JSON 객체 형태로 Parsing
+2. 파싱된 데이터를 통해 관련된 API를 호출
+3. API에서 반환된 데이터를 LLM을 통해 재가공 후 사용자에게 반환
+
+## 🌛 권유정
 
 - **디자인**
 - **퍼블리싱**
@@ -107,7 +137,7 @@
     - 일정
     - 관리자
 
-### 🌞 김태연
+## 🌞 김태연
 
 - **퍼블리싱**
     - 레이아웃(헤더/사이드바)
@@ -119,7 +149,7 @@
     - 커뮤니티
     - 알림
 
-### 🐶 이민지
+## 🐶 이민지
 
 - **디자인**
 - **퍼블리싱**
@@ -127,6 +157,16 @@
 - **기능구현**
   - 생활 기록
 
-## 주요 기능
+## 화면 구성
 
+| 로그인          | 대시보드         | 일정 관리       |
+|-----------------|------------------|-----------------|
+| ![로그인](https://github.com/user-attachments/assets/dfb96444-04be-4cc7-a441-2d1193a3374c) | ![대시보드](https://github.com/user-attachments/assets/85e736b6-a764-4df2-892e-c65ed7ec1339) | ![일정 관리](https://github.com/user-attachments/assets/d31debb5-2d57-4869-bd3a-0ade28e247a3) |
+ 
+| 멍멍일지        | 커뮤니티         | 멍초보 가이드   |
+|-----------------|------------------|-----------------|
+| ![멍멍일지](https://github.com/user-attachments/assets/be61a5b8-18c4-4c54-9fd1-73fe1690a662) | ![커뮤니티](https://github.com/user-attachments/assets/84c6a8dc-fc82-4867-9f04-43df56e82221) | ![멍초보 가이드](https://github.com/user-attachments/assets/60c8be75-4c48-402e-a5fd-93699f88d62e) |
 
+| 프로필          | 관리자 페이지    |
+|-----------------|------------------|
+| ![프로필](https://github.com/user-attachments/assets/509e9ede-885c-4187-8abf-d997b4daf9d5) | ![관리자 페이지](https://github.com/user-attachments/assets/1ec0852a-bbf8-42f9-a957-dcbc4217a7e6) |
