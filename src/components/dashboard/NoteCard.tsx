@@ -3,7 +3,7 @@ import Card from '../common/Card';
 
 export default function NoteCard({ note }: { note?: DashboardNote }) {
   return (
-    <div className="relative h-40 w-full sm:h-[200px]">
+    <div className="relative h-[200px] w-full">
       <div className="absolute h-full w-full backface-hidden">
         <Card className="h-full w-full font-medium">
           <h2 className="mb-[18px] text-xs text-[var(--color-black)] sm:text-base dark:text-[var(--color-background)]">
@@ -14,7 +14,7 @@ export default function NoteCard({ note }: { note?: DashboardNote }) {
               {note && note?.content.length > 0 ? (
                 note?.content
               ) : (
-                <span className="text-[var(--color-grey)]">
+                <span className="text-sm text-[var(--color-grey)] xl:text-base">
                   관찰노트 기록이 없습니다
                 </span>
               )}
