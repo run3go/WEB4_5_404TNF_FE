@@ -25,7 +25,6 @@ export default function Sidebar() {
   }, []);
 
   if (!isLoading) return null;
-
   return (
     <AuthProvider>
       {isOpen && (
@@ -36,8 +35,9 @@ export default function Sidebar() {
       )}
       <div
         className={twMerge(
-          `fixed top-0 left-0 z-200 transition-transform duration-300 ease-in-out ${!isOpen ? '-translate-x-full' : 'sm:-translate-x-0'} h-full w-60 flex-col items-center bg-[var(--color-primary-100)] text-[var(--color-black)]`,
-          'md:relative md:my-[5.2vh] md:ml-14 md:flex md:h-[calc(89.4vh)] md:w-[220px] md:translate-x-0 md:rounded-[50px] md:bg-[var(--color-background)] md:p-8 dark:bg-[#343434] md:dark:bg-[var(--color-black)]',
+          `fixed top-0 left-0 z-200 transition-transform duration-300 ease-in-out ${!isOpen ? '-translate-x-full' : 'sm:-translate-x-0'} h-full w-60 flex-col items-center rounded-none bg-[var(--color-primary-100)] text-[var(--color-black)]`,
+          'border-[var(--color-primary-300)] md:relative md:my-[5.2vh] md:ml-6 md:h-[calc(89.4vh)] md:w-15 md:translate-x-0 md:rounded-4xl md:border-2 md:bg-[var(--color-background)]',
+          'xl:ml-14 xl:flex xl:w-[220px] xl:rounded-[50px] xl:border-0 xl:p-8 dark:bg-[#343434] xl:dark:bg-[var(--color-black)]',
         )}
       >
         <Logo />

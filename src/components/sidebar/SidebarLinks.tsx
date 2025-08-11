@@ -2,7 +2,7 @@ import SidebarItem from './SidebarItem';
 
 export default function SidebarLinks({ role }: { role?: string | null }) {
   return (
-    <div className="mt-[34px] text-sm font-medium md:mt-12 md:text-[16px]">
+    <div className="mt-[34px] flex flex-col text-sm font-medium md:mt-12 md:gap-3 md:text-[16px] xl:gap-0">
       <SidebarItem
         href="/dashboard"
         iconSize={{ width: '24px', height: '24px' }}
@@ -19,7 +19,7 @@ export default function SidebarLinks({ role }: { role?: string | null }) {
       />
       <SidebarItem
         href="/diary"
-        iconSize={{ width: '24px', height: '24px' }}
+        iconSize={{ width: '20px', height: '24px' }}
         iconPosition={{ left: '-108px', top: '-21px' }}
         activeIconPosition={{ left: '-110px', top: '-308px' }}
         title="멍멍일지"
