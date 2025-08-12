@@ -5,7 +5,7 @@ export default function CalendarNav(
   props: {
     onPreviousClick?: MouseEventHandler<HTMLButtonElement>;
     onNextClick?: MouseEventHandler<HTMLButtonElement>;
-    isPending: boolean;
+    isPending?: boolean;
   } & HTMLAttributes<HTMLElement>,
 ) {
   return (
