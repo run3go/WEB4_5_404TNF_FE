@@ -8,11 +8,13 @@ export default function MobileCalendar({
   onDateSelect,
   onChangeMonth,
   scheduleDates,
+  isPending,
 }: {
   selectedDate: Date | undefined;
   onDateSelect: (date: Date) => void;
   onChangeMonth: (date: Date) => void;
   scheduleDates: Date[];
+  isPending: boolean;
 }) {
   return (
     <div className="aspect-square rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] sm:hidden dark:bg-[var(--color-black)]">
@@ -50,7 +52,7 @@ export default function MobileCalendar({
           weeks: 'h-full',
         }}
         components={{
-          Nav: CalendarNav,
+          Nav: (props) => <CalendarNav {...props} isPending={isPending} />,
         }}
       />
     </div>
