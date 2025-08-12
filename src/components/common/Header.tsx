@@ -160,10 +160,10 @@ export default function Header() {
               onClick={() => setIsNotificationOpen((prev) => !prev)}
             >
               <Icon
-                width="28px"
-                height="28px"
-                left="-304px"
-                top="-18px"
+                width="22px"
+                height="24px"
+                left="-303px"
+                top="-21px"
                 className="cursor-pointer"
               />
             </div>

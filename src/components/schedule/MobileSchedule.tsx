@@ -1,20 +1,21 @@
 'use client';
-import { useState } from 'react';
-import MobileCalendar from './MobileCalendar';
-import TodoList from './TodoList';
-import AddScheduleButton from './AddScheduleButton';
 import { useGetSchedules } from '@/lib/hooks/schedule/useGetSchedules';
-import NoPets from './NoPets';
 import { useGetPets } from '@/lib/hooks/useGetPets';
-import { isSameDay } from 'date-fns';
 import { useAuthStore } from '@/stores/authStoe';
+import { isSameDay } from 'date-fns';
+import { useState } from 'react';
 import Loading from '../common/Loading';
+import AddScheduleButton from './AddScheduleButton';
+import MobileCalendar from './MobileCalendar';
+import NoPets from './NoPets';
+import TodoList from './TodoList';
 
 export default function MobileSchedule() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     new Date(),
   );
+
   const { userInfo } = useAuthStore();
 
   // 애완견 리스트 불러오기
@@ -37,7 +38,7 @@ export default function MobileSchedule() {
       )
     : [];
 
-  if (petLoading || scheduleLoading) {
+  if (petLoading) {
     return (
       <div className="flex h-full w-full items-center justify-center sm:hidden">
         <Loading className="h-100 w-100" />
@@ -60,6 +61,7 @@ export default function MobileSchedule() {
         onDateSelect={setSelectedDate}
         onChangeMonth={setCurrentDate}
         scheduleDates={scheduleDates}
+        isPending={scheduleLoading}
       />
       <TodoList type="card" fullDate={selectedDate} schedules={daySchedules} />
       <AddScheduleButton date={selectedDate} />
