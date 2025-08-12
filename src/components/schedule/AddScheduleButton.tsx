@@ -13,7 +13,7 @@ export default function AddScheduleButton({ date }: { date?: Date }) {
   return (
     <>
       <div
-        className="fixed right-4 bottom-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-primary-300)] sm:hidden"
+        className="fixed right-4 bottom-19 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] active:bg-[var(--color-primary-500)] sm:hidden"
         onClick={() => setIsModalOpen(true)}
       >
         <Icon width="20px" height="20px" left="-266px" top="-75px" />

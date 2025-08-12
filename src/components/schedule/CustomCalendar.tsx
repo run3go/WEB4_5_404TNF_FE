@@ -1,4 +1,7 @@
 'use client';
+import { useGetSchedules } from '@/lib/hooks/schedule/useGetSchedules';
+import { useGetPets } from '@/lib/hooks/useGetPets';
+import { useAuthStore } from '@/stores/authStoe';
 import {
   addMonths,
   getDay,
@@ -8,14 +11,11 @@ import {
   isSameDay,
   subMonths,
 } from 'date-fns';
-import Icon from '../common/Icon';
-import DateItem from './DateItem';
 import { useState } from 'react';
-import { useGetSchedules } from '@/lib/hooks/schedule/useGetSchedules';
-import { useGetPets } from '@/lib/hooks/useGetPets';
-import NoPets from './NoPets';
-import { useAuthStore } from '@/stores/authStoe';
+import Icon from '../common/Icon';
 import Loading from '../common/Loading';
+import DateItem from './DateItem';
+import NoPets from './NoPets';
 
 export default function CustomCalendar() {
   const { userInfo } = useAuthStore();
@@ -69,7 +69,7 @@ export default function CustomCalendar() {
   }
 
   return (
-    <div className="hidden w-full min-w-[1040px] flex-col items-center overflow-auto sm:flex">
+    <div className="hidden w-full flex-col items-center overflow-auto sm:flex">
       <div className="mb-8 flex items-center gap-14">
         <Icon
           onClick={goToPrevMonth}
@@ -79,7 +79,7 @@ export default function CustomCalendar() {
           left="-108px"
           top="-122px"
         />
-        <div className="flex gap-2 text-[24px] leading-[1.2]">
+        <div className="flex items-center gap-2 text-[24px] leading-[1.1]">
           <span>{currentYear}년</span>
           <span>{currentMonth + 1}월</span>
         </div>

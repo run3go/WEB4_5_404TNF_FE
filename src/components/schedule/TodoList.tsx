@@ -32,7 +32,7 @@ export default function TodoList({
 
   if (type === 'card' && fullDate) {
     return (
-      <Card className="mt-8 max-h-70 min-h-50 w-full text-sm sm:hidden">
+      <Card className="relative mt-8 max-h-70 min-h-50 w-full text-sm sm:hidden">
         <div className="mb-3 flex justify-between text-[var(--color-grey)]">
           <span>일정 목록</span>
           <span>{formattedDate}</span>
@@ -43,19 +43,19 @@ export default function TodoList({
               <TodoItem key={s.scheduleId} schedule={s} type="mobile" />
             ))
           ) : (
-            <>
+            <div className="absolute top-1/2 -translate-y-1/2">
               <Image
-                className="mt-5"
+                className="mx-auto mb-2"
                 src={alternative}
                 alt="대체 이미지"
                 width={40}
                 height={28}
                 priority
               />
-              <span className="mt-2 mb-3 text-[var(--color-grey)]">
+              <span className="text-[var(--color-grey)]">
                 등록된 일정이 없습니다
               </span>
-            </>
+            </div>
           )}
         </ul>
       </Card>
