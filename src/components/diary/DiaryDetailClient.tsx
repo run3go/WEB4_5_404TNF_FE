@@ -159,12 +159,14 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
               <Image
                 src={diary}
                 alt="오늘의 멍멍일지를 적어보아요!"
-                className="ml-5 block dark:hidden"
+                className="ml-5 block h-auto w-[120px] dark:hidden"
+                priority
               />
               <Image
                 src={d_diary}
                 alt="오늘의 멍멍일지를 적어보아요!"
-                className="hidden dark:block"
+                className="ml-5 hidden dark:block"
+                priority
               />
               <Calendar
                 selected={new Date(recordAt)}

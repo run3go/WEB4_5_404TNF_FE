@@ -2,9 +2,8 @@ import { ko } from 'date-fns/locale';
 import { Dispatch, SetStateAction } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
-import CalendarNav from './CalendarNav';
 import { twMerge } from 'tailwind-merge';
-import { isSameDay } from 'date-fns';
+import CalendarNav from './CalendarNav';
 
 export default function Calendar({
   selected,
@@ -16,7 +15,11 @@ export default function Calendar({
   readOnly?: boolean;
 }) {
   return (
-    <div className="h-55 w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] dark:bg-[var(--color-black)]">
+    <div
+      className={twMerge(
+        'h-55 w-55 rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] dark:bg-[var(--color-black)]',
+      )}
+    >
       <DayPicker
         mode="single"
         selected={selected}
@@ -25,11 +28,7 @@ export default function Calendar({
         showOutsideDays
         captionLayout={readOnly ? undefined : 'dropdown-years'}
         // diary detail
-        disabled={
-          readOnly
-            ? (date) => !(selected && isSameDay(date, selected))
-            : { after: new Date() }
-        }
+        disabled={readOnly ? () => true : { after: new Date() }}
         disableNavigation={readOnly ? true : false}
         classNames={{
           month_caption:
@@ -47,9 +46,10 @@ export default function Calendar({
           selected:
             'calendar-circle text-[var(--color-black)] dark:text-[var(--color-background)]',
           disabled: 'text-[var(--color-grey)] pointer-events-none',
+          today: readOnly ? 'text-[var(--color-grey)]' : '',
         }}
         components={{
-          Nav: CalendarNav,
+          Nav: (props) => <CalendarNav {...props} top={16} />,
         }}
       />
     </div>

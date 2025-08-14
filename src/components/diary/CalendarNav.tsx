@@ -6,12 +6,14 @@ export default function CalendarNav(
     onPreviousClick?: MouseEventHandler<HTMLButtonElement>;
     onNextClick?: MouseEventHandler<HTMLButtonElement>;
     isPending?: boolean;
+    top: number;
   } & HTMLAttributes<HTMLElement>,
 ) {
   return (
     <div className="relative flex w-full">
       <button
-        className="absolute top-[20px] left-[28%] -translate-y-1/2"
+        className={'absolute left-[28%] -translate-y-1/2'}
+        style={{ top: `${props.top}px` }}
         type="button"
         disabled={props.isPending}
         onClick={props.onPreviousClick}
@@ -25,7 +27,8 @@ export default function CalendarNav(
         />
       </button>
       <button
-        className="absolute top-[20px] right-[28%] -translate-y-1/2"
+        className="absolute right-[28%] -translate-y-1/2"
+        style={{ top: `${props.top}px` }}
         type="button"
         disabled={props.isPending}
         onClick={props.onNextClick}
