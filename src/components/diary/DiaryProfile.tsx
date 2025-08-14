@@ -1,6 +1,6 @@
+import defaultProfile from '@/assets/images/default-dog-profile.svg';
 import Image from 'next/image';
 import Card from '../common/Card';
-import defaultProfile from '@/assets/images/default-dog-profile.svg';
 
 type Props = {
   name: string;
@@ -23,13 +23,13 @@ export default function DiaryProfile({
 }: Props) {
   const profileImg = imageUrl || defaultProfile;
   return (
-    <Card className="m-0 w-full p-0 sm:p-0 dark:bg-[var(--color-black)]">
+    <Card className="m-0 w-full p-0 md:p-0 dark:bg-[var(--color-black)]">
       <h3 className="cursor-default rounded-t-[12px] bg-[var(--color-primary-500)] py-2 text-center text-base sm:text-lg">
         {name}
       </h3>
       <div className="flex gap-8 px-6 py-4">
         <Image
-          className="h-30 w-30 rounded-[12px]"
+          className="h-30 w-30 rounded-[12px] object-cover"
           src={profileImg}
           alt="강아지 프로필"
           width={120}
