@@ -165,7 +165,7 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
               <Image
                 src={d_diary}
                 alt="오늘의 멍멍일지를 적어보아요!"
-                className="ml-5 hidden dark:block"
+                className="ml-5 hidden h-auto w-[120px] dark:block"
                 priority
               />
               <Calendar
@@ -209,7 +209,7 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
                     return (
                       <li
                         key={idx}
-                        className="flex border-b border-[var(--color-primary-300)] py-[9px]"
+                        className="flex border-b border-[var(--color-primary-300)] py-[9px] text-sm 2xl:text-base"
                       >
                         <span className="basis-27">
                           {formatTime(item.mealtime)}
@@ -231,7 +231,7 @@ export default function DiaryDetailClient({ logId }: { logId: number }) {
                     return (
                       <li
                         key={idx}
-                        className="border-b border-[var(--color-primary-300)] py-[9px]"
+                        className="border-b border-[var(--color-primary-300)] py-[9px] text-sm 2xl:text-base"
                       >
                         <div className="inline-flex gap-2">
                           <span>
