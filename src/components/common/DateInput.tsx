@@ -115,7 +115,7 @@ export default function DateInput({
               disabled: 'text-[var(--color-grey)] pointer-events-none',
             }}
             components={{
-              Nav: CalendarNav,
+              Nav: (props) => <CalendarNav {...props} top={17} />,
             }}
           />
         </div>

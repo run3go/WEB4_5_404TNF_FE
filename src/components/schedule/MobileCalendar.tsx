@@ -47,12 +47,14 @@ export default function MobileCalendar({
           day_button:
             'w-full h-full cursor-pointer flex justify-center items-center leading-none',
           outside: 'text-[var(--color-grey)]',
-          selected: 'calendar-circle ',
+          selected: 'calendar-circle schedule-mobile',
           month: 'h-full flex flex-col',
           weeks: 'h-full',
         }}
         components={{
-          Nav: (props) => <CalendarNav {...props} isPending={isPending} />,
+          Nav: (props) => (
+            <CalendarNav {...props} isPending={isPending} top={20} />
+          ),
         }}
       />
     </div>
