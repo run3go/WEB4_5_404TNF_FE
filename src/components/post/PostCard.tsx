@@ -1,8 +1,9 @@
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import Card from '../common/Card';
 import PostStats from '../common/PostStats';
 import WriterInfo from '../common/WriterInfo';
-import Image from 'next/image';
 
 export default function PostCard({
   post,
@@ -15,10 +16,15 @@ export default function PostCard({
 }) {
   const router = useRouter();
 
+  const [postImage, setPostImage] = useState<string | null>(
+    post.articleImgPath[0]?.savePath,
+  );
+
   const handleNavigate = () => {
     const scrollY = scrollRef?.current?.scrollTop ?? 0;
     sessionStorage.setItem(`scrollY-${boardType}`, scrollY.toString());
   };
+
   return (
     <>
       <Card
@@ -40,14 +46,14 @@ export default function PostCard({
           </div>
           <div className="mt-3 flex h-[80px] justify-between sm:mt-0">
             <div className="w-full cursor-pointer">
-              <p className="text-[14px] font-bold sm:pt-4 sm:text-[20px]">
+              <p className="text-[14px] font-bold sm:pt-4 sm:text-base lg:text-[20px]">
                 {post.title}
               </p>
-              <p className="line-clamp-2 h-[58px] pt-2 text-[12px] font-medium break-all whitespace-pre-wrap sm:pt-3 sm:text-[16px]">
+              <p className="line-clamp-2 h-[58px] pt-2 text-[12px] font-medium break-all whitespace-pre-wrap sm:pt-3 sm:text-[15px] lg:text-[16px]">
                 {post.content}
               </p>
             </div>
-            {post.articleImgPath[0]?.savePath && (
+            {postImage && (
               <div
                 className="relative ml-2 h-[80px] w-[80px] flex-shrink-0 cursor-pointer rounded-[10px] sm:-mt-[46px] sm:ml-[1.05vw] sm:h-[188px] sm:w-[188px] sm:rounded-[30px]"
                 onClick={() =>
@@ -56,11 +62,12 @@ export default function PostCard({
               >
                 <Image
                   className="rounded-[10px] sm:rounded-[30px]"
-                  src={post.articleImgPath[0]?.savePath}
+                  src={postImage}
                   alt="썸네일 이미지"
                   fill
                   priority
                   sizes="(max-width: 640px) 80px, 188px"
+                  onError={() => setPostImage(null)}
                 />
               </div>
             )}

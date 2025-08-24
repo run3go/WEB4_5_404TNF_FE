@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import SearchModal from './SearchModal';
 import Icon from '../common/Icon';
+import SearchModal from './SearchModal';
 
 export default function SearchButton({
   setSearchType,
@@ -24,7 +24,7 @@ export default function SearchButton({
         height="18px"
         left="-263px"
         top="-124px"
-        className="block scale-90 cursor-pointer sm:hidden"
+        className="block scale-90 cursor-pointer md:hidden"
         onClick={() => setIsOpen(true)}
       />
       {isOpen && (

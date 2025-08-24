@@ -150,9 +150,8 @@ body {
 
 /* post */
 .board__btn {
-  @apply flex h-[36px] w-[100px] cursor-pointer items-center justify-center gap-1 bg-[var(--color-pink-100)] hover:bg-[var(--color-pink-300)] sm:h-[64px] sm:w-[152px] sm:gap-[7px];
+  @apply flex h-12 cursor-pointer items-center justify-center gap-1 bg-[var(--color-pink-100)] px-4 py-3 hover:bg-[var(--color-pink-300)] sm:h-auto sm:gap-[7px];
 }
-
 /* guide */
 .guide-card {
   @apply flex w-full cursor-pointer flex-col items-start gap-2 border border-[var(--color-primary-500)] bg-[#FFF9F0] px-5 py-3 text-sm transition-all sm:w-auto sm:basis-[calc(50%-10px)] sm:gap-[2px] sm:px-4 sm:py-2 sm:text-base dark:bg-[var(--color-dark-background)];
