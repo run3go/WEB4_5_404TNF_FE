@@ -1,11 +1,11 @@
 'use client';
 
-import Card from '@/components/common/Card';
 import Button from '@/components/common/Button';
+import Card from '@/components/common/Card';
 import MobilePostCreate from '@/components/post/MobilePostCreate';
 import PostCreateImages from '@/components/post/PostCreateImages';
-import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { useCreatePost } from '@/lib/hooks/post/useCreatePost';
 import { useAuthStore } from '@/stores/authStoe';
@@ -54,10 +54,10 @@ export default function PostCreate() {
   }, [userInfo, router]);
   return (
     <>
-      <div className="hidden h-full w-full flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex dark:bg-[#2B2926]">
+      <div className="hidden w-full flex-col items-center rounded-[50px] bg-[var(--color-background)] py-8 sm:flex md:h-full dark:bg-[#2B2926]">
         <p className="text-center text-[24px] font-bold">게시물 작성</p>
-        <Card className="scrollbar-hidden mt-8 h-full w-[69vw] overflow-y-auto pt-16">
-          <div className="flex gap-7 px-[8.37vw] text-[20px] font-medium sm:mt-8">
+        <Card className="scrollbar-hidden mt-8 h-full w-[80vw] overflow-y-auto pt-16 pb-10 md:w-[69vw] md:pb-0">
+          <div className="flex gap-7 px-[3vw] text-[20px] font-medium md:mt-8 lg:px-[8.37vw]">
             <label className="shrink-0 text-[20px] font-medium" htmlFor="title">
               제목
             </label>
@@ -68,13 +68,13 @@ export default function PostCreate() {
               onChange={(e) => setTitle(e.target.value.trim())}
             />
           </div>
-          <div className="flex gap-7 px-[8.37vw] pt-7 text-[20px] font-medium">
+          <div className="flex gap-7 px-[3vw] pt-7 text-[20px] font-medium lg:px-[8.37vw]">
             <label className="shrink-0" htmlFor="content">
               내용
             </label>
             <textarea
               id="content"
-              className="scrollbar-hidden min-h-[236px] w-full resize-none pb-8 placeholder:text-[#909090] focus:outline-none"
+              className="scrollbar-hidden mb-8 max-h-[236px] min-h-[236px] w-full resize-none overflow-y-hidden placeholder:text-[#909090] focus:outline-none"
               onInput={(e) => {
                 e.currentTarget.style.height = 'auto';
                 e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
@@ -92,7 +92,7 @@ export default function PostCreate() {
             onClick={() => handleSubmit(title, content, pickedImages)}
           >
             <Button
-              className="mt-20 flex h-[68px] w-[200px] cursor-pointer items-center justify-center disabled:bg-[#2B2926]/20 disabled:text-[#909090]"
+              className="mt-10 flex h-[68px] w-[200px] cursor-pointer items-center justify-center disabled:bg-[#2B2926]/20 disabled:text-[#909090] lg:mt-15"
               disabled={title.length === 0 || content.length === 0}
             >
               저장하기

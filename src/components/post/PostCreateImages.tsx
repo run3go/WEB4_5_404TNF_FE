@@ -1,9 +1,9 @@
-import Icon from '../common/Icon';
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 import { usePathname } from 'next/navigation';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import 'swiper/css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import Icon from '../common/Icon';
 
 export default function PostCreateImages({
   pickedImages,
@@ -49,10 +49,10 @@ export default function PostCreateImages({
   return (
     <>
       <div
-        className={`flex items-end gap-6 ${path.includes('create') ? 'w-[55vw] pl-[8.37vw]' : 'w-[45vw]'}`}
+        className={`flex items-end gap-6 ${path.includes('create') ? 'w-[55vw] pl-[3vw] lg:pl-[8.37vw]' : 'w-[45vw]'}`}
       >
         <label
-          className="flex h-[120px] w-[120px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-[#E1E1E1] dark:bg-[#4F4F4F]"
+          className="flex h-22 w-22 shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-[#E1E1E1] lg:h-[120px] lg:w-[120px] dark:bg-[#4F4F4F]"
           htmlFor="inputFile"
         >
           <Icon width="22px" height="22px" left="-301px" top="-121px" />
