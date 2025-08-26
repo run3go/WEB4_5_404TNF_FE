@@ -61,7 +61,7 @@ export default function PostCard({
                 }
               >
                 <Image
-                  className="rounded-[10px] sm:rounded-[30px]"
+                  className="rounded-[10px] object-cover sm:rounded-[30px]"
                   src={postImage}
                   alt="썸네일 이미지"
                   fill

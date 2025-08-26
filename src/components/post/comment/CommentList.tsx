@@ -1,11 +1,11 @@
 'use client';
+import { getCommentList, removeComment, updateComment } from '@/api/post';
+import { Toast } from '@/components/common/Toast';
+import { useAuthStore } from '@/stores/authStoe';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import MeatballsMenu from '../../common/MeatballsMenu';
 import WriterInfo from '../../common/WriterInfo';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCommentList, removeComment, updateComment } from '@/api/post';
-import { useAuthStore } from '@/stores/authStoe';
-import { Toast } from '@/components/common/Toast';
 
 export default function CommentList({
   postId,
@@ -169,7 +169,7 @@ export default function CommentList({
       >
         <p className="pl-[34px] text-[16px] font-medium sm:pl-0 sm:text-[22px] sm:font-bold">{`댓글 (${data?.data.pageInfo.totalElements ?? 0})`}</p>
         {data?.data?.replyList.length === 0 && (
-          <p className="mt-20 text-center text-[18px] font-medium text-[#909090]">
+          <p className="my-20 text-center text-[18px] font-medium text-[#909090]">
             등록된 댓글이 없습니다.
           </p>
         )}
