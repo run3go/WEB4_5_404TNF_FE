@@ -1,11 +1,11 @@
+import { createComment } from '@/api/post';
+import user_default_image from '@/assets/images/default-profile.svg';
+import { Toast } from '@/components/common/Toast';
+import { useAuthStore } from '@/stores/authStoe';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import Button from '../../common/Button';
 import Card from '../../common/Card';
-import user_default_image from '@/assets/images/default-profile.svg';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createComment } from '@/api/post';
-import { useAuthStore } from '@/stores/authStoe';
-import { Toast } from '@/components/common/Toast';
 
 export default function CommentInput({ postId }: { postId: number }) {
   const [comment, setComment] = useState('');
@@ -112,7 +112,7 @@ export default function CommentInput({ postId }: { postId: number }) {
           />
         </Card>
         <Button
-          className="flex h-[60px] w-[152px] items-center justify-center"
+          className="flex h-[50px] w-[120px] items-center justify-center text-base"
           onClick={handleSubmit}
         >
           등록하기

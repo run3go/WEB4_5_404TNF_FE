@@ -1,13 +1,13 @@
+import { report } from '@/api/post';
+import { REPORT_LIST } from '@/assets/data/post';
+import { useAuthStore } from '@/stores/authStoe';
 import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
 import SelectBox from '../common/SelectBox';
-import MobileReportModal from './MobileReportModal';
-import { report } from '@/api/post';
-import { useAuthStore } from '@/stores/authStoe';
-import { useState } from 'react';
-import { REPORT_LIST } from '@/assets/data/post';
 import { Toast } from '../common/Toast';
+import MobileReportModal from './MobileReportModal';
 
 export default function ReportModal({
   reportedName,

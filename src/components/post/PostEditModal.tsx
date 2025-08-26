@@ -1,10 +1,10 @@
+import LoadingUI from '@/components/common/Loading';
+import { useEditPost } from '@/lib/hooks/post/useEditPost';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
-import { useEffect, useRef, useState } from 'react';
 import PostCreateImages from './PostCreateImages';
-import { usePathname } from 'next/navigation';
-import { useEditPost } from '@/lib/hooks/post/useEditPost';
-import LoadingUI from '@/components/common/Loading';
 
 export default function PostEditModal({
   postDetail,
@@ -77,7 +77,7 @@ export default function PostEditModal({
 
   return (
     <>
-      <div className="hidden h-[73.6vh] w-[57.53vw] flex-col rounded-[20px] border-[3px] border-[#FCC389] bg-[#FFFDF7] px-8 pt-8 pr-15 sm:flex dark:bg-[#343434]">
+      <div className="hidden h-[73.6vh] w-[80vw] flex-col rounded-[20px] border-[3px] border-[#FCC389] bg-[#FFFDF7] px-8 pt-8 pr-15 sm:flex lg:w-[57.53vw] dark:bg-[#343434]">
         {postUpdateMutation.isPending ? (
           <>
             <LoadingUI />
@@ -127,7 +127,7 @@ export default function PostEditModal({
                 />
               </div>
 
-              <div className="mt-6 ml-12 flex gap-6">
+              <div className="mt-6 flex gap-6 lg:ml-12">
                 <PostCreateImages
                   pickedImages={pickedImages}
                   setPickedImages={setPickedImages}

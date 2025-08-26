@@ -63,45 +63,41 @@ export default function PostList({
 
   return (
     <>
-      <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 sm:h-full sm:px-0 dark:bg-[#2B2926]">
+      <div className="flex h-screen w-full flex-col overflow-hidden rounded-[50px] bg-[var(--color-background)] px-5 md:h-full md:px-0 dark:bg-[#2B2926]">
         {/* 상단 버튼 영역 */}
-        <div className="flex flex-none justify-center gap-3 pt-6 sm:gap-9 sm:pt-5">
+        <div className="flex flex-none justify-center gap-3 pt-6 md:gap-9 md:pt-5">
           <Link href={'/post/question'}>
             <Button
               className={`board__btn ${boardType === 'question' ? '!bg-[var(--color-pink-300)]' : ''}`}
             >
               <Icon
-                className="scale-60 sm:scale-100 dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
+                className="scale-60 md:scale-100 dark:bg-[url('/images/sprite.svg')] md:dark:bg-[url('/images/sprite.svg')]"
                 width="20px"
                 height="20px"
                 left="-27px"
                 top="-165px"
               />
-              <p className="text-[10px] sm:pt-0.5 sm:text-[18px]">질문게시판</p>
+              <p className="text-sm md:text-base 2xl:text-[18px]">질문게시판</p>
             </Button>
           </Link>
           <Link href={'/post/free'}>
             <Button
               className={`board__btn ${boardType === 'free' ? '!bg-[var(--color-pink-300)]' : ''}`}
             >
-              <div className="pt-1">
-                <Icon
-                  className="scale-60 sm:scale-100 dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
-                  width="20px"
-                  height="20px"
-                  left="-67px"
-                  top="-166px"
-                />
-              </div>
-              <p className="pt-0.5 text-[10px] sm:pt-1 sm:text-[18px]">
-                자유게시판
-              </p>
+              <Icon
+                className="scale-60 md:scale-100 dark:bg-[url('/images/sprite.svg')] md:dark:bg-[url('/images/sprite.svg')]"
+                width="20px"
+                height="20px"
+                left="-67px"
+                top="-166px"
+              />
+              <p className="text-sm md:text-base 2xl:text-[18px]">자유게시판</p>
             </Button>
           </Link>
         </div>
 
         {/* 검색 및 정렬 영역 */}
-        <div className="mt-[31px] flex flex-none items-center justify-between sm:pl-[6.27vw]">
+        <div className="mt-[31px] flex flex-none items-center justify-between md:pl-[6.27vw]">
           <SearchBar
             options={SEARCH_LIST}
             setSearchType={setInputSearchType}
@@ -109,17 +105,18 @@ export default function PostList({
             keyword={inputKeyword}
             onSearch={handleSearch}
           />
-          <div className="flex w-full items-center gap-6 pl-1 sm:w-auto sm:pr-[6.27vw] sm:pl-0">
-            <div className="flex w-full items-center justify-between sm:w-auto">
-              <div className="h-[36px] rounded-[12px] border border-[#FCC389] py-1.5 pl-4 text-[14px] sm:h-[42px] sm:text-[18px]">
+          <div className="flex w-full items-center gap-2 pl-1 md:w-auto md:pr-[6.27vw] md:pl-0 lg:gap-6">
+            <div className="flex w-full items-center justify-between">
+              <div className="w-30">
                 <SelectBox
-                  width={'100px'}
+                  width={'100%'}
                   options={SORT}
                   isCenter
                   setValue={setSortType}
+                  hasBorder
+                  borderColor="var(--color-primary-500)"
                 />
               </div>
-
               <SearchButton
                 setSearchType={setInputSearchType}
                 setKeyword={setInputKeyword}
@@ -131,15 +128,15 @@ export default function PostList({
             <Link
               href={`${!!userInfo || !!sessionStorage.getItem('userId') ? `/post/${boardType}/create` : `/login`} `}
             >
-              <div className="fixed right-4 bottom-4 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] hover:bg-[var(--color-primary-300)] sm:static sm:right-auto sm:bottom-auto sm:z-auto sm:h-[42px] sm:w-[116px] sm:rounded-[12px] sm:bg-[#FFDBAB]">
+              <div className="fixed right-4 bottom-19 z-10 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[var(--color-primary-300)] hover:bg-[var(--color-primary-300)] active:bg-[var(--color-primary-500)] md:static md:right-auto md:bottom-auto md:z-auto md:h-[42px] md:w-[116px] md:rounded-[12px] md:bg-[#FFDBAB]">
                 <Icon
                   width="20px"
                   height="20px"
                   left="-266px"
                   top="-75px"
-                  className="sm:hidden dark:bg-[url('/images/sprite.svg')] sm:dark:bg-[url('/images/sprite.svg')]"
+                  className="md:hidden dark:bg-[url('/images/sprite.svg')] md:dark:bg-[url('/images/sprite.svg')]"
                 />
-                <p className="hidden text-[18px] font-medium sm:block dark:text-[#2b2926]">
+                <p className="hidden text-base font-medium md:block dark:text-[#2b2926]">
                   작성하기
                 </p>
               </div>
@@ -150,7 +147,7 @@ export default function PostList({
         {/* 내부 스크롤 영역 */}
         <div
           ref={scrollRef}
-          className="scrollbar-hidden mt-[25px] flex-1 space-y-5 overflow-y-auto pt-2 pr-2 pb-[20px] sm:space-y-10 sm:px-[6.27vw]"
+          className="scrollbar-hidden mt-[25px] flex-1 space-y-5 pt-2 pr-2 pb-[20px] md:space-y-10 md:overflow-y-auto md:px-[6.27vw]"
         >
           {data?.pages &&
           data.pages.some((page) => page.articleList.length > 0) ? (
