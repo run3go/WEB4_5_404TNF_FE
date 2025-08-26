@@ -106,7 +106,7 @@ export default function PostList({
             onSearch={handleSearch}
           />
           <div className="flex w-full items-center gap-2 pl-1 md:w-auto md:pr-[6.27vw] md:pl-0 lg:gap-6">
-            <div className="flex w-full items-center justify-between px-0">
+            <div className="flex w-full items-center justify-between">
               <div className="w-30">
                 <SelectBox
                   width={'100%'}
