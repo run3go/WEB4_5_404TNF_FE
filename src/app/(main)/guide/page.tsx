@@ -13,7 +13,7 @@ export default function Guide() {
       </h2>
       <p className="mb-4 text-xs sm:text-lg">
         아기 강아지를 어떻게 돌봐야 할지 막막할 땐? <br />
-        <strong className="leading-[3] font-bold text-[var(--color-primary-500)] sm:leading-1">
+        <strong className="leading-[2] font-bold text-[var(--color-primary-500)] sm:leading-1">
           댕댕일지
         </strong>
         의{' '}
@@ -23,7 +23,7 @@ export default function Guide() {
         가
         <br className="sm:hidden" /> 성장 주차별 맞춤 정보를 안내해 드려요
       </p>
-      <div className="mb-30 text-[10px] text-[var(--color-grey)] sm:text-base lg:mb-10 2xl:mb-0">
+      <div className="mb-10 text-[10px] text-[var(--color-grey)] sm:mb-30 sm:text-base lg:mb-10 2xl:mb-0">
         ※ 카드를 클릭 시, 멍냥보감의 케어가이드 블로그로 이동합니다
       </div>
 
