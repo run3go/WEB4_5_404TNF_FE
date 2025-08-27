@@ -19,6 +19,7 @@ export default function SidebarLinks({ role }: { role?: string | null }) {
       />
       <SidebarItem
         href="/diary"
+        activePath="/diary"
         iconSize={{ width: '20px', height: '24px' }}
         iconPosition={{ left: '-108px', top: '-21px' }}
         activeIconPosition={{ left: '-110px', top: '-308px' }}
@@ -26,6 +27,7 @@ export default function SidebarLinks({ role }: { role?: string | null }) {
       />
       <SidebarItem
         href="/post/question"
+        activePath="/post"
         iconSize={{ width: '28px', height: '16px' }}
         iconPosition={{ left: '-144px', top: '-25px' }}
         activeIconPosition={{ left: '-146px', top: '-312px' }}

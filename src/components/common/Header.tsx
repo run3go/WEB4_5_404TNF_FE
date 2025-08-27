@@ -113,7 +113,7 @@ export default function Header() {
               <div className="relative h-9 w-9">
                 <Image
                   className="cursor-pointer rounded-full"
-                  src={userInfo?.imgUrl || profileImage || user_default_image}
+                  src={profileImage || user_default_image}
                   alt="유저 프로필"
                   fill
                   priority
