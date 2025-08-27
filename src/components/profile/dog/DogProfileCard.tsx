@@ -68,18 +68,18 @@ export default function DogProfileCard({
   return (
     <>
       <Card
-        className="card__hover m-0 max-w-150 p-0 sm:my-7 sm:ml-4 sm:p-0 dark:bg-[#343434]"
+        className="card__hover m-0 w-full p-0 md:my-7 md:ml-4 md:p-0 dark:bg-[#343434]"
         onClick={() =>
           isMobile && togglePage ? openPage() : openProfileModal()
         }
       >
-        <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-[9px] text-center text-sm sm:py-[14px] sm:text-lg dark:text-[var(--color-black)]">
+        <h3 className="rounded-t-[12px] bg-[var(--color-primary-300)] py-[9px] text-center text-sm md:py-[14px] md:text-lg dark:text-[var(--color-black)]">
           {profile.name}
         </h3>
         <div className="flex gap-8 px-6 py-4">
           <Image
             key={profileImage}
-            className="h-31 w-31 rounded-[12px] object-cover sm:h-55 sm:w-55"
+            className="h-31 w-31 rounded-[12px] object-cover md:h-55 md:w-55"
             src={profile.imgUrl || profileImage || defaultDogImage}
             width={220}
             height={220}
@@ -90,7 +90,7 @@ export default function DogProfileCard({
           />
           <div
             className={twMerge(
-              'flex flex-col justify-center gap-3 text-sm sm:text-base',
+              'flex flex-col justify-center gap-3 text-sm md:text-base',
             )}
           >
             <div>
@@ -124,7 +124,7 @@ export default function DogProfileCard({
               <span>(중성화 {profile.isNeutered ? 'O' : 'X'})</span>
             </div>
             {isMyProfile && (
-              <div className="hidden sm:block">
+              <div className="hidden md:block">
                 <span className="mr-3 text-[var(--color-grey)]">등록번호</span>
                 {profile.registNumber || '-'}
               </div>

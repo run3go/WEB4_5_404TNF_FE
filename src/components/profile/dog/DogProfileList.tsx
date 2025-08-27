@@ -77,16 +77,16 @@ export default function DogProfileList() {
             ))}
           {isMyProfile && (
             <div onClick={togglePage}>
-              <Card className="card__hover flex h-[188px] w-full max-w-150 items-center justify-center p-0 sm:h-[316px] dark:bg-[#343434]">
+              <Card className="card__hover flex h-[188px] w-full items-center justify-center p-0 md:h-[316px] dark:bg-[#343434]">
                 <Icon
-                  className="hidden sm:block"
+                  className="hidden md:block"
                   width="47px"
                   height="47px"
                   left="-26px"
                   top="-242px"
                 />
                 <Icon
-                  className="block sm:hidden"
+                  className="block md:hidden"
                   width="20px"
                   height="20px"
                   left="-266px"
@@ -126,8 +126,8 @@ export default function DogProfileList() {
               onSlideChange={(swiper) => setCurrentPage(swiper.realIndex)}
             >
               {petProfiles.length === 0 && (
-                <SwiperSlide className="!w-[590px]">
-                  <Card className="my-7 ml-4 flex h-20 w-full max-w-150 flex-col items-center justify-center p-0 sm:h-[308px] dark:bg-[#343434]">
+                <SwiperSlide className="md:!w-[470px] lg:!w-[500px] 2xl:!w-[590px]">
+                  <Card className="my-7 ml-4 flex h-20 w-full max-w-150 flex-col items-center justify-center p-0 md:h-[308px] dark:bg-[#343434]">
                     <Image
                       src={alternativeImage}
                       alt="등록된 강아지가 없어요"
@@ -140,23 +140,24 @@ export default function DogProfileList() {
               )}
               {petProfiles &&
                 sortedProfiles.map((profile, index) => (
-                  <SwiperSlide key={index} className="!w-[590px]">
+                  <SwiperSlide
+                    key={index}
+                    className="md:!w-[470px] lg:!w-[500px] 2xl:!w-[590px]"
+                  >
                     <DogProfileCard profile={profile} />
                   </SwiperSlide>
                 ))}
               {isMyProfile && (
-                <SwiperSlide className="!w-[590px]">
+                <SwiperSlide className="md:!w-[470px] lg:!w-[500px] 2xl:!w-[590px]">
                   <RegistCard openModal={toggleProfileModal} />
                 </SwiperSlide>
               )}
-              <SwiperSlide></SwiperSlide>
             </Swiper>
             <button
               ref={nextRef}
               className={twMerge(
                 'absolute top-1/2 right-0 z-50 -translate-y-1/2',
-                petProfiles.length <= 1 ||
-                  currentPage === petProfiles.length - 1
+                petProfiles.length <= 1 || currentPage >= petProfiles.length - 1
                   ? 'hidden'
                   : '',
               )}
