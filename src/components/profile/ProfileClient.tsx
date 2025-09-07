@@ -55,12 +55,12 @@ export default function ProfileClient({
     if (isEditingUser) return <UserProfileEditMobile />;
   }
   return (
-    <main className="scrollbar-hidden relative h-full w-screen overflow-y-scroll bg-[var(--color-background)] p-6 sm:h-[calc(100vh-156px)] sm:w-full sm:px-30 sm:py-17 dark:bg-[var(--color-black)]">
-      <h1 className="mb-15 hidden text-center text-3xl sm:block">
+    <main className="scrollbar-hidden relative h-full w-screen overflow-y-scroll bg-[var(--color-background)] p-6 md:h-[calc(100vh-156px)] md:w-full md:px-30 md:py-17 dark:bg-[var(--color-black)]">
+      <h1 className="mb-15 hidden text-center text-3xl md:block">
         <strong>{data?.nickname || userProfile.nickname}</strong>
         님의 페이지
       </h1>
-      <div className="mb-8 flex justify-center gap-4 sm:hidden">
+      <div className="mb-8 flex justify-center gap-4 md:hidden">
         <Button
           className={twMerge(
             'w-[87px] bg-[var(--color-pink-100)] py-3 text-xs',
@@ -80,11 +80,11 @@ export default function ProfileClient({
           활동내역
         </Button>
       </div>
-      <div className={isProfile ? '' : 'hidden sm:block'}>
+      <div className={isProfile ? '' : 'hidden md:block'}>
         <UserProfile userProfile={userProfile} />
         <DogProfileList />
       </div>
-      <div className={isProfile ? 'hidden sm:block' : ''}>
+      <div className={isProfile ? 'hidden md:block' : ''}>
         <PostWrapper />
       </div>
     </main>

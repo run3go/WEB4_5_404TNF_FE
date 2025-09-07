@@ -113,7 +113,7 @@ export default function Header() {
               <div className="relative h-9 w-9">
                 <Image
                   className="cursor-pointer rounded-full"
-                  src={userInfo?.imgUrl || profileImage || user_default_image}
+                  src={profileImage || user_default_image}
                   alt="유저 프로필"
                   fill
                   priority
@@ -160,10 +160,10 @@ export default function Header() {
               onClick={() => setIsNotificationOpen((prev) => !prev)}
             >
               <Icon
-                width="28px"
-                height="28px"
-                left="-304px"
-                top="-18px"
+                width="22px"
+                height="24px"
+                left="-303px"
+                top="-21px"
                 className="cursor-pointer"
               />
             </div>

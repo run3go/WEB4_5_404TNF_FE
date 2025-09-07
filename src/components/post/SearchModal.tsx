@@ -1,7 +1,7 @@
+import { SEARCH_LIST } from '@/assets/data/post';
 import { useEffect } from 'react';
 import Icon from '../common/Icon';
 import SelectBox from '../common/SelectBox';
-import { SEARCH_LIST } from '@/assets/data/post';
 
 export default function SearchModal({
   onClose,
@@ -32,7 +32,7 @@ export default function SearchModal({
         onClick={onClose}
       >
         <div
-          className="absolute top-1/2 left-1/2 w-[90%] max-w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-[50px] bg-white p-4 dark:bg-[#343434]"
+          className="absolute top-1/2 left-1/2 w-[90%] max-w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-[50px] bg-white px-4 dark:bg-[#343434]"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="relative flex h-[48px] items-center rounded-[50px]">

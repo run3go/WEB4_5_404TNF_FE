@@ -1,12 +1,12 @@
 'use client';
+import Confirm from '@/components/common/Confirm';
 import Icon from '@/components/common/Icon';
 import DiaryListHeader from '@/components/diary/DiaryListHeader';
 import DiaryListSection from '@/components/diary/DiaryListSection';
-import Confirm from '@/components/common/Confirm';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useGetDiaryList } from '@/lib/hooks/diary/api/useGetDiaryList';
 import { useGetPets } from '@/lib/hooks/diary/api/useGetPets';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function DiaryClient() {
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function DiaryClient() {
   }, []);
 
   return (
-    <main className="scrollbar-hidden flex h-full flex-col items-center overflow-y-auto p-6 sm:block sm:p-0 sm:px-12 sm:py-7">
+    <main className="scrollbar-hidden relative flex h-full flex-col items-center overflow-y-auto p-6 sm:block sm:p-0 sm:px-12 sm:py-7">
       <DiaryListHeader
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
@@ -73,7 +73,7 @@ export default function DiaryClient() {
           }
         }}
       />
-      <div className="w-full">
+      <div className="w-full grow-1">
         <DiaryListSection
           isLoading={isLoading}
           diaryList={diaryList}

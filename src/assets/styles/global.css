@@ -120,11 +120,11 @@ body {
 
 /* sidebar */
 .sidebar__content {
-  @apply flex h-[52px] w-60 cursor-pointer items-center gap-3 py-[10px] pl-8 hover:bg-[#FFDBAB] md:w-[220px] md:py-[1.3vh] md:pl-6 dark:text-[#fffdf7];
+  @apply flex h-[52px] w-full cursor-pointer items-center gap-3 pl-8 hover:bg-[#FFDBAB] md:justify-center md:py-[1.3vh] md:pl-0 xl:w-[220px] xl:justify-start xl:py-[10px] xl:pl-6 dark:text-[#fffdf7];
 }
 
 .sidebar__content-active {
-  @apply border-r-8 bg-[#FFDBAB] text-[#FF8200] dark:text-[#FF8200];
+  @apply border-r-8 bg-[#FFDBAB] text-[#FF8200] md:border-0 xl:border-r-8 dark:text-[#FF8200];
 }
 
 .toggleSwitch {
@@ -150,9 +150,8 @@ body {
 
 /* post */
 .board__btn {
-  @apply flex h-[36px] w-[100px] cursor-pointer items-center justify-center gap-1 bg-[var(--color-pink-100)] hover:bg-[var(--color-pink-300)] sm:h-[64px] sm:w-[152px] sm:gap-[7px];
+  @apply flex h-12 cursor-pointer items-center justify-center gap-1 bg-[var(--color-pink-100)] px-4 py-3 hover:bg-[var(--color-pink-300)] sm:h-auto sm:gap-[7px];
 }
-
 /* guide */
 .guide-card {
   @apply flex w-full cursor-pointer flex-col items-start gap-2 border border-[var(--color-primary-500)] bg-[#FFF9F0] px-5 py-3 text-sm transition-all sm:w-auto sm:basis-[calc(50%-10px)] sm:gap-[2px] sm:px-4 sm:py-2 sm:text-base dark:bg-[var(--color-dark-background)];

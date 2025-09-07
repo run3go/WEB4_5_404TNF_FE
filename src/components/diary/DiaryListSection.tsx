@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
 import symbol from '@/assets/images/alternative-image.svg';
 import LogCard from '@/components/diary/LogCard';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import DiaryCardSkeleton from './DiaryCardSkeleton';
 
@@ -39,7 +39,7 @@ export default function DiaryListSection({
   }, [fetchNextPage, hasNextPage]);
   if (isLoading) {
     return (
-      <ul className="scrollbar-hidden flex flex-col gap-5 pt-2 pb-4 sm:h-[625px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:px-3 sm:pt-5">
+      <ul className="scrollbar-hidden grid grid-cols-1 gap-5 pt-2 pb-4 sm:h-[620px] sm:gap-[48px] sm:px-3 sm:pt-5 lg:grid-cols-2 2xl:grid-cols-3">
         {Array.from({ length: 6 }).map((_, idx) => (
           <li
             key={`initial-skeleton-${idx}`}
@@ -68,12 +68,9 @@ export default function DiaryListSection({
   }
 
   return (
-    <ul className="scrollbar-hidden mb-10 flex flex-col gap-5 pt-2 pb-4 sm:mb-0 sm:h-[690px] sm:flex-row sm:flex-wrap sm:gap-[53px] sm:overflow-y-scroll sm:px-3 sm:pt-5">
+    <ul className="scrollbar-hidden mb-10 grid grid-cols-1 gap-5 pt-2 pb-4 sm:mb-0 sm:h-[620px] sm:gap-[48px] sm:px-3 sm:pt-5 md:grid-cols-1 md:overflow-y-scroll lg:grid-cols-2 2xl:grid-cols-3">
       {diaryList.map((item) => (
-        <li
-          key={item.lifeRecordId}
-          className="w-full sm:basis-[calc(33%-31px)]"
-        >
+        <li key={item.lifeRecordId}>
           <Link href={`/diary/${item.lifeRecordId}`}>
             <LogCard
               petName={item.pet.name}

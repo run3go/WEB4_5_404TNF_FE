@@ -116,13 +116,13 @@ export default function DashboardClient() {
     );
   return (
     <main className="relative w-full px-[26px] py-6 transition-all duration-150 md:h-full md:px-12 md:py-7">
-      <div className="flex flex-col-reverse justify-between gap-5 min-[1170px]:flex-row md:mb-7">
+      <div className="flex flex-col-reverse justify-between gap-5 min-[940px]:flex-row md:mb-7">
         <div className="hidden justify-between overflow-hidden md:flex">
           <h2 className="text-sm font-bold md:text-base lg:block xl:text-lg 2xl:text-xl">
             {recommend ?? '맞춤형 데이터가 없습니다'}
           </h2>
         </div>
-        <div className="relative mb-3 w-25 text-sm min-[1170px]:self-end sm:text-base md:mb-0 md:block">
+        <div className="relative mb-3 w-25 text-sm min-[940px]:self-end sm:text-base md:mb-0 md:block">
           <SelectBox
             value={String(selectedPet)}
             setValue={(value) => setSelectedPet(Number(value))}
@@ -133,7 +133,7 @@ export default function DashboardClient() {
           />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-5 md:grid-rows-[auto] xl:grid-cols-[1fr_1fr] 2xl:grid-cols-[93fr_93fr_40fr]">
+      <div className="grid grid-cols-1 gap-5 min-[940px]:grid-cols-[1fr_1fr] md:grid-rows-[auto] 2xl:grid-cols-[93fr_93fr_40fr]">
         <div className="relative mx-auto w-full max-w-[558px] text-sm font-medium md:hidden">
           <Image
             className="h-auto w-full"
@@ -147,15 +147,15 @@ export default function DashboardClient() {
             {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다'}
           </div>
         </div>
-        <div className="flex h-full flex-col justify-between gap-[28px] md:col-span-1 xl:gap-5">
+        <div className="flex h-full flex-col justify-between gap-[28px] min-[940px]:col-span-1 xl:gap-5">
           <ProfileCard profile={profile} />
           {weightList && <LineGraphCard title="몸무게" dataset={weightList} />}
           {sleepList && <LineGraphCard title="수면시간" dataset={sleepList} />}
         </div>
-        <div className="flex w-full flex-col gap-5 md:col-span-1">
-          <div className="relative hidden font-medium xl:block">
+        <div className="flex w-full flex-col gap-5 min-[940px]:col-span-1">
+          <div className="relative hidden font-medium md:block">
             <Image
-              className="h-[98px] w-auto"
+              className="h-[98px] w-full"
               src={speechBubble}
               alt="말풍선"
               width={558}
@@ -166,13 +166,13 @@ export default function DashboardClient() {
               {profile?.aiAnalysis ?? 'AI 분석 결과가 없습니다...'}
             </div>
           </div>
-          <div className="flex grow-1 justify-between gap-5">
+          <div className="flex h-full min-h-72 grow-1 justify-between gap-5 md:h-auto">
             <FeedCard feeding={feeding} />
             <TodoCard checklist={checklist} petId={selectedPet} />
           </div>
           {note && <NoteCard note={note} />}
         </div>
-        <div className="mb-10 xl:col-span-2 2xl:col-span-1 2xl:mb-0">
+        <div className="mb-10 min-[940px]:col-span-2 2xl:col-span-1 2xl:mb-0">
           <WalkCard walking={walking} />
         </div>
       </div>

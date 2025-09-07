@@ -53,7 +53,7 @@ export default function PostDetailCard({
           </p>
         </div>
         {postDetail?.images?.length !== 0 && (
-          <div className="w-full sm:max-w-[calc(100vw-622px)]">
+          <div className="w-full">
             <ImageList postImage={postDetail.images} />
           </div>
         )}

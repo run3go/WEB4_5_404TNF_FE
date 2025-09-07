@@ -8,14 +8,16 @@ export default function MobileCalendar({
   onDateSelect,
   onChangeMonth,
   scheduleDates,
+  isPending,
 }: {
   selectedDate: Date | undefined;
   onDateSelect: (date: Date) => void;
   onChangeMonth: (date: Date) => void;
   scheduleDates: Date[];
+  isPending: boolean;
 }) {
   return (
-    <div className="h-[350px] rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] sm:hidden dark:bg-[var(--color-black)]">
+    <div className="aspect-square rounded-xl bg-[var(--color-background)] px-2 shadow-[0_3px_8px_rgba(0,0,0,0.24)] sm:hidden dark:bg-[var(--color-black)]">
       <DayPicker
         mode="single"
         selected={selectedDate}
@@ -35,19 +37,24 @@ export default function MobileCalendar({
         }}
         classNames={{
           month_caption:
-            'font-medium mb-4 bg-[var(--color-primary-500)] -mx-2 rounded-t-xl py-2 h-[30px] leading-[1.2]',
+            'flex items-center justify-center font-medium mb-2 bg-[var(--color-primary-500)] text-sm -mx-2 rounded-t-xl py-2 h-[40px] leading-[1.2]',
           caption_label: 'text-black dark:text-[var(--color-background)]',
-          months: 'w-full relative',
-          month_grid: 'w-full',
+          months: 'w-full relative h-full',
+          month_grid: 'w-full grow-1 max-h-110 mb-8',
           weekday: 'h-6 font-medium',
-          root: 'h-full text-xs text-center ',
-          day: 'w-1/7 sm:h-6 h-[45px] leading-[1.2]',
-          day_button: 'w-full h-full cursor-pointer calendar-day',
+          root: 'h-full text-xs min-[560px]:text-sm text-center',
+          day: 'w-1/7 ',
+          day_button:
+            'w-full h-full cursor-pointer flex justify-center items-center leading-none',
           outside: 'text-[var(--color-grey)]',
-          selected: 'calendar-circle',
+          selected: 'calendar-circle schedule-mobile',
+          month: 'h-full flex flex-col',
+          weeks: 'h-full',
         }}
         components={{
-          Nav: CalendarNav,
+          Nav: (props) => (
+            <CalendarNav {...props} isPending={isPending} top={20} />
+          ),
         }}
       />
     </div>

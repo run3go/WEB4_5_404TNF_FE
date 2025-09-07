@@ -1,12 +1,12 @@
 'use client';
 
+import MobileTitle from '@/components/common/MobileTitle';
+import { useCreatePost } from '@/lib/hooks/post/useCreatePost';
+import { usePathname, useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
 import EditImageList from './EditImageList';
-import MobileTitle from '@/components/common/MobileTitle';
-import { usePathname, useRouter } from 'next/navigation';
-import { useCreatePost } from '@/lib/hooks/post/useCreatePost';
 
 export default function MobilePostCreate({
   pickedImages,
@@ -74,7 +74,7 @@ export default function MobilePostCreate({
               top="-165px"
               className="scale-60 dark:bg-[url('/images/sprite.svg')]"
             />
-            <p className="text-[10px] sm:text-[18px]">질문게시판</p>
+            <p className="text-xs sm:text-[18px]">질문게시판</p>
           </Button>
           <Button
             className={`board__btn ${boardType === 'FREE' ? '!bg-[var(--color-pink-300)]' : ''}`}
@@ -87,7 +87,7 @@ export default function MobilePostCreate({
               top="-166px"
               className="scale-60 dark:bg-[url('/images/sprite.svg')]"
             />
-            <p className="text-[10px]">자유게시판</p>
+            <p className="text-xs">자유게시판</p>
           </Button>
         </div>
 

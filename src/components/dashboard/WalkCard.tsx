@@ -11,7 +11,9 @@ export default function WalkCard({ walking }: { walking?: DashboardWalking }) {
   if (walking) {
     if (walking.length === 0) {
       return (
-        <Card className={`h-full ${isLaptop ? 'w-full' : 'w-60'}`}>
+        <Card
+          className={`h-full min-h-50 ${isLaptop ? 'w-full' : 'w-60'} text-sm sm:text-base`}
+        >
           <h2 className="font-medium">산책 시간</h2>
           <div className="relative top-[calc(50%-24px)] flex -translate-y-1/2 flex-col items-center gap-5">
             <span>등록된 산책 기록이 없어요</span>

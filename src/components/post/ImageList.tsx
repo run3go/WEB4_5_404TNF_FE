@@ -1,11 +1,11 @@
 'use client';
 
+import Image from 'next/image';
+import { useRef } from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import Image from 'next/image';
-import { useRef } from 'react';
 import Icon from '../common/Icon';
 
 export default function ImageList({ postImage }: { postImage: PostImage[] }) {
@@ -64,7 +64,7 @@ export default function ImageList({ postImage }: { postImage: PostImage[] }) {
             >
               <div className="relative flex h-[300px] w-[76.8vw] items-end sm:w-[300px]">
                 <Image
-                  className="rounded-[10px]"
+                  className="rounded-[10px] object-cover"
                   src={img.savePath}
                   alt="포스트 이미지"
                   fill

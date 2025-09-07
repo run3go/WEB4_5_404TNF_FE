@@ -32,10 +32,10 @@ export default function PostWrapper() {
   const allItems = data?.pages?.flat();
   return (
     <div className="mb-10">
-      <div className="mb-6 flex w-full flex-col justify-between text-sm sm:flex-row sm:text-base">
+      <div className="mb-6 flex w-full flex-col justify-between text-sm md:flex-row md:text-base">
         <PostTabs handleChangeTab={handleChangeTab} type={type} />
         {allItems && allItems[0].articles.length > 0 ? (
-          <div className="mb-3 self-end text-xs sm:text-base">
+          <div className="mb-3 self-end text-xs md:text-base">
             <SelectBox
               value={sortType}
               setValue={(newValue: string) => setSortType(newValue as SortType)}
@@ -45,7 +45,7 @@ export default function PostWrapper() {
             />
           </div>
         ) : (
-          <div className="mb-7 sm:mb-0" />
+          <div className="mb-7 md:mb-0" />
         )}
       </div>
       <div className="flex flex-col gap-10">

@@ -78,8 +78,11 @@ input::-webkit-inner-spin-button {
 }
 
 .calendar-circle {
-  position: relative;
-  z-index: 1;
+  @apply relative z-1 before:size-6;
+}
+
+.calendar-circle.schedule-mobile {
+  @apply min-[560px]:before:size-8;
 }
 
 .calendar-circle::before {
@@ -89,8 +92,6 @@ input::-webkit-inner-spin-button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 23px;
-  height: 23px;
   background: var(--color-primary-500);
   border-radius: 100%;
   z-index: -1;
@@ -99,7 +100,7 @@ input::-webkit-inner-spin-button {
   content: '';
   position: absolute;
   display: block;
-  bottom: -7px;
+  top: 85%;
   left: 50%;
   translate: -50%;
   width: 16px;

@@ -1,16 +1,16 @@
 'use client';
 
+import { removePost } from '@/api/post';
+import { useMutation } from '@tanstack/react-query';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import PostDetailCard from './PostDetailCard';
+import MobileTitle from '../common/MobileTitle';
 import CommentInput from './comment/CommentInput';
 import CommentList from './comment/CommentList';
-import ReportModal from './ReportModal';
-import PostEditModal from './PostEditModal';
 import MobilePostEditModal from './MobilePostEditModal';
-import MobileTitle from '../common/MobileTitle';
-import { useMutation } from '@tanstack/react-query';
-import { removePost } from '@/api/post';
-import { usePathname, useRouter } from 'next/navigation';
+import PostDetailCard from './PostDetailCard';
+import PostEditModal from './PostEditModal';
+import ReportModal from './ReportModal';
 
 export default function PostDetailWrapper({
   postDetail,
@@ -63,10 +63,7 @@ export default function PostDetailWrapper({
 
       {isEditModalOpen && (
         <>
-          <div
-            className="fixed inset-0 z-250 hidden items-center justify-center bg-[#2B2926]/50 sm:flex"
-            onClick={() => setIsEditModalOpen(false)}
-          >
+          <div className="fixed inset-0 z-250 hidden items-center justify-center bg-[#2B2926]/50 sm:flex">
             <div onClick={(e) => e.stopPropagation()}>
               <PostEditModal
                 postDetail={postDetail}
